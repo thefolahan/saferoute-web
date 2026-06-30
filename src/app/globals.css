@@ -57,21 +57,36 @@ summary::-webkit-details-marker {
   animation-delay: 220ms;
 }
 
-.sr-map-pan {
-  animation: sr-map-pan 28s linear infinite alternate;
+.sr-drift-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 72px 72px;
+  animation: sr-grid-drift 30s linear infinite;
 }
 
-.sr-scan {
-  animation: sr-scan 5.5s ease-in-out infinite;
-  box-shadow: 0 0 80px rgba(228, 0, 20, 0.35);
+.sr-scan-white {
+  animation: sr-scan-white 6s ease-in-out infinite;
+  box-shadow: 0 0 90px rgba(255, 255, 255, 0.35);
 }
 
-.sr-pulse {
-  animation: sr-pulse 2.8s ease-out infinite;
+.sr-pulse-white {
+  animation: sr-pulse-white 2.8s ease-out infinite;
+  box-shadow: 0 0 34px rgba(255, 255, 255, 0.36);
 }
 
-.sr-float {
-  animation: sr-float 7s ease-in-out infinite;
+.sr-marquee {
+  animation: sr-marquee 36s linear infinite;
+}
+
+.sr-orbit {
+  animation: sr-orbit 28s linear infinite;
+}
+
+.sr-draw {
+  stroke-dasharray: 720;
+  stroke-dashoffset: 720;
+  animation: sr-draw 2.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes sr-fade-up {
@@ -85,16 +100,16 @@ summary::-webkit-details-marker {
   }
 }
 
-@keyframes sr-map-pan {
+@keyframes sr-grid-drift {
   from {
-    transform: scale(1.04) translate3d(-1.5%, -1%, 0);
+    background-position: 0 0, 0 0;
   }
   to {
-    transform: scale(1.09) translate3d(1.5%, 1%, 0);
+    background-position: 72px 72px, 72px 72px;
   }
 }
 
-@keyframes sr-scan {
+@keyframes sr-scan-white {
   0%,
   100% {
     opacity: 0;
@@ -109,9 +124,9 @@ summary::-webkit-details-marker {
   }
 }
 
-@keyframes sr-pulse {
+@keyframes sr-pulse-white {
   0% {
-    opacity: 0.75;
+    opacity: 0.85;
     transform: scale(0.6);
   }
   100% {
@@ -120,13 +135,27 @@ summary::-webkit-details-marker {
   }
 }
 
-@keyframes sr-float {
-  0%,
-  100% {
-    transform: translateY(0);
+@keyframes sr-marquee {
+  from {
+    transform: translateX(0);
   }
-  50% {
-    transform: translateY(-12px);
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes sr-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sr-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">SafeRoute logo</title>
+  <desc id="desc">A globe with Africa and a road route passing through it.</desc>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="218" r="146" stroke-width="13"/>
+    <path d="M118 218h276M141 147c70 42 160 42 230 0M141 289c70-42 160-42 230 0" stroke-width="11"/>
+    <path d="M238 73c-52 65-64 221-4 290M275 73c52 65 64 221 4 290" stroke-width="11"/>
+    <path d="M222 136l29-10 29 8 17 20 28 6 17 28-19 27 6 33-36 13-18 40-56 9-12-48-34-22 11-46 26-20z" stroke-width="10"/>
+    <path d="M186 302c-58 25-93 69-100 129h112c20 0 35 1 53 10 42 20 85 36 149 40-74-34-125-71-153-112-18-27-21-48-6-68" stroke-width="17"/>
+    <path d="M159 334c-13 20-21 45-25 73M184 323c-11 20-16 43-16 68" stroke-width="10"/>
+    <path d="M206 322c17-29 45-52 86-67" stroke-width="10"/>
+  </g>
+</svg>
