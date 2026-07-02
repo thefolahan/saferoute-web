@@ -88,7 +88,7 @@ export function MarketingShell({ active, children }: ShellProps) {
 
 function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-[#000204]/82 text-white backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 bg-transparent text-white">
       <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
         <BrandMark imageClassName="size-20 shrink-0 sm:size-24" />
 
@@ -180,7 +180,7 @@ function HomeHero() {
   return (
     <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
       <div className="relative mx-auto flex min-h-[760px] w-full max-w-[1280px] flex-col items-center justify-center py-16 text-center lg:min-h-[820px]">
-        <div className="mb-5 sm:mb-7" {...aos(0, 'zoom-in')}>
+        <div className="mb-3 sm:mb-5" {...aos(0, 'zoom-in')}>
           <EarthGlobe />
         </div>
         <h1
@@ -189,21 +189,6 @@ function HomeHero() {
         >
           Know before you go.
         </h1>
-        <p
-          className="mt-8 max-w-3xl text-lg font-semibold leading-8 text-white/58 sm:text-xl sm:leading-9"
-          {...aos(2)}
-        >
-          SafeRoute shows nearby incidents, community alerts, route context,
-          and safe reporting tools for people moving through Nigerian cities.
-        </p>
-        <div className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row" {...aos(3)}>
-          <a className="gold-button w-full sm:w-auto" href="#join-beta">
-            Launch app <ArrowRight size={18} strokeWidth={2.4} aria-hidden="true" />
-          </a>
-          <a className="ghost-button w-full sm:w-auto" href="/about">
-            Learn more
-          </a>
-        </div>
       </div>
     </section>
   );
@@ -630,11 +615,11 @@ function GooglePlayIcon() {
 
 function MarketingFooter() {
   return (
-    <footer className="relative z-10 bg-[#000204]/84 px-5 py-12 text-white backdrop-blur-sm sm:px-8">
+    <footer className="relative z-10 bg-transparent px-5 py-12 text-white sm:px-8">
       <div className="mx-auto grid max-w-[1280px] gap-10 pb-12 lg:grid-cols-[0.34fr_0.66fr]">
-        <div className="flex flex-col items-center gap-1 lg:items-start" {...aos(0, 'fade-right')}>
+        <div className="flex flex-col items-center gap-0 lg:items-start" {...aos(0, 'fade-right')}>
           <BrandMark imageClassName="size-24 shrink-0 sm:size-28 lg:size-32" />
-          <p className="-mt-2 text-center text-2xl font-black leading-none text-white sm:text-3xl lg:text-left">
+          <p className="-mt-10 text-center text-2xl font-black leading-none text-white sm:-mt-11 sm:text-3xl lg:text-left">
             SafeRoute
           </p>
         </div>

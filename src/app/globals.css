@@ -96,11 +96,17 @@ summary::-webkit-details-marker {
 
 .earth-globe {
   display: block;
-  width: clamp(19rem, 34vw, 24.375rem);
-  height: clamp(19rem, 34vw, 24.375rem);
+  width: clamp(24rem, 43vw, 34rem);
+  height: clamp(24rem, 43vw, 34rem);
   border: 0;
-  background: #000204;
+  overflow: visible;
+  background: transparent;
   filter: drop-shadow(0 0 34px rgba(77, 150, 255, 0.2));
+  pointer-events: none;
+}
+
+.earth-globe canvas {
+  background: transparent !important;
 }
 
 @keyframes space-star-twinkle {
@@ -205,8 +211,8 @@ summary::-webkit-details-marker {
   }
 
   .earth-globe {
-    width: min(86vw, 21.5rem);
-    height: min(86vw, 21.5rem);
+    width: min(96vw, 25.5rem);
+    height: min(96vw, 25.5rem);
   }
 }
 
