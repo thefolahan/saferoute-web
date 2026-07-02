@@ -1,6 +1,15 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import 'aos/dist/aos.css';
+import type { Metadata, Viewport } from 'next';
+import { Nunito_Sans } from 'next/font/google';
 import type { ReactNode } from 'react';
+import { AosInit } from './_components/aos-init';
+
+const siteFont = Nunito_Sans({
+  subsets: ['latin'],
+  variable: '--font-site',
+  weight: ['500', '600', '700', '800', '900']
+});
 
 export const metadata: Metadata = {
   title: 'SafeRoute | Know Before You Go',
@@ -17,13 +26,26 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true
+  },
+  icons: {
+    icon: [{ url: '/images/logo.png', type: 'image/png' }],
+    shortcut: [{ url: '/images/logo.png', type: 'image/png' }],
+    apple: [{ url: '/images/logo.png', type: 'image/png' }]
   }
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width'
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={siteFont.variable}>
+        <AosInit />
+        {children}
+      </body>
     </html>
   );
 }
