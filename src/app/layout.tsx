@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     follow: true
   },
   icons: {
-    icon: [{ url: '/images/logo.png', type: 'image/png' }],
-    shortcut: [{ url: '/images/logo.png', type: 'image/png' }],
+    icon: [{ url: '/images/logo.svg', type: 'image/svg+xml' }],
+    shortcut: [{ url: '/images/logo.svg', type: 'image/svg+xml' }],
     apple: [{ url: '/images/logo.png', type: 'image/png' }]
   }
 };

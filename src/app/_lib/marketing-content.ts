@@ -71,8 +71,8 @@ export const footerNav: NavItem[] = [
   { label: 'About', href: '/about' },
   { label: 'Partnership', href: '/partnership' },
   { label: 'Support', href: '/support' },
-  { label: 'Privacy', href: '/privacy' },
-  { label: 'Terms', href: '/terms' },
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
   { label: 'Copyright', href: '/copyright' }
 ];
 
@@ -557,8 +557,8 @@ export const marketingPages: Record<string, MarketingPage> = {
   },
   privacy: {
     slug: 'privacy',
-    label: 'Privacy',
-    title: 'Privacy at SafeRoute.',
+    label: 'Privacy Policy',
+    title: 'Privacy Policy',
     description:
       'SafeRoute mission is to help make movement safer. The same principle applies to your data: collect less, protect more, and use location only for safety.',
     cta: 'Read privacy policy',
@@ -569,33 +569,12 @@ export const marketingPages: Record<string, MarketingPage> = {
       { value: 'Logged', label: 'internal access controls' },
       { value: 'Safety', label: 'location use purpose' }
     ],
-    sections: [
-      {
-        title: 'Protecting you means protecting your data',
-        body: 'Our infrastructure is designed to store as little personal data as practical, for the shortest duration needed, while keeping the service reliable and secure.',
-        points: [
-          'Access limited by operational need',
-          'Internal access is logged and reviewed',
-          'New features receive privacy review',
-          'Sensitive reports are handled with extra care'
-        ]
-      },
-      {
-        title: 'Your location only for your safety',
-        body: 'Location helps SafeRoute route safety alerts to you, such as a fire nearby, road hazard, missing person alert, or dangerous situation in your area.',
-        points: [
-          'We do not sell your location data',
-          'We do not run an advertising business',
-          'Public videos may be shared in limited safety or media contexts',
-          'Users retain rights to media they create, subject to platform terms'
-        ]
-      }
-    ]
+    sections: privacyPolicySections
   },
   terms: {
     slug: 'terms',
-    label: 'Terms',
-    title: 'Terms of Service.',
+    label: 'Terms of Service',
+    title: 'Terms of Service',
     description:
       'These terms explain the rules for using SafeRoute, submitting content, receiving alerts, and using safety features responsibly.',
     cta: 'Review terms',
@@ -606,38 +585,7 @@ export const marketingPages: Record<string, MarketingPage> = {
       { value: 'No harm', label: 'unsafe conduct prohibited' },
       { value: 'Alerts', label: 'awareness, not emergency replacement' }
     ],
-    sections: [
-      {
-        title: 'Basic terms and risk assumption',
-        body: 'SafeRoute provides awareness tools and safety information. Users must not travel toward, remain near, or interfere with unsafe incidents to capture content.',
-        points: [
-          'Do not incite or encourage unsafe activity',
-          'Do not submit false or misleading reports',
-          'Do not harass, identify, or target private individuals',
-          'Call emergency services when immediate help is needed'
-        ]
-      },
-      {
-        title: 'Content, communications, and subscriptions',
-        body: 'By using SafeRoute, you agree to receive service communications, follow platform rules, and understand that Premium or Enterprise features may have additional terms.',
-        points: [
-          'Push notifications and email may support safety workflows',
-          'Some support conversations may be reviewed for quality and training',
-          'Subscriptions may renew unless cancelled',
-          'Terms may be updated by posting or direct notice'
-        ]
-      },
-      {
-        title: 'General terms',
-        body: 'If part of these terms cannot be enforced, the remaining terms still apply. SafeRoute may transfer these terms as part of lawful business operations.',
-        points: [
-          'No waiver from delayed enforcement',
-          'No unauthorized assignment by users',
-          'Official notices may be provided electronically',
-          'These terms work alongside the privacy policy'
-        ]
-      }
-    ]
+    sections: termsPolicySections
   },
   copyright: {
     slug: 'copyright',

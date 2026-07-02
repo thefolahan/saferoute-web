@@ -57,10 +57,14 @@ export function MobileMenu({
         id="mobile-navigation"
       >
         <nav aria-label="Mobile navigation" className="mx-auto grid max-w-[1280px] gap-2">
-          {links.map((item) => (
+          {links.map((item) => {
+            const slug = item.href.replace(/^\//, '');
+            const isActive = active === slug || active === item.label.toLowerCase();
+
+            return (
             <a
               className={`rounded-[14px] px-4 py-4 text-lg font-black transition hover:bg-white/[0.07] ${
-                active === item.label.toLowerCase() ? 'text-[var(--gold)]' : 'text-white'
+                isActive ? 'text-[var(--gold)]' : 'text-white'
               }`}
               href={item.href}
               key={`${item.label}-${item.href}`}
@@ -68,7 +72,8 @@ export function MobileMenu({
             >
               {item.label}
             </a>
-          ))}
+            );
+          })}
           <a
             className="mt-4 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--gold)] px-7 text-base font-black text-black transition hover:bg-[var(--gold-strong)]"
             href={ctaHref}

@@ -204,7 +204,7 @@ function SignalPanel() {
   return (
     <section className="-mt-24 border-b border-white/10 bg-black px-5 pb-20 sm:px-8">
       <div
-        className="relative mx-auto grid w-full max-w-[1280px] gap-8 rounded-[18px] border border-white/12 bg-[var(--surface)] px-6 py-9 shadow-[0_24px_90px_rgba(0,0,0,0.45)] sm:grid-cols-3 sm:px-10"
+        className="relative mx-auto grid w-full max-w-[1280px] gap-8 rounded-[18px] border border-white/12 bg-[var(--surface)] px-6 py-9 shadow-[0_24px_90px_rgba(0,0,0,0.45)] sm:px-10"
         {...aos()}
       >
         {homeStats.map((stat) => (
@@ -257,10 +257,10 @@ function IncidentPreviewSection({ incidents }: { incidents: PublicIncidentPrevie
               key={row.id}
               {...aos(index + 1)}
             >
-              <div className="flex items-start justify-between gap-5">
+              <div className="grid gap-4">
                 <h3 className="text-xl font-black leading-snug text-white">{row.title}</h3>
                 <ChevronRight
-                  className="mt-1 shrink-0 text-[var(--gold)] transition group-hover:translate-x-1"
+                  className="text-[var(--gold)] transition group-hover:translate-x-1"
                   size={20}
                   aria-hidden="true"
                 />
@@ -396,7 +396,7 @@ function MissionSection() {
         <div className="grid gap-5">
           {values.map(([title, body], index) => (
             <div
-              className="grid grid-cols-[46px_1fr] gap-4 rounded-[16px] border border-white/10 bg-black/55 p-5"
+              className="grid gap-4 rounded-[16px] border border-white/10 bg-black/55 p-5"
               key={title}
               {...aos(index + 1)}
             >
@@ -519,7 +519,7 @@ function AudiencePanel({
       <p className="mt-5 max-w-lg text-base font-semibold leading-8 text-white/52">{description}</p>
       <div className="mt-8 grid gap-4">
         {items.slice(0, 4).map((item) => (
-          <div className="flex items-center gap-3 text-sm font-bold text-white/65" key={item}>
+          <div className="grid gap-3 text-sm font-bold text-white/65" key={item}>
             <span className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--gold)]/40 text-[var(--gold)]">
               <Check size={15} strokeWidth={2.5} aria-hidden="true" />
             </span>
@@ -655,7 +655,7 @@ function GooglePlayIcon() {
 export function MarketingFooter({ mailto }: { mailto: string }) {
   return (
     <footer className="bg-black px-5 pb-10 text-white sm:px-8">
-      <div className="mx-auto grid max-w-[1280px] gap-12 border-b border-white/10 pb-12 lg:grid-cols-[0.42fr_0.58fr]">
+      <div className="mx-auto grid max-w-[1280px] gap-12 border-b border-white/10 pb-12">
         <div {...aos()}>
           <BrandMark />
           <p className="mt-6 max-w-sm text-base font-semibold leading-8 text-white/52">
@@ -674,7 +674,7 @@ export function MarketingFooter({ mailto }: { mailto: string }) {
           <FooterColumn title="Legal" links={footerNav.slice(3)} />
         </div>
       </div>
-      <div className="mx-auto flex max-w-[1280px] flex-col gap-4 pt-8 text-sm font-bold text-white/42 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex max-w-[1280px] flex-col gap-4 pt-8 text-sm font-bold text-white/42">
         <p>&copy; 2026 SafeRoute. All rights reserved.</p>
         <a className="text-white/55 transition hover:text-white" href={mailto}>
           Get in touch
@@ -718,7 +718,6 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
       {page.visual === 'enterprise' || page.visual === 'solutions' ? <EnterpriseDetail /> : null}
       {page.visual === 'about' ? <AboutDetail /> : null}
       {page.visual === 'support' ? <SupportDetail /> : null}
-      {page.visual === 'legal' ? <LegalDetail page={page} /> : null}
       <HomeCta />
     </MarketingShell>
   );
@@ -784,19 +783,25 @@ function PageSections({ page }: { page: MarketingPage }) {
             key={section.title}
             {...aos(index)}
           >
-            <p className="text-sm font-black text-[var(--gold)]">
-              {String(index + 1).padStart(2, '0')}
-            </p>
-            <h2 className="mt-5 text-3xl font-black leading-tight text-white">{section.title}</h2>
+            {section.points.length > 0 ? (
+              <p className="text-sm font-black text-[var(--gold)]">
+                {String(index + 1).padStart(2, '0')}
+              </p>
+            ) : null}
+            <h2 className={`${section.points.length > 0 ? 'mt-5' : ''} text-3xl font-black leading-tight text-white`}>
+              {section.title}
+            </h2>
             <p className="mt-5 text-base font-semibold leading-8 text-white/55">{section.body}</p>
-            <ul className="mt-8 grid gap-3">
-              {section.points.map((point) => (
-                <li className="flex gap-3 text-sm font-bold leading-6 text-white/66" key={point}>
-                  <Check className="mt-0.5 shrink-0 text-[var(--gold)]" size={17} strokeWidth={2.4} aria-hidden="true" />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
+            {section.points.length > 0 ? (
+              <ul className="mt-8 grid gap-3">
+                {section.points.map((point) => (
+                  <li className="grid gap-3 text-sm font-bold leading-6 text-white/66" key={point}>
+                    <Check className="mt-0.5 shrink-0 text-[var(--gold)]" size={17} strokeWidth={2.4} aria-hidden="true" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </article>
         ))}
       </div>
@@ -878,7 +883,7 @@ function SupportDetail() {
           <p className="mt-5 text-base font-semibold leading-8 text-white/52">
             Still have questions? Send us an email and the SafeRoute team will help.
           </p>
-          <div className="mt-8 flex flex-wrap gap-2">
+          <div className="mt-8 grid gap-2">
             {supportTopics.slice(0, 5).map((topic) => (
               <span
                 className="rounded-full border border-white/12 px-4 py-2 text-sm font-black text-white/48"
@@ -898,29 +903,6 @@ function SupportDetail() {
               </p>
             </details>
           ))}
-        </div>
-      </div>
-    </SectionShell>
-  );
-}
-
-function LegalDetail({ page }: { page: MarketingPage }) {
-  return (
-    <SectionShell>
-      <div className="mx-auto max-w-4xl rounded-[18px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10" {...aos()}>
-        <p className="section-label">Last updated: June 30, 2026</p>
-        <h2 className="mt-5 text-4xl font-black leading-tight text-white sm:text-5xl">{page.title}</h2>
-        <div className="mt-8 grid gap-6 text-base font-semibold leading-8 text-white/58">
-          <p>
-            This page is written as product policy content for SafeRoute. It should
-            be reviewed by qualified counsel before launch if it will be treated as
-            a binding public legal document.
-          </p>
-          <p>
-            SafeRoute is designed for safety awareness, responsible reporting, and
-            operational context. It does not replace emergency services, official
-            public instructions, or professional judgment.
-          </p>
         </div>
       </div>
     </SectionShell>
