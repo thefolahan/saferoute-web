@@ -179,6 +179,112 @@ export const commonQuestions = [
   'Can I report an incident on SafeRoute?'
 ];
 
+export const termsPolicySections: ContentSection[] = [
+  {
+    title: '1. SafeRoute is for safety awareness, not emergency dispatch',
+    body: 'SafeRoute helps people understand nearby safety reports, community alerts, road hazards, fire, flooding, accidents, missing-person notices, and other public-safety information. SafeRoute is not a police service, ambulance service, fire service, government emergency dispatch center, or guaranteed rescue service. In Nigeria, call 112 in an emergency.',
+    points: []
+  },
+  {
+    title: '2. Use the app without putting yourself in danger',
+    body: 'You must not approach dangerous scenes, chase suspects, livestream active violence, interfere with responders, or encourage others to gather at a risky location. If you report an incident, do it only when it is safe. Stay away from danger and follow official instructions.',
+    points: []
+  },
+  {
+    title: '3. Reporting rules',
+    body: 'Reports must be made in good faith and must describe what you reasonably believe is true. Do not submit hoaxes, rumors presented as facts, private accusations, ethnic or religious blame, exact private home addresses, threats, weapon guidance, or content that may trigger mob action. Serious allegations may be held for moderation before wide public alerting.',
+    points: []
+  },
+  {
+    title: '4. Verification and moderation',
+    body: 'SafeRoute may mark reports as reported, under review, verified, resolved, rejected, duplicate, or expired. We may use moderator review, trusted reporters, multiple nearby reports, media evidence, official sources, confidence scoring, and abuse detection. We may remove, reduce visibility, or delay alerts when content creates panic, privacy risk, or harm.',
+    points: []
+  },
+  {
+    title: '5. Community alerts and SOS-style features',
+    body: 'Community alerts are designed to ask nearby SafeRoute users to be aware, avoid danger, and call 112 where appropriate. They are not a request for vigilantism or confrontation. Users receiving alerts should not go to a dangerous scene unless they are trained responders acting within the law.',
+    points: []
+  },
+  {
+    title: '6. Account security',
+    body: 'You are responsible for keeping your device and account secure. Sign-in methods may include Google, Apple, and phone OTP. Do not share verification codes or recovery details. We may suspend accounts involved in spam, impersonation, false emergency reporting, harassment, or unsafe behavior.',
+    points: []
+  },
+  {
+    title: '7. Media and user content',
+    body: 'If you upload photos, videos, audio, text, or location details, you give SafeRoute permission to process, moderate, store, display, and share that content as needed to operate safety features. Do not upload graphic violence, private faces in sensitive contexts, private identity documents, illegal content, or media you do not have the right to share.',
+    points: []
+  },
+  {
+    title: '8. Privacy and location safety',
+    body: 'SafeRoute is built around sensitive location data. We may hide exact locations, round locations, remove metadata, restrict media, or limit visibility to protect users and bystanders. You should not use SafeRoute to track private people, expose private homes, or identify alleged suspects.',
+    points: []
+  },
+  {
+    title: '9. No guarantee of accuracy',
+    body: 'Incident information may be incomplete, delayed, wrong, duplicated, or later rejected. SafeRoute provides safety awareness, not legal, security, medical, or emergency advice. Always use your judgment, call 112 in emergencies, and follow official agency instructions.',
+    points: []
+  },
+  {
+    title: '10. Changes and enforcement',
+    body: 'We may update these Terms as SafeRoute grows across Nigeria and Africa. We may enforce these Terms by limiting features, removing content, suspending accounts, preserving evidence of abuse, or cooperating with lawful requests where legally required and appropriate.',
+    points: []
+  }
+];
+
+export const privacyPolicySections: ContentSection[] = [
+  {
+    title: '1. What SafeRoute collects',
+    body: 'SafeRoute may collect account details such as your name or display name, phone number, email address, sign-in provider identity, profile settings, device identifiers, push tokens, preferred city, alert radius, emergency contacts you choose to save, and app activity needed to operate the service.',
+    points: []
+  },
+  {
+    title: '2. Location data',
+    body: 'SafeRoute requests live location permission so it can show nearby incidents, determine whether you are inside an alert region, help you create safer reports, and support emergency sharing features. We do not use location to encourage confrontation or to publicly expose your precise private address.',
+    points: []
+  },
+  {
+    title: '3. Incident reports, alerts, and media',
+    body: 'When you submit a report or alert, we may process location, category, description, timestamps, confidence signals, media attachments, device metadata, moderation results, and duplicate-detection signals. Media may be scanned, stripped of metadata, kept private until approved, rejected, or shown with safety limits.',
+    points: []
+  },
+  {
+    title: '4. How we use data',
+    body: 'We use data to authenticate users, prevent abuse, deliver nearby alerts, operate moderation queues, verify reports, reduce duplicate incidents, send push notifications, improve safety guidance, maintain audit logs, support account deletion, and protect the SafeRoute community.',
+    points: []
+  },
+  {
+    title: '5. Data sharing',
+    body: 'We do not sell sensitive location data. We may share limited safety information with users, moderators, service providers, emergency contacts you select, agency partners, or lawful authorities when needed to operate the app, prevent harm, comply with law, or protect people. We avoid sharing personal data unless there is a clear product, safety, legal, or consent basis.',
+    points: []
+  },
+  {
+    title: '6. Data rights and choices',
+    body: 'You can manage notification settings, privacy settings, alert radius, watched places, emergency contacts, and account details. You may request access, correction, deletion, portability, restriction, objection, or other applicable data-rights support. Some records may be retained where needed for safety, fraud prevention, audit logs, legal compliance, or abuse investigations.',
+    points: []
+  },
+  {
+    title: '7. Security',
+    body: 'SafeRoute uses security controls such as token-based sessions, rate limits, private media storage, signed uploads, moderation review, access controls, audit logs, and least-privilege practices. No system is perfectly secure, but we design the app to reduce exposure of sensitive identity, location, and media data.',
+    points: []
+  },
+  {
+    title: '8. Retention',
+    body: 'We keep data only as long as needed for safety operations, account management, moderation, analytics, legal obligations, and abuse prevention. Public incident data may expire or be resolved. Account deletion will remove or anonymize personal profile data where possible, while some safety and audit records may be retained when necessary.',
+    points: []
+  },
+  {
+    title: '9. Children and vulnerable users',
+    body: 'SafeRoute is not designed to expose children or vulnerable people to public identification. Missing-person and found-person reports require careful moderation. Users must avoid sharing private child details, private school addresses, sensitive images, or identity information unless lawful, necessary, and safe.',
+    points: []
+  },
+  {
+    title: '10. Nigeria and Africa expansion',
+    body: 'SafeRoute is starting in Nigeria and is designed to expand across Africa with local emergency numbers, languages, moderation rules, country settings, and agency integrations. Privacy practices may be updated to reflect local laws, hosting requirements, and user rights in each supported country.',
+    points: []
+  }
+];
+
 export const marketingPages: Record<string, MarketingPage> = {
   premium: {
     slug: 'premium',

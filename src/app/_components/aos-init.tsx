@@ -8,9 +8,9 @@ export function AosInit() {
     AOS.init({
       duration: 760,
       easing: 'ease-out-cubic',
-      mirror: false,
+      mirror: true,
       offset: 70,
-      once: true
+      once: false
     });
 
     const refresh = () => AOS.refreshHard();

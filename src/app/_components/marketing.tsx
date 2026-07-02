@@ -1,11 +1,9 @@
 import {
-  Apple,
   ArrowRight,
   Check,
   ChevronRight,
   CircleDot,
   Mail,
-  Play,
   ShieldCheck
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -120,10 +118,13 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
 function BrandMark() {
   return (
     <a className="flex items-center gap-3" href="/" aria-label="SafeRoute home">
-      <span className="relative grid size-9 place-items-center rounded-full border border-[var(--gold)] text-[var(--gold)]">
-        <span className="absolute size-5 rounded-full border border-current" />
-        <span className="size-2 rounded-full bg-current" />
-      </span>
+      <img
+        className="size-9 shrink-0"
+        src="/images/logo.svg"
+        alt=""
+        width="36"
+        height="36"
+      />
       <span className="text-lg font-black text-[var(--gold)] sm:text-xl">SafeRoute</span>
     </a>
   );
@@ -241,7 +242,7 @@ function IncidentPreviewSection({ incidents }: { incidents: PublicIncidentPrevie
 
   return (
     <SectionShell className="py-16 lg:py-20">
-      <div className="grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-start">
+      <div className="grid gap-8">
         <div {...aos()}>
           <p className="section-label">Live safety context</p>
           <h2 className="mt-4 max-w-lg text-4xl font-black leading-tight text-white sm:text-5xl">
@@ -284,7 +285,7 @@ function SignalSection() {
           Built for fast, calm decisions.
         </h2>
       </div>
-      <div className="mt-14 grid gap-5 md:grid-cols-3">
+      <div className="mt-14 grid gap-5">
         {homeSignals.map((signal, index) => (
           <FeatureCard
             body={signal.body}
@@ -336,7 +337,7 @@ function FeatureCard({
 function NarrativeSection() {
   return (
     <SectionShell>
-      <div className="grid gap-12 lg:grid-cols-[0.42fr_0.58fr]">
+      <div className="grid gap-12">
         <div {...aos()}>
           <p className="section-label">How it works</p>
           <h2 className="mt-4 max-w-xl text-4xl font-black leading-tight text-white sm:text-6xl">
@@ -347,7 +348,7 @@ function NarrativeSection() {
             way to help without creating panic.
           </p>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-5">
           {homeNarratives.map((item, index) => (
             <article
               className="rounded-[18px] border border-white/12 bg-black p-7"
@@ -377,7 +378,7 @@ function MissionSection() {
 
   return (
     <SectionShell>
-      <div className="grid gap-12 rounded-[20px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10 lg:grid-cols-[0.58fr_0.42fr] lg:p-14">
+      <div className="grid gap-12 rounded-[20px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10 lg:p-14">
         <div {...aos()}>
           <p className="section-label">Our mission</p>
           <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-6xl">
@@ -417,7 +418,7 @@ function MissionSection() {
 function PremiumPreview() {
   return (
     <SectionShell>
-      <div className="grid min-w-0 gap-8 lg:grid-cols-[0.34fr_0.66fr] lg:items-start">
+      <div className="grid min-w-0 gap-8">
         <div {...aos()}>
           <p className="section-label">Premium</p>
           <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
@@ -475,7 +476,7 @@ function Minus() {
 function AudienceSection() {
   return (
     <SectionShell>
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-5">
         <AudiencePanel
           href="/journalist"
           index={0}
@@ -542,7 +543,7 @@ function SupportLegalSection() {
 
   return (
     <SectionShell>
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5">
         {cards.map(([title, body, href], index) => (
           <a
             className="group rounded-[18px] border border-white/12 bg-black p-7 transition hover:border-[var(--gold)]/55"
@@ -565,7 +566,7 @@ function SupportLegalSection() {
 function HomeCta() {
   return (
     <section id="join-beta" className="bg-black px-5 py-20 sm:px-8 lg:py-28">
-      <div className="mx-auto grid max-w-[1280px] gap-9 border-b border-white/10 pb-16 lg:grid-cols-[0.62fr_0.38fr] lg:items-center">
+      <div className="mx-auto grid max-w-[1280px] gap-9 border-b border-white/10 pb-16">
         <div {...aos()}>
           <h2 className="text-4xl font-black leading-tight text-white sm:text-6xl">
             Protect your world.
@@ -575,18 +576,14 @@ function HomeCta() {
             alerts, responsible reporting, and shared safety.
           </p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row lg:justify-end" {...aos(1)}>
+        <div className="grid max-w-sm gap-3" {...aos(1)}>
           <StoreLink
             href={siteConfig.appStoreUrl}
-            label="App Store"
-            sublabel="Download for free"
-            icon={<Apple size={24} strokeWidth={2.3} />}
+            platform="apple"
           />
           <StoreLink
             href={siteConfig.playStoreUrl}
-            label="Google Play"
-            sublabel="Get it on"
-            icon={<Play size={23} strokeWidth={2.3} />}
+            platform="google"
           />
         </div>
       </div>
@@ -596,27 +593,62 @@ function HomeCta() {
 
 function StoreLink({
   href,
-  label,
-  sublabel,
-  icon
+  platform
 }: {
   href: string;
-  label: string;
-  sublabel: string;
-  icon: ReactNode;
+  platform: 'apple' | 'google';
 }) {
+  const isApple = platform === 'apple';
+
   return (
     <a
-      className="inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full border border-white/18 bg-[var(--surface)] px-5 text-white transition hover:border-[var(--gold)]/55 sm:w-auto"
+      className="store-badge"
       href={href}
-      aria-label={`${label} app link`}
+      aria-label={isApple ? 'Download SafeRoute on the App Store' : 'Get SafeRoute on Google Play'}
     >
-      <span aria-hidden="true">{icon}</span>
-      <span className="grid text-left leading-none">
-        <small className="text-[10px] font-black text-white/42">{sublabel}</small>
-        <strong className="text-lg font-black">{label}</strong>
-      </span>
+      {isApple ? <AppleStoreIcon /> : <GooglePlayIcon />}
+      {isApple ? (
+        <span className="grid text-left leading-none">
+          <small className="text-[10px] font-bold uppercase tracking-[0.01em] text-white">
+            Download on the
+          </small>
+          <strong className="mt-1 text-[23px] font-black leading-none text-white">
+            App Store
+          </strong>
+        </span>
+      ) : (
+        <span className="grid text-left leading-none">
+          <small className="text-[10px] font-bold uppercase tracking-[0.04em] text-white">
+            Get it on
+          </small>
+          <strong className="mt-1 text-[22px] font-black leading-none text-white">
+            Google Play
+          </strong>
+        </span>
+      )}
     </a>
+  );
+}
+
+function AppleStoreIcon() {
+  return (
+    <svg className="size-8 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M16.94 12.42c-.02-2.05 1.68-3.05 1.76-3.1-.96-1.4-2.44-1.6-2.96-1.62-1.24-.13-2.45.74-3.08.74-.65 0-1.63-.72-2.69-.7-1.37.02-2.65.8-3.36 2.03-1.45 2.52-.37 6.22 1.02 8.25.7 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.7.65 1.12-.02 1.82-1 2.49-2.01.8-1.15 1.12-2.29 1.13-2.35-.03-.01-2.26-.86-2.28-3.3Zm-2.01-6.04c.56-.7.95-1.64.84-2.6-.82.04-1.85.57-2.43 1.25-.52.6-.99 1.58-.86 2.51.93.07 1.86-.47 2.45-1.16Z"
+      />
+    </svg>
+  );
+}
+
+function GooglePlayIcon() {
+  return (
+    <svg className="h-9 w-8 shrink-0" viewBox="0 0 31 35" aria-hidden="true">
+      <path fill="#34A853" d="M1.7 1.1c-.5.5-.8 1.3-.8 2.4v28c0 1 .3 1.8.8 2.4l.1.1 15.7-16.4v-.4L1.8 1l-.1.1Z" />
+      <path fill="#FBBC04" d="m22.7 23.1-5.2-5.4v-.4l5.2-5.4.1.1 6.2 3.7c1.8 1.1 1.8 2.8 0 3.9l-6.2 3.6-.1-.1Z" />
+      <path fill="#EA4335" d="m22.8 23-5.3-5.5L1.7 33.9c.8.8 2 .9 3.4.1l17.7-11Z" />
+      <path fill="#4285F4" d="M22.8 12 5.1 1C3.7.2 2.5.3 1.7 1.1l15.8 16.4L22.8 12Z" />
+    </svg>
   );
 }
 
@@ -636,7 +668,7 @@ export function MarketingFooter({ mailto }: { mailto: string }) {
           </a>
         </div>
 
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-3" {...aos(1)}>
+        <div className="grid gap-8" {...aos(1)}>
           <FooterColumn title="Product" links={primaryNav} />
           <FooterColumn title="Company" links={footerNav.slice(0, 3)} />
           <FooterColumn title="Legal" links={footerNav.slice(3)} />
@@ -745,7 +777,7 @@ function MetricRow({ value, label }: Stat) {
 function PageSections({ page }: { page: MarketingPage }) {
   return (
     <SectionShell>
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-5">
         {page.sections.map((section, index) => (
           <article
             className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7 sm:p-9"
@@ -775,14 +807,14 @@ function PageSections({ page }: { page: MarketingPage }) {
 function JournalistDetail() {
   return (
     <SectionShell>
-      <div className="grid gap-10 lg:grid-cols-[0.34fr_0.66fr]">
+      <div className="grid gap-10">
         <div {...aos()}>
           <p className="section-label">Newsroom workflow</p>
           <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
             Built for speed, volume, and scale.
           </h2>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-5">
           {journalistTools.map((tool, index) => (
             <article className="rounded-[18px] border border-white/12 bg-black p-7" key={tool.label} {...aos(index)}>
               <h3 className="text-2xl font-black leading-tight text-white">{tool.label}</h3>
@@ -798,7 +830,7 @@ function JournalistDetail() {
 function EnterpriseDetail() {
   return (
     <SectionShell>
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid gap-5">
         {enterpriseCapabilities.map((capability, index) => (
           <article className="rounded-[18px] border border-white/12 bg-black p-7" key={capability.label} {...aos(index)}>
             <capability.icon className="text-[var(--gold)]" size={32} strokeWidth={1.8} aria-hidden="true" />
@@ -822,7 +854,7 @@ function AboutDetail() {
           The outcomes SafeRoute is built to support.
         </h2>
       </div>
-      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-12 grid gap-5">
         {realStories.map((story, index) => (
           <article className="min-h-44 rounded-[18px] border border-white/12 bg-black p-5" key={story} {...aos(index)}>
             <CircleDot className="text-[var(--gold)]" size={21} strokeWidth={2} aria-hidden="true" />
@@ -837,7 +869,7 @@ function AboutDetail() {
 function SupportDetail() {
   return (
     <SectionShell>
-      <div className="grid gap-10 lg:grid-cols-[0.34fr_0.66fr]">
+      <div className="grid gap-10">
         <div {...aos()}>
           <p className="section-label">Common questions</p>
           <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
