@@ -80,9 +80,9 @@ export function MarketingShell({ active, children }: ShellProps) {
 
 function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-neutral-800/95 text-white shadow-[0_12px_40px_rgba(0,0,0,0.24)]">
-      <div className="mx-auto flex min-h-[96px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
-        <BrandMark imageClassName="size-16 shrink-0 sm:size-20" />
+    <header className="fixed inset-x-0 top-0 z-50 bg-black text-white">
+      <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
+        <BrandMark imageClassName="size-20 shrink-0 sm:size-24" />
 
         <nav
           className="hidden items-center gap-9 text-sm font-extrabold text-white/58 lg:flex"
@@ -162,7 +162,7 @@ function SectionShell({
   className?: string;
 }) {
   return (
-    <section className={`border-b border-white/10 bg-black px-5 py-20 sm:px-8 lg:py-28 ${className}`}>
+    <section className={`bg-black px-5 py-20 sm:px-8 lg:py-28 ${className}`}>
       <div className="mx-auto w-full max-w-[1280px]">{children}</div>
     </section>
   );
@@ -170,7 +170,7 @@ function SectionShell({
 
 function HomeHero() {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-black px-5 pt-[96px] sm:px-8">
+    <section className="relative overflow-hidden bg-black px-5 pt-[76px] sm:px-8">
       <HeroGlow />
       <div className="relative mx-auto flex min-h-[720px] w-full max-w-[1280px] flex-col items-center justify-center py-20 text-center">
         <h1
@@ -209,7 +209,7 @@ function HeroGlow() {
 
 function SignalPanel() {
   return (
-    <section className="-mt-24 border-b border-white/10 bg-black px-5 pb-20 sm:px-8">
+    <section className="-mt-24 bg-black px-5 pb-20 sm:px-8">
       <div
         className="relative mx-auto grid w-full max-w-[1280px] gap-8 rounded-[18px] border border-white/12 bg-[var(--surface)] px-6 py-9 shadow-[0_24px_90px_rgba(0,0,0,0.45)] sm:grid-cols-3 sm:px-10"
         {...aos(0, 'zoom-in-up')}
@@ -452,7 +452,7 @@ function ComparisonTable() {
     <div className="min-w-0 overflow-x-auto">
       <table className="w-full min-w-[600px] border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-white/10 text-xs font-black text-white/42">
+          <tr className="text-xs font-black text-white/42">
             <th className="px-4 py-4">Features</th>
             <th className="px-4 py-4 text-center">Free</th>
             <th className="px-4 py-4 text-center">Premium</th>
@@ -460,7 +460,7 @@ function ComparisonTable() {
         </thead>
         <tbody>
           {premiumComparison.map((row) => (
-            <tr className="border-b border-white/10 last:border-b-0" key={row.feature}>
+            <tr key={row.feature}>
               <td className="px-4 py-4 font-bold text-white/68">{row.feature}</td>
               <td className="px-4 py-4 text-center">{row.free ? <CheckMark /> : <Minus />}</td>
               <td className="px-4 py-4 text-center">{row.premium ? <CheckMark /> : <Minus />}</td>
@@ -543,8 +543,8 @@ function AudiencePanel({
 
 function HomeCta() {
   return (
-    <section id="join-beta" className="bg-black px-5 py-20 sm:px-8 lg:py-28">
-      <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 border-b border-white/10 pb-16 text-center">
+    <section id="join-beta" className="scroll-mt-[92px] bg-black px-5 py-20 sm:px-8 lg:py-28">
+      <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 pb-16 text-center">
         <div {...aos(0, 'fade-right')}>
           <h2 className="whitespace-nowrap text-[1.35rem] font-black leading-tight text-white min-[390px]:text-2xl sm:text-5xl lg:text-6xl">
             Download SafeRoute for free.
@@ -606,7 +606,7 @@ function StoreLink({
 
 function AppleStoreIcon() {
   return (
-    <svg className="h-9 w-8 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="size-10 shrink-0 text-white" viewBox="4 3 16 18" aria-hidden="true">
       <path
         fill="currentColor"
         d="M16.94 12.42c-.02-2.05 1.68-3.05 1.76-3.1-.96-1.4-2.44-1.6-2.96-1.62-1.24-.13-2.45.74-3.08.74-.65 0-1.63-.72-2.69-.7-1.37.02-2.65.8-3.36 2.03-1.45 2.52-.37 6.22 1.02 8.25.7 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.7.65 1.12-.02 1.82-1 2.49-2.01.8-1.15 1.12-2.29 1.13-2.35-.03-.01-2.26-.86-2.28-3.3Zm-2.01-6.04c.56-.7.95-1.64.84-2.6-.82.04-1.85.57-2.43 1.25-.52.6-.99 1.58-.86 2.51.93.07 1.86-.47 2.45-1.16Z"
@@ -617,7 +617,7 @@ function AppleStoreIcon() {
 
 function GooglePlayIcon() {
   return (
-    <svg className="h-9 w-8 shrink-0" viewBox="0 0 31 35" aria-hidden="true">
+    <svg className="size-10 shrink-0" viewBox="0 0 31 35" aria-hidden="true">
       <path fill="#34A853" d="M1.7 1.1c-.5.5-.8 1.3-.8 2.4v28c0 1 .3 1.8.8 2.4l.1.1 15.7-16.4v-.4L1.8 1l-.1.1Z" />
       <path fill="#FBBC04" d="m22.7 23.1-5.2-5.4v-.4l5.2-5.4.1.1 6.2 3.7c1.8 1.1 1.8 2.8 0 3.9l-6.2 3.6-.1-.1Z" />
       <path fill="#EA4335" d="m22.8 23-5.3-5.5L1.7 33.9c.8.8 2 .9 3.4.1l17.7-11Z" />
@@ -628,10 +628,10 @@ function GooglePlayIcon() {
 
 function MarketingFooter() {
   return (
-    <footer className="bg-neutral-800 px-5 py-12 text-white sm:px-8">
-      <div className="mx-auto grid max-w-[1280px] gap-12 border-b border-white/10 pb-12 lg:grid-cols-[0.42fr_0.58fr]">
+    <footer className="bg-black px-5 py-12 text-white sm:px-8">
+      <div className="mx-auto grid max-w-[1280px] gap-12 pb-12 lg:grid-cols-[0.42fr_0.58fr]">
         <div className="flex justify-center lg:justify-start" {...aos(0, 'fade-right')}>
-          <BrandMark imageClassName="size-28 shrink-0 sm:size-36 lg:size-40" />
+          <BrandMark imageClassName="size-32 shrink-0 sm:size-40 lg:size-44" />
         </div>
 
         <div className="grid gap-8 sm:grid-cols-3" {...aos(1, 'fade-left')}>
@@ -691,7 +691,7 @@ function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
   const targetHref = page.visual === 'legal' || page.visual === 'support' ? mailto : '#join-beta';
 
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-black px-5 pt-[96px] sm:px-8">
+    <section className="relative overflow-hidden bg-black px-5 pt-[76px] sm:px-8">
       <HeroGlow />
       <div className="relative mx-auto grid min-h-[650px] max-w-[1280px] gap-12 py-20 lg:grid-cols-[0.58fr_0.42fr] lg:items-center">
         <div {...aos(0, 'fade-right')}>
@@ -729,7 +729,7 @@ function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
 
 function MetricRow({ value, label }: Stat) {
   return (
-    <div className="border-b border-white/10 pb-6 last:border-b-0 last:pb-0">
+    <div className="pb-6 last:pb-0">
       <strong className="block text-3xl font-black text-white">{value}</strong>
       <span className="mt-2 block text-base font-bold leading-7 text-white/48">{label}</span>
     </div>
