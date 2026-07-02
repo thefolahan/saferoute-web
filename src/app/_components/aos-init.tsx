@@ -6,10 +6,11 @@ import { useEffect } from 'react';
 export function AosInit() {
   useEffect(() => {
     AOS.init({
-      duration: 760,
-      easing: 'ease-out-cubic',
+      debounceDelay: 40,
+      duration: 920,
+      easing: 'ease-out-back',
       mirror: true,
-      offset: 70,
+      offset: 90,
       once: false
     });
 

@@ -77,106 +77,106 @@ export const footerNav: NavItem[] = [
 ];
 
 export const homeStats: Stat[] = [
-  { value: 'Real-time', label: 'alerts and incident updates' },
-  { value: 'Verified', label: 'community safety signal' },
-  { value: 'Always on', label: 'awareness for movement' }
+  { value: 'Nearby', label: 'incidents mapped around your location' },
+  { value: 'Broadcast', label: 'photo or video reports when safe' },
+  { value: '112', label: 'emergency escalation in Nigeria' }
 ];
 
 export const liveTicker = [
-  'Suspicious activity near a transit corridor',
-  'Traffic accident reported near a busy junction',
-  'Smoke heard around a residential block',
-  'Power outage affecting evening movement',
-  'Road hazard slowing vehicles nearby'
+  'Road accident reported near a busy junction',
+  'Fire outbreak update shared by nearby users',
+  'Missing person notice active in the city feed',
+  'Community alert active within a 1 km radius',
+  'Security activity reported near a transit route'
 ];
 
 export const homeSignals = [
   {
-    title: 'Get Notified',
-    body: 'Receive real-time alerts about incidents and safety updates happening near you.',
+    title: 'Nearby Alerts',
+    body: 'See incidents, active citizen alerts, feed posts, and trending safety updates near your current location.',
     icon: BellRing
   },
   {
-    title: 'Go Live',
-    body: 'Share what you see in real time so your eyes and voice can help keep others safe.',
+    title: 'Broadcast Safely',
+    body: 'Attach a photo or video, choose a category, and report what is happening only when it is safe to do so.',
     icon: Video
   },
   {
-    title: 'Search Incidents',
-    body: 'Search incidents by location, time, and type to stay informed before you move.',
+    title: 'Route Awareness',
+    body: 'Search places, inspect nearby reports, and understand what is happening along the route before you move.',
     icon: Search
   }
 ];
 
 export const homeNarratives = [
   {
-    title: 'Get the full story, faster.',
-    body: 'When there is police activity, road closure, fire, flooding, or public disruption, SafeRoute helps people understand what is happening before rumor fills the gap.'
+    title: 'Open the nearby safety map.',
+    body: 'SafeRoute starts with a live map around you. View incidents, citizen-alert regions, road hazards, security activity, fire, flood, medical emergencies, and missing-person reports.'
   },
   {
-    title: 'Watch incidents unfold.',
-    body: 'Live community updates, verified notes, and incident timelines give people a clearer view from more than one angle.'
+    title: 'Move between Alerts, Feed, and Trending.',
+    body: 'The mobile app separates urgent nearby alerts from community posts and trending incidents so people can scan the right signal quickly.'
   },
   {
-    title: 'Know instantly.',
-    body: 'Speed matters when people need to avoid a street, check on a loved one, or change their route.'
+    title: 'Broadcast only when it is safe.',
+    body: 'Reports are structured by category and location. Media is uploaded through controlled storage and can be moderated before wider visibility.'
   },
   {
-    title: 'Broadcast to help others.',
-    body: 'Structured reporting lets people add useful context without turning safety into panic or speculation.'
+    title: 'Alert the community and call 112.',
+    body: 'Citizen alerts are built to warn people nearby, not send them toward danger. In an emergency, SafeRoute keeps the official 112 escalation front and center.'
   }
 ];
 
 export const realStories = [
-  'Man rescued from building fire',
-  'Lost child safely reunited',
-  'Family avoids flooded route',
-  'Driver warned before road hazard',
-  'Clinic prepares before emergency arrival'
+  'Driver reroutes after a collision report',
+  'Family receives a missing-person alert',
+  'Commuter avoids a flooded road',
+  'Nearby users see a fire update faster',
+  'Community alert reaches people in range'
 ];
 
 export const premiumComparison = [
-  { feature: 'Live incident alerts and updates', free: true, premium: true },
-  { feature: 'Go live and share video', free: true, premium: true },
-  { feature: 'Advanced incident search', free: true, premium: true },
+  { feature: 'Nearby incident map', free: true, premium: true },
+  { feature: 'Broadcast photo or video reports', free: true, premium: true },
+  { feature: 'Alerts, Feed, and Trending views', free: true, premium: true },
   { feature: 'Ad-free experience', free: false, premium: true },
-  { feature: 'Incident history and saved places', free: false, premium: true },
-  { feature: 'Priority incident notifications', free: false, premium: true },
+  { feature: 'Saved places and incident history', free: false, premium: true },
+  { feature: 'Priority nearby notifications', free: false, premium: true },
   { feature: 'Custom alert radius and settings', free: false, premium: true },
-  { feature: 'Premium support', free: false, premium: true }
+  { feature: 'Daily briefing and preference controls', free: false, premium: true }
 ];
 
 export const journalistTools = [
-  { label: 'Live incident feed', body: 'Monitor incidents from your city, region, or beat.' },
-  { label: 'Search and filter incidents', body: 'Filter by location, time, category, and story window.' },
-  { label: 'Download and embed verified video', body: 'Use attributed, newsroom-ready clips with cleaner review paths.' },
-  { label: 'Archive access', body: 'Build context from historical incidents and developing stories.' }
+  { label: 'Alerts, Feed, and Trending', body: 'Monitor what nearby users are reporting, what is gaining attention, and what has been categorized as an incident.' },
+  { label: 'Location and category search', body: 'Filter by city, place, route, and incident category such as fire, flood, road accident, missing person, or security activity.' },
+  { label: 'Media review workflows', body: 'Review photos or videos attached to reports with clearer moderation and attribution paths.' },
+  { label: 'Incident context over time', body: 'Build story context from public reports, timestamps, cities, status, verification state, and community engagement.' }
 ];
 
 export const enterpriseCapabilities = [
-  { label: 'Real-time situational awareness', icon: Radio },
-  { label: 'Incident monitoring and alerts', icon: BellRing },
-  { label: 'Data insights and analytics', icon: Database },
-  { label: 'API access and integrations', icon: Zap },
-  { label: 'Scalable workflows for teams and cities', icon: ShieldCheck }
+  { label: 'Nearby incident monitoring', icon: Radio },
+  { label: 'Community and employee alerting', icon: BellRing },
+  { label: 'Location and category intelligence', icon: Database },
+  { label: 'API access for safety systems', icon: Zap },
+  { label: 'Moderation-aware workflows for teams', icon: ShieldCheck }
 ];
 
 export const supportTopics = [
-  'SafeRoute Enterprise',
-  'SafeRoute Premium',
-  'General questions',
-  'Privacy',
-  'Your account',
-  'Using SafeRoute'
+  'Broadcasting reports',
+  'Nearby alerts',
+  'Map and route search',
+  'Privacy and location',
+  'Account and OTP',
+  'Premium and notifications'
 ];
 
 export const commonQuestions = [
-  'What is SafeRoute Premium?',
-  'How do I edit my profile or picture?',
-  'Where is SafeRoute available?',
-  'What is SafeRoute criteria for reporting incidents?',
-  'How do I log into or sign up for SafeRoute?',
-  'Can I report an incident on SafeRoute?'
+  'How do I broadcast a report safely?',
+  'Why does SafeRoute ask for location permission?',
+  'What happens after I alert the community?',
+  'When should I call 112 instead of using the app?',
+  'How do Feed and Trending differ from Alerts?',
+  'How do I manage notification preferences?'
 ];
 
 export const termsPolicySections: ContentSection[] = [
@@ -289,36 +289,36 @@ export const marketingPages: Record<string, MarketingPage> = {
   premium: {
     slug: 'premium',
     label: 'Premium',
-    title: 'Get the full picture.',
+    title: 'More control over what reaches you.',
     description:
-      'Unlock deeper incident context, historical reports, personalized alerts, and safety tools built for people who move through the city every day.',
+      'Unlock sharper notification controls, saved places, wider incident history, and briefing-style updates for the routes and cities you care about.',
     cta: 'Start Premium',
     visual: 'premium',
     icon: Crown,
     stats: [
-      { value: 'More tools', label: 'for personal awareness' },
-      { value: 'More context', label: 'before you move' },
-      { value: 'Cancel anytime', label: 'no long commitment' }
+      { value: 'Saved', label: 'places and watched routes' },
+      { value: 'Custom', label: 'alert radius and categories' },
+      { value: 'Briefing', label: 'daily safety summaries' }
     ],
     sections: [
       {
-        title: 'Everything included with Premium',
-        body: 'Premium is for daily commuters, families, power users, and community leaders who want more awareness with less noise.',
+        title: 'Tune alerts to your real movement',
+        body: 'Premium is for commuters, families, power users, and community leaders who want alerts that match their city, route, category preferences, and daily routine.',
         points: [
-          'Live incident alerts and updates',
-          'Historical incidents and saved places',
-          'Customized alert radius and settings',
-          'Priority incident notifications'
+          'Saved places and watched routes',
+          'Custom alert radius and incident categories',
+          'Priority nearby notifications',
+          'Daily briefing for top nearby incidents'
         ]
       },
       {
-        title: 'No commitment. Cancel anytime.',
-        body: 'Use deeper search, incident history, and structured updates to understand whether an event affects your street, route, school, workplace, or family.',
+        title: 'More context before you move',
+        body: 'Use deeper search, incident history, and structured updates to understand whether a report affects your street, school, workplace, family, or route.',
         points: [
-          'Police and emergency context where available',
-          'Nearby registered safety notices where supported',
-          'Personalized safety insights',
-          'Premium support for account issues'
+          'Incident history by city, location, and category',
+          'Saved places for home, work, school, or family',
+          'Ad-free safety scanning',
+          'Premium support for account and notification issues'
         ]
       }
     ]
@@ -326,36 +326,36 @@ export const marketingPages: Record<string, MarketingPage> = {
   journalist: {
     slug: 'journalist',
     label: 'Journalist',
-    title: 'SafeRoute for media organizations.',
+    title: 'A faster read on public safety signal.',
     description:
-      'Real-time, human-reviewed, hyper-local incident context for newsrooms that need faster discovery, cleaner verification, and story-ready material.',
+      'Follow nearby alerts, feed posts, trending incidents, media attachments, categories, and city-level context before a public-safety story becomes obvious.',
     cta: 'Book a newsroom meeting',
     visual: 'journalist',
     icon: Newspaper,
     stats: [
-      { value: 'Live', label: 'incident feed' },
-      { value: 'Archive', label: 'search by location and time' },
-      { value: 'Tools', label: 'for newsroom workflows' }
+      { value: 'Feed', label: 'community posts and media' },
+      { value: 'Trending', label: 'fast-rising public reports' },
+      { value: 'Context', label: 'category, city, status, time' }
     ],
     sections: [
       {
         title: 'Why SafeRoute for journalists',
-        body: 'News teams need speed, volume, and structure. SafeRoute helps reporters separate verified local signal from noise while preserving source and context discipline.',
+        body: 'News teams need speed, volume, and structure. SafeRoute helps reporters separate local signal from noise while preserving context around category, location, status, and media.',
         points: [
-          'AI-assisted radar for incident discovery',
+          'Alerts, Feed, and Trending views',
           'Coverage across key incident categories',
-          'Video review and download workflows',
-          'Advanced filtering for beats and desks'
+          'Photo and video review workflows',
+          'Filtering by place, city, category, and report window'
         ]
       },
       {
-        title: 'Make SafeRoute your unfair advantage',
-        body: 'Start from a reported incident, search by category or location, review the timeline, and use attributed media or summary context for faster reporting.',
+        title: 'From report to story context',
+        body: 'Start from a reported incident, search by category or location, review attached media and timestamps, then decide whether the signal is worth newsroom follow-up.',
         points: [
-          'Location, date, and time search',
-          'Embeddable videos and attributed clips',
-          'Three-year archive planning',
-          'Story windows that match how journalists work'
+          'Location and route search',
+          'Public media and engagement counts',
+          'Incident status and verification state',
+          'Story windows that match how desks monitor breaking events'
         ]
       }
     ]
@@ -363,46 +363,46 @@ export const marketingPages: Record<string, MarketingPage> = {
   solutions: {
     slug: 'solutions',
     label: 'Solutions',
-    title: 'Transparent, flexible safety systems for every team.',
+    title: 'Location-aware safety workflows for teams.',
     description:
-      'SafeRoute Solutions helps teams monitor nearby incidents, reach the right people quickly, and provide safety benefits beyond the workplace.',
+      'SafeRoute Solutions helps teams monitor nearby incidents, alert the right people, and give employees a practical safety companion outside the workplace.',
     cta: 'Contact sales',
     visual: 'solutions',
     icon: BriefcaseBusiness,
     stats: [
-      { value: 'Monitor', label: 'nearby incidents and assets' },
-      { value: 'Alert', label: 'targeted people and places' },
-      { value: 'Support', label: 'employee safety benefits' }
+      { value: 'Monitor', label: 'nearby incidents and routes' },
+      { value: 'Alert', label: 'people inside a radius' },
+      { value: 'Support', label: 'daily movement beyond work' }
     ],
     sections: [
       {
         title: 'Monitor',
-        body: 'Gain instant visibility into nearby incidents to keep your people and assets aware of unfolding events.',
+        body: 'Gain visibility into nearby incidents, route searches, categories, citizen-alert regions, and public updates that may affect your people.',
         points: [
-          'Live incident dashboard',
-          'Constant monitoring for relevant activity',
-          'Real-time incident map',
-          'Situational context for better decisions'
+          'Live incident map and nearby alerts',
+          'Category filters for safety teams',
+          'Route-aware incident context',
+          'Feed and trending activity for public signal'
         ]
       },
       {
         title: 'Alert',
-        body: 'Quickly reach those who need to know with targeted alerts that keep your organization responsive.',
+        body: 'Reach people inside a location radius with urgent awareness while keeping the message focused on avoidance, official instructions, and 112 escalation.',
         points: [
-          'Rapid mass alerts',
-          'Geo-targeted notifications',
-          'Multi-channel delivery',
-          'Employee and student groups'
+          'Geo-targeted safety alerts',
+          'Radius controls and city targeting',
+          'Employee, campus, or venue groups',
+          'Clear escalation language for emergencies'
         ]
       },
       {
-        title: 'Safety agents for employees',
-        body: 'Offer extra protection through Premium subscriptions, safety guidance, and advanced tools for people outside work or school hours.',
+        title: 'Safety benefits for daily movement',
+        body: 'Offer Premium access, notification controls, and safer movement tools for people traveling to work, school, events, or field assignments.',
         points: [
           'Discounted Premium subscriptions',
-          'Access to trained safety guidance',
-          'Historical incident data',
-          'Corporate safety benefit'
+          'Saved places and custom alert radius',
+          'Historical incident context',
+          'A practical safety benefit outside office hours'
         ]
       }
     ]
@@ -410,44 +410,44 @@ export const marketingPages: Record<string, MarketingPage> = {
   enterprise: {
     slug: 'enterprise',
     label: 'Enterprise',
-    title: 'Be the first to know, first to act.',
+    title: 'Be faster when location matters.',
     description:
-      'Real-time, verified alerts delivered where your teams work, so you can protect people and operations with confidence.',
+      'Real-time safety signal, route context, media-aware reports, and alert workflows for teams responsible for people, venues, campuses, and city operations.',
     cta: 'Book a demo',
     visual: 'enterprise',
     icon: Building2,
     stats: [
-      { value: 'Instant', label: 'verified awareness' },
-      { value: 'Live', label: 'incident updates' },
-      { value: 'Scale', label: 'for teams and cities' }
+      { value: 'Nearby', label: 'incident and alert context' },
+      { value: 'Live', label: 'feed and media updates' },
+      { value: 'Scale', label: 'for teams, venues, cities' }
     ],
     sections: [
       {
-        title: 'Instant, verified awareness',
-        body: 'Get notified of exact alert locations from trusted sources and community reports so teams can respond before risks escalate.',
+        title: 'Location-aware incident awareness',
+        body: 'See nearby incidents, alert regions, categories, status, report count, timestamps, and public context before risks become harder to manage.',
         points: [
           'Incident notifications for desktop and mobile',
-          'Incident categories that match your organization',
-          'Source-backed context and review',
+          'Incident categories that match operations',
+          'Media-aware moderation and review',
           'Live updates as situations develop'
         ]
       },
       {
         title: 'Take action with confidence',
-        body: 'Notify the people who matter in seconds and receive updates as the situation changes.',
+        body: 'Notify the people who matter, route them away from danger, and keep official emergency instructions separate from community reporting.',
         points: [
           'Real-time incident updates',
-          'Easy sharing across teams',
+          'Radius-based alerting',
           'Role-based response groups',
           'Audit-ready communication trails'
         ]
       },
       {
-        title: 'Rich coverage from the source',
-        body: 'Watch verified media, review incident notes, and keep operational teams continuously informed.',
+        title: 'Signal from the source',
+        body: 'Review public posts, attached media, status changes, and engagement patterns while preserving safety, privacy, and moderation controls.',
         points: [
-          'Public agency and trusted partner feeds where available',
-          'Live incident videos',
+          'Trusted partner feeds where available',
+          'Photo and video evidence workflows',
           'Dedicated safety review workflows',
           'API delivery into your system of record'
         ]
@@ -459,34 +459,34 @@ export const marketingPages: Record<string, MarketingPage> = {
     label: 'About',
     title: 'Making your world a safer place.',
     description:
-      'SafeRoute believes stronger communities are safer communities. We are building technology that helps people look out for each other with speed, care, and accountability.',
+      'SafeRoute believes people move safer when nearby information is timely, structured, and responsible. The app turns community signal into calmer decisions.',
     cta: 'About SafeRoute',
     visual: 'about',
     icon: UsersRound,
     stats: [
-      { value: 'Individuals', label: 'protecting daily movement' },
-      { value: 'Communities', label: 'sharing verified context' },
-      { value: 'Responders', label: 'benefiting from faster signal' }
+      { value: 'Individuals', label: 'checking routes and alerts' },
+      { value: 'Communities', label: 'broadcasting useful context' },
+      { value: 'Responders', label: 'kept separate from app reporting' }
     ],
     sections: [
       {
         title: 'SafeRoute is on a mission to make movement safer.',
-        body: 'We believe in public information for the good of the public: real-time safety alerts, transparent context, and tools that empower people without encouraging panic.',
+        body: 'We believe in public information for the good of the public: nearby safety maps, structured reports, alert radius controls, and tools that empower people without encouraging panic.',
         points: [
           'Technology connects us',
           'Community protects us',
-          'Transparency builds trust',
-          'Safety works better when everyone can access the same signal'
+          'Broadcasting should happen only when safe',
+          '112 remains the emergency escalation in Nigeria'
         ]
       },
       {
         title: 'For the greater good',
-        body: 'Hospitals, emergency responders, schools, workplaces, and local communities make better decisions when they receive faster, clearer updates.',
+        body: 'Families, commuters, schools, workplaces, venues, and local communities make better decisions when they receive faster, clearer updates.',
         points: [
-          'Prepare before an emergency arrives',
-          'Direct resources more effectively',
+          'Avoid unsafe routes earlier',
+          'Understand what nearby users are reporting',
           'Increase transparency between cities and residents',
-          'Build the future of public safety together'
+          'Build responsible public safety technology together'
         ]
       }
     ]
@@ -496,14 +496,14 @@ export const marketingPages: Record<string, MarketingPage> = {
     label: 'Partnership',
     title: 'Build the future of public safety together.',
     description:
-      'SafeRoute partners with civic groups, campuses, media teams, venues, transport operators, employers, and emergency stakeholders to expand responsible safety awareness.',
+      'SafeRoute partners with civic groups, campuses, media teams, venues, transport operators, employers, and emergency stakeholders to expand responsible nearby safety awareness.',
     cta: 'Partner with us',
     visual: 'partnership',
     icon: Handshake,
     stats: [
       { value: 'Coverage', label: 'for places people move through' },
-      { value: 'Trust', label: 'with accountable workflows' },
-      { value: 'Action', label: 'from shared information' }
+      { value: 'Trust', label: 'through moderation-aware workflows' },
+      { value: 'Action', label: 'from shared location context' }
     ],
     sections: [
       {
@@ -513,7 +513,7 @@ export const marketingPages: Record<string, MarketingPage> = {
           'Local coverage programs',
           'Campus and venue safety',
           'Mobility and transport partners',
-          'Community education'
+          'Community education around safe reporting'
         ]
       },
       {
@@ -521,7 +521,7 @@ export const marketingPages: Record<string, MarketingPage> = {
         body: 'Connect SafeRoute alerts, dashboards, and APIs to the systems your teams already use.',
         points: [
           'Safety dashboards',
-          'Incident integrations',
+          'Incident and alert integrations',
           'Partner reporting channels',
           'Shared response playbooks'
         ]
@@ -533,14 +533,14 @@ export const marketingPages: Record<string, MarketingPage> = {
     label: 'Support',
     title: 'Help Center',
     description:
-      'Search for your question or pick a topic below. Get help with Premium, Enterprise, reporting, privacy, accounts, and using SafeRoute.',
+      'Get help with broadcasting reports, nearby alerts, location permission, Feed and Trending, account OTP, Premium, privacy, and using SafeRoute safely.',
     cta: 'Contact support',
     visual: 'support',
     icon: LifeBuoy,
     stats: [
-      { value: 'Topics', label: 'organized by product area' },
-      { value: 'Questions', label: 'answered clearly' },
-      { value: 'Email', label: 'for unresolved issues' }
+      { value: 'Broadcast', label: 'safe reporting help' },
+      { value: 'Location', label: 'map and alert support' },
+      { value: 'Account', label: 'OTP, profile, notifications' }
     ],
     sections: [
       {
