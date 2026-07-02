@@ -13,7 +13,14 @@ import {
   formatRelativeTime,
   type PublicIncidentPreview
 } from '../../lib/incidents';
+import { EarthGlobe } from './earth-globe';
 import { MobileMenu } from './mobile-menu';
+import { SpaceBackground } from './space-background';
+import {
+  copyrightPolicyText,
+  privacyPolicyText,
+  termsPolicyText
+} from '../_lib/legal-policy-text';
 import {
   commonQuestions,
   enterpriseCapabilities,
@@ -64,7 +71,8 @@ export function MarketingShell({ active, children }: ShellProps) {
   const mailto = betaMailto();
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-black text-white">
+    <div className="relative min-h-screen overflow-x-hidden bg-[#000204] text-white">
+      <SpaceBackground />
       <a
         className="fixed left-4 top-3 z-[100] -translate-y-24 rounded-full border border-white/25 bg-black px-4 py-2 text-sm font-extrabold text-white shadow-lg transition focus:translate-y-0"
         href="#main"
@@ -72,7 +80,7 @@ export function MarketingShell({ active, children }: ShellProps) {
         Skip to content
       </a>
       <SiteHeader active={active} mailto={mailto} />
-      <main id="main">{children}</main>
+      <main id="main" className="relative z-10">{children}</main>
       <MarketingFooter />
     </div>
   );
@@ -80,7 +88,7 @@ export function MarketingShell({ active, children }: ShellProps) {
 
 function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-black text-white">
+    <header className="fixed inset-x-0 top-0 z-50 bg-[#000204]/82 text-white backdrop-blur-md">
       <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
         <BrandMark imageClassName="size-20 shrink-0 sm:size-24" />
 
@@ -162,7 +170,7 @@ function SectionShell({
   className?: string;
 }) {
   return (
-    <section className={`bg-black px-5 py-20 sm:px-8 lg:py-28 ${className}`}>
+    <section className={`relative px-5 py-20 sm:px-8 lg:py-28 ${className}`}>
       <div className="mx-auto w-full max-w-[1280px]">{children}</div>
     </section>
   );
@@ -170,23 +178,25 @@ function SectionShell({
 
 function HomeHero() {
   return (
-    <section className="relative overflow-hidden bg-black px-5 pt-[76px] sm:px-8">
-      <HeroGlow />
-      <div className="relative mx-auto flex min-h-[720px] w-full max-w-[1280px] flex-col items-center justify-center py-20 text-center">
+    <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
+      <div className="relative mx-auto flex min-h-[760px] w-full max-w-[1280px] flex-col items-center justify-center py-16 text-center lg:min-h-[820px]">
+        <div className="mb-5 sm:mb-7" {...aos(0, 'zoom-in')}>
+          <EarthGlobe />
+        </div>
         <h1
           className="max-w-5xl text-5xl font-black leading-[1.02] text-white sm:text-7xl lg:text-8xl"
-          {...aos(0, 'zoom-out')}
+          {...aos(1, 'zoom-out')}
         >
           Know before you go.
         </h1>
         <p
           className="mt-8 max-w-3xl text-lg font-semibold leading-8 text-white/58 sm:text-xl sm:leading-9"
-          {...aos(1)}
+          {...aos(2)}
         >
           SafeRoute shows nearby incidents, community alerts, route context,
           and safe reporting tools for people moving through Nigerian cities.
         </p>
-        <div className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row" {...aos(2)}>
+        <div className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row" {...aos(3)}>
           <a className="gold-button w-full sm:w-auto" href="#join-beta">
             Launch app <ArrowRight size={18} strokeWidth={2.4} aria-hidden="true" />
           </a>
@@ -199,17 +209,9 @@ function HomeHero() {
   );
 }
 
-function HeroGlow() {
-  return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-      <div className="size-[520px] rounded-full bg-[radial-gradient(circle,rgba(237,203,138,0.22),rgba(255,255,255,0.08)_38%,rgba(255,255,255,0.02)_62%,transparent_72%)] sm:size-[760px] lg:size-[920px]" />
-    </div>
-  );
-}
-
 function SignalPanel() {
   return (
-    <section className="-mt-24 bg-black px-5 pb-20 sm:px-8">
+    <section className="relative px-5 pb-20 sm:px-8">
       <div
         className="relative mx-auto grid w-full max-w-[1280px] gap-8 rounded-[18px] border border-white/12 bg-[var(--surface)] px-6 py-9 shadow-[0_24px_90px_rgba(0,0,0,0.45)] sm:grid-cols-3 sm:px-10"
         {...aos(0, 'zoom-in-up')}
@@ -543,7 +545,7 @@ function AudiencePanel({
 
 function HomeCta() {
   return (
-    <section id="join-beta" className="scroll-mt-[92px] bg-black px-5 py-20 sm:px-8 lg:py-28">
+    <section id="join-beta" className="relative scroll-mt-[92px] px-5 py-20 sm:px-8 lg:py-28">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 pb-16 text-center">
         <div {...aos(0, 'fade-right')}>
           <h2 className="whitespace-nowrap text-[1.35rem] font-black leading-tight text-white min-[390px]:text-2xl sm:text-5xl lg:text-6xl">
@@ -628,10 +630,13 @@ function GooglePlayIcon() {
 
 function MarketingFooter() {
   return (
-    <footer className="bg-black px-5 py-12 text-white sm:px-8">
-      <div className="mx-auto grid max-w-[1280px] gap-12 pb-12 lg:grid-cols-[0.42fr_0.58fr]">
-        <div className="flex justify-center lg:justify-start" {...aos(0, 'fade-right')}>
-          <BrandMark imageClassName="size-32 shrink-0 sm:size-40 lg:size-44" />
+    <footer className="relative z-10 bg-[#000204]/84 px-5 py-12 text-white backdrop-blur-sm sm:px-8">
+      <div className="mx-auto grid max-w-[1280px] gap-10 pb-12 lg:grid-cols-[0.34fr_0.66fr]">
+        <div className="flex flex-col items-center gap-1 lg:items-start" {...aos(0, 'fade-right')}>
+          <BrandMark imageClassName="size-24 shrink-0 sm:size-28 lg:size-32" />
+          <p className="-mt-2 text-center text-2xl font-black leading-none text-white sm:text-3xl lg:text-left">
+            SafeRoute
+          </p>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-3" {...aos(1, 'fade-left')}>
@@ -672,6 +677,23 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
       : undefined;
   const mailto = betaMailto();
 
+  const legalText =
+    page.slug === 'copyright'
+      ? copyrightPolicyText
+      : page.slug === 'privacy'
+        ? privacyPolicyText
+        : page.slug === 'terms'
+          ? termsPolicyText
+          : undefined;
+
+  if (legalText) {
+    return (
+      <MarketingShell active={active}>
+        <LegalPolicyPage text={legalText} />
+      </MarketingShell>
+    );
+  }
+
   return (
     <MarketingShell active={active}>
       <PageHero page={page} mailto={mailto} />
@@ -691,8 +713,7 @@ function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
   const targetHref = page.visual === 'legal' || page.visual === 'support' ? mailto : '#join-beta';
 
   return (
-    <section className="relative overflow-hidden bg-black px-5 pt-[76px] sm:px-8">
-      <HeroGlow />
+    <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
       <div className="relative mx-auto grid min-h-[650px] max-w-[1280px] gap-12 py-20 lg:grid-cols-[0.58fr_0.42fr] lg:items-center">
         <div {...aos(0, 'fade-right')}>
           <p className="section-label inline-flex items-center gap-3">
@@ -723,6 +744,19 @@ function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
           </div>
         </div>
       </div>
+    </section>
+  );
+}
+
+function LegalPolicyPage({ text }: { text: string }) {
+  return (
+    <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
+      <article
+        className="mx-auto max-w-4xl whitespace-pre-wrap text-base font-semibold leading-8 text-white/72 sm:text-lg sm:leading-9"
+        {...aos(0, 'fade-up')}
+      >
+        {text}
+      </article>
     </section>
   );
 }

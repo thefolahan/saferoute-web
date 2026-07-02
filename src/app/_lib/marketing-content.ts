@@ -590,14 +590,14 @@ export const marketingPages: Record<string, MarketingPage> = {
   copyright: {
     slug: 'copyright',
     label: 'Copyright',
-    title: 'Copyright Policy.',
+    title: 'Copyright Policy',
     description:
-      'SafeRoute respects intellectual property rights and expects users to upload only content they created, own, or have permission to use.',
+      'SafeRoute respects intellectual property rights and responds to valid copyright notices under Nigerian copyright law.',
     cta: 'Submit a copyright concern',
     visual: 'legal',
     icon: Copyright,
     stats: [
-      { value: 'DMCA', label: 'review process' },
+      { value: 'Nigeria', label: 'copyright law focus' },
       { value: 'Original', label: 'content encouraged' },
       { value: '24-48h', label: 'target review for valid notices' }
     ],
@@ -626,9 +626,9 @@ export const marketingPages: Record<string, MarketingPage> = {
         title: 'How to submit a notice',
         body: 'A copyright notice should identify the work, identify the SafeRoute content at issue, include your contact information, and include good-faith and accuracy statements.',
         points: [
-          'Email support with the subject: DMCA Takedown Notice',
+          'Email the copyright contact with the subject: Copyright Takedown Notice',
           'Include a physical or electronic signature',
-          'We review notices for DMCA requirements',
+          'We review notices under Nigerian copyright law',
           'Users may submit a counter-notification when appropriate'
         ]
       }
