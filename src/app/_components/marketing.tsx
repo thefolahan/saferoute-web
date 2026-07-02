@@ -3,7 +3,6 @@ import {
   Check,
   ChevronRight,
   CircleDot,
-  Mail,
   ShieldCheck
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -46,6 +45,7 @@ type AosProps = {
 };
 
 const scrollAnimations = ['fade-up', 'zoom-in-up', 'fade-right', 'fade-left', 'flip-up'] as const;
+const headerSecondaryNav = footerNav.filter((item) => item.label !== 'About');
 
 function aos(
   index = 0,
@@ -73,16 +73,16 @@ export function MarketingShell({ active, children }: ShellProps) {
       </a>
       <SiteHeader active={active} mailto={mailto} />
       <main id="main">{children}</main>
-      <MarketingFooter mailto={mailto} />
+      <MarketingFooter />
     </div>
   );
 }
 
 function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/95 text-white">
-      <div className="mx-auto flex min-h-[76px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
-        <BrandMark />
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-neutral-800/95 text-white shadow-[0_12px_40px_rgba(0,0,0,0.24)]">
+      <div className="mx-auto flex min-h-[96px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
+        <BrandMark imageClassName="size-16 shrink-0 sm:size-20" />
 
         <nav
           className="hidden items-center gap-9 text-sm font-extrabold text-white/58 lg:flex"
@@ -99,12 +99,6 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
               {item.label}
             </a>
           ))}
-          <a
-            className={`transition hover:text-white ${active === 'about' ? 'text-white' : ''}`}
-            href="/about"
-          >
-            About
-          </a>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -118,7 +112,7 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
             active={active}
             ctaHref={mailto}
             primaryLinks={primaryNav}
-            secondaryLinks={footerNav}
+            secondaryLinks={headerSecondaryNav}
           />
         </div>
       </div>
@@ -126,15 +120,19 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   );
 }
 
-function BrandMark() {
+function BrandMark({
+  imageClassName = 'size-12 shrink-0 sm:size-14'
+}: {
+  imageClassName?: string;
+}) {
   return (
     <a className="flex items-center" href="/" aria-label="SafeRoute home">
       <img
-        className="size-12 shrink-0 sm:size-14"
+        className={imageClassName}
         src="/images/logo.svg"
         alt=""
-        width="56"
-        height="56"
+        width="160"
+        height="160"
       />
     </a>
   );
@@ -151,7 +149,6 @@ export function HomePageView({ incidents }: { incidents: PublicIncidentPreview[]
       <MissionSection />
       <PremiumPreview />
       <AudienceSection />
-      <SupportLegalSection />
       <HomeCta />
     </MarketingShell>
   );
@@ -173,7 +170,7 @@ function SectionShell({
 
 function HomeHero() {
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-black px-5 pt-[76px] sm:px-8">
+    <section className="relative overflow-hidden border-b border-white/10 bg-black px-5 pt-[96px] sm:px-8">
       <HeroGlow />
       <div className="relative mx-auto flex min-h-[720px] w-full max-w-[1280px] flex-col items-center justify-center py-20 text-center">
         <h1
@@ -544,49 +541,16 @@ function AudiencePanel({
   );
 }
 
-function SupportLegalSection() {
-  const cards = [
-    ['Need help?', 'Find answers about Broadcast, alerts, maps, accounts, Premium, and privacy.', '/support'],
-    ['Privacy Policy', 'Location powers safety features, and the policy explains how sensitive data is handled.', '/privacy'],
-    ['Terms of Service', 'Use SafeRoute responsibly and understand why the app does not replace emergency services.', '/terms']
-  ];
-
-  return (
-    <SectionShell>
-      <div className="grid gap-5 md:grid-cols-3">
-        {cards.map(([title, body, href], index) => (
-          <a
-            className="group rounded-[18px] border border-white/12 bg-black p-7 transition hover:border-[var(--gold)]/55"
-            href={href}
-            key={title}
-            {...aos(index, 'zoom-in-up')}
-          >
-            <h2 className="text-2xl font-black text-white">{title}</h2>
-            <p className="mt-4 min-h-24 text-base font-semibold leading-7 text-white/52">{body}</p>
-            <span className="inline-flex items-center gap-2 text-sm font-black text-[var(--gold)]">
-              Learn more <ArrowRight className="transition group-hover:translate-x-1" size={16} aria-hidden="true" />
-            </span>
-          </a>
-        ))}
-      </div>
-    </SectionShell>
-  );
-}
-
 function HomeCta() {
   return (
     <section id="join-beta" className="bg-black px-5 py-20 sm:px-8 lg:py-28">
-      <div className="mx-auto grid max-w-[1280px] gap-9 border-b border-white/10 pb-16 lg:grid-cols-[0.58fr_0.42fr] lg:items-center">
+      <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 border-b border-white/10 pb-16 text-center">
         <div {...aos(0, 'fade-right')}>
-          <h2 className="text-4xl font-black leading-tight text-white sm:text-6xl">
+          <h2 className="whitespace-nowrap text-[1.35rem] font-black leading-tight text-white min-[390px]:text-2xl sm:text-5xl lg:text-6xl">
             Download SafeRoute for free.
           </h2>
-          <p className="mt-6 max-w-2xl text-lg font-semibold leading-8 text-white/54">
-            Use the map, check nearby alerts, broadcast safely, follow Feed and
-            Trending, and call 112 when immediate emergency help is needed.
-          </p>
         </div>
-        <div className="grid max-w-sm gap-3 sm:max-w-none sm:grid-cols-2 lg:ml-auto lg:max-w-sm lg:grid-cols-1" {...aos(1, 'zoom-in-left')}>
+        <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row" {...aos(1, 'zoom-in-left')}>
           <StoreLink
             href={siteConfig.appStoreUrl}
             platform="apple"
@@ -642,7 +606,7 @@ function StoreLink({
 
 function AppleStoreIcon() {
   return (
-    <svg className="size-8 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-9 w-8 shrink-0 text-white" viewBox="0 0 24 24" aria-hidden="true">
       <path
         fill="currentColor"
         d="M16.94 12.42c-.02-2.05 1.68-3.05 1.76-3.1-.96-1.4-2.44-1.6-2.96-1.62-1.24-.13-2.45.74-3.08.74-.65 0-1.63-.72-2.69-.7-1.37.02-2.65.8-3.36 2.03-1.45 2.52-.37 6.22 1.02 8.25.7 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.7.65 1.12-.02 1.82-1 2.49-2.01.8-1.15 1.12-2.29 1.13-2.35-.03-.01-2.26-.86-2.28-3.3Zm-2.01-6.04c.56-.7.95-1.64.84-2.6-.82.04-1.85.57-2.43 1.25-.52.6-.99 1.58-.86 2.51.93.07 1.86-.47 2.45-1.16Z"
@@ -662,20 +626,12 @@ function GooglePlayIcon() {
   );
 }
 
-export function MarketingFooter({ mailto }: { mailto: string }) {
+function MarketingFooter() {
   return (
-    <footer className="bg-black px-5 pb-10 text-white sm:px-8">
+    <footer className="bg-neutral-800 px-5 py-12 text-white sm:px-8">
       <div className="mx-auto grid max-w-[1280px] gap-12 border-b border-white/10 pb-12 lg:grid-cols-[0.42fr_0.58fr]">
-        <div {...aos(0, 'fade-right')}>
-          <BrandMark />
-          <p className="mt-6 max-w-sm text-base font-semibold leading-8 text-white/52">
-            Nearby incidents, Broadcast reports, route awareness, Feed, Trending,
-            and citizen alerts for safer daily movement.
-          </p>
-          <a className="mt-8 inline-flex items-center gap-3 text-sm font-black text-[var(--gold)]" href={mailto}>
-            <Mail size={17} aria-hidden="true" />
-            Contact team
-          </a>
+        <div className="flex justify-center lg:justify-start" {...aos(0, 'fade-right')}>
+          <BrandMark imageClassName="size-28 shrink-0 sm:size-36 lg:size-40" />
         </div>
 
         <div className="grid gap-8 sm:grid-cols-3" {...aos(1, 'fade-left')}>
@@ -684,11 +640,8 @@ export function MarketingFooter({ mailto }: { mailto: string }) {
           <FooterColumn title="Legal" links={footerNav.slice(3)} />
         </div>
       </div>
-      <div className="mx-auto flex max-w-[1280px] flex-col gap-4 pt-8 text-sm font-bold text-white/42 sm:flex-row sm:items-center sm:justify-between">
-        <p>&copy; 2026. All rights reserved.</p>
-        <a className="text-white/55 transition hover:text-white" href={mailto}>
-          Get in touch
-        </a>
+      <div className="mx-auto flex max-w-[1280px] justify-center pt-8 text-center text-sm font-bold text-white/55">
+        <p>&copy; SafeRoute 2026. All rights reserved.</p>
       </div>
     </footer>
   );
@@ -738,7 +691,7 @@ function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
   const targetHref = page.visual === 'legal' || page.visual === 'support' ? mailto : '#join-beta';
 
   return (
-    <section className="relative overflow-hidden border-b border-white/10 bg-black px-5 pt-[76px] sm:px-8">
+    <section className="relative overflow-hidden border-b border-white/10 bg-black px-5 pt-[96px] sm:px-8">
       <HeroGlow />
       <div className="relative mx-auto grid min-h-[650px] max-w-[1280px] gap-12 py-20 lg:grid-cols-[0.58fr_0.42fr] lg:items-center">
         <div {...aos(0, 'fade-right')}>

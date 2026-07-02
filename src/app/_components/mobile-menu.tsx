@@ -51,7 +51,7 @@ export function MobileMenu({
       </button>
 
       <div
-        className={`fixed inset-x-0 bottom-0 top-[76px] z-[80] overflow-y-auto border-t border-white/10 bg-black px-5 py-6 shadow-2xl transition duration-300 sm:px-8 ${
+        className={`fixed inset-x-0 bottom-0 top-[96px] z-[80] overflow-y-auto border-t border-white/10 bg-neutral-800 px-5 py-6 shadow-2xl transition duration-300 sm:px-8 ${
           isOpen ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-3 opacity-0'
         }`}
         id="mobile-navigation"
