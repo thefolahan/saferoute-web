@@ -26,7 +26,6 @@ import {
 import {
   enterpriseCapabilities,
   footerNav,
-  homeStats,
   journalistTools,
   premiumComparison,
   primaryNav,
@@ -146,19 +145,19 @@ const quickSafetyActions = [
     title: 'Get Notified',
     body: "Receive push notifications when there's an incident nearby so you can avoid that area.",
     icon: BellRing,
-    tone: 'text-[#f6b21a]'
+    tone: 'text-[var(--gold)]'
   },
   {
     title: 'Go Live',
     body: "If you're nearby an incident unfolding, record video to help others stay safe.",
     icon: UsersRound,
-    tone: 'text-[#4da7ff]'
+    tone: 'text-[var(--gold)]'
   },
   {
     title: 'Search Incidents',
     body: "If there's commotion like police activity, emergency response, or road closures, pull up the app and instantly find out why.",
     icon: Search,
-    tone: 'text-[#4fc3d7]'
+    tone: 'text-[var(--gold)]'
   }
 ];
 const liveSafetyFeatures = [
@@ -166,19 +165,19 @@ const liveSafetyFeatures = [
     title: 'Watch incidents unfold.',
     body: "Live videos show you what's really happening. See incidents unfold from different angles to get a clear view of the situation.",
     icon: Video,
-    tone: 'text-[#ef4444]'
+    tone: 'text-[var(--gold)]'
   },
   {
     title: 'Know instantly.',
     body: 'Speed is critical for important events like missing-person reports, road closures, fires, and security activity. SafeRoute alerts are designed to reach nearby people quickly.',
     icon: Check,
-    tone: 'text-[#f6b21a]'
+    tone: 'text-[var(--gold)]'
   },
   {
     title: 'Broadcast to help others.',
     body: 'When it is safe, broadcast live video, add comments, and share relevant updates with your community.',
     icon: UsersRound,
-    tone: 'text-[#4da7ff]'
+    tone: 'text-[var(--gold)]'
   }
 ];
 const publicSafetyPillars = [
@@ -186,19 +185,19 @@ const publicSafetyPillars = [
     title: 'Emergency responders move faster with better updates.',
     body: 'Verified live reports can help medical teams, fire teams, and community responders understand what is unfolding before official calls reach every desk.',
     icon: Siren,
-    tone: 'text-[#f6b21a]'
+    tone: 'text-[var(--gold)]'
   },
   {
     title: 'Increasing transparency between the city and its residents.',
     body: 'SafeRoute helps communities see the same public safety signal in real time, reducing rumor and helping people make calmer decisions.',
     icon: Radio,
-    tone: 'text-[#66db86]'
+    tone: 'text-[var(--gold)]'
   },
   {
     title: 'Everyone is safer when everyone has the same access.',
     body: 'SafeRoute is built for residents, journalists, organizations, and responders to see unbiased public safety context without sending people toward danger.',
     icon: ShieldCheck,
-    tone: 'text-[#69d4ff]'
+    tone: 'text-[var(--gold)]'
   }
 ];
 const testimonials = [
@@ -211,6 +210,46 @@ const testimonials = [
     quote: 'Because SafeRoute alerted me about a medical emergency near the hospital where I work, our team had extra time to prepare before the patient arrived. Those minutes matter.',
     author: 'Trauma Surgeon',
     meta: 'Emergency care professional'
+  },
+  {
+    quote: 'SafeRoute helped me avoid a closed road before I entered traffic. The alert came early enough for me to choose another route and get home without stress.',
+    author: 'Amaka O.',
+    meta: 'Abuja commuter'
+  },
+  {
+    quote: 'When there was smoke near our estate, SafeRoute gave us nearby context before rumors started flying around the group chat.',
+    author: 'Tunde A.',
+    meta: 'Lagos resident'
+  },
+  {
+    quote: 'The app made it easier for our team to understand what was happening around a venue without sending staff toward the incident.',
+    author: 'Operations Lead',
+    meta: 'Event safety team'
+  },
+  {
+    quote: 'I checked SafeRoute before leaving work and saw a security alert close to my usual junction. I waited, rerouted, and avoided the area.',
+    author: 'Mariam B.',
+    meta: 'Port Harcourt user'
+  },
+  {
+    quote: 'As a journalist, the location context helps me separate early signal from noise before I start making calls.',
+    author: 'News Editor',
+    meta: 'Independent newsroom'
+  },
+  {
+    quote: 'SafeRoute gave our family a calmer way to follow an incident nearby instead of relying on forwarded messages.',
+    author: 'Chinedu N.',
+    meta: 'Enugu user'
+  },
+  {
+    quote: 'The nearby alert helped us close our storefront early during a developing situation and reopen once the area settled.',
+    author: 'Retail Manager',
+    meta: 'Ikeja business'
+  },
+  {
+    quote: 'I like that the app keeps reminding people not to move toward danger. The information is useful without pushing panic.',
+    author: 'Safety Volunteer',
+    meta: 'Community response group'
   }
 ];
 
@@ -310,7 +349,6 @@ export function HomePageView() {
   return (
     <MarketingShell>
       <HomeHero />
-      <SignalPanel />
       <QuickSafetyActionsSection />
       <LiveSafetyFeaturesSection />
       <PublicSafetyImpactSection />
@@ -352,30 +390,6 @@ function HomeHero() {
   );
 }
 
-function SignalPanel() {
-  return (
-    <section className="relative px-5 pb-20 sm:px-8">
-      <div
-        className="relative mx-auto grid w-full max-w-[1280px] gap-8 rounded-[18px] border border-white/12 bg-[var(--surface)] px-6 py-9 shadow-[0_24px_90px_rgba(0,0,0,0.45)] sm:grid-cols-3 sm:px-10"
-        {...aos(0, 'zoom-in-up')}
-      >
-        {homeStats.map((stat) => (
-          <Metric key={stat.label} value={stat.value} label={stat.label} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Metric({ value, label }: Stat) {
-  return (
-    <div className="text-center">
-      <strong className="block text-2xl font-black text-white sm:text-3xl">{value}</strong>
-      <span className="mt-3 block text-sm font-bold leading-6 text-white/48">{label}</span>
-    </div>
-  );
-}
-
 function QuickSafetyActionsSection() {
   return (
     <SectionShell className="py-16 lg:py-20">
@@ -410,19 +424,19 @@ function IconTextBlock({
 
 function LiveSafetyFeaturesSection() {
   return (
-    <section className="relative bg-[#f6f6f6] px-5 py-20 text-black sm:px-8 lg:py-28">
-      <div className="mx-auto grid max-w-[980px] gap-16">
+    <SectionShell>
+      <div className="mx-auto grid max-w-[980px] gap-5">
         {liveSafetyFeatures.map((item, index) => {
           const Icon = item.icon;
 
           return (
-            <article className="grid gap-6 sm:grid-cols-[86px_1fr]" key={item.title} {...aos(index, 'fade-up')}>
+            <article className="grid gap-6 rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 sm:grid-cols-[86px_1fr] sm:p-8" key={item.title} {...aos(index, 'fade-up')}>
               <div className="pt-1">
                 <Icon className={item.tone} size={54} strokeWidth={2} aria-hidden="true" />
               </div>
               <div>
-                <h2 className="text-3xl font-black leading-tight text-black sm:text-4xl">{item.title}</h2>
-                <p className="mt-5 text-2xl font-semibold leading-[1.35] text-[#676773] sm:text-4xl">
+                <h2 className="text-3xl font-black leading-tight text-white sm:text-4xl">{item.title}</h2>
+                <p className="mt-5 text-xl font-semibold leading-[1.45] text-white/58 sm:text-3xl">
                   {item.body}
                 </p>
               </div>
@@ -430,16 +444,15 @@ function LiveSafetyFeaturesSection() {
           );
         })}
       </div>
-    </section>
+    </SectionShell>
   );
 }
 
 function PublicSafetyImpactSection() {
   return (
     <section className="relative overflow-hidden px-5 py-20 sm:px-8 lg:py-28">
-      <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[20px] bg-[#07111b] px-6 py-14 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(80,130,220,0.58),transparent_36%),linear-gradient(105deg,rgba(3,12,21,0.98),rgba(8,22,35,0.84)_46%,rgba(0,0,0,0.72))]" aria-hidden="true" />
-        <div className="absolute -right-12 top-0 h-full w-2/5 bg-[linear-gradient(90deg,transparent,rgba(110,160,245,0.26))] blur-2xl" aria-hidden="true" />
+      <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[20px] border border-white/12 bg-[var(--surface)] px-6 py-14 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(16,16,16,0.98),rgba(21,21,21,0.88)_54%,rgba(0,0,0,0.72))]" aria-hidden="true" />
         <div className="relative grid gap-10 lg:grid-cols-3">
           {publicSafetyPillars.map((pillar, index) => {
             const Icon = pillar.icon;
@@ -464,18 +477,18 @@ function TestimonialsMarqueeSection() {
   const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
 
   return (
-    <section className="relative overflow-hidden bg-[#f6f6f6] py-20 text-black lg:py-28">
+    <section className="relative overflow-hidden py-20 text-white lg:py-28">
       <div className="testimonial-marquee" {...aos(0, 'fade-up')}>
         <div className="testimonial-marquee__track">
           {marqueeItems.map((testimonial, index) => (
             <article className="testimonial-card" key={`${testimonial.author}-${index}`}>
-              <p className="text-6xl font-black leading-none text-[#68adff]">&ldquo;</p>
-              <blockquote className="mt-8 text-3xl font-semibold leading-[1.32] text-black sm:text-4xl lg:text-[2.55rem]">
+              <p className="text-6xl font-black leading-none text-[var(--gold)]">&ldquo;</p>
+              <blockquote className="mt-8 text-2xl font-semibold leading-[1.38] text-white sm:text-3xl lg:text-[2.15rem]">
                 {testimonial.quote}
               </blockquote>
-              <p className="mt-10 text-base font-black text-black">
+              <p className="mt-10 text-base font-black text-white">
                 {testimonial.author}
-                <span className="font-bold text-black/38">, {testimonial.meta}</span>
+                <span className="font-bold text-white/42">, {testimonial.meta}</span>
               </p>
             </article>
           ))}
