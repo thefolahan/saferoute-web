@@ -252,6 +252,34 @@ const testimonials = [
     meta: 'Community response group'
   }
 ];
+const journalistWorkflow = [
+  {
+    title: 'Incident Reported',
+    body: 'A user reports an incident on SafeRoute. Nearby users are alerted and begin capturing footage often within seconds of the event.'
+  },
+  {
+    title: 'Search & Filter',
+    body: 'Your team searches SafeRoute by category, location, or date range. Filter to your beat, your geography, and your story window.'
+  },
+  {
+    title: 'Download or Embed',
+    body: 'Download footage for broadcast or embed it directly in your digital story, fully attributed and covered under your licensing agreement.'
+  },
+  {
+    title: 'Publish With Confidence',
+    body: 'Your legal indemnification is in place. Your attribution is built in. Your editors can approve and your audience will instantly see it.'
+  }
+];
+const journalistAccessCards = [
+  {
+    title: 'SafeRoute Explore is retiring soon',
+    body: 'Newsrooms that rely on SafeRoute video for breaking news coverage need to contact SafeRoute for continued access.'
+  },
+  {
+    title: 'Schedule a call with our team',
+    body: "Our team is available to walk through your newsroom's specific coverage needs and help identify the right plan for your team."
+  }
+];
 
 function aos(
   index = 0,
@@ -471,10 +499,10 @@ function TestimonialsMarqueeSection() {
           {marqueeItems.map((testimonial, index) => (
             <article className="testimonial-card" key={`${testimonial.author}-${index}`}>
               <p className="text-6xl font-black leading-none text-[var(--gold)]">&ldquo;</p>
-              <blockquote className="mt-8 text-2xl font-semibold leading-[1.38] text-white sm:text-3xl lg:text-[2.15rem]">
+              <blockquote className="mt-6 text-xl font-semibold leading-[1.38] text-white sm:text-2xl lg:text-[1.65rem]">
                 {testimonial.quote}
               </blockquote>
-              <p className="mt-10 text-base font-black text-white">
+              <p className="mt-7 text-sm font-black text-white sm:text-base">
                 {testimonial.author}
                 <span className="font-bold text-white/42">, {testimonial.meta}</span>
               </p>
@@ -486,62 +514,86 @@ function TestimonialsMarqueeSection() {
   );
 }
 
-function PremiumPreview() {
+function PremiumPreview({ stats }: { stats: Stat[] }) {
   return (
-    <SectionShell>
-      <div className="grid min-w-0 gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-start">
-        <div {...aos(0, 'fade-right')}>
-          <p className="section-label">Premium</p>
-          <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
-            More control over your safety signal.
+    <SectionShell className="pb-20 pt-[116px] lg:pb-28 lg:pt-[132px]">
+      <div className="mx-auto max-w-[1120px]">
+        <div className="text-center" {...aos(0, 'fade-up')}>
+          <p className="section-label justify-center">Premium</p>
+          <h2 className="mt-5 text-4xl font-black leading-tight text-white sm:text-6xl">
+            No commitment. Cancel anytime.
           </h2>
-          <p className="mt-5 max-w-md text-base font-semibold leading-8 text-white/52">
-            Unlock saved places, custom alert radius, notification preferences,
-            incident history, and briefing-style updates.
-          </p>
-          <a className="gold-button mt-8 w-full sm:w-auto" href="/premium">
-            Start Premium <ArrowRight size={18} aria-hidden="true" />
-          </a>
         </div>
-        <div className="min-w-0 rounded-[18px] border border-white/12 bg-[var(--surface)] p-3 sm:p-5" {...aos(1, 'zoom-in-left')}>
-          <ComparisonTable />
+
+        <div className="mt-10 grid gap-5 sm:grid-cols-3" {...aos(1, 'zoom-in-up')}>
+          {stats.map((stat) => (
+            <div className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 text-center" key={stat.label}>
+              <strong className="block text-3xl font-black text-white">{stat.value}</strong>
+              <span className="mt-3 block text-sm font-bold leading-6 text-white/50">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+          <PremiumPlanCard title="Free" plan="free" />
+          <PremiumPlanCard title="Premium" plan="premium" highlighted />
+        </div>
+
+        <div className="mt-10 flex justify-center" {...aos(3, 'zoom-in')}>
+          <a className="gold-button w-full sm:w-auto" href="#join-beta">
+            Start Free 30 Day Trial <ArrowRight size={18} aria-hidden="true" />
+          </a>
         </div>
       </div>
     </SectionShell>
   );
 }
 
-function ComparisonTable() {
+function PremiumPlanCard({
+  title,
+  plan,
+  highlighted = false
+}: {
+  title: string;
+  plan: 'free' | 'premium';
+  highlighted?: boolean;
+}) {
   return (
-    <div className="min-w-0 overflow-x-auto">
-      <table className="w-full min-w-[600px] border-collapse text-left text-sm">
-        <thead>
-          <tr className="text-xs font-black text-white/42">
-            <th className="px-4 py-4">Features</th>
-            <th className="px-4 py-4 text-center">Free</th>
-            <th className="px-4 py-4 text-center">Premium</th>
-          </tr>
-        </thead>
-        <tbody>
-          {premiumComparison.map((row) => (
-            <tr key={row.feature}>
-              <td className="px-4 py-4 font-bold text-white/68">{row.feature}</td>
-              <td className="px-4 py-4 text-center">{row.free ? <CheckMark /> : <Minus />}</td>
-              <td className="px-4 py-4 text-center">{row.premium ? <CheckMark /> : <Minus />}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <article
+      className={`rounded-[18px] border p-7 sm:p-9 ${
+        highlighted
+          ? 'border-[var(--gold)]/50 bg-[linear-gradient(145deg,rgba(237,203,138,0.14),rgba(16,16,16,0.94))]'
+          : 'border-white/12 bg-[var(--surface)]'
+      }`}
+      {...aos(highlighted ? 2 : 1, highlighted ? 'fade-left' : 'fade-right')}
+    >
+      <h3 className="inline-flex rounded-full border border-white/28 px-5 py-2 text-2xl font-black text-white">
+        {title}
+      </h3>
+      <ul className="mt-8 grid gap-5">
+        {premiumComparison.map((row) => {
+          const included = row[plan];
+
+          return (
+            <li className="flex gap-4 text-base font-bold leading-7 sm:text-lg" key={`${title}-${row.feature}`}>
+              <PlanFeatureIcon included={included} />
+              <span className={included ? 'text-white/84' : 'text-white/34'}>{row.feature}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </article>
   );
 }
 
-function CheckMark() {
-  return <Check className="mx-auto text-[var(--gold)]" size={18} strokeWidth={2.5} aria-label="Included" />;
-}
-
-function Minus() {
-  return <span className="text-white/30" aria-label="Not included">—</span>;
+function PlanFeatureIcon({ included }: { included: boolean }) {
+  return included ? (
+    <Check className="mt-1 shrink-0 text-[var(--gold)]" size={20} strokeWidth={2.5} aria-label="Included" />
+  ) : (
+    <span className="mt-0.5 shrink-0 text-2xl leading-none text-white/36" aria-label="Not included">
+      x
+    </span>
+  );
 }
 
 function HomeCta() {
@@ -635,7 +687,7 @@ function MarketingFooter() {
       <div className="mx-auto grid max-w-[1280px] gap-10 pb-12 lg:grid-cols-[0.34fr_0.66fr]">
         <div className="flex flex-col items-center" {...aos(0, 'fade-right')}>
           <BrandMark imageClassName="size-24 shrink-0 sm:size-28 lg:size-32" />
-          <p className="-mt-4 text-center text-2xl font-black leading-none text-white sm:-mt-5 sm:text-3xl lg:-mt-6">
+          <p className="-mt-5 text-center text-2xl font-black leading-none text-white sm:-mt-6 sm:text-3xl lg:-mt-7">
             SafeRoute
           </p>
         </div>
@@ -677,6 +729,8 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
       ? 'about'
       : undefined;
   const mailto = betaMailto();
+  const hideGenericHero = ['premium', 'journalist', 'enterprise'].includes(page.slug);
+  const hideGenericSections = ['premium', 'journalist'].includes(page.slug);
 
   const legalText =
     page.slug === 'copyright'
@@ -713,11 +767,11 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
 
   return (
     <MarketingShell active={active}>
-      <PageHero page={page} mailto={mailto} />
-      <PageSections page={page} />
-      {page.visual === 'premium' ? <PremiumPreview /> : null}
+      {hideGenericHero ? null : <PageHero page={page} mailto={mailto} />}
+      {hideGenericSections ? null : <PageSections page={page} />}
+      {page.visual === 'premium' ? <PremiumPreview stats={page.stats} /> : null}
       {page.visual === 'journalist' ? <JournalistDetail /> : null}
-      {page.visual === 'enterprise' || page.visual === 'solutions' ? <EnterpriseDetail /> : null}
+      {page.visual === 'enterprise' ? <EnterpriseDetail /> : null}
       {page.visual === 'about' ? <AboutDetail /> : null}
       <HomeCta />
     </MarketingShell>
@@ -874,24 +928,88 @@ function PageSections({ page }: { page: MarketingPage }) {
 
 function JournalistDetail() {
   return (
-    <SectionShell>
-      <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-start">
-        <div {...aos(0, 'fade-right')}>
-          <p className="section-label">Newsroom workflow</p>
-          <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
-            Built for speed, volume, and scale.
-          </h2>
+    <>
+      <SectionShell className="pb-20 pt-[116px] lg:pb-28 lg:pt-[132px]">
+        <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-center">
+          <div {...aos(0, 'fade-right')}>
+            <p className="section-label">Newsroom workflow</p>
+            <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
+              Make SafeRoute your unfair advantage.
+            </h2>
+            <p className="mt-5 text-base font-semibold leading-8 text-white/55">
+              From incident to publish, you can move fast with SafeRoute using the workflow your newsroom is most comfortable with.
+            </p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {journalistWorkflow.map((step, index) => (
+              <article className="min-h-64 rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={step.title} {...aos(index, 'fade-up')}>
+                <p className="text-sm font-black text-[var(--gold)]">{String(index + 1).padStart(2, '0')}</p>
+                <h3 className="mt-7 text-2xl font-black leading-tight text-white">{step.title}</h3>
+                <p className="mt-4 text-base font-semibold leading-7 text-white/54">{step.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
+      </SectionShell>
+
+      <SectionShell className="py-10 lg:py-14">
+        <div className="mx-auto max-w-[980px] text-center">
+          <h2 className="text-4xl font-black leading-tight text-white sm:text-5xl" {...aos(0, 'fade-up')}>
+            Don't lose access.
+          </h2>
+          <div className="mt-8 grid gap-5 text-left sm:grid-cols-2">
+            {journalistAccessCards.map((card, index) => (
+              <article className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={card.title} {...aos(index, 'zoom-in-up')}>
+                <h3 className="text-xl font-black leading-tight text-[var(--gold)]">{card.title}</h3>
+                <p className="mt-4 text-base font-semibold leading-7 text-white/58">{card.body}</p>
+              </article>
+            ))}
+          </div>
+          <a className="gold-button mt-8 w-full sm:w-auto" href="#join-beta" {...aos(2, 'zoom-in')}>
+            Book a Meeting
+          </a>
+        </div>
+      </SectionShell>
+
+      <SectionShell className="py-10 lg:py-14">
+        <div className="grid gap-5 lg:grid-cols-4">
           {journalistTools.map((tool, index) => (
-            <article className="rounded-[18px] border border-white/12 bg-black p-7" key={tool.label} {...aos(index, 'flip-up')}>
-              <h3 className="text-2xl font-black leading-tight text-white">{tool.label}</h3>
+            <article className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={tool.label} {...aos(index, 'fade-up')}>
+              <p className="text-sm font-black text-[var(--gold)]">{String(index + 1).padStart(2, '0')}</p>
+              <h3 className="mt-8 text-2xl font-black leading-tight text-white">{tool.label}</h3>
               <p className="mt-4 text-base font-semibold leading-7 text-white/52">{tool.body}</p>
             </article>
           ))}
         </div>
-      </div>
-    </SectionShell>
+      </SectionShell>
+
+      <SectionShell>
+        <div className="grid gap-8 rounded-[20px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10 lg:grid-cols-[0.52fr_0.48fr] lg:items-center" {...aos(0, 'zoom-in-up')}>
+          <div>
+            <p className="section-label">Speed, volume & scale</p>
+            <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
+              SafeRoute is built for speed, volume & scale.
+            </h2>
+            <div className="mt-6 grid gap-5 text-base font-semibold leading-8 text-white/58">
+              <p>
+                SafeRoute is being built as a real-time public safety network for Nigeria. When an incident happens, nearby users can share reports and media before formal coverage reaches the scene.
+              </p>
+              <p>
+                SafeRoute for Journalists gives your newsroom searchable access to that footage, with the attribution and permissions needed to publish it responsibly.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {['Searchable incident footage', 'Location and category filters', 'Attribution built in', 'Responsible publishing flow'].map((item, index) => (
+              <div className="rounded-[16px] border border-white/12 bg-black/40 p-5" key={item} {...aos(index, 'fade-up')}>
+                <Check className="text-[var(--gold)]" size={22} strokeWidth={2.4} aria-hidden="true" />
+                <p className="mt-5 text-lg font-black leading-tight text-white">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SectionShell>
+    </>
   );
 }
 

@@ -229,15 +229,11 @@ summary::-webkit-details-marker {
   animation: testimonial-marquee 38s linear infinite;
 }
 
-.testimonial-marquee:hover .testimonial-marquee__track {
-  animation-play-state: paused;
-}
-
 .testimonial-card {
-  width: min(82vw, 76rem);
+  width: clamp(18rem, 52vw, 34rem);
   flex: 0 0 auto;
-  margin-right: 3rem;
-  padding: 2.5rem min(6vw, 4.5rem);
+  margin-right: 1.5rem;
+  padding: 1.5rem min(3vw, 2rem);
 }
 
 @keyframes space-star-twinkle {

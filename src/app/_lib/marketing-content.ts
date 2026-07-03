@@ -1,6 +1,5 @@
 import {
   BellRing,
-  BriefcaseBusiness,
   Building2,
   CircleHelp,
   Copyright,
@@ -48,7 +47,6 @@ export type MarketingPage = {
   visual:
     | 'premium'
     | 'journalist'
-    | 'solutions'
     | 'enterprise'
     | 'about'
     | 'support'
@@ -61,7 +59,6 @@ export type MarketingPage = {
 export const primaryNav: NavItem[] = [
   { label: 'Premium', href: '/premium' },
   { label: 'Journalist', href: '/journalist' },
-  { label: 'Solutions', href: '/solutions' },
   { label: 'Enterprise', href: '/enterprise' }
 ];
 
@@ -133,21 +130,18 @@ export const realStories = [
 ];
 
 export const premiumComparison = [
-  { feature: 'Nearby incident map', free: true, premium: true },
-  { feature: 'Broadcast photo or video reports', free: true, premium: true },
-  { feature: 'Alerts, Feed, and Trending views', free: true, premium: true },
-  { feature: 'Ad-free experience', free: false, premium: true },
-  { feature: 'Saved places and incident history', free: false, premium: true },
-  { feature: 'Priority nearby notifications', free: false, premium: true },
-  { feature: 'Custom alert radius and settings', free: false, premium: true },
-  { feature: 'Daily briefing and preference controls', free: false, premium: true }
+  { feature: 'Live incident alerts and updates', free: true, premium: true },
+  { feature: 'Listen to real police radio', free: false, premium: true },
+  { feature: 'Unlock past incidents in your area', free: false, premium: true },
+  { feature: 'Search registered offenders near you', free: false, premium: true },
+  { feature: 'Customize your alert radius and settings', free: false, premium: true }
 ];
 
 export const journalistTools = [
-  { label: 'Alerts, Feed, and Trending', body: 'Monitor what nearby users are reporting, what is gaining attention, and what has been categorized as an incident.' },
-  { label: 'Location and category search', body: 'Filter by city, place, route, and incident category such as fire, flood, road accident, missing person, or security activity.' },
-  { label: 'Media review workflows', body: 'Review photos or videos attached to reports with clearer moderation and attribution paths.' },
-  { label: 'Incident context over time', body: 'Build story context from public reports, timestamps, cities, status, verification state, and community engagement.' }
+  { label: 'AI-powered Radar', body: 'Continuously monitors and analyzes real-time data streams to detect, classify, and surface critical incidents with high precision.' },
+  { label: '18+ Incident Categories', body: 'Comprehensive coverage across a wide range of incident categories, enabling structured detection and consistent response workflows.' },
+  { label: 'Video Downloads', body: 'Easily view, download, or embed videos streamed on the ground and verified near incidents.' },
+  { label: 'Pro Power Tools', body: 'Advanced tools for filtering and deeper analysis, designed to accelerate operational efficiency.' }
 ];
 
 export const enterpriseCapabilities = [
@@ -293,9 +287,9 @@ export const marketingPages: Record<string, MarketingPage> = {
     visual: 'premium',
     icon: Crown,
     stats: [
-      { value: 'Saved', label: 'places and watched routes' },
-      { value: 'Custom', label: 'alert radius and categories' },
-      { value: 'Briefing', label: 'daily safety summaries' }
+      { value: '30 days', label: 'free trial before billing' },
+      { value: '5', label: 'premium safety controls' },
+      { value: 'Anytime', label: 'cancel without commitment' }
     ],
     sections: [
       {
@@ -353,53 +347,6 @@ export const marketingPages: Record<string, MarketingPage> = {
           'Public media and engagement counts',
           'Incident status and verification state',
           'Story windows that match how desks monitor breaking events'
-        ]
-      }
-    ]
-  },
-  solutions: {
-    slug: 'solutions',
-    label: 'Solutions',
-    title: 'Location-aware safety workflows for teams.',
-    description:
-      'SafeRoute Solutions helps teams monitor nearby incidents, alert the right people, and give employees a practical safety companion outside the workplace.',
-    cta: 'Contact sales',
-    visual: 'solutions',
-    icon: BriefcaseBusiness,
-    stats: [
-      { value: 'Monitor', label: 'nearby incidents and routes' },
-      { value: 'Alert', label: 'people inside a radius' },
-      { value: 'Support', label: 'daily movement beyond work' }
-    ],
-    sections: [
-      {
-        title: 'Monitor',
-        body: 'Gain visibility into nearby incidents, route searches, categories, citizen-alert regions, and public updates that may affect your people.',
-        points: [
-          'Live incident map and nearby alerts',
-          'Category filters for safety teams',
-          'Route-aware incident context',
-          'Feed and trending activity for public signal'
-        ]
-      },
-      {
-        title: 'Alert',
-        body: 'Reach people inside a location radius with urgent awareness while keeping the message focused on avoidance, official instructions, and 112 escalation.',
-        points: [
-          'Geo-targeted safety alerts',
-          'Radius controls and city targeting',
-          'Employee, campus, or venue groups',
-          'Clear escalation language for emergencies'
-        ]
-      },
-      {
-        title: 'Safety benefits for daily movement',
-        body: 'Offer Premium access, notification controls, and safer movement tools for people traveling to work, school, events, or field assignments.',
-        points: [
-          'Discounted Premium subscriptions',
-          'Saved places and custom alert radius',
-          'Historical incident context',
-          'A practical safety benefit outside office hours'
         ]
       }
     ]
