@@ -1,18 +1,10 @@
 import {
   ArrowRight,
   Check,
-  ChevronRight,
-  CircleDot,
-  ShieldCheck
+  CircleDot
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { betaMailto, siteConfig } from '../../lib/config';
-import {
-  formatCategory,
-  formatRelativeTime,
-  type PublicIncidentPreview
-} from '../../lib/incidents';
 import { AnimatedStats } from './animated-stats';
 import { EarthGlobe } from './earth-globe';
 import { MobileMenu } from './mobile-menu';
@@ -26,11 +18,8 @@ import {
 import {
   enterpriseCapabilities,
   footerNav,
-  homeNarratives,
-  homeSignals,
   homeStats,
   journalistTools,
-  liveTicker,
   premiumComparison,
   primaryNav,
   realStories,
@@ -237,17 +226,11 @@ function BrandMark({
   );
 }
 
-export function HomePageView({ incidents }: { incidents: PublicIncidentPreview[] }) {
+export function HomePageView() {
   return (
     <MarketingShell>
       <HomeHero />
       <SignalPanel />
-      <IncidentPreviewSection incidents={incidents} />
-      <SignalSection />
-      <NarrativeSection />
-      <MissionSection />
-      <PremiumPreview />
-      <AudienceSection />
       <HomeCta />
     </MarketingShell>
   );
@@ -309,197 +292,6 @@ function Metric({ value, label }: Stat) {
   );
 }
 
-function IncidentPreviewSection({ incidents }: { incidents: PublicIncidentPreview[] }) {
-  const fallback = liveTicker.map((title, index) => ({
-    id: `ticker-${index}`,
-    title,
-    meta: 'Community alert',
-    time: `${index + 2} min ago`
-  }));
-  const rows = incidents.length
-    ? incidents.slice(0, 3).map((incident) => ({
-        id: incident.id,
-        title: incident.title,
-        meta: formatCategory(incident.category),
-        time: formatRelativeTime(incident.reportedAt)
-      }))
-    : fallback.slice(0, 3);
-
-  return (
-    <SectionShell className="py-16 lg:py-20">
-      <div className="grid gap-8">
-        <div {...aos(0, 'fade-right')}>
-          <p className="section-label">Nearby safety context</p>
-          <h2 className="mt-4 max-w-lg text-4xl font-black leading-tight text-white sm:text-5xl">
-            Alerts, feed posts, and route signal before you move.
-          </h2>
-        </div>
-        <div className="grid gap-4">
-          {rows.map((row, index) => (
-            <a
-              className="group grid gap-3 rounded-[16px] border border-white/12 bg-[var(--surface)] p-5 transition hover:border-[var(--gold)]/55"
-              href="/solutions"
-              key={row.id}
-              {...aos(index + 1)}
-            >
-              <div className="flex items-start justify-between gap-5">
-                <h3 className="text-xl font-black leading-snug text-white">{row.title}</h3>
-                <ChevronRight
-                  className="mt-1 shrink-0 text-[var(--gold)] transition group-hover:translate-x-1"
-                  size={20}
-                  aria-hidden="true"
-                />
-              </div>
-              <p className="text-sm font-bold text-white/45">
-                {row.meta} · {row.time}
-              </p>
-            </a>
-          ))}
-        </div>
-      </div>
-    </SectionShell>
-  );
-}
-
-function SignalSection() {
-  return (
-    <SectionShell>
-      <div className="mx-auto max-w-4xl text-center" {...aos(0, 'zoom-in')}>
-        <p className="section-label">Core app flows</p>
-        <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-6xl">
-          Built for fast, calm safety decisions.
-        </h2>
-      </div>
-      <div className="mt-14 grid gap-5 md:grid-cols-3">
-        {homeSignals.map((signal, index) => (
-          <FeatureCard
-            body={signal.body}
-            href="/solutions"
-            icon={signal.icon}
-            index={index}
-            key={signal.title}
-            title={signal.title}
-          />
-        ))}
-      </div>
-    </SectionShell>
-  );
-}
-
-function FeatureCard({
-  title,
-  body,
-  href,
-  icon: Icon,
-  index
-}: {
-  title: string;
-  body: string;
-  href: string;
-  icon: LucideIcon;
-  index: number;
-}) {
-  return (
-    <a
-      className="group flex min-h-[300px] flex-col justify-between rounded-[18px] border border-white/12 bg-[var(--surface)] p-7 transition hover:-translate-y-1 hover:border-[var(--gold)]/60"
-      href={href}
-      {...aos(index, 'flip-up')}
-    >
-      <span className="grid size-14 place-items-center rounded-full border border-[var(--gold)]/45 text-[var(--gold)]">
-        <Icon size={25} strokeWidth={1.9} aria-hidden="true" />
-      </span>
-      <div>
-        <h3 className="text-2xl font-black leading-tight text-white">{title}</h3>
-        <p className="mt-4 text-base font-semibold leading-7 text-white/54">{body}</p>
-        <span className="mt-7 inline-flex items-center gap-2 text-sm font-black text-[var(--gold)]">
-          Learn more <ArrowRight className="transition group-hover:translate-x-1" size={16} aria-hidden="true" />
-        </span>
-      </div>
-    </a>
-  );
-}
-
-function NarrativeSection() {
-  return (
-    <SectionShell>
-      <div className="grid gap-12 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
-        <div {...aos(0, 'fade-right')}>
-          <p className="section-label">How the app works</p>
-          <h2 className="mt-4 max-w-xl text-4xl font-black leading-tight text-white sm:text-6xl">
-            Nearby context without panic.
-          </h2>
-          <p className="mt-6 max-w-md text-lg font-semibold leading-8 text-white/52">
-            SafeRoute turns map data, community posts, Broadcast reports, and
-            citizen alerts into information people can use responsibly.
-          </p>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {homeNarratives.map((item, index) => (
-            <article
-              className="rounded-[18px] border border-white/12 bg-black p-7"
-              key={item.title}
-              {...aos(index, index % 2 === 0 ? 'fade-up-right' : 'fade-up-left')}
-            >
-              <p className="text-sm font-black text-[var(--gold)]">
-                {String(index + 1).padStart(2, '0')}
-              </p>
-              <h3 className="mt-6 text-2xl font-black leading-tight text-white">{item.title}</h3>
-              <p className="mt-4 text-base font-semibold leading-7 text-white/50">{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </SectionShell>
-  );
-}
-
-function MissionSection() {
-  const values = [
-    ['Map first', 'See what is happening near you.'],
-    ['Broadcast safely', 'Report only when you are out of danger.'],
-    ['Location privacy', 'Use location for safety, not tracking.'],
-    ['Call 112', 'Escalate emergencies to official help.']
-  ];
-
-  return (
-    <SectionShell>
-      <div className="grid gap-12 rounded-[20px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10 lg:grid-cols-[0.52fr_0.48fr] lg:p-14">
-        <div {...aos(0, 'fade-right')}>
-          <p className="section-label">Our mission</p>
-          <h2 className="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-6xl">
-            Community signal is useful only when it stays responsible.
-          </h2>
-          <p className="mt-7 max-w-2xl text-lg font-semibold leading-8 text-white/55">
-            SafeRoute is built around calm awareness: nearby reports, alert radius
-            controls, media moderation, and clear reminders not to move toward danger.
-          </p>
-          <a className="gold-button mt-9 w-full sm:w-auto" href="/about">
-            About SafeRoute <ArrowRight size={18} strokeWidth={2.4} aria-hidden="true" />
-          </a>
-        </div>
-
-        <div className="grid gap-5">
-          {values.map(([title, body], index) => (
-            <div
-              className="grid grid-cols-[46px_1fr] gap-4 rounded-[16px] border border-white/10 bg-black/55 p-5"
-              key={title}
-              {...aos(index + 1, 'fade-left')}
-            >
-              <span className="grid size-11 place-items-center rounded-full border border-[var(--gold)]/42 text-[var(--gold)]">
-                <ShieldCheck size={19} strokeWidth={1.9} aria-hidden="true" />
-              </span>
-              <div>
-                <h3 className="text-base font-black text-white">{title}</h3>
-                <p className="mt-1 text-sm font-semibold text-white/48">{body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </SectionShell>
-  );
-}
-
 function PremiumPreview() {
   return (
     <SectionShell>
@@ -556,67 +348,6 @@ function CheckMark() {
 
 function Minus() {
   return <span className="text-white/30" aria-label="Not included">—</span>;
-}
-
-function AudienceSection() {
-  return (
-    <SectionShell>
-      <div className="grid gap-5 lg:grid-cols-2">
-        <AudiencePanel
-          href="/journalist"
-          index={0}
-          items={journalistTools.map((tool) => tool.label)}
-          title="For Journalists"
-          description="Follow nearby alerts, feed posts, trending incidents, media, and category context."
-        />
-        <AudiencePanel
-          href="/enterprise"
-          index={1}
-          items={enterpriseCapabilities.map((item) => item.label)}
-          title="For Organizations & Enterprise"
-          description="Location-aware incident monitoring and alert workflows for teams responsible for people."
-        />
-      </div>
-    </SectionShell>
-  );
-}
-
-function AudiencePanel({
-  title,
-  description,
-  items,
-  href,
-  index
-}: {
-  title: string;
-  description: string;
-  items: string[];
-  href: string;
-  index: number;
-}) {
-  return (
-    <a
-      className="group rounded-[18px] border border-white/12 bg-[var(--surface)] p-7 transition hover:border-[var(--gold)]/55 sm:p-9"
-      href={href}
-      {...aos(index, index % 2 === 0 ? 'fade-up-right' : 'fade-up-left')}
-    >
-      <h2 className="text-3xl font-black leading-tight text-white sm:text-4xl">{title}</h2>
-      <p className="mt-5 max-w-lg text-base font-semibold leading-8 text-white/52">{description}</p>
-      <div className="mt-8 grid gap-4">
-        {items.slice(0, 4).map((item) => (
-          <div className="flex items-center gap-3 text-sm font-bold text-white/65" key={item}>
-            <span className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--gold)]/40 text-[var(--gold)]">
-              <Check size={15} strokeWidth={2.5} aria-hidden="true" />
-            </span>
-            {item}
-          </div>
-        ))}
-      </div>
-      <span className="mt-8 inline-flex items-center gap-2 text-sm font-black text-[var(--gold)]">
-        Learn more <ArrowRight className="transition group-hover:translate-x-1" size={16} aria-hidden="true" />
-      </span>
-    </a>
-  );
 }
 
 function HomeCta() {
@@ -803,27 +534,27 @@ function AboutOnlyPage() {
   return (
     <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
       <div className="mx-auto max-w-4xl">
-        <p className="section-label" {...aos(0, 'fade-up')}>
+        <p className="section-label" {...aos(0, 'fade-right')}>
           About
         </p>
-        <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'fade-up')}>
-          Making your world a safer place.
+        <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'zoom-in-left')}>
+          Making Nigeria safer, together.
         </h1>
         <div className="mt-10 grid gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
-          <p {...aos(2, 'fade-up')}>
+          <p {...aos(2, 'fade-left')}>
             At SafeRoute, we believe that stronger communities are safer communities. We live in a world where people can access information quickly, share effortlessly, and connect easily — but we have yet to see the power of bringing people together to watch out for each other. At SafeRoute, we’re developing cutting edge technology so you can take care of the people and places you love.
           </p>
-          <p {...aos(3, 'fade-up')}>
+          <p {...aos(3, 'fade-right')}>
             SafeRoute is on a mission to make your world a safer place. We believe in public information for the good of the public. In being able to act on safety alerts in real time. In transparency that bonds and that empowers everyone in a community, from city council to residents.
           </p>
-          <p {...aos(4, 'fade-up')}>
+          <p {...aos(4, 'fade-left')}>
             We believe in giving people a way to use their phones to protect a neighbor, to prevent a tragedy, and to count on one another.
           </p>
-          <p {...aos(5, 'fade-up')}>
+          <p {...aos(5, 'fade-right')}>
             And to create a safer world for each other, with each other.
           </p>
         </div>
-        <div {...aos(6, 'zoom-in-up')}>
+        <div {...aos(6, 'flip-up')}>
           <AnimatedStats stats={aboutStats} />
         </div>
       </div>
