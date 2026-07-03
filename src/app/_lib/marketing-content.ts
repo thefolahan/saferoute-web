@@ -7,7 +7,6 @@ import {
   Crown,
   Database,
   FileDown,
-  Handshake,
   Landmark,
   LifeBuoy,
   LockKeyhole,
@@ -52,7 +51,6 @@ export type MarketingPage = {
     | 'solutions'
     | 'enterprise'
     | 'about'
-    | 'partnership'
     | 'support'
     | 'legal';
   icon: LucideIcon;
@@ -69,7 +67,6 @@ export const primaryNav: NavItem[] = [
 
 export const footerNav: NavItem[] = [
   { label: 'About', href: '/about' },
-  { label: 'Partnership', href: '/partnership' },
   { label: 'Support', href: '/support' },
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms of Service', href: '/terms' },
@@ -487,43 +484,6 @@ export const marketingPages: Record<string, MarketingPage> = {
           'Understand what nearby users are reporting',
           'Increase transparency between cities and residents',
           'Build responsible public safety technology together'
-        ]
-      }
-    ]
-  },
-  partnership: {
-    slug: 'partnership',
-    label: 'Partnership',
-    title: 'Build the future of public safety together.',
-    description:
-      'SafeRoute partners with civic groups, campuses, media teams, venues, transport operators, employers, and emergency stakeholders to expand responsible nearby safety awareness.',
-    cta: 'Partner with us',
-    visual: 'partnership',
-    icon: Handshake,
-    stats: [
-      { value: 'Coverage', label: 'for places people move through' },
-      { value: 'Trust', label: 'through moderation-aware workflows' },
-      { value: 'Action', label: 'from shared location context' }
-    ],
-    sections: [
-      {
-        title: 'Community-first partnerships',
-        body: 'Work with SafeRoute to bring verified incident awareness to the people and places that need it most.',
-        points: [
-          'Local coverage programs',
-          'Campus and venue safety',
-          'Mobility and transport partners',
-          'Community education around safe reporting'
-        ]
-      },
-      {
-        title: 'Operational partnerships',
-        body: 'Connect SafeRoute alerts, dashboards, and APIs to the systems your teams already use.',
-        points: [
-          'Safety dashboards',
-          'Incident and alert integrations',
-          'Partner reporting channels',
-          'Shared response playbooks'
         ]
       }
     ]

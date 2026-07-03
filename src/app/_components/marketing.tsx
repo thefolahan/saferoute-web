@@ -53,6 +53,97 @@ type AosProps = {
 
 const scrollAnimations = ['fade-up', 'zoom-in-up', 'fade-right', 'fade-left', 'flip-up'] as const;
 const headerSecondaryNav = footerNav.filter((item) => item.label !== 'About');
+const companyFooterNav = footerNav.filter((item) => ['About', 'Support'].includes(item.label));
+const legalFooterNav = footerNav.filter((item) =>
+  ['Privacy Policy', 'Terms of Service', 'Copyright'].includes(item.label)
+);
+const aboutStats = [
+  ['10+ billion', 'Alerts sent so far'],
+  ['9+ million', 'Users'],
+  ['60', 'Cities and counting']
+];
+const supportFaqs = [
+  {
+    question: 'What is SafeRoute?',
+    answer: 'SafeRoute is a safety awareness app that helps people see nearby reports, community alerts, route context, and responsible safety updates before they move.'
+  },
+  {
+    question: 'Is SafeRoute an emergency service?',
+    answer: 'No. SafeRoute is not police, ambulance, fire service, or emergency dispatch. In Nigeria, call 112 when there is an emergency.'
+  },
+  {
+    question: 'When should I call 112 instead of using SafeRoute?',
+    answer: 'Call 112 immediately if there is active danger, injury, fire, violence, medical distress, or any situation that needs official emergency response.'
+  },
+  {
+    question: 'How does SafeRoute use my location?',
+    answer: 'SafeRoute uses location to show nearby incidents, determine alert relevance, and help reports appear in the right area. Location should support safety, not public exposure.'
+  },
+  {
+    question: 'Can other users see my exact location?',
+    answer: 'SafeRoute is designed to avoid exposing private exact locations where possible. Public safety content may be rounded, limited, moderated, or otherwise protected.'
+  },
+  {
+    question: 'How do I submit a report safely?',
+    answer: 'Only report when you are away from danger. Do not approach a scene, chase suspects, interfere with responders, or record content that puts you or others at risk.'
+  },
+  {
+    question: 'What kinds of incidents can I report?',
+    answer: 'Reports may include road accidents, fire, flooding, security activity, missing-person notices, medical emergencies, road hazards, or other public-safety concerns.'
+  },
+  {
+    question: 'What should I avoid posting?',
+    answer: 'Avoid hoaxes, rumors presented as facts, private home addresses, graphic material, copyrighted media, hate speech, threats, suspect accusations, and anything that could trigger mob action.'
+  },
+  {
+    question: 'Are reports verified?',
+    answer: 'Some reports may be reviewed using moderation, multiple nearby reports, trusted sources, media evidence, official updates, or confidence signals. Not every report is guaranteed accurate.'
+  },
+  {
+    question: 'Why might a report be removed or delayed?',
+    answer: 'SafeRoute may remove, delay, or reduce visibility when content is unsafe, misleading, private, duplicate, illegal, unverified, or likely to cause panic or harm.'
+  },
+  {
+    question: 'What is the difference between Alerts, Feed, and Trending?',
+    answer: 'Alerts focus on nearby safety relevance, Feed shows broader community reports and posts, and Trending highlights reports gaining attention or activity.'
+  },
+  {
+    question: 'Can I add photos or videos?',
+    answer: 'Yes, when safe and lawful. Only upload media you created or have permission to use, and avoid showing sensitive private details or people in vulnerable situations.'
+  },
+  {
+    question: 'Can journalists use SafeRoute?',
+    answer: 'Journalists can use SafeRoute to monitor public safety signal, review context, and identify follow-up leads, but they should still verify independently before publishing.'
+  },
+  {
+    question: 'Can organizations use SafeRoute for teams?',
+    answer: 'Organizations can use SafeRoute for location-aware monitoring, employee awareness, incident context, and safety workflows for campuses, workplaces, venues, or field teams.'
+  },
+  {
+    question: 'How does Premium work?',
+    answer: 'Premium may include saved places, alert controls, incident history, ad-free scanning, priority notifications, and briefing-style updates for routes or cities you care about.'
+  },
+  {
+    question: 'How do I manage notifications?',
+    answer: 'Notification settings may let you control alert radius, categories, saved places, priority alerts, and how much nearby safety information you receive.'
+  },
+  {
+    question: 'How do I correct a false report?',
+    answer: 'Use the in-app report controls where available or contact SafeRoute with the report details, location, time, and why the content appears incorrect.'
+  },
+  {
+    question: 'How do I report copyright or media misuse?',
+    answer: 'Send copyright concerns to the SafeRoute copyright contact with the content URL, proof of ownership or permission, and a clear description of the issue.'
+  },
+  {
+    question: 'How can I delete or change my account data?',
+    answer: 'You can request account support, correction, deletion, or other data-rights help by contacting SafeRoute with the email or phone tied to your account.'
+  },
+  {
+    question: 'How do I contact SafeRoute support?',
+    answer: 'Use the contact form on this page or email the SafeRoute team with your account details, city, device, and a clear description of the issue.'
+  }
+];
 
 function aos(
   index = 0,
@@ -88,7 +179,7 @@ export function MarketingShell({ active, children }: ShellProps) {
 
 function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-transparent text-white">
+    <header className="fixed inset-x-0 top-0 z-50 bg-black text-white">
       <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
         <BrandMark imageClassName="size-20 shrink-0 sm:size-24" />
 
@@ -179,7 +270,7 @@ function SectionShell({
 function HomeHero() {
   return (
     <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
-      <div className="relative mx-auto flex min-h-[760px] w-full max-w-[1280px] flex-col items-center justify-center py-16 text-center lg:min-h-[820px]">
+      <div className="relative mx-auto flex h-[calc(100svh-76px)] min-h-[620px] w-full max-w-[1280px] flex-col items-center justify-end pb-8 text-center sm:pb-10">
         <div className="mb-3 sm:mb-5" {...aos(0, 'zoom-in')}>
           <EarthGlobe />
         </div>
@@ -617,17 +708,17 @@ function MarketingFooter() {
   return (
     <footer className="relative z-10 bg-transparent px-5 py-12 text-white sm:px-8">
       <div className="mx-auto grid max-w-[1280px] gap-10 pb-12 lg:grid-cols-[0.34fr_0.66fr]">
-        <div className="flex flex-col items-center gap-0 lg:items-start" {...aos(0, 'fade-right')}>
+        <div className="flex flex-col items-center gap-2" {...aos(0, 'fade-right')}>
           <BrandMark imageClassName="size-24 shrink-0 sm:size-28 lg:size-32" />
-          <p className="-mt-10 text-center text-2xl font-black leading-none text-white sm:-mt-11 sm:text-3xl lg:text-left">
+          <p className="text-center text-2xl font-black leading-none text-white sm:text-3xl">
             SafeRoute
           </p>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-3" {...aos(1, 'fade-left')}>
           <FooterColumn title="Product" links={primaryNav} />
-          <FooterColumn title="Company" links={footerNav.slice(0, 3)} />
-          <FooterColumn title="Legal" links={footerNav.slice(3)} />
+          <FooterColumn title="Company" links={companyFooterNav} />
+          <FooterColumn title="Legal" links={legalFooterNav} />
         </div>
       </div>
       <div className="mx-auto flex max-w-[1280px] justify-center pt-8 text-center text-sm font-bold text-white/55">
@@ -671,6 +762,22 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
           ? termsPolicyText
           : undefined;
 
+  if (page.slug === 'about') {
+    return (
+      <MarketingShell active={active}>
+        <AboutOnlyPage />
+      </MarketingShell>
+    );
+  }
+
+  if (page.slug === 'support') {
+    return (
+      <MarketingShell active={active}>
+        <SupportFaqPage />
+      </MarketingShell>
+    );
+  }
+
   if (legalText) {
     return (
       <MarketingShell active={active}>
@@ -690,6 +797,109 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
       {page.visual === 'support' ? <SupportDetail /> : null}
       <HomeCta />
     </MarketingShell>
+  );
+}
+
+function AboutOnlyPage() {
+  return (
+    <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
+      <div className="mx-auto max-w-4xl">
+        <p className="section-label" {...aos(0, 'fade-up')}>
+          About
+        </p>
+        <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'fade-up')}>
+          Making your world a safer place.
+        </h1>
+        <div className="mt-10 grid gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
+          <p {...aos(2, 'fade-up')}>
+            At SafeRoute, we believe that stronger communities are safer communities. We live in a world where people can access information quickly, share effortlessly, and connect easily — but we have yet to see the power of bringing people together to watch out for each other. At SafeRoute, we’re developing cutting edge technology so you can take care of the people and places you love.
+          </p>
+          <p {...aos(3, 'fade-up')}>
+            SafeRoute is on a mission to make your world a safer place. We believe in public information for the good of the public. In being able to act on safety alerts in real time. In transparency that bonds and that empowers everyone in a community, from city council to residents.
+          </p>
+          <p {...aos(4, 'fade-up')}>
+            We believe in giving people a way to use their phones to protect a neighbor, to prevent a tragedy, and to count on one another.
+          </p>
+          <p {...aos(5, 'fade-up')}>
+            And to create a safer world for each other, with each other.
+          </p>
+        </div>
+        <dl className="mt-14 grid gap-8 text-center sm:grid-cols-3" {...aos(6, 'zoom-in-up')}>
+          {aboutStats.map(([value, label]) => (
+            <div key={label}>
+              <dt className="text-4xl font-black text-white sm:text-5xl">{value}</dt>
+              <dd className="mt-3 text-base font-bold text-white/54">{label}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+function SupportFaqPage() {
+  const supportEmail = siteConfig.betaContactEmail;
+  const mailto = `mailto:${supportEmail}?subject=${encodeURIComponent('SafeRoute support request')}`;
+
+  return (
+    <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
+      <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[0.62fr_0.38fr] lg:items-start">
+        <div>
+          <p className="section-label" {...aos(0, 'fade-up')}>
+            Support
+          </p>
+          <h1 className="mt-5 max-w-3xl text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'fade-up')}>
+            SafeRoute FAQs.
+          </h1>
+          <div className="mt-10 grid gap-3">
+            {supportFaqs.map((item, index) => (
+              <details
+                className="rounded-[16px] border border-white/12 bg-[var(--surface)] p-5"
+                key={item.question}
+                {...aos(index + 2, 'fade-up')}
+              >
+                <summary className="cursor-pointer list-none text-base font-black leading-7 text-white">
+                  {item.question}
+                </summary>
+                <p className="mt-4 text-sm font-semibold leading-7 text-white/56">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        <aside className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 sm:p-8" {...aos(3, 'fade-left')}>
+          <h2 className="text-3xl font-black leading-tight text-white">Contact SafeRoute</h2>
+          <p className="mt-4 text-sm font-semibold leading-7 text-white/55">
+            Send a support message to {supportEmail}. Include your city, account email, device, and the issue you need help with.
+          </p>
+          <form action={mailto} className="mt-7 grid gap-4" encType="text/plain" method="post">
+            <label className="grid gap-2 text-sm font-black text-white" htmlFor="support-email">
+              Your email
+              <input
+                className="min-h-12 rounded-[12px] border border-white/12 bg-black px-4 text-sm font-semibold text-white outline-none transition focus:border-[var(--gold)]"
+                id="support-email"
+                name="email"
+                placeholder="you@example.com"
+                type="email"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-black text-white" htmlFor="support-message">
+              Message
+              <textarea
+                className="min-h-44 resize-y rounded-[12px] border border-white/12 bg-black px-4 py-3 text-sm font-semibold leading-7 text-white outline-none transition focus:border-[var(--gold)]"
+                id="support-message"
+                name="message"
+                placeholder="Write your message to SafeRoute..."
+                required
+              />
+            </label>
+            <button className="gold-button w-full" type="submit">
+              Send email <ArrowRight size={18} aria-hidden="true" />
+            </button>
+          </form>
+        </aside>
+      </div>
+    </section>
   );
 }
 

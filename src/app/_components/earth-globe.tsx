@@ -107,6 +107,7 @@ export function EarthGlobe() {
         return;
       }
 
+      container.classList.remove('earth-globe--ready');
       container.replaceChildren();
 
       const dimensions = sizeFor(container);
@@ -118,6 +119,8 @@ export function EarthGlobe() {
         .bumpImageUrl(earthBumpUrl)
         .showAtmosphere(false);
 
+      container.querySelector('canvas')?.setAttribute('style', 'background: transparent;');
+
       const controls = world.controls();
       controls.autoRotate = true;
       controls.autoRotateSpeed = 0.85;
@@ -127,6 +130,12 @@ export function EarthGlobe() {
       controls.maxPolarAngle = Math.PI;
 
       world.pointOfView({ altitude: 2.15, lat: 8, lng: 12 }, 0);
+
+      window.requestAnimationFrame(() => {
+        if (!cancelled) {
+          container.classList.add('earth-globe--ready');
+        }
+      });
 
       const textureLoader = new THREE.TextureLoader();
       textureLoader.setCrossOrigin('anonymous');
@@ -173,6 +182,7 @@ export function EarthGlobe() {
       cancelled = true;
       window.cancelAnimationFrame(animationId);
       resizeObserver?.disconnect();
+      containerRef.current?.classList.remove('earth-globe--ready');
       containerRef.current?.replaceChildren();
     };
   }, []);
