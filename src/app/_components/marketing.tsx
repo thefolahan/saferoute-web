@@ -393,11 +393,26 @@ function SectionShell({
   children: ReactNode;
   className?: string;
 }) {
-  const spacingClass = className || 'py-20 lg:py-28';
+  const spacingClass = className || 'py-10 lg:py-12';
 
   return (
     <section className={`relative px-5 sm:px-8 ${spacingClass}`}>
       <div className="mx-auto w-full max-w-[1280px]">{children}</div>
+    </section>
+  );
+}
+
+function PageIntro({ label, title }: { label: string; title: string }) {
+  return (
+    <section className="relative px-5 pb-10 pt-[116px] sm:px-8 lg:pb-12 lg:pt-[132px]">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <p className="section-label" {...aos(0, 'fade-right')}>
+          {label}
+        </p>
+        <h1 className="mt-5 max-w-5xl text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'zoom-in-left')}>
+          {title}
+        </h1>
+      </div>
     </section>
   );
 }
@@ -516,16 +531,9 @@ function TestimonialsMarqueeSection() {
 
 function PremiumPreview({ stats }: { stats: Stat[] }) {
   return (
-    <SectionShell className="pb-20 pt-[116px] lg:pb-28 lg:pt-[132px]">
+    <SectionShell>
       <div className="mx-auto max-w-[1120px]">
-        <div className="text-center" {...aos(0, 'fade-up')}>
-          <p className="section-label justify-center">Premium</p>
-          <h2 className="mt-5 text-4xl font-black leading-tight text-white sm:text-6xl">
-            No commitment. Cancel anytime.
-          </h2>
-        </div>
-
-        <div className="mt-10 grid gap-5 sm:grid-cols-3" {...aos(1, 'zoom-in-up')}>
+        <div className="grid gap-5 sm:grid-cols-3" {...aos(1, 'zoom-in-up')}>
           {stats.map((stat) => (
             <div className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 text-center" key={stat.label}>
               <strong className="block text-3xl font-black text-white">{stat.value}</strong>
@@ -731,6 +739,7 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
   const mailto = betaMailto();
   const hideGenericHero = ['premium', 'journalist', 'enterprise'].includes(page.slug);
   const hideGenericSections = ['premium', 'journalist'].includes(page.slug);
+  const hasSharedPageIntro = ['premium', 'journalist', 'enterprise'].includes(page.slug);
 
   const legalText =
     page.slug === 'copyright'
@@ -767,6 +776,7 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
 
   return (
     <MarketingShell active={active}>
+      {hasSharedPageIntro ? <PageIntro label={page.label} title={page.title} /> : null}
       {hideGenericHero ? null : <PageHero page={page} mailto={mailto} />}
       {hideGenericSections ? null : <PageSections page={page} />}
       {page.visual === 'premium' ? <PremiumPreview stats={page.stats} /> : null}
@@ -780,15 +790,10 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
 
 function AboutOnlyPage() {
   return (
-    <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
-      <div className="mx-auto max-w-4xl">
-        <p className="section-label" {...aos(0, 'fade-right')}>
-          About
-        </p>
-        <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'zoom-in-left')}>
-          Who are we?
-        </h1>
-        <div className="mt-10 grid gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
+    <>
+      <PageIntro label="About" title="Who are we?" />
+      <SectionShell>
+        <div className="grid max-w-5xl gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
           <p {...aos(2, 'fade-left')}>
             At SafeRoute, we believe that stronger communities are safer communities. We live in a world where people can access information quickly, share effortlessly, and connect easily — but we have yet to see the power of bringing people together to watch out for each other. At SafeRoute, we’re developing cutting edge technology so you can take care of the people and places you love.
           </p>
@@ -805,26 +810,21 @@ function AboutOnlyPage() {
         <div {...aos(6, 'flip-up')}>
           <AnimatedStats stats={aboutStats} />
         </div>
-      </div>
-    </section>
+      </SectionShell>
+    </>
   );
 }
 
 function SupportFaqPage() {
   return (
-    <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
-      <div className="mx-auto max-w-4xl">
-        <p className="section-label" {...aos(0, 'fade-up')}>
-          Support
-        </p>
-        <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'fade-up')}>
-          SafeRoute FAQs.
-        </h1>
+    <>
+      <PageIntro label="Support" title="SafeRoute FAQs." />
+      <SectionShell>
         <div {...aos(2, 'zoom-in-up')}>
           <SupportFaqAccordion faqs={supportFaqs} />
         </div>
-      </div>
-    </section>
+      </SectionShell>
+    </>
   );
 }
 
@@ -929,13 +929,10 @@ function PageSections({ page }: { page: MarketingPage }) {
 function JournalistDetail() {
   return (
     <>
-      <SectionShell className="pb-20 pt-[116px] lg:pb-28 lg:pt-[132px]">
+      <SectionShell>
         <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-center">
           <div {...aos(0, 'fade-right')}>
             <p className="section-label">Newsroom workflow</p>
-            <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
-              Make SafeRoute your unfair advantage.
-            </h2>
             <p className="mt-5 text-base font-semibold leading-8 text-white/55">
               From incident to publish, you can move fast with SafeRoute using the workflow your newsroom is most comfortable with.
             </p>
@@ -952,7 +949,7 @@ function JournalistDetail() {
         </div>
       </SectionShell>
 
-      <SectionShell className="py-10 lg:py-14">
+      <SectionShell className="py-10 lg:py-12">
         <div className="mx-auto max-w-[980px] text-center">
           <h2 className="text-4xl font-black leading-tight text-white sm:text-5xl" {...aos(0, 'fade-up')}>
             Don't lose access.
@@ -971,7 +968,7 @@ function JournalistDetail() {
         </div>
       </SectionShell>
 
-      <SectionShell className="py-10 lg:py-14">
+      <SectionShell className="py-10 lg:py-12">
         <div className="grid gap-5 lg:grid-cols-4">
           {journalistTools.map((tool, index) => (
             <article className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={tool.label} {...aos(index, 'fade-up')}>

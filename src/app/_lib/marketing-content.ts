@@ -314,7 +314,7 @@ export const marketingPages: Record<string, MarketingPage> = {
     label: 'Enterprise',
     title: 'Location-aware incident awareness.',
     description:
-      'Monitor incidents, alert teams, and review location-aware public safety context without the old generic hero block.',
+      'Monitor incidents, alert teams, and review location-aware public safety context.',
     cta: 'Book a demo',
     visual: 'enterprise',
     icon: Building2,
