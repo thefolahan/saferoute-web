@@ -365,8 +365,10 @@ function SectionShell({
   children: ReactNode;
   className?: string;
 }) {
+  const spacingClass = className || 'py-20 lg:py-28';
+
   return (
-    <section className={`relative px-5 py-20 sm:px-8 lg:py-28 ${className}`}>
+    <section className={`relative px-5 sm:px-8 ${spacingClass}`}>
       <div className="mx-auto w-full max-w-[1280px]">{children}</div>
     </section>
   );
@@ -392,7 +394,7 @@ function HomeHero() {
 
 function QuickSafetyActionsSection() {
   return (
-    <SectionShell className="py-16 lg:py-20">
+    <SectionShell className="py-10 lg:py-12">
       <div className="grid gap-10 lg:grid-cols-3">
         {quickSafetyActions.map((item, index) => (
           <IconTextBlock item={item} key={item.title} index={index} />
@@ -424,25 +426,11 @@ function IconTextBlock({
 
 function LiveSafetyFeaturesSection() {
   return (
-    <SectionShell>
-      <div className="mx-auto grid max-w-[980px] gap-5">
-        {liveSafetyFeatures.map((item, index) => {
-          const Icon = item.icon;
-
-          return (
-            <article className="grid gap-6 rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 sm:grid-cols-[86px_1fr] sm:p-8" key={item.title} {...aos(index, 'fade-up')}>
-              <div className="pt-1">
-                <Icon className={item.tone} size={54} strokeWidth={2} aria-hidden="true" />
-              </div>
-              <div>
-                <h2 className="text-3xl font-black leading-tight text-white sm:text-4xl">{item.title}</h2>
-                <p className="mt-5 text-xl font-semibold leading-[1.45] text-white/58 sm:text-3xl">
-                  {item.body}
-                </p>
-              </div>
-            </article>
-          );
-        })}
+    <SectionShell className="py-10 lg:py-12">
+      <div className="grid gap-10 lg:grid-cols-3">
+        {liveSafetyFeatures.map((item, index) => (
+          <IconTextBlock item={item} key={item.title} index={index} />
+        ))}
       </div>
     </SectionShell>
   );
@@ -450,7 +438,7 @@ function LiveSafetyFeaturesSection() {
 
 function PublicSafetyImpactSection() {
   return (
-    <section className="relative overflow-hidden px-5 py-20 sm:px-8 lg:py-28">
+    <section className="relative overflow-hidden px-5 py-10 sm:px-8 lg:py-12">
       <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[20px] border border-white/12 bg-[var(--surface)] px-6 py-14 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:px-10 lg:px-14">
         <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(16,16,16,0.98),rgba(21,21,21,0.88)_54%,rgba(0,0,0,0.72))]" aria-hidden="true" />
         <div className="relative grid gap-10 lg:grid-cols-3">
@@ -458,11 +446,11 @@ function PublicSafetyImpactSection() {
             const Icon = pillar.icon;
 
             return (
-              <article className="grid gap-5 sm:grid-cols-[48px_1fr] lg:block" key={pillar.title} {...aos(index, 'fade-up')}>
+              <article className="grid gap-5 sm:grid-cols-[48px_1fr] lg:grid-cols-1 lg:grid-rows-[34px_5.75rem_auto]" key={pillar.title} {...aos(index, 'fade-up')}>
                 <Icon className={pillar.tone} size={34} strokeWidth={2} aria-hidden="true" />
-                <div className="lg:mt-5">
+                <div className="lg:contents">
                   <h2 className="text-2xl font-black leading-tight text-white">{pillar.title}</h2>
-                  <p className="mt-5 text-lg font-semibold leading-8 text-white/68">{pillar.body}</p>
+                  <p className="mt-5 text-lg font-semibold leading-8 text-white/68 lg:mt-0">{pillar.body}</p>
                 </div>
               </article>
             );
@@ -477,7 +465,7 @@ function TestimonialsMarqueeSection() {
   const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
 
   return (
-    <section className="relative overflow-hidden py-20 text-white lg:py-28">
+    <section className="relative overflow-hidden py-10 text-white lg:py-12">
       <div className="testimonial-marquee" {...aos(0, 'fade-up')}>
         <div className="testimonial-marquee__track">
           {marqueeItems.map((testimonial, index) => (
@@ -558,7 +546,7 @@ function Minus() {
 
 function HomeCta() {
   return (
-    <section id="join-beta" className="relative scroll-mt-[92px] px-5 py-20 sm:px-8 lg:py-28">
+    <section id="join-beta" className="relative scroll-mt-[92px] px-5 py-10 sm:px-8 lg:py-12">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 pb-16 text-center">
         <div {...aos(0, 'fade-right')}>
           <h2 className="whitespace-nowrap text-[1.35rem] font-black leading-tight text-white min-[390px]:text-2xl sm:text-5xl lg:text-6xl">
