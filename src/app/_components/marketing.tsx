@@ -403,13 +403,18 @@ function SectionShell({
 }
 
 function PageIntro({ label, title }: { label: string; title: string }) {
+  const titleSizeClass =
+    title.length > 24
+      ? 'text-[clamp(1.05rem,4.3vw,4.5rem)]'
+      : 'text-[clamp(2.75rem,7vw,4.5rem)]';
+
   return (
-    <section className="relative px-5 pb-10 pt-[116px] sm:px-8 lg:pb-12 lg:pt-[132px]">
+    <section className="relative px-5 pb-4 pt-[116px] sm:px-8 lg:pb-6 lg:pt-[132px]">
       <div className="mx-auto w-full max-w-[1280px]">
         <p className="section-label" {...aos(0, 'fade-right')}>
           {label}
         </p>
-        <h1 className="mt-5 max-w-5xl text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'zoom-in-left')}>
+        <h1 className={`mt-2 whitespace-nowrap font-black leading-[1.05] text-white ${titleSizeClass}`} {...aos(1, 'zoom-in-left')}>
           {title}
         </h1>
       </div>
@@ -531,7 +536,7 @@ function TestimonialsMarqueeSection() {
 
 function PremiumPreview({ stats }: { stats: Stat[] }) {
   return (
-    <SectionShell>
+    <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
       <div className="mx-auto max-w-[1120px]">
         <div className="grid gap-5 sm:grid-cols-3" {...aos(1, 'zoom-in-up')}>
           {stats.map((stat) => (
@@ -792,8 +797,8 @@ function AboutOnlyPage() {
   return (
     <>
       <PageIntro label="About" title="Who are we?" />
-      <SectionShell>
-        <div className="grid max-w-5xl gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
+      <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
+        <div className="grid w-full gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
           <p {...aos(2, 'fade-left')}>
             At SafeRoute, we believe that stronger communities are safer communities. We live in a world where people can access information quickly, share effortlessly, and connect easily — but we have yet to see the power of bringing people together to watch out for each other. At SafeRoute, we’re developing cutting edge technology so you can take care of the people and places you love.
           </p>
@@ -819,7 +824,7 @@ function SupportFaqPage() {
   return (
     <>
       <PageIntro label="Support" title="SafeRoute FAQs." />
-      <SectionShell>
+      <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
         <div {...aos(2, 'zoom-in-up')}>
           <SupportFaqAccordion faqs={supportFaqs} />
         </div>
@@ -892,7 +897,7 @@ function MetricRow({ value, label }: Stat) {
 
 function PageSections({ page }: { page: MarketingPage }) {
   return (
-    <SectionShell>
+    <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
       <div className="grid gap-5 lg:grid-cols-2">
         {page.sections.map((section, index) => (
           <article
@@ -929,7 +934,7 @@ function PageSections({ page }: { page: MarketingPage }) {
 function JournalistDetail() {
   return (
     <>
-      <SectionShell>
+      <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
         <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-center">
           <div {...aos(0, 'fade-right')}>
             <p className="section-label">Newsroom workflow</p>
