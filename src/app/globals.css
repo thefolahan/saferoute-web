@@ -109,14 +109,113 @@ summary::-webkit-details-marker {
   background: transparent !important;
 }
 
-.earth-globe canvas {
-  background: transparent !important;
+.earth-globe > * {
   opacity: 0;
   transition: opacity 160ms ease;
+  visibility: hidden;
 }
 
-.earth-globe.earth-globe--ready canvas {
+.earth-globe canvas {
+  background: transparent !important;
+}
+
+.earth-globe.earth-globe--ready > * {
   opacity: 1;
+  visibility: visible;
+}
+
+.faq-item {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: var(--surface);
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    background 220ms ease,
+    transform 220ms ease;
+}
+
+.faq-item--open {
+  border-color: rgba(237, 203, 138, 0.28);
+  background: rgba(18, 18, 18, 0.92);
+}
+
+.faq-trigger {
+  display: flex;
+  width: 100%;
+  min-height: 4.5rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.5rem;
+  text-align: left;
+}
+
+.faq-symbol {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(237, 203, 138, 0.4);
+  color: var(--gold);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition:
+    background 220ms ease,
+    transform 220ms ease;
+}
+
+.faq-trigger:hover .faq-symbol,
+.faq-trigger:focus-visible .faq-symbol {
+  background: rgba(237, 203, 138, 0.12);
+}
+
+.faq-trigger:focus-visible {
+  outline: 2px solid rgba(237, 203, 138, 0.72);
+  outline-offset: 4px;
+}
+
+.faq-trigger[aria-expanded="true"] .faq-symbol {
+  transform: rotate(180deg);
+}
+
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-0.35rem);
+  transition:
+    grid-template-rows 280ms ease,
+    opacity 220ms ease,
+    transform 280ms ease;
+}
+
+.faq-panel--open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.faq-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.faq-panel-inner p {
+  padding: 0 1.25rem 1.25rem;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.75rem;
 }
 
 @keyframes space-star-twinkle {

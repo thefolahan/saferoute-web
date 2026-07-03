@@ -13,16 +13,17 @@ import {
   formatRelativeTime,
   type PublicIncidentPreview
 } from '../../lib/incidents';
+import { AnimatedStats } from './animated-stats';
 import { EarthGlobe } from './earth-globe';
 import { MobileMenu } from './mobile-menu';
 import { SpaceBackground } from './space-background';
+import { SupportFaqAccordion } from './support-faq-accordion';
 import {
   copyrightPolicyText,
   privacyPolicyText,
   termsPolicyText
 } from '../_lib/legal-policy-text';
 import {
-  commonQuestions,
   enterpriseCapabilities,
   footerNav,
   homeNarratives,
@@ -33,7 +34,6 @@ import {
   premiumComparison,
   primaryNav,
   realStories,
-  supportTopics,
   type MarketingPage,
   type Stat
 } from '../_lib/marketing-content';
@@ -58,9 +58,9 @@ const legalFooterNav = footerNav.filter((item) =>
   ['Privacy Policy', 'Terms of Service', 'Copyright'].includes(item.label)
 );
 const aboutStats = [
-  ['10+ billion', 'Alerts sent so far'],
-  ['9+ million', 'Users'],
-  ['60', 'Cities and counting']
+  { target: 10, suffix: '+ billion', label: 'Alerts sent so far' },
+  { target: 9, suffix: '+ million', label: 'Users' },
+  { target: 60, label: 'Cities and counting' }
 ];
 const supportFaqs = [
   {
@@ -129,7 +129,7 @@ const supportFaqs = [
   },
   {
     question: 'How do I correct a false report?',
-    answer: 'Use the in-app report controls where available or contact SafeRoute with the report details, location, time, and why the content appears incorrect.'
+    answer: 'Use the in-app report controls where available or send the report details, location, time, and correction reason to support.'
   },
   {
     question: 'How do I report copyright or media misuse?',
@@ -140,8 +140,8 @@ const supportFaqs = [
     answer: 'You can request account support, correction, deletion, or other data-rights help by contacting SafeRoute with the email or phone tied to your account.'
   },
   {
-    question: 'How do I contact SafeRoute support?',
-    answer: 'Use the contact form on this page or email the SafeRoute team with your account details, city, device, and a clear description of the issue.'
+    question: 'How do I reach SafeRoute support?',
+    answer: 'Email the SafeRoute team with your account details, city, device, and a clear description of the issue so support can route the request properly.'
   }
 ];
 
@@ -270,12 +270,12 @@ function SectionShell({
 function HomeHero() {
   return (
     <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
-      <div className="relative mx-auto flex h-[calc(100svh-76px)] min-h-[620px] w-full max-w-[1280px] flex-col items-center justify-end pb-8 text-center sm:pb-10">
-        <div className="mb-3 sm:mb-5" {...aos(0, 'zoom-in')}>
+      <div className="relative mx-auto h-[calc(100svh-76px)] min-h-[620px] w-full max-w-[1280px] text-center">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" {...aos(0, 'zoom-in')}>
           <EarthGlobe />
         </div>
         <h1
-          className="max-w-5xl text-5xl font-black leading-[1.02] text-white sm:text-7xl lg:text-8xl"
+          className="absolute inset-x-0 bottom-7 mx-auto max-w-5xl text-5xl font-black leading-[1.02] text-white sm:bottom-8 sm:text-7xl lg:text-8xl"
           {...aos(1, 'zoom-out')}
         >
           Know before you go.
@@ -708,9 +708,9 @@ function MarketingFooter() {
   return (
     <footer className="relative z-10 bg-transparent px-5 py-12 text-white sm:px-8">
       <div className="mx-auto grid max-w-[1280px] gap-10 pb-12 lg:grid-cols-[0.34fr_0.66fr]">
-        <div className="flex flex-col items-center gap-2" {...aos(0, 'fade-right')}>
+        <div className="flex flex-col items-center" {...aos(0, 'fade-right')}>
           <BrandMark imageClassName="size-24 shrink-0 sm:size-28 lg:size-32" />
-          <p className="text-center text-2xl font-black leading-none text-white sm:text-3xl">
+          <p className="-mt-4 text-center text-2xl font-black leading-none text-white sm:-mt-5 sm:text-3xl lg:-mt-6">
             SafeRoute
           </p>
         </div>
@@ -794,7 +794,6 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
       {page.visual === 'journalist' ? <JournalistDetail /> : null}
       {page.visual === 'enterprise' || page.visual === 'solutions' ? <EnterpriseDetail /> : null}
       {page.visual === 'about' ? <AboutDetail /> : null}
-      {page.visual === 'support' ? <SupportDetail /> : null}
       <HomeCta />
     </MarketingShell>
   );
@@ -824,80 +823,27 @@ function AboutOnlyPage() {
             And to create a safer world for each other, with each other.
           </p>
         </div>
-        <dl className="mt-14 grid gap-8 text-center sm:grid-cols-3" {...aos(6, 'zoom-in-up')}>
-          {aboutStats.map(([value, label]) => (
-            <div key={label}>
-              <dt className="text-4xl font-black text-white sm:text-5xl">{value}</dt>
-              <dd className="mt-3 text-base font-bold text-white/54">{label}</dd>
-            </div>
-          ))}
-        </dl>
+        <div {...aos(6, 'zoom-in-up')}>
+          <AnimatedStats stats={aboutStats} />
+        </div>
       </div>
     </section>
   );
 }
 
 function SupportFaqPage() {
-  const supportEmail = siteConfig.betaContactEmail;
-  const mailto = `mailto:${supportEmail}?subject=${encodeURIComponent('SafeRoute support request')}`;
-
   return (
     <section className="relative px-5 pb-20 pt-[116px] sm:px-8 lg:pb-28 lg:pt-[132px]">
-      <div className="mx-auto grid max-w-[1280px] gap-12 lg:grid-cols-[0.62fr_0.38fr] lg:items-start">
-        <div>
-          <p className="section-label" {...aos(0, 'fade-up')}>
-            Support
-          </p>
-          <h1 className="mt-5 max-w-3xl text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'fade-up')}>
-            SafeRoute FAQs.
-          </h1>
-          <div className="mt-10 grid gap-3">
-            {supportFaqs.map((item, index) => (
-              <details
-                className="rounded-[16px] border border-white/12 bg-[var(--surface)] p-5"
-                key={item.question}
-                {...aos(index + 2, 'fade-up')}
-              >
-                <summary className="cursor-pointer list-none text-base font-black leading-7 text-white">
-                  {item.question}
-                </summary>
-                <p className="mt-4 text-sm font-semibold leading-7 text-white/56">{item.answer}</p>
-              </details>
-            ))}
-          </div>
+      <div className="mx-auto max-w-4xl">
+        <p className="section-label" {...aos(0, 'fade-up')}>
+          Support
+        </p>
+        <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'fade-up')}>
+          SafeRoute FAQs.
+        </h1>
+        <div {...aos(2, 'zoom-in-up')}>
+          <SupportFaqAccordion faqs={supportFaqs} />
         </div>
-
-        <aside className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 sm:p-8" {...aos(3, 'fade-left')}>
-          <h2 className="text-3xl font-black leading-tight text-white">Contact SafeRoute</h2>
-          <p className="mt-4 text-sm font-semibold leading-7 text-white/55">
-            Send a support message to {supportEmail}. Include your city, account email, device, and the issue you need help with.
-          </p>
-          <form action={mailto} className="mt-7 grid gap-4" encType="text/plain" method="post">
-            <label className="grid gap-2 text-sm font-black text-white" htmlFor="support-email">
-              Your email
-              <input
-                className="min-h-12 rounded-[12px] border border-white/12 bg-black px-4 text-sm font-semibold text-white outline-none transition focus:border-[var(--gold)]"
-                id="support-email"
-                name="email"
-                placeholder="you@example.com"
-                type="email"
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-black text-white" htmlFor="support-message">
-              Message
-              <textarea
-                className="min-h-44 resize-y rounded-[12px] border border-white/12 bg-black px-4 py-3 text-sm font-semibold leading-7 text-white outline-none transition focus:border-[var(--gold)]"
-                id="support-message"
-                name="message"
-                placeholder="Write your message to SafeRoute..."
-                required
-              />
-            </label>
-            <button className="gold-button w-full" type="submit">
-              Send email <ArrowRight size={18} aria-hidden="true" />
-            </button>
-          </form>
-        </aside>
       </div>
     </section>
   );
@@ -1058,44 +1004,6 @@ function AboutDetail() {
             <h2 className="mt-10 text-xl font-black leading-tight text-white">{story}</h2>
           </article>
         ))}
-      </div>
-    </SectionShell>
-  );
-}
-
-function SupportDetail() {
-  return (
-    <SectionShell>
-      <div className="grid gap-10 lg:grid-cols-[0.35fr_0.65fr] lg:items-start">
-        <div {...aos(0, 'fade-right')}>
-          <p className="section-label">Common questions</p>
-          <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
-            Find the answer faster.
-          </h2>
-          <p className="mt-5 text-base font-semibold leading-8 text-white/52">
-            Still have questions? Send us an email and the SafeRoute team will help.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-2">
-            {supportTopics.slice(0, 5).map((topic) => (
-              <span
-                className="rounded-full border border-white/12 px-4 py-2 text-sm font-black text-white/48"
-                key={topic}
-              >
-                {topic}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="grid gap-3">
-          {commonQuestions.map((question, index) => (
-            <details className="rounded-[16px] border border-white/12 bg-[var(--surface)] p-5" key={question} {...aos(index, 'fade-left')}>
-              <summary className="cursor-pointer list-none text-base font-black text-white">{question}</summary>
-              <p className="mt-4 text-sm font-semibold leading-7 text-white/52">
-                Our support team can help with this. Contact SafeRoute with your account email, city, and any relevant incident details.
-              </p>
-            </details>
-          ))}
-        </div>
       </div>
     </SectionShell>
   );

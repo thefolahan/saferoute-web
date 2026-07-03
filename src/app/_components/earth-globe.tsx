@@ -96,6 +96,7 @@ export function EarthGlobe() {
   useEffect(() => {
     let cancelled = false;
     let animationId = 0;
+    let readyTimeout = 0;
     let resizeObserver: ResizeObserver | undefined;
 
     void loadGlobeScripts().then(() => {
@@ -131,11 +132,11 @@ export function EarthGlobe() {
 
       world.pointOfView({ altitude: 2.15, lat: 8, lng: 12 }, 0);
 
-      window.requestAnimationFrame(() => {
+      readyTimeout = window.setTimeout(() => {
         if (!cancelled) {
           container.classList.add('earth-globe--ready');
         }
-      });
+      }, 650);
 
       const textureLoader = new THREE.TextureLoader();
       textureLoader.setCrossOrigin('anonymous');
@@ -180,6 +181,7 @@ export function EarthGlobe() {
 
     return () => {
       cancelled = true;
+      window.clearTimeout(readyTimeout);
       window.cancelAnimationFrame(animationId);
       resizeObserver?.disconnect();
       containerRef.current?.classList.remove('earth-globe--ready');
