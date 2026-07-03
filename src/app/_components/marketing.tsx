@@ -1,8 +1,16 @@
 import {
   ArrowRight,
+  BellRing,
   Check,
-  CircleDot
+  CircleDot,
+  Radio,
+  Search,
+  ShieldCheck,
+  Siren,
+  UsersRound,
+  Video
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { betaMailto, siteConfig } from '../../lib/config';
 import { AnimatedStats } from './animated-stats';
@@ -133,6 +141,78 @@ const supportFaqs = [
     answer: 'Email the SafeRoute team with your account details, city, device, and a clear description of the issue so support can route the request properly.'
   }
 ];
+const quickSafetyActions = [
+  {
+    title: 'Get Notified',
+    body: "Receive push notifications when there's an incident nearby so you can avoid that area.",
+    icon: BellRing,
+    tone: 'text-[#f6b21a]'
+  },
+  {
+    title: 'Go Live',
+    body: "If you're nearby an incident unfolding, record video to help others stay safe.",
+    icon: UsersRound,
+    tone: 'text-[#4da7ff]'
+  },
+  {
+    title: 'Search Incidents',
+    body: "If there's commotion like police activity, emergency response, or road closures, pull up the app and instantly find out why.",
+    icon: Search,
+    tone: 'text-[#4fc3d7]'
+  }
+];
+const liveSafetyFeatures = [
+  {
+    title: 'Watch incidents unfold.',
+    body: "Live videos show you what's really happening. See incidents unfold from different angles to get a clear view of the situation.",
+    icon: Video,
+    tone: 'text-[#ef4444]'
+  },
+  {
+    title: 'Know instantly.',
+    body: 'Speed is critical for important events like missing-person reports, road closures, fires, and security activity. SafeRoute alerts are designed to reach nearby people quickly.',
+    icon: Check,
+    tone: 'text-[#f6b21a]'
+  },
+  {
+    title: 'Broadcast to help others.',
+    body: 'When it is safe, broadcast live video, add comments, and share relevant updates with your community.',
+    icon: UsersRound,
+    tone: 'text-[#4da7ff]'
+  }
+];
+const publicSafetyPillars = [
+  {
+    title: 'Emergency responders move faster with better updates.',
+    body: 'Verified live reports can help medical teams, fire teams, and community responders understand what is unfolding before official calls reach every desk.',
+    icon: Siren,
+    tone: 'text-[#f6b21a]'
+  },
+  {
+    title: 'Increasing transparency between the city and its residents.',
+    body: 'SafeRoute helps communities see the same public safety signal in real time, reducing rumor and helping people make calmer decisions.',
+    icon: Radio,
+    tone: 'text-[#66db86]'
+  },
+  {
+    title: 'Everyone is safer when everyone has the same access.',
+    body: 'SafeRoute is built for residents, journalists, organizations, and responders to see unbiased public safety context without sending people toward danger.',
+    icon: ShieldCheck,
+    tone: 'text-[#69d4ff]'
+  }
+];
+const testimonials = [
+  {
+    quote: 'My brother texted me panicked from a store. People were being kept inside without knowing why. I checked SafeRoute, understood what was happening, and we followed the incident until it was safe for him to leave.',
+    author: 'Joel M.',
+    meta: 'Lagos user'
+  },
+  {
+    quote: 'Because SafeRoute alerted me about a medical emergency near the hospital where I work, our team had extra time to prepare before the patient arrived. Those minutes matter.',
+    author: 'Trauma Surgeon',
+    meta: 'Emergency care professional'
+  }
+];
 
 function aos(
   index = 0,
@@ -231,6 +311,10 @@ export function HomePageView() {
     <MarketingShell>
       <HomeHero />
       <SignalPanel />
+      <QuickSafetyActionsSection />
+      <LiveSafetyFeaturesSection />
+      <PublicSafetyImpactSection />
+      <TestimonialsMarqueeSection />
       <HomeCta />
     </MarketingShell>
   );
@@ -289,6 +373,115 @@ function Metric({ value, label }: Stat) {
       <strong className="block text-2xl font-black text-white sm:text-3xl">{value}</strong>
       <span className="mt-3 block text-sm font-bold leading-6 text-white/48">{label}</span>
     </div>
+  );
+}
+
+function QuickSafetyActionsSection() {
+  return (
+    <SectionShell className="py-16 lg:py-20">
+      <div className="grid gap-10 lg:grid-cols-3">
+        {quickSafetyActions.map((item, index) => (
+          <IconTextBlock item={item} key={item.title} index={index} />
+        ))}
+      </div>
+    </SectionShell>
+  );
+}
+
+function IconTextBlock({
+  item,
+  index
+}: {
+  item: { body: string; icon: LucideIcon; title: string; tone: string };
+  index: number;
+}) {
+  const Icon = item.icon;
+
+  return (
+    <article className="grid gap-5 sm:grid-cols-[48px_1fr]" {...aos(index, 'fade-up')}>
+      <Icon className={item.tone} size={34} strokeWidth={2} aria-hidden="true" />
+      <div>
+        <h2 className="text-2xl font-black leading-tight text-white">{item.title}</h2>
+        <p className="mt-4 max-w-sm text-lg font-semibold leading-8 text-white/58">{item.body}</p>
+      </div>
+    </article>
+  );
+}
+
+function LiveSafetyFeaturesSection() {
+  return (
+    <section className="relative bg-[#f6f6f6] px-5 py-20 text-black sm:px-8 lg:py-28">
+      <div className="mx-auto grid max-w-[980px] gap-16">
+        {liveSafetyFeatures.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <article className="grid gap-6 sm:grid-cols-[86px_1fr]" key={item.title} {...aos(index, 'fade-up')}>
+              <div className="pt-1">
+                <Icon className={item.tone} size={54} strokeWidth={2} aria-hidden="true" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-black leading-tight text-black sm:text-4xl">{item.title}</h2>
+                <p className="mt-5 text-2xl font-semibold leading-[1.35] text-[#676773] sm:text-4xl">
+                  {item.body}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function PublicSafetyImpactSection() {
+  return (
+    <section className="relative overflow-hidden px-5 py-20 sm:px-8 lg:py-28">
+      <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[20px] bg-[#07111b] px-6 py-14 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:px-10 lg:px-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_20%,rgba(80,130,220,0.58),transparent_36%),linear-gradient(105deg,rgba(3,12,21,0.98),rgba(8,22,35,0.84)_46%,rgba(0,0,0,0.72))]" aria-hidden="true" />
+        <div className="absolute -right-12 top-0 h-full w-2/5 bg-[linear-gradient(90deg,transparent,rgba(110,160,245,0.26))] blur-2xl" aria-hidden="true" />
+        <div className="relative grid gap-10 lg:grid-cols-3">
+          {publicSafetyPillars.map((pillar, index) => {
+            const Icon = pillar.icon;
+
+            return (
+              <article className="grid gap-5 sm:grid-cols-[48px_1fr] lg:block" key={pillar.title} {...aos(index, 'fade-up')}>
+                <Icon className={pillar.tone} size={34} strokeWidth={2} aria-hidden="true" />
+                <div className="lg:mt-5">
+                  <h2 className="text-2xl font-black leading-tight text-white">{pillar.title}</h2>
+                  <p className="mt-5 text-lg font-semibold leading-8 text-white/68">{pillar.body}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TestimonialsMarqueeSection() {
+  const marqueeItems = [...testimonials, ...testimonials, ...testimonials];
+
+  return (
+    <section className="relative overflow-hidden bg-[#f6f6f6] py-20 text-black lg:py-28">
+      <div className="testimonial-marquee" {...aos(0, 'fade-up')}>
+        <div className="testimonial-marquee__track">
+          {marqueeItems.map((testimonial, index) => (
+            <article className="testimonial-card" key={`${testimonial.author}-${index}`}>
+              <p className="text-6xl font-black leading-none text-[#68adff]">&ldquo;</p>
+              <blockquote className="mt-8 text-3xl font-semibold leading-[1.32] text-black sm:text-4xl lg:text-[2.55rem]">
+                {testimonial.quote}
+              </blockquote>
+              <p className="mt-10 text-base font-black text-black">
+                {testimonial.author}
+                <span className="font-bold text-black/38">, {testimonial.meta}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -538,7 +731,7 @@ function AboutOnlyPage() {
           About
         </p>
         <h1 className="mt-5 text-5xl font-black leading-tight text-white sm:text-7xl" {...aos(1, 'zoom-in-left')}>
-          Making Nigeria safer, together.
+          Who are we?
         </h1>
         <div className="mt-10 grid gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
           <p {...aos(2, 'fade-left')}>

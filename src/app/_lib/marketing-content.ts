@@ -454,7 +454,7 @@ export const marketingPages: Record<string, MarketingPage> = {
   about: {
     slug: 'about',
     label: 'About',
-    title: 'Making your world a safer place.',
+    title: 'Who are we?',
     description:
       'SafeRoute believes people move safer when nearby information is timely, structured, and responsible. The app turns community signal into calmer decisions.',
     cta: 'About SafeRoute',

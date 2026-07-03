@@ -218,6 +218,29 @@ summary::-webkit-details-marker {
   line-height: 1.75rem;
 }
 
+.testimonial-marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.testimonial-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: testimonial-marquee 42s linear infinite;
+}
+
+.testimonial-marquee:hover .testimonial-marquee__track {
+  animation-play-state: paused;
+}
+
+.testimonial-card {
+  width: min(82vw, 76rem);
+  flex: 0 0 auto;
+  margin-right: 4rem;
+  padding: 4.5rem min(7vw, 5.5rem);
+  background: #ffffff;
+}
+
 @keyframes space-star-twinkle {
   from {
     opacity: var(--star-min-opacity);
@@ -227,6 +250,23 @@ summary::-webkit-details-marker {
   to {
     opacity: var(--star-max-opacity);
     transform: scale(1.18);
+  }
+}
+
+@keyframes testimonial-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-33.333%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-marquee__track {
+    animation: none;
+    transform: none;
   }
 }
 
