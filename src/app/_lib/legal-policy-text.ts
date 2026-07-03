@@ -232,7 +232,7 @@ We may update this Copyright Policy from time to time. Continued use of SafeRout
 CONTACT INFORMATION
 For Copyright Infringement Claims: copyright@saferoute.ng
 
-For General Inquiries: support@saferoute.ng
+For General Inquiries: support@saferoutehq.com
 
 Designated Copyright Contact:
 
@@ -340,7 +340,7 @@ We may update these Terms as SafeRoute grows across Nigeria and Africa.
 Continued use of SafeRoute after changes are posted means you accept the revised Terms.
 
 15. CONTACT INFORMATION
-For General Inquiries: support@saferoute.ng
+For General Inquiries: support@saferoutehq.com
 
 For Copyright Infringement Claims: copyright@saferoute.ng
 
@@ -443,7 +443,7 @@ We may update this Privacy Policy from time to time.
 Continued use of SafeRoute after changes are posted means you accept the revised Privacy Policy.
 
 14. CONTACT INFORMATION
-For Privacy Requests and General Inquiries: support@saferoute.ng
+For Privacy Requests and General Inquiries: support@saferoutehq.com
 
 For Copyright Infringement Claims: copyright@saferoute.ng
 

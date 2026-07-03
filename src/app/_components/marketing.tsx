@@ -12,7 +12,12 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { betaMailto, siteConfig } from '../../lib/config';
+import {
+  betaMailto,
+  meetingMailto,
+  siteConfig,
+  trialMailto
+} from '../../lib/config';
 import { AnimatedStats } from './animated-stats';
 import { EarthGlobe } from './earth-globe';
 import { MobileMenu } from './mobile-menu';
@@ -47,9 +52,16 @@ type AosProps = {
   'data-aos-anchor-placement': string;
 };
 
-const scrollAnimations = ['fade-up', 'zoom-in-up', 'fade-right', 'fade-left', 'flip-up'] as const;
-const headerSecondaryNav = footerNav.filter((item) => item.label !== 'About');
-const companyFooterNav = footerNav.filter((item) => ['About', 'Support'].includes(item.label));
+const scrollAnimations = [
+  'fade-up',
+  'zoom-in-up',
+  'fade-right',
+  'fade-left',
+  'flip-up'
+] as const;
+const companyFooterNav = footerNav.filter((item) =>
+  ['About', 'Support'].includes(item.label)
+);
 const legalFooterNav = footerNav.filter((item) =>
   ['Privacy Policy', 'Terms of Service', 'Copyright'].includes(item.label)
 );
@@ -61,83 +73,103 @@ const aboutStats = [
 const supportFaqs = [
   {
     question: 'What is SafeRoute?',
-    answer: 'SafeRoute is a safety awareness app that helps people see nearby reports, community alerts, route context, and responsible safety updates before they move.'
+    answer:
+      'SafeRoute is a safety awareness app that helps people see nearby reports, community alerts, route context, and responsible safety updates before they move.'
   },
   {
     question: 'Is SafeRoute an emergency service?',
-    answer: 'No. SafeRoute is not police, ambulance, fire service, or emergency dispatch. In Nigeria, call 112 when there is an emergency.'
+    answer:
+      'No. SafeRoute is not police, ambulance, fire service, or emergency dispatch. In Nigeria, call 112 when there is an emergency.'
   },
   {
     question: 'When should I call 112 instead of using SafeRoute?',
-    answer: 'Call 112 immediately if there is active danger, injury, fire, violence, medical distress, or any situation that needs official emergency response.'
+    answer:
+      'Call 112 immediately if there is active danger, injury, fire, violence, medical distress, or any situation that needs official emergency response.'
   },
   {
     question: 'How does SafeRoute use my location?',
-    answer: 'SafeRoute uses location to show nearby incidents, determine alert relevance, and help reports appear in the right area. Location should support safety, not public exposure.'
+    answer:
+      'SafeRoute uses location to show nearby incidents, determine alert relevance, and help reports appear in the right area. Location should support safety, not public exposure.'
   },
   {
     question: 'Can other users see my exact location?',
-    answer: 'SafeRoute is designed to avoid exposing private exact locations where possible. Public safety content may be rounded, limited, moderated, or otherwise protected.'
+    answer:
+      'SafeRoute is designed to avoid exposing private exact locations where possible. Public safety content may be rounded, limited, moderated, or otherwise protected.'
   },
   {
     question: 'How do I submit a report safely?',
-    answer: 'Only report when you are away from danger. Do not approach a scene, chase suspects, interfere with responders, or record content that puts you or others at risk.'
+    answer:
+      'Only report when you are away from danger. Do not approach a scene, chase suspects, interfere with responders, or record content that puts you or others at risk.'
   },
   {
     question: 'What kinds of incidents can I report?',
-    answer: 'Reports may include road accidents, fire, flooding, security activity, missing-person notices, medical emergencies, road hazards, or other public-safety concerns.'
+    answer:
+      'Reports may include road accidents, fire, flooding, security activity, missing-person notices, medical emergencies, road hazards, or other public-safety concerns.'
   },
   {
     question: 'What should I avoid posting?',
-    answer: 'Avoid hoaxes, rumors presented as facts, private home addresses, graphic material, copyrighted media, hate speech, threats, suspect accusations, and anything that could trigger mob action.'
+    answer:
+      'Avoid hoaxes, rumors presented as facts, private home addresses, graphic material, copyrighted media, hate speech, threats, suspect accusations, and anything that could trigger mob action.'
   },
   {
     question: 'Are reports verified?',
-    answer: 'Some reports may be reviewed using moderation, multiple nearby reports, trusted sources, media evidence, official updates, or confidence signals. Not every report is guaranteed accurate.'
+    answer:
+      'Some reports may be reviewed using moderation, multiple nearby reports, trusted sources, media evidence, official updates, or confidence signals. Not every report is guaranteed accurate.'
   },
   {
     question: 'Why might a report be removed or delayed?',
-    answer: 'SafeRoute may remove, delay, or reduce visibility when content is unsafe, misleading, private, duplicate, illegal, unverified, or likely to cause panic or harm.'
+    answer:
+      'SafeRoute may remove, delay, or reduce visibility when content is unsafe, misleading, private, duplicate, illegal, unverified, or likely to cause panic or harm.'
   },
   {
     question: 'What is the difference between Alerts, Feed, and Trending?',
-    answer: 'Alerts focus on nearby safety relevance, Feed shows broader community reports and posts, and Trending highlights reports gaining attention or activity.'
+    answer:
+      'Alerts focus on nearby safety relevance, Feed shows broader community reports and posts, and Trending highlights reports gaining attention or activity.'
   },
   {
     question: 'Can I add photos or videos?',
-    answer: 'Yes, when safe and lawful. Only upload media you created or have permission to use, and avoid showing sensitive private details or people in vulnerable situations.'
+    answer:
+      'Yes, when safe and lawful. Only upload media you created or have permission to use, and avoid showing sensitive private details or people in vulnerable situations.'
   },
   {
     question: 'Can journalists use SafeRoute?',
-    answer: 'Journalists can use SafeRoute to monitor public safety signal, review context, and identify follow-up leads, but they should still verify independently before publishing.'
+    answer:
+      'Journalists can use SafeRoute to monitor public safety signal, review context, and identify follow-up leads, but they should still verify independently before publishing.'
   },
   {
     question: 'Can organizations use SafeRoute for teams?',
-    answer: 'Organizations can use SafeRoute for location-aware monitoring, employee awareness, incident context, and safety workflows for campuses, workplaces, venues, or field teams.'
+    answer:
+      'Organizations can use SafeRoute for location-aware monitoring, employee awareness, incident context, and safety workflows for campuses, workplaces, venues, or field teams.'
   },
   {
     question: 'How does Premium work?',
-    answer: 'Premium may include saved places, alert controls, incident history, ad-free scanning, priority notifications, and briefing-style updates for routes or cities you care about.'
+    answer:
+      'Premium may include saved places, alert controls, incident history, ad-free scanning, priority notifications, and briefing-style updates for routes or cities you care about.'
   },
   {
     question: 'How do I manage notifications?',
-    answer: 'Notification settings may let you control alert radius, categories, saved places, priority alerts, and how much nearby safety information you receive.'
+    answer:
+      'Notification settings may let you control alert radius, categories, saved places, priority alerts, and how much nearby safety information you receive.'
   },
   {
     question: 'How do I correct a false report?',
-    answer: 'Use the in-app report controls where available or send the report details, location, time, and correction reason to support.'
+    answer:
+      'Use the in-app report controls where available or send the report details, location, time, and correction reason to support.'
   },
   {
     question: 'How do I report copyright or media misuse?',
-    answer: 'Send copyright concerns to the SafeRoute copyright contact with the content URL, proof of ownership or permission, and a clear description of the issue.'
+    answer:
+      'Send copyright concerns to the SafeRoute copyright contact with the content URL, proof of ownership or permission, and a clear description of the issue.'
   },
   {
     question: 'How can I delete or change my account data?',
-    answer: 'You can request account support, correction, deletion, or other data-rights help by contacting SafeRoute with the email or phone tied to your account.'
+    answer:
+      'You can request account support, correction, deletion, or other data-rights help by contacting SafeRoute with the email or phone tied to your account.'
   },
   {
     question: 'How do I reach SafeRoute support?',
-    answer: 'Email the SafeRoute team with your account details, city, device, and a clear description of the issue so support can route the request properly.'
+    answer:
+      'Email the SafeRoute team with your account details, city, device, and a clear description of the issue so support can route the request properly.'
   }
 ];
 const quickSafetyActions = [
@@ -202,52 +234,62 @@ const publicSafetyPillars = [
 ];
 const testimonials = [
   {
-    quote: 'My brother texted me panicked from a store. People were being kept inside without knowing why. I checked SafeRoute, understood what was happening, and we followed the incident until it was safe for him to leave.',
+    quote:
+      'My brother texted me panicked from a store. People were being kept inside without knowing why. I checked SafeRoute, understood what was happening, and we followed the incident until it was safe for him to leave.',
     author: 'Joel M.',
     meta: 'Lagos user'
   },
   {
-    quote: 'Because SafeRoute alerted me about a medical emergency near the hospital where I work, our team had extra time to prepare before the patient arrived. Those minutes matter.',
+    quote:
+      'Because SafeRoute alerted me about a medical emergency near the hospital where I work, our team had extra time to prepare before the patient arrived. Those minutes matter.',
     author: 'Trauma Surgeon',
     meta: 'Emergency care professional'
   },
   {
-    quote: 'SafeRoute helped me avoid a closed road before I entered traffic. The alert came early enough for me to choose another route and get home without stress.',
+    quote:
+      'SafeRoute helped me avoid a closed road before I entered traffic. The alert came early enough for me to choose another route and get home without stress.',
     author: 'Amaka O.',
     meta: 'Abuja commuter'
   },
   {
-    quote: 'When there was smoke near our estate, SafeRoute gave us nearby context before rumors started flying around the group chat.',
+    quote:
+      'When there was smoke near our estate, SafeRoute gave us nearby context before rumors started flying around the group chat.',
     author: 'Tunde A.',
     meta: 'Lagos resident'
   },
   {
-    quote: 'The app made it easier for our team to understand what was happening around a venue without sending staff toward the incident.',
+    quote:
+      'The app made it easier for our team to understand what was happening around a venue without sending staff toward the incident.',
     author: 'Operations Lead',
     meta: 'Event safety team'
   },
   {
-    quote: 'I checked SafeRoute before leaving work and saw a security alert close to my usual junction. I waited, rerouted, and avoided the area.',
+    quote:
+      'I checked SafeRoute before leaving work and saw a security alert close to my usual junction. I waited, rerouted, and avoided the area.',
     author: 'Mariam B.',
     meta: 'Port Harcourt user'
   },
   {
-    quote: 'As a journalist, the location context helps me separate early signal from noise before I start making calls.',
+    quote:
+      'As a journalist, the location context helps me separate early signal from noise before I start making calls.',
     author: 'News Editor',
     meta: 'Independent newsroom'
   },
   {
-    quote: 'SafeRoute gave our family a calmer way to follow an incident nearby instead of relying on forwarded messages.',
+    quote:
+      'SafeRoute gave our family a calmer way to follow an incident nearby instead of relying on forwarded messages.',
     author: 'Chinedu N.',
     meta: 'Enugu user'
   },
   {
-    quote: 'The nearby alert helped us close our storefront early during a developing situation and reopen once the area settled.',
+    quote:
+      'The nearby alert helped us close our storefront early during a developing situation and reopen once the area settled.',
     author: 'Retail Manager',
     meta: 'Ikeja business'
   },
   {
-    quote: 'I like that the app keeps reminding people not to move toward danger. The information is useful without pushing panic.',
+    quote:
+      'I like that the app keeps reminding people not to move toward danger. The information is useful without pushing panic.',
     author: 'Safety Volunteer',
     meta: 'Community response group'
   }
@@ -283,7 +325,8 @@ const journalistAccessCards = [
 
 function aos(
   index = 0,
-  animation: string = scrollAnimations[index % scrollAnimations.length] ?? 'fade-up'
+  animation: string = scrollAnimations[index % scrollAnimations.length] ??
+    'fade-up'
 ): AosProps {
   return {
     'data-aos': animation,
@@ -307,7 +350,9 @@ export function MarketingShell({ active, children }: ShellProps) {
         Skip to content
       </a>
       <SiteHeader active={active} mailto={mailto} />
-      <main id="main" className="relative z-10">{children}</main>
+      <main id="main" className="relative z-10">
+        {children}
+      </main>
       <MarketingFooter />
     </div>
   );
@@ -317,7 +362,7 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-black text-white">
       <div className="mx-auto flex h-[76px] w-full max-w-[1280px] items-center justify-between gap-5 px-5 sm:px-8 xl:px-0">
-        <BrandMark imageClassName="size-20 shrink-0 sm:size-24" />
+        <BrandMark imageClassName="size-14 shrink-0 lg:size-24" />
 
         <nav
           className="hidden items-center gap-9 text-sm font-extrabold text-white/58 lg:flex"
@@ -325,9 +370,7 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
         >
           {primaryNav.map((item) => (
             <a
-              className={`transition hover:text-white ${
-                active === item.label.toLowerCase() ? 'text-white' : ''
-              }`}
+              className={`transition hover:text-white ${active === item.label.toLowerCase() ? 'text-white' : ''}`}
               href={item.href}
               key={item.href}
             >
@@ -343,12 +386,7 @@ function SiteHeader({ active, mailto }: { active?: string; mailto: string }) {
           >
             Get app
           </a>
-          <MobileMenu
-            active={active}
-            ctaHref={mailto}
-            primaryLinks={primaryNav}
-            secondaryLinks={headerSecondaryNav}
-          />
+          <MobileMenu active={active} primaryLinks={primaryNav} />
         </div>
       </div>
     </header>
@@ -377,6 +415,7 @@ export function HomePageView() {
   return (
     <MarketingShell>
       <HomeHero />
+      <DemoVideoSection />
       <QuickSafetyActionsSection />
       <LiveSafetyFeaturesSection />
       <PublicSafetyImpactSection />
@@ -414,7 +453,10 @@ function PageIntro({ label, title }: { label: string; title: string }) {
         <p className="section-label" {...aos(0, 'fade-right')}>
           {label}
         </p>
-        <h1 className={`mt-2 whitespace-nowrap font-black leading-[1.05] text-white ${titleSizeClass}`} {...aos(1, 'zoom-in-left')}>
+        <h1
+          className={`mt-2 whitespace-nowrap font-black leading-[1.05] text-white ${titleSizeClass}`}
+          {...aos(1, 'zoom-in-left')}
+        >
           {title}
         </h1>
       </div>
@@ -426,7 +468,10 @@ function HomeHero() {
   return (
     <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
       <div className="relative mx-auto h-[calc(100svh-76px)] min-h-[620px] w-full max-w-[1280px] text-center">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" {...aos(0, 'zoom-in')}>
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          {...aos(0, 'zoom-in')}
+        >
           <EarthGlobe />
         </div>
         <h1
@@ -437,6 +482,26 @@ function HomeHero() {
         </h1>
       </div>
     </section>
+  );
+}
+
+function DemoVideoSection() {
+  return (
+    <SectionShell className="py-10 lg:py-12">
+      <div
+        className="mx-auto max-w-[1120px] overflow-hidden rounded-[20px] border border-white/12 bg-[var(--surface)] p-3 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:p-4"
+        {...aos(0, 'zoom-in-up')}
+      >
+        <video
+          className="aspect-video w-full rounded-[14px] bg-black object-cover"
+          src="/videos/SafeRoute_demo.MP4"
+          controls
+          muted
+          playsInline
+          preload="metadata"
+        />
+      </div>
+    </SectionShell>
   );
 }
 
@@ -462,11 +527,23 @@ function IconTextBlock({
   const Icon = item.icon;
 
   return (
-    <article className="grid gap-5 sm:grid-cols-[48px_1fr]" {...aos(index, 'fade-up')}>
-      <Icon className={item.tone} size={34} strokeWidth={2} aria-hidden="true" />
+    <article
+      className="grid gap-5 sm:grid-cols-[48px_1fr]"
+      {...aos(index, 'fade-up')}
+    >
+      <Icon
+        className={item.tone}
+        size={34}
+        strokeWidth={2}
+        aria-hidden="true"
+      />
       <div>
-        <h2 className="text-2xl font-black leading-tight text-white">{item.title}</h2>
-        <p className="mt-4 max-w-sm text-lg font-semibold leading-8 text-white/58">{item.body}</p>
+        <h2 className="text-2xl font-black leading-tight text-white">
+          {item.title}
+        </h2>
+        <p className="mt-4 max-w-sm text-lg font-semibold leading-8 text-white/58">
+          {item.body}
+        </p>
       </div>
     </article>
   );
@@ -488,17 +565,33 @@ function PublicSafetyImpactSection() {
   return (
     <section className="relative overflow-hidden px-5 py-10 sm:px-8 lg:py-12">
       <div className="relative mx-auto max-w-[1280px] overflow-hidden rounded-[20px] border border-white/12 bg-[var(--surface)] px-6 py-14 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:px-10 lg:px-14">
-        <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(16,16,16,0.98),rgba(21,21,21,0.88)_54%,rgba(0,0,0,0.72))]" aria-hidden="true" />
+        <div
+          className="absolute inset-0 bg-[linear-gradient(105deg,rgba(16,16,16,0.98),rgba(21,21,21,0.88)_54%,rgba(0,0,0,0.72))]"
+          aria-hidden="true"
+        />
         <div className="relative grid gap-10 lg:grid-cols-3">
           {publicSafetyPillars.map((pillar, index) => {
             const Icon = pillar.icon;
 
             return (
-              <article className="grid gap-5 sm:grid-cols-[48px_1fr] lg:grid-cols-1 lg:grid-rows-[34px_5.75rem_auto]" key={pillar.title} {...aos(index, 'fade-up')}>
-                <Icon className={pillar.tone} size={34} strokeWidth={2} aria-hidden="true" />
+              <article
+                className="grid gap-5 sm:grid-cols-[48px_1fr] lg:grid-cols-1 lg:grid-rows-[34px_5.75rem_auto]"
+                key={pillar.title}
+                {...aos(index, 'fade-up')}
+              >
+                <Icon
+                  className={pillar.tone}
+                  size={34}
+                  strokeWidth={2}
+                  aria-hidden="true"
+                />
                 <div className="lg:contents">
-                  <h2 className="text-2xl font-black leading-tight text-white">{pillar.title}</h2>
-                  <p className="mt-5 text-lg font-semibold leading-8 text-white/68 lg:mt-0">{pillar.body}</p>
+                  <h2 className="text-2xl font-black leading-tight text-white">
+                    {pillar.title}
+                  </h2>
+                  <p className="mt-5 text-lg font-semibold leading-8 text-white/68 lg:mt-0">
+                    {pillar.body}
+                  </p>
                 </div>
               </article>
             );
@@ -517,14 +610,21 @@ function TestimonialsMarqueeSection() {
       <div className="testimonial-marquee" {...aos(0, 'fade-up')}>
         <div className="testimonial-marquee__track">
           {marqueeItems.map((testimonial, index) => (
-            <article className="testimonial-card" key={`${testimonial.author}-${index}`}>
-              <p className="text-6xl font-black leading-none text-[var(--gold)]">&ldquo;</p>
+            <article
+              className="testimonial-card"
+              key={`${testimonial.author}-${index}`}
+            >
+              <p className="text-6xl font-black leading-none text-[var(--gold)]">
+                &ldquo;
+              </p>
               <blockquote className="mt-6 text-xl font-semibold leading-[1.38] text-white sm:text-2xl lg:text-[1.65rem]">
                 {testimonial.quote}
               </blockquote>
               <p className="mt-7 text-sm font-black text-white sm:text-base">
                 {testimonial.author}
-                <span className="font-bold text-white/42">, {testimonial.meta}</span>
+                <span className="font-bold text-white/42">
+                  , {testimonial.meta}
+                </span>
               </p>
             </article>
           ))}
@@ -540,9 +640,16 @@ function PremiumPreview({ stats }: { stats: Stat[] }) {
       <div className="mx-auto max-w-[1120px]">
         <div className="grid gap-5 sm:grid-cols-3" {...aos(1, 'zoom-in-up')}>
           {stats.map((stat) => (
-            <div className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 text-center" key={stat.label}>
-              <strong className="block text-3xl font-black text-white">{stat.value}</strong>
-              <span className="mt-3 block text-sm font-bold leading-6 text-white/50">{stat.label}</span>
+            <div
+              className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 text-center"
+              key={stat.label}
+            >
+              <strong className="block text-3xl font-black text-white">
+                {stat.value}
+              </strong>
+              <span className="mt-3 block text-sm font-bold leading-6 text-white/50">
+                {stat.label}
+              </span>
             </div>
           ))}
         </div>
@@ -553,7 +660,7 @@ function PremiumPreview({ stats }: { stats: Stat[] }) {
         </div>
 
         <div className="mt-10 flex justify-center" {...aos(3, 'zoom-in')}>
-          <a className="gold-button w-full sm:w-auto" href="#join-beta">
+          <a className="gold-button w-full sm:w-auto" href={trialMailto()}>
             Start Free 30 Day Trial <ArrowRight size={18} aria-hidden="true" />
           </a>
         </div>
@@ -573,11 +680,7 @@ function PremiumPlanCard({
 }) {
   return (
     <article
-      className={`rounded-[18px] border p-7 sm:p-9 ${
-        highlighted
-          ? 'border-[var(--gold)]/50 bg-[linear-gradient(145deg,rgba(237,203,138,0.14),rgba(16,16,16,0.94))]'
-          : 'border-white/12 bg-[var(--surface)]'
-      }`}
+      className={`rounded-[18px] border p-7 sm:p-9 ${highlighted ? 'border-[var(--gold)]/50 bg-[linear-gradient(145deg,rgba(237,203,138,0.14),rgba(16,16,16,0.94))]' : 'border-white/12 bg-[var(--surface)]'}`}
       {...aos(highlighted ? 2 : 1, highlighted ? 'fade-left' : 'fade-right')}
     >
       <h3 className="inline-flex rounded-full border border-white/28 px-5 py-2 text-2xl font-black text-white">
@@ -588,9 +691,14 @@ function PremiumPlanCard({
           const included = row[plan];
 
           return (
-            <li className="flex gap-4 text-base font-bold leading-7 sm:text-lg" key={`${title}-${row.feature}`}>
+            <li
+              className="flex gap-4 text-base font-bold leading-7 sm:text-lg"
+              key={`${title}-${row.feature}`}
+            >
               <PlanFeatureIcon included={included} />
-              <span className={included ? 'text-white/84' : 'text-white/34'}>{row.feature}</span>
+              <span className={included ? 'text-white/84' : 'text-white/34'}>
+                {row.feature}
+              </span>
             </li>
           );
         })}
@@ -601,9 +709,17 @@ function PremiumPlanCard({
 
 function PlanFeatureIcon({ included }: { included: boolean }) {
   return included ? (
-    <Check className="mt-1 shrink-0 text-[var(--gold)]" size={20} strokeWidth={2.5} aria-label="Included" />
+    <Check
+      className="mt-1 shrink-0 text-[var(--gold)]"
+      size={20}
+      strokeWidth={2.5}
+      aria-label="Included"
+    />
   ) : (
-    <span className="mt-0.5 shrink-0 text-2xl leading-none text-white/36" aria-label="Not included">
+    <span
+      className="mt-0.5 shrink-0 text-2xl leading-none text-white/36"
+      aria-label="Not included"
+    >
       x
     </span>
   );
@@ -611,22 +727,22 @@ function PlanFeatureIcon({ included }: { included: boolean }) {
 
 function HomeCta() {
   return (
-    <section id="join-beta" className="relative scroll-mt-[92px] px-5 py-10 sm:px-8 lg:py-12">
+    <section
+      id="join-beta"
+      className="relative scroll-mt-[92px] px-5 py-10 sm:px-8 lg:py-12"
+    >
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-8 pb-16 text-center">
         <div {...aos(0, 'fade-right')}>
           <h2 className="whitespace-nowrap text-[1.35rem] font-black leading-tight text-white min-[390px]:text-2xl sm:text-5xl lg:text-6xl">
             Download SafeRoute for free.
           </h2>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row" {...aos(1, 'zoom-in-left')}>
-          <StoreLink
-            href={siteConfig.appStoreUrl}
-            platform="apple"
-          />
-          <StoreLink
-            href={siteConfig.playStoreUrl}
-            platform="google"
-          />
+        <div
+          className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row"
+          {...aos(1, 'zoom-in-left')}
+        >
+          <StoreLink href={siteConfig.appStoreUrl} platform="apple" />
+          <StoreLink href={siteConfig.playStoreUrl} platform="google" />
         </div>
       </div>
     </section>
@@ -646,7 +762,11 @@ function StoreLink({
     <a
       className="store-badge"
       href={href}
-      aria-label={isApple ? 'Download SafeRoute on the App Store' : 'Get SafeRoute on Google Play'}
+      aria-label={
+        isApple
+          ? 'Download SafeRoute on the App Store'
+          : 'Get SafeRoute on Google Play'
+      }
     >
       {isApple ? <AppleStoreIcon /> : <GooglePlayIcon />}
       {isApple ? (
@@ -674,7 +794,11 @@ function StoreLink({
 
 function AppleStoreIcon() {
   return (
-    <svg className="size-10 shrink-0 text-white" viewBox="4 3 16 18" aria-hidden="true">
+    <svg
+      className="size-10 shrink-0 text-white"
+      viewBox="4 3 16 18"
+      aria-hidden="true"
+    >
       <path
         fill="currentColor"
         d="M16.94 12.42c-.02-2.05 1.68-3.05 1.76-3.1-.96-1.4-2.44-1.6-2.96-1.62-1.24-.13-2.45.74-3.08.74-.65 0-1.63-.72-2.69-.7-1.37.02-2.65.8-3.36 2.03-1.45 2.52-.37 6.22 1.02 8.25.7 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.7.65 1.12-.02 1.82-1 2.49-2.01.8-1.15 1.12-2.29 1.13-2.35-.03-.01-2.26-.86-2.28-3.3Zm-2.01-6.04c.56-.7.95-1.64.84-2.6-.82.04-1.85.57-2.43 1.25-.52.6-.99 1.58-.86 2.51.93.07 1.86-.47 2.45-1.16Z"
@@ -686,10 +810,22 @@ function AppleStoreIcon() {
 function GooglePlayIcon() {
   return (
     <svg className="size-10 shrink-0" viewBox="0 0 31 35" aria-hidden="true">
-      <path fill="#34A853" d="M1.7 1.1c-.5.5-.8 1.3-.8 2.4v28c0 1 .3 1.8.8 2.4l.1.1 15.7-16.4v-.4L1.8 1l-.1.1Z" />
-      <path fill="#FBBC04" d="m22.7 23.1-5.2-5.4v-.4l5.2-5.4.1.1 6.2 3.7c1.8 1.1 1.8 2.8 0 3.9l-6.2 3.6-.1-.1Z" />
-      <path fill="#EA4335" d="m22.8 23-5.3-5.5L1.7 33.9c.8.8 2 .9 3.4.1l17.7-11Z" />
-      <path fill="#4285F4" d="M22.8 12 5.1 1C3.7.2 2.5.3 1.7 1.1l15.8 16.4L22.8 12Z" />
+      <path
+        fill="#34A853"
+        d="M1.7 1.1c-.5.5-.8 1.3-.8 2.4v28c0 1 .3 1.8.8 2.4l.1.1 15.7-16.4v-.4L1.8 1l-.1.1Z"
+      />
+      <path
+        fill="#FBBC04"
+        d="m22.7 23.1-5.2-5.4v-.4l5.2-5.4.1.1 6.2 3.7c1.8 1.1 1.8 2.8 0 3.9l-6.2 3.6-.1-.1Z"
+      />
+      <path
+        fill="#EA4335"
+        d="m22.8 23-5.3-5.5L1.7 33.9c.8.8 2 .9 3.4.1l17.7-11Z"
+      />
+      <path
+        fill="#4285F4"
+        d="M22.8 12 5.1 1C3.7.2 2.5.3 1.7 1.1l15.8 16.4L22.8 12Z"
+      />
     </svg>
   );
 }
@@ -718,14 +854,23 @@ function MarketingFooter() {
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+function FooterColumn({
+  title,
+  links
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
   return (
     <div>
       <h3 className="text-sm font-black text-white">{title}</h3>
       <ul className="mt-5 grid gap-3">
         {links.map((link) => (
           <li key={link.href}>
-            <a className="text-sm font-bold text-white/50 transition hover:text-white" href={link.href}>
+            <a
+              className="text-sm font-bold text-white/50 transition hover:text-white"
+              href={link.href}
+            >
               {link.label}
             </a>
           </li>
@@ -736,15 +881,21 @@ function FooterColumn({ title, links }: { title: string; links: { label: string;
 }
 
 export function MarketingPageView({ page }: { page: MarketingPage }) {
-  const active = primaryNav.some((item) => item.label.toLowerCase() === page.slug)
+  const active = primaryNav.some(
+    (item) => item.label.toLowerCase() === page.slug
+  )
     ? page.slug
     : page.slug === 'about'
       ? 'about'
       : undefined;
   const mailto = betaMailto();
-  const hideGenericHero = ['premium', 'journalist', 'enterprise'].includes(page.slug);
+  const hideGenericHero = ['premium', 'journalist', 'enterprise'].includes(
+    page.slug
+  );
   const hideGenericSections = ['premium', 'journalist'].includes(page.slug);
-  const hasSharedPageIntro = ['premium', 'journalist', 'enterprise'].includes(page.slug);
+  const hasSharedPageIntro = ['premium', 'journalist', 'enterprise'].includes(
+    page.slug
+  );
 
   const legalText =
     page.slug === 'copyright'
@@ -759,6 +910,8 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
     return (
       <MarketingShell active={active}>
         <AboutOnlyPage />
+        <DemoVideoSection />
+        <HomeCta />
       </MarketingShell>
     );
   }
@@ -767,6 +920,7 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
     return (
       <MarketingShell active={active}>
         <SupportFaqPage />
+        <HomeCta />
       </MarketingShell>
     );
   }
@@ -781,7 +935,9 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
 
   return (
     <MarketingShell active={active}>
-      {hasSharedPageIntro ? <PageIntro label={page.label} title={page.title} /> : null}
+      {hasSharedPageIntro ? (
+        <PageIntro label={page.label} title={page.title} />
+      ) : null}
       {hideGenericHero ? null : <PageHero page={page} mailto={mailto} />}
       {hideGenericSections ? null : <PageSections page={page} />}
       {page.visual === 'premium' ? <PremiumPreview stats={page.stats} /> : null}
@@ -800,13 +956,23 @@ function AboutOnlyPage() {
       <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
         <div className="grid w-full gap-8 text-lg font-semibold leading-9 text-white/68 sm:text-xl sm:leading-10">
           <p {...aos(2, 'fade-left')}>
-            At SafeRoute, we believe that stronger communities are safer communities. We live in a world where people can access information quickly, share effortlessly, and connect easily — but we have yet to see the power of bringing people together to watch out for each other. At SafeRoute, we’re developing cutting edge technology so you can take care of the people and places you love.
+            At SafeRoute, we believe that stronger communities are safer
+            communities. We live in a world where people can access information
+            quickly, share effortlessly, and connect easily but we have yet to
+            see the power of bringing people together to watch out for each
+            other. At SafeRoute, we’re developing cutting edge technology so you
+            can take care of the people and places you love.
           </p>
           <p {...aos(3, 'fade-right')}>
-            SafeRoute is on a mission to make your world a safer place. We believe in public information for the good of the public. In being able to act on safety alerts in real time. In transparency that bonds and that empowers everyone in a community, from city council to residents.
+            SafeRoute is on a mission to make your world a safer place. We
+            believe in public information for the good of the public. In being
+            able to act on safety alerts in real time. In transparency that
+            bonds and that empowers everyone in a community, from city council
+            to residents.
           </p>
           <p {...aos(4, 'fade-left')}>
-            We believe in giving people a way to use their phones to protect a neighbor, to prevent a tragedy, and to count on one another.
+            We believe in giving people a way to use their phones to protect a
+            neighbor, to prevent a tragedy, and to count on one another.
           </p>
           <p {...aos(5, 'fade-right')}>
             And to create a safer world for each other, with each other.
@@ -835,7 +1001,10 @@ function SupportFaqPage() {
 
 function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
   const Icon = page.icon;
-  const targetHref = page.visual === 'legal' || page.visual === 'support' ? mailto : '#join-beta';
+  const targetHref =
+    page.visual === 'legal' || page.visual === 'support'
+      ? mailto
+      : '#join-beta';
 
   return (
     <section className="relative overflow-hidden px-5 pt-[76px] sm:px-8">
@@ -861,10 +1030,17 @@ function PageHero({ page, mailto }: { page: MarketingPage; mailto: string }) {
           </div>
         </div>
 
-        <div className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 sm:p-8" {...aos(1, 'zoom-in-left')}>
+        <div
+          className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-6 sm:p-8"
+          {...aos(1, 'zoom-in-left')}
+        >
           <div className="grid gap-6">
             {page.stats.map((stat) => (
-              <MetricRow key={stat.label} value={stat.value} label={stat.label} />
+              <MetricRow
+                key={stat.label}
+                value={stat.value}
+                label={stat.label}
+              />
             ))}
           </div>
         </div>
@@ -890,7 +1066,9 @@ function MetricRow({ value, label }: Stat) {
   return (
     <div className="pb-6 last:pb-0">
       <strong className="block text-3xl font-black text-white">{value}</strong>
-      <span className="mt-2 block text-base font-bold leading-7 text-white/48">{label}</span>
+      <span className="mt-2 block text-base font-bold leading-7 text-white/48">
+        {label}
+      </span>
     </div>
   );
 }
@@ -910,15 +1088,27 @@ function PageSections({ page }: { page: MarketingPage }) {
                 {String(index + 1).padStart(2, '0')}
               </p>
             ) : null}
-            <h2 className={`${section.points.length > 0 ? 'mt-5' : ''} text-3xl font-black leading-tight text-white`}>
+            <h2
+              className={`${section.points.length > 0 ? 'mt-5' : ''} text-3xl font-black leading-tight text-white`}
+            >
               {section.title}
             </h2>
-            <p className="mt-5 text-base font-semibold leading-8 text-white/55">{section.body}</p>
+            <p className="mt-5 text-base font-semibold leading-8 text-white/55">
+              {section.body}
+            </p>
             {section.points.length > 0 ? (
               <ul className="mt-8 grid gap-3">
                 {section.points.map((point) => (
-                  <li className="flex gap-3 text-sm font-bold leading-6 text-white/66" key={point}>
-                    <Check className="mt-0.5 shrink-0 text-[var(--gold)]" size={17} strokeWidth={2.4} aria-hidden="true" />
+                  <li
+                    className="flex gap-3 text-sm font-bold leading-6 text-white/66"
+                    key={point}
+                  >
+                    <Check
+                      className="mt-0.5 shrink-0 text-[var(--gold)]"
+                      size={17}
+                      strokeWidth={2.4}
+                      aria-hidden="true"
+                    />
                     <span>{point}</span>
                   </li>
                 ))}
@@ -939,15 +1129,26 @@ function JournalistDetail() {
           <div {...aos(0, 'fade-right')}>
             <p className="section-label">Newsroom workflow</p>
             <p className="mt-5 text-base font-semibold leading-8 text-white/55">
-              From incident to publish, you can move fast with SafeRoute using the workflow your newsroom is most comfortable with.
+              From incident to publish, you can move fast with SafeRoute using
+              the workflow your newsroom is most comfortable with.
             </p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             {journalistWorkflow.map((step, index) => (
-              <article className="min-h-64 rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={step.title} {...aos(index, 'fade-up')}>
-                <p className="text-sm font-black text-[var(--gold)]">{String(index + 1).padStart(2, '0')}</p>
-                <h3 className="mt-7 text-2xl font-black leading-tight text-white">{step.title}</h3>
-                <p className="mt-4 text-base font-semibold leading-7 text-white/54">{step.body}</p>
+              <article
+                className="min-h-64 rounded-[18px] border border-white/12 bg-[var(--surface)] p-7"
+                key={step.title}
+                {...aos(index, 'fade-up')}
+              >
+                <p className="text-sm font-black text-[var(--gold)]">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-7 text-2xl font-black leading-tight text-white">
+                  {step.title}
+                </h3>
+                <p className="mt-4 text-base font-semibold leading-7 text-white/54">
+                  {step.body}
+                </p>
               </article>
             ))}
           </div>
@@ -956,18 +1157,33 @@ function JournalistDetail() {
 
       <SectionShell className="py-10 lg:py-12">
         <div className="mx-auto max-w-[980px] text-center">
-          <h2 className="text-4xl font-black leading-tight text-white sm:text-5xl" {...aos(0, 'fade-up')}>
+          <h2
+            className="text-4xl font-black leading-tight text-white sm:text-5xl"
+            {...aos(0, 'fade-up')}
+          >
             Don't lose access.
           </h2>
           <div className="mt-8 grid gap-5 text-left sm:grid-cols-2">
             {journalistAccessCards.map((card, index) => (
-              <article className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={card.title} {...aos(index, 'zoom-in-up')}>
-                <h3 className="text-xl font-black leading-tight text-[var(--gold)]">{card.title}</h3>
-                <p className="mt-4 text-base font-semibold leading-7 text-white/58">{card.body}</p>
+              <article
+                className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7"
+                key={card.title}
+                {...aos(index, 'zoom-in-up')}
+              >
+                <h3 className="text-xl font-black leading-tight text-[var(--gold)]">
+                  {card.title}
+                </h3>
+                <p className="mt-4 text-base font-semibold leading-7 text-white/58">
+                  {card.body}
+                </p>
               </article>
             ))}
           </div>
-          <a className="gold-button mt-8 w-full sm:w-auto" href="#join-beta" {...aos(2, 'zoom-in')}>
+          <a
+            className="gold-button mt-8 w-full sm:w-auto"
+            href={meetingMailto()}
+            {...aos(2, 'zoom-in')}
+          >
             Book a Meeting
           </a>
         </div>
@@ -976,17 +1192,30 @@ function JournalistDetail() {
       <SectionShell className="py-10 lg:py-12">
         <div className="grid gap-5 lg:grid-cols-4">
           {journalistTools.map((tool, index) => (
-            <article className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7" key={tool.label} {...aos(index, 'fade-up')}>
-              <p className="text-sm font-black text-[var(--gold)]">{String(index + 1).padStart(2, '0')}</p>
-              <h3 className="mt-8 text-2xl font-black leading-tight text-white">{tool.label}</h3>
-              <p className="mt-4 text-base font-semibold leading-7 text-white/52">{tool.body}</p>
+            <article
+              className="rounded-[18px] border border-white/12 bg-[var(--surface)] p-7"
+              key={tool.label}
+              {...aos(index, 'fade-up')}
+            >
+              <p className="text-sm font-black text-[var(--gold)]">
+                {String(index + 1).padStart(2, '0')}
+              </p>
+              <h3 className="mt-8 text-2xl font-black leading-tight text-white">
+                {tool.label}
+              </h3>
+              <p className="mt-4 text-base font-semibold leading-7 text-white/52">
+                {tool.body}
+              </p>
             </article>
           ))}
         </div>
       </SectionShell>
 
       <SectionShell>
-        <div className="grid gap-8 rounded-[20px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10 lg:grid-cols-[0.52fr_0.48fr] lg:items-center" {...aos(0, 'zoom-in-up')}>
+        <div
+          className="grid gap-8 rounded-[20px] border border-white/12 bg-[var(--surface)] p-7 sm:p-10 lg:grid-cols-[0.52fr_0.48fr] lg:items-center"
+          {...aos(0, 'zoom-in-up')}
+        >
           <div>
             <p className="section-label">Speed, volume & scale</p>
             <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
@@ -994,18 +1223,38 @@ function JournalistDetail() {
             </h2>
             <div className="mt-6 grid gap-5 text-base font-semibold leading-8 text-white/58">
               <p>
-                SafeRoute is being built as a real-time public safety network for Nigeria. When an incident happens, nearby users can share reports and media before formal coverage reaches the scene.
+                SafeRoute is being built as a real-time public safety network
+                for Nigeria. When an incident happens, nearby users can share
+                reports and media before formal coverage reaches the scene.
               </p>
               <p>
-                SafeRoute for Journalists gives your newsroom searchable access to that footage, with the attribution and permissions needed to publish it responsibly.
+                SafeRoute for Journalists gives your newsroom searchable access
+                to that footage, with the attribution and permissions needed to
+                publish it responsibly.
               </p>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {['Searchable incident footage', 'Location and category filters', 'Attribution built in', 'Responsible publishing flow'].map((item, index) => (
-              <div className="rounded-[16px] border border-white/12 bg-black/40 p-5" key={item} {...aos(index, 'fade-up')}>
-                <Check className="text-[var(--gold)]" size={22} strokeWidth={2.4} aria-hidden="true" />
-                <p className="mt-5 text-lg font-black leading-tight text-white">{item}</p>
+            {[
+              'Searchable incident footage',
+              'Location and category filters',
+              'Attribution built in',
+              'Responsible publishing flow'
+            ].map((item, index) => (
+              <div
+                className="rounded-[16px] border border-white/12 bg-black/40 p-5"
+                key={item}
+                {...aos(index, 'fade-up')}
+              >
+                <Check
+                  className="text-[var(--gold)]"
+                  size={22}
+                  strokeWidth={2.4}
+                  aria-hidden="true"
+                />
+                <p className="mt-5 text-lg font-black leading-tight text-white">
+                  {item}
+                </p>
               </div>
             ))}
           </div>
@@ -1020,11 +1269,23 @@ function EnterpriseDetail() {
     <SectionShell>
       <div className="grid gap-5 lg:grid-cols-3">
         {enterpriseCapabilities.map((capability, index) => (
-          <article className="rounded-[18px] border border-white/12 bg-black p-7" key={capability.label} {...aos(index, 'zoom-in-up')}>
-            <capability.icon className="text-[var(--gold)]" size={32} strokeWidth={1.8} aria-hidden="true" />
-            <h2 className="mt-8 text-2xl font-black leading-tight text-white">{capability.label}</h2>
+          <article
+            className="rounded-[18px] border border-white/12 bg-black p-7"
+            key={capability.label}
+            {...aos(index, 'zoom-in-up')}
+          >
+            <capability.icon
+              className="text-[var(--gold)]"
+              size={32}
+              strokeWidth={1.8}
+              aria-hidden="true"
+            />
+            <h2 className="mt-8 text-2xl font-black leading-tight text-white">
+              {capability.label}
+            </h2>
             <p className="mt-4 text-base font-semibold leading-7 text-white/52">
-              Deliver the right information to the right team at the moment decisions need to be made.
+              Deliver the right information to the right team at the moment
+              decisions need to be made.
             </p>
           </article>
         ))}
@@ -1044,9 +1305,20 @@ function AboutDetail() {
       </div>
       <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
         {realStories.map((story, index) => (
-          <article className="min-h-44 rounded-[18px] border border-white/12 bg-black p-5" key={story} {...aos(index, 'flip-up')}>
-            <CircleDot className="text-[var(--gold)]" size={21} strokeWidth={2} aria-hidden="true" />
-            <h2 className="mt-10 text-xl font-black leading-tight text-white">{story}</h2>
+          <article
+            className="min-h-44 rounded-[18px] border border-white/12 bg-black p-5"
+            key={story}
+            {...aos(index, 'flip-up')}
+          >
+            <CircleDot
+              className="text-[var(--gold)]"
+              size={21}
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+            <h2 className="mt-10 text-xl font-black leading-tight text-white">
+              {story}
+            </h2>
           </article>
         ))}
       </div>
