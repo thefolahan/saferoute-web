@@ -415,9 +415,9 @@ export function HomePageView() {
   return (
     <MarketingShell>
       <HomeHero />
-      <DemoVideoSection />
       <QuickSafetyActionsSection />
       <LiveSafetyFeaturesSection />
+      <DemoVideoSection />
       <PublicSafetyImpactSection />
       <TestimonialsMarqueeSection />
       <HomeCta />
@@ -488,19 +488,16 @@ function HomeHero() {
 function DemoVideoSection() {
   return (
     <SectionShell className="py-10 lg:py-12">
-      <div
-        className="mx-auto max-w-[1120px] overflow-hidden rounded-[20px] border border-white/12 bg-[var(--surface)] p-3 shadow-[0_28px_110px_rgba(0,0,0,0.42)] sm:p-4"
-        {...aos(0, 'zoom-in-up')}
-      >
-        <video
-          className="aspect-video w-full rounded-[14px] bg-black object-cover"
-          src="/videos/SafeRoute_demo.MP4"
-          controls
-          muted
-          playsInline
-          preload="metadata"
-        />
-      </div>
+      <video
+        className="block aspect-video w-full bg-black object-cover"
+        src="/videos/SafeRoute_demo.MP4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        aria-label="SafeRoute app demo"
+      />
     </SectionShell>
   );
 }
@@ -910,7 +907,6 @@ export function MarketingPageView({ page }: { page: MarketingPage }) {
     return (
       <MarketingShell active={active}>
         <AboutOnlyPage />
-        <DemoVideoSection />
         <HomeCta />
       </MarketingShell>
     );
@@ -978,6 +974,9 @@ function AboutOnlyPage() {
             And to create a safer world for each other, with each other.
           </p>
         </div>
+      </SectionShell>
+      <DemoVideoSection />
+      <SectionShell className="pt-4 pb-10 lg:pt-6 lg:pb-12">
         <div {...aos(6, 'flip-up')}>
           <AnimatedStats stats={aboutStats} />
         </div>
