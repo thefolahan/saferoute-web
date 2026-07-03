@@ -687,7 +687,7 @@ function MarketingFooter() {
       <div className="mx-auto grid max-w-[1280px] gap-10 pb-12 lg:grid-cols-[0.34fr_0.66fr]">
         <div className="flex flex-col items-center" {...aos(0, 'fade-right')}>
           <BrandMark imageClassName="size-24 shrink-0 sm:size-28 lg:size-32" />
-          <p className="-mt-5 text-center text-2xl font-black leading-none text-white sm:-mt-6 sm:text-3xl lg:-mt-7">
+          <p className="-mt-5 text-center text-2xl font-black leading-none text-white sm:-mt-6 sm:text-3xl lg:-mt-8">
             SafeRoute
           </p>
         </div>

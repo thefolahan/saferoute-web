@@ -280,9 +280,9 @@ export const marketingPages: Record<string, MarketingPage> = {
   premium: {
     slug: 'premium',
     label: 'Premium',
-    title: 'More control over what reaches you.',
+    title: 'No commitment. Cancel anytime.',
     description:
-      'Unlock sharper notification controls, saved places, wider incident history, and briefing-style updates for the routes and cities you care about.',
+      'Compare Free and Premium access, start with a 30 day trial, and cancel anytime.',
     cta: 'Start Premium',
     visual: 'premium',
     icon: Crown,
@@ -291,35 +291,14 @@ export const marketingPages: Record<string, MarketingPage> = {
       { value: '5', label: 'premium safety controls' },
       { value: 'Anytime', label: 'cancel without commitment' }
     ],
-    sections: [
-      {
-        title: 'Tune alerts to your real movement',
-        body: 'Premium is for commuters, families, power users, and community leaders who want alerts that match their city, route, category preferences, and daily routine.',
-        points: [
-          'Saved places and watched routes',
-          'Custom alert radius and incident categories',
-          'Priority nearby notifications',
-          'Daily briefing for top nearby incidents'
-        ]
-      },
-      {
-        title: 'More context before you move',
-        body: 'Use deeper search, incident history, and structured updates to understand whether a report affects your street, school, workplace, family, or route.',
-        points: [
-          'Incident history by city, location, and category',
-          'Saved places for home, work, school, or family',
-          'Ad-free safety scanning',
-          'Premium support for account and notification issues'
-        ]
-      }
-    ]
+    sections: []
   },
   journalist: {
     slug: 'journalist',
     label: 'Journalist',
-    title: 'A faster read on public safety signal.',
+    title: 'Make SafeRoute your unfair advantage.',
     description:
-      'Follow nearby alerts, feed posts, trending incidents, media attachments, categories, and city-level context before a public-safety story becomes obvious.',
+      'Move from incident to publish with searchable reports, media workflows, and newsroom-ready context.',
     cta: 'Book a newsroom meeting',
     visual: 'journalist',
     icon: Newspaper,
@@ -328,35 +307,14 @@ export const marketingPages: Record<string, MarketingPage> = {
       { value: 'Trending', label: 'fast-rising public reports' },
       { value: 'Context', label: 'category, city, status, time' }
     ],
-    sections: [
-      {
-        title: 'Why SafeRoute for journalists',
-        body: 'News teams need speed, volume, and structure. SafeRoute helps reporters separate local signal from noise while preserving context around category, location, status, and media.',
-        points: [
-          'Alerts, Feed, and Trending views',
-          'Coverage across key incident categories',
-          'Photo and video review workflows',
-          'Filtering by place, city, category, and report window'
-        ]
-      },
-      {
-        title: 'From report to story context',
-        body: 'Start from a reported incident, search by category or location, review attached media and timestamps, then decide whether the signal is worth newsroom follow-up.',
-        points: [
-          'Location and route search',
-          'Public media and engagement counts',
-          'Incident status and verification state',
-          'Story windows that match how desks monitor breaking events'
-        ]
-      }
-    ]
+    sections: []
   },
   enterprise: {
     slug: 'enterprise',
     label: 'Enterprise',
-    title: 'Be faster when location matters.',
+    title: 'Location-aware incident awareness.',
     description:
-      'Real-time safety signal, route context, media-aware reports, and alert workflows for teams responsible for people, venues, campuses, and city operations.',
+      'Monitor incidents, alert teams, and review location-aware public safety context without the old generic hero block.',
     cta: 'Book a demo',
     visual: 'enterprise',
     icon: Building2,
