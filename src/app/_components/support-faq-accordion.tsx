@@ -42,4 +42,3 @@ export function SupportFaqAccordion({ faqs }: { faqs: SupportFaq[] }) {
     </div>
   );
 }
-
