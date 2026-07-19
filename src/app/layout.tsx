@@ -1,14 +1,14 @@
 import './globals.css';
-import 'aos/dist/aos.css';
 import type { Metadata, Viewport } from 'next';
-import { Nunito_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
-import { AosInit } from './_components/aos-init';
 
-const siteFont = Nunito_Sans({
+// The landing design is set in Inter throughout (weights 400/500/600/700).
+const siteFont = Inter({
   subsets: ['latin'],
   variable: '--font-site',
-  weight: ['500', '600', '700', '800', '900']
+  weight: ['400', '500', '600', '700'],
+  display: 'swap'
 });
 
 export const metadata: Metadata = {
@@ -42,10 +42,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={siteFont.variable}>
-        <AosInit />
-        {children}
-      </body>
+      <body className={siteFont.variable}>{children}</body>
     </html>
   );
 }

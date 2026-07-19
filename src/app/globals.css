@@ -1,62 +1,76 @@
 @import "tailwindcss";
 
+/* SafeRoute landing page — design tokens mirror the Figma file's published
+   styles (same names as the mobile app). Landing canvas 289:55372, Inter. */
+@theme {
+  --font-sans: var(--font-site), Inter, ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  /* Base */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Gray ramp (designer's steps) */
+  --color-gray-25: #fdfdfd;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e9eaeb;
+  --color-gray-300: #d5d7da;
+  --color-gray-400: #a4a7ae;
+  --color-gray-500: #717680;
+  --color-gray-600: #535862;
+  --color-gray-700: #414651;
+  --color-gray-800: #252b37;
+  --color-gray-900: #181d27;
+  --color-gray-950: #0a0d12;
+
+  /* Semantic */
+  --color-error: #f04438;
+  --color-error-soft: #fef3f2;
+  --color-success: #079455;
+  --color-warning: #f79009;
+
+  /* Landing-only tones (off-system in the file, used as literals) */
+  --color-ink: #181d27;
+  --color-slate: #475467;
+  --color-muted: #717680;
+  --color-hairline: #e9eaeb;
+}
+
 :root {
-  color-scheme: dark;
-  --gold: #edcb8a;
-  --gold-strong: #f5d99d;
-  --surface: #101010;
-  --surface-soft: #151515;
-  --line: rgba(255, 255, 255, 0.1);
-  background: #000204;
+  color-scheme: light;
 }
 
 * {
   box-sizing: border-box;
-  scrollbar-color: rgba(255, 255, 255, 0.18) #000204;
 }
 
 html {
   scroll-behavior: smooth;
-  background: #000204;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100%;
   margin: 0;
+  min-height: 100%;
+  background: #ffffff;
+  color: var(--color-gray-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
-  background: #000204;
-  color: #ffffff;
-  font-family:
-    var(--font-site), "Nunito Sans", "Avenir Next", Inter, ui-sans-serif,
-    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  text-rendering: geometricPrecision;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background: #000204;
-}
-
-::-webkit-scrollbar-thumb {
-  border: 2px solid #000204;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.16);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
-
-::-webkit-scrollbar-corner {
-  background: #000204;
 }
 
 a {
+  color: inherit;
   text-decoration: none;
 }
 
-button,
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
 input,
 textarea,
 select {
@@ -67,309 +81,8 @@ summary::-webkit-details-marker {
   display: none;
 }
 
-::selection {
-  background: var(--gold);
-  color: #000000;
-}
-
-.space-background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-  background: #000204;
-}
-
-.space-background__star {
-  position: absolute;
-  left: var(--star-left);
-  top: var(--star-top);
-  width: var(--star-size);
-  height: var(--star-size);
-  border-radius: 9999px;
-  background: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.52);
-  opacity: var(--star-min-opacity);
-  animation: space-star-twinkle var(--star-duration) ease-in-out var(--star-delay) infinite alternate;
-}
-
-.earth-globe {
-  display: block;
-  width: clamp(24rem, 43vw, 34rem);
-  height: clamp(24rem, 43vw, 34rem);
-  border: 0;
-  overflow: visible;
-  background: transparent;
-  filter: drop-shadow(0 0 34px rgba(77, 150, 255, 0.2));
-  pointer-events: none;
-}
-
-.earth-globe > div {
-  background: transparent !important;
-}
-
-.earth-globe > * {
-  opacity: 0;
-  transition: opacity 160ms ease;
-  visibility: hidden;
-}
-
-.earth-globe canvas {
-  background: transparent !important;
-}
-
-.earth-globe.earth-globe--ready > * {
-  opacity: 1;
-  visibility: visible;
-}
-
-.faq-item {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  background: var(--surface);
-  overflow: hidden;
-  transition:
-    border-color 220ms ease,
-    background 220ms ease,
-    transform 220ms ease;
-}
-
-.faq-item--open {
-  border-color: rgba(237, 203, 138, 0.28);
-  background: rgba(18, 18, 18, 0.92);
-}
-
-.faq-trigger {
-  display: flex;
-  width: 100%;
-  min-height: 4.5rem;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.25rem;
-  border: 0;
-  background: transparent;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 900;
-  line-height: 1.5rem;
-  text-align: left;
-}
-
-.faq-symbol {
-  display: grid;
-  width: 2rem;
-  height: 2rem;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 9999px;
-  border: 1px solid rgba(237, 203, 138, 0.4);
-  color: var(--gold);
-  font-size: 1.25rem;
-  line-height: 1;
-  transition:
-    background 220ms ease,
-    transform 220ms ease;
-}
-
-.faq-trigger:hover .faq-symbol,
-.faq-trigger:focus-visible .faq-symbol {
-  background: rgba(237, 203, 138, 0.12);
-}
-
-.faq-trigger:focus-visible {
-  outline: 2px solid rgba(237, 203, 138, 0.72);
-  outline-offset: 4px;
-}
-
-.faq-trigger[aria-expanded="true"] .faq-symbol {
-  transform: rotate(180deg);
-}
-
-.faq-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transform: translateY(-0.35rem);
-  transition:
-    grid-template-rows 280ms ease,
-    opacity 220ms ease,
-    transform 280ms ease;
-}
-
-.faq-panel--open {
-  grid-template-rows: 1fr;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.faq-panel-inner {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.faq-panel-inner p {
-  padding: 0 1.25rem 1.25rem;
-  color: rgba(255, 255, 255, 0.56);
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.75rem;
-}
-
-.testimonial-marquee {
-  overflow: hidden;
-  width: 100%;
-}
-
-.testimonial-marquee__track {
-  display: flex;
-  width: max-content;
-  animation: testimonial-marquee 38s linear infinite;
-}
-
-.testimonial-card {
-  width: clamp(18rem, 52vw, 34rem);
-  flex: 0 0 auto;
-  margin-right: 1.5rem;
-  padding: 1.5rem min(3vw, 2rem);
-}
-
-@keyframes space-star-twinkle {
-  from {
-    opacity: var(--star-min-opacity);
-    transform: scale(0.82);
-  }
-
-  to {
-    opacity: var(--star-max-opacity);
-    transform: scale(1.18);
-  }
-}
-
-@keyframes testimonial-marquee {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(calc(-33.333%));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .testimonial-marquee__track {
-    animation: none;
-    transform: none;
-  }
-}
-
-.gold-button {
-  display: inline-flex;
-  min-height: 3.25rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  border-radius: 9999px;
-  background: var(--gold);
-  padding: 0 1.75rem;
-  color: #000000;
-  font-size: 0.95rem;
-  font-weight: 900;
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease;
-}
-
-.gold-button:hover {
-  background: var(--gold-strong);
-  transform: translateY(-1px);
-}
-
-.ghost-button {
-  display: inline-flex;
-  min-height: 3.25rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 0 1.75rem;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 0.95rem;
-  font-weight: 900;
-  transition:
-    border-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
-}
-
-.ghost-button:hover {
-  border-color: rgba(237, 203, 138, 0.58);
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-.store-badge {
-  display: inline-flex;
-  min-height: 4rem;
-  width: 15.5rem;
-  max-width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 0.875rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  background: #050505;
-  padding: 0.625rem 1.125rem;
-  color: #ffffff;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.72);
-  transition:
-    border-color 180ms ease,
-    transform 180ms ease,
-    background-color 180ms ease;
-}
-
-.store-badge:hover {
-  border-color: rgba(237, 203, 138, 0.7);
-  background: #000000;
-  transform: translateY(-1px);
-}
-
-.section-label {
-  color: var(--gold);
-  font-size: 0.8rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-[data-aos] {
-  will-change: transform, opacity;
-}
-
-@media (max-width: 420px) {
-  .gold-button,
-  .ghost-button {
-    width: 100%;
-    padding-inline: 1.25rem;
-  }
-
-  .earth-globe {
-    width: min(96vw, 25.5rem);
-    height: min(96vw, 25.5rem);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
+/* The Figma headings use tight optical tracking Inter needs help to match:
+   72px hero and 48px section headings both sit at ~-0.02em. */
+.tracking-tightest {
+  letter-spacing: -0.02em;
 }
