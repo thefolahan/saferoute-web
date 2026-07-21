@@ -1,13 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-/**
- * Footer — 346:9858 / 491:23435 (reworked "Copy" file). Dark #111112.
- * Brand block (globe wordmark + headline + sub + store badges) on the left,
- * three link columns on the right (Company, Support, Connect with us — the
- * last a row of social icon buttons). Bottom bar: copyright + legal + a
- * back-to-top arrow.
- */
 const COLUMNS = [
   {
     title: 'Company',
@@ -97,7 +90,6 @@ export function SiteFooter() {
     <footer className="bg-[#111112]">
       <div className="mx-auto max-w-[1280px] px-6 pb-8 pt-16 sm:px-10 md:px-20 md:pt-20">
         <div className="flex flex-col justify-between gap-12 lg:flex-row">
-          {/* Brand block */}
           <div className="flex w-full max-w-[400px] flex-col gap-6">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-2">
@@ -114,7 +106,7 @@ export function SiteFooter() {
               </Link>
               <div className="flex flex-col gap-2">
                 <p className="text-[20px] font-bold leading-[26px] text-white">
-                  Navigate Every Journey with Confidence!
+                  Know before you go.
                 </p>
                 <p className="text-[16px] font-normal leading-6 text-white/45">
                   Plan safer routes, arrive with peace of mind.
@@ -124,7 +116,6 @@ export function SiteFooter() {
             <div className="flex gap-3">{BADGES}</div>
           </div>
 
-          {/* Link columns */}
           <div className="flex flex-wrap gap-12 sm:gap-16">
             {COLUMNS.map((col) => (
               <div key={col.title} className="flex flex-col gap-5">
@@ -146,7 +137,6 @@ export function SiteFooter() {
               </div>
             ))}
 
-            {/* Connect with us */}
             <div className="flex flex-col gap-5">
               <h3 className="text-[16px] font-semibold leading-5 text-white/55">
                 Connect with us
@@ -169,7 +159,6 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="relative mt-14 flex items-center justify-between md:mt-16">
           <p className="text-[14px] font-normal leading-5 text-white/30">
             All rights reserved

@@ -1,11 +1,5 @@
 import Image from 'next/image';
 
-/**
- * 488:18699 — the section directly under the hero: a hand holding a phone (a
- * live broadcast) surrounded by faded "Road Accident" incident cards. Exported
- * as one image for exact fidelity (transparent PNG on white). The hand overflows
- * the 928px frame; kept as-is so the cards sit at their designed positions.
- */
 export function IncidentShowcase() {
   return (
     <section className="relative bg-white">
