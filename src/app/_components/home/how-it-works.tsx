@@ -23,10 +23,10 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="bg-white">
-      <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-16 px-20 py-24">
+    <section className="flex min-h-screen flex-col justify-center bg-white">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-6 py-16 sm:px-10 lg:gap-16 lg:px-20 lg:py-24">
         <header className="flex flex-col items-center gap-5 text-center">
-          <h2 className="text-[48px] font-medium leading-[60px] tracking-tightest text-gray-950">
+          <h2 className="text-[32px] font-medium leading-[40px] tracking-tightest text-gray-950 sm:text-[48px] sm:leading-[60px]">
             How SafeRoute works
           </h2>
           <p className="max-w-[640px] text-[18px] leading-[28px] text-[#666668]">
@@ -34,7 +34,7 @@ export function HowItWorks() {
           </p>
         </header>
 
-        <div className="grid w-full grid-cols-3 gap-4">
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
           {STEPS.map((step) => (
             <div key={step.n} className="flex flex-col gap-5">
               <div className="relative aspect-[363/480] w-full overflow-hidden rounded-2xl">

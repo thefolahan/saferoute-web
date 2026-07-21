@@ -5,10 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 
 /**
  * "Navigate with absolute confidence" — 488:19649 / 19934 / 19963 / 19992.
- * A scroll-pinned reveal: the heading, list and phone panel stay fixed while the
- * active feature (and its phone) changes as you scroll through four steps. Text
- * is verbatim from the frames (Live Broadcasts and Safety Circle share the same
- * description in the file).
+ * Scroll-pinned reveal: the heading, feature list and phone panel stay fixed
+ * while the active feature (and its phone) changes as you scroll through the
+ * four steps. Text is verbatim from the frames.
  */
 const FEATURES = [
   {
@@ -42,7 +41,9 @@ export function FeatureShowcase() {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
       const el = ref.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
@@ -53,24 +54,30 @@ export function FeatureShowcase() {
         FEATURES.length - 1,
         Math.floor((scrolled / range) * FEATURES.length)
       );
-      setActive(idx);
+      setActive((prev) => (prev === idx ? prev : idx));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
     <section
       ref={ref}
       className="relative bg-[#FDFDFD]"
-      style={{ height: `${FEATURES.length * 90}vh` }}
+      style={{ height: `${FEATURES.length * 100}vh` }}
     >
-      <div className="sticky top-0 flex h-screen items-center">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-row items-center gap-10 px-20">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-10 px-6 sm:px-10 lg:flex-row lg:gap-10 lg:px-20">
           {/* Left: heading + subtext + feature list */}
-          <div className="w-[489px] shrink-0">
-            <h2 className="text-[48px] font-medium leading-[60px] tracking-tightest text-[#0A0D12]">
+          <div className="w-full lg:w-[489px] lg:shrink-0">
+            <h2 className="text-[36px] font-medium leading-[44px] tracking-tightest text-[#0A0D12] sm:text-[48px] sm:leading-[60px]">
               Navigate with
               <br />
               absolute confidence
@@ -86,34 +93,28 @@ export function FeatureShowcase() {
                 return (
                   <div key={feature.title}>
                     {i > 0 ? <div className="h-px w-full bg-gray-200" /> : null}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const el = ref.current;
-                        if (!el) return;
-                        const range = el.offsetHeight - window.innerHeight;
-                        window.scrollTo({
-                          top: el.offsetTop + (range * (i + 0.5)) / FEATURES.length,
-                          behavior: 'smooth'
-                        });
-                      }}
-                      className={`block w-full text-left transition-all duration-300 ${
+                    <div
+                      className={`w-full text-left transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                         isActive ? 'rounded-2xl bg-gray-100 p-4' : 'px-4 py-[18px]'
                       }`}
                     >
                       <span
-                        className={`block text-[20px] font-semibold leading-[26px] ${
+                        className={`block text-[20px] font-semibold leading-[26px] transition-colors duration-500 ${
                           isActive ? 'text-[#101828]' : 'text-gray-300'
                         }`}
                       >
                         {feature.title}
                       </span>
-                      {isActive ? (
-                        <span className="mt-1.5 block text-[14px] font-normal leading-5 text-gray-500">
+                      <div
+                        className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                          isActive ? 'mt-1.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                        }`}
+                      >
+                        <span className="overflow-hidden text-[14px] font-normal leading-5 text-gray-500">
                           {feature.description}
                         </span>
-                      ) : null}
-                    </button>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -121,7 +122,7 @@ export function FeatureShowcase() {
           </div>
 
           {/* Right: phone panel */}
-          <div className="relative h-[560px] flex-1 overflow-hidden rounded-[32px] bg-gray-200">
+          <div className="relative h-[420px] w-full overflow-hidden rounded-[32px] bg-gray-200 sm:h-[560px] lg:flex-1">
             {FEATURES.map((feature, i) => (
               <Image
                 key={feature.title}
@@ -130,7 +131,7 @@ export function FeatureShowcase() {
                 width={397}
                 height={818}
                 priority={i === 0}
-                className={`absolute left-1/2 top-20 w-[300px] -translate-x-1/2 transition-opacity duration-300 ${
+                className={`absolute left-1/2 top-16 w-[260px] -translate-x-1/2 transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:top-20 sm:w-[300px] ${
                   i === active ? 'opacity-100' : 'opacity-0'
                 }`}
               />

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { MobileMenu } from './mobile-menu';
 
 /**
  * Top navigation — 346:8996. 1280 max, 80 tall, pad 16/40, space-between.
@@ -87,13 +88,16 @@ export function SiteNav({
           })}
         </nav>
 
-        {/* Download App */}
+        {/* Download App — desktop */}
         <Link
           href="#download"
-          className="flex items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08]"
+          className="hidden items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08] lg:flex"
         >
           Download App
         </Link>
+
+        {/* Hamburger — mobile / tablet */}
+        <MobileMenu tabs={TABS} active={active} dark={dark} />
       </div>
     </header>
   );

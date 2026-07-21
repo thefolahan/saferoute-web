@@ -7,7 +7,7 @@ import Image from 'next/image';
  */
 export function DownloadCta() {
   return (
-    <section id="download" className="bg-white">
+    <section id="download" className="flex min-h-screen flex-col justify-center bg-white">
       <div className="mx-auto max-w-[1280px] px-6 py-16 sm:px-10 md:px-20 md:py-20">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:justify-between lg:gap-10">
           <div className="flex max-w-[520px] flex-col gap-8 text-center lg:text-left">

@@ -29,7 +29,7 @@ function Asterisk() {
 
 export function AboutMission() {
   return (
-    <section className="bg-[#FCFCFC]">
+    <section className="flex min-h-screen flex-col justify-center bg-[#FCFCFC]">
       <div className="mx-auto max-w-[1280px] px-6 py-16 sm:px-10 md:px-20 md:py-24">
         <div className="grid grid-cols-1 gap-y-12 rounded-[32px] bg-[#0A0D12] px-8 py-14 sm:px-12 md:min-h-[544px] md:grid-cols-2 md:gap-x-16 md:px-14">
           {ITEMS.map((item, i) => (

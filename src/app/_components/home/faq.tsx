@@ -58,8 +58,8 @@ export function Faq() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="bg-white">
-      <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-16 px-8 py-24">
+    <section className="flex min-h-screen flex-col justify-center bg-white">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-16 px-8 py-24">
         <header className="flex max-w-[768px] flex-col items-center gap-5 text-center">
           <h2 className="text-[48px] font-medium leading-[60px] tracking-tightest text-gray-950">
             Frequently asked questions

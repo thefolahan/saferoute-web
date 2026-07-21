@@ -26,9 +26,9 @@ const CARDS = [
 
 export function Testimonials() {
   return (
-    <section className="bg-gray-50 py-24">
-      <div className="mx-auto max-w-[1280px]">
-        <header className="flex flex-col gap-4 px-20">
+    <section className="flex min-h-screen flex-col justify-center bg-gray-50 py-24">
+      <div className="mx-auto w-full max-w-[1280px]">
+        <header className="flex flex-col gap-4 px-6 sm:px-10 lg:px-20">
           <p className="text-[11px] font-bold leading-[13px] tracking-[0.08em] text-[#475569]">
             TESTIMONIALS
           </p>
@@ -42,11 +42,11 @@ export function Testimonials() {
           </div>
         </header>
 
-        <div className="mt-14 flex gap-6 pl-20 pr-10">
+        <div className="mt-14 flex gap-6 overflow-x-auto px-6 pb-4 sm:px-10 lg:pl-20 lg:pr-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {CARDS.map((card, i) => (
             <div
               key={i}
-              className="flex h-[490px] w-[360px] shrink-0 flex-col justify-between rounded-3xl bg-white p-8 shadow-[0_10px_30px_rgba(16,24,40,0.07)]"
+              className="flex h-[440px] w-[300px] shrink-0 flex-col justify-between rounded-3xl bg-white p-8 shadow-[0_10px_30px_rgba(16,24,40,0.07)] sm:h-[490px] sm:w-[360px]"
             >
               <div className="flex">
                 <Image

@@ -26,8 +26,8 @@ export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps)
     return (
       <form
         onSubmit={handleSubmit}
-        className="rounded-[14px] border border-gray-200 bg-white p-1"
-        style={{ width }}
+        className="w-full rounded-[14px] border border-gray-200 bg-white p-1"
+        style={{ maxWidth: width }}
       >
         {submitted ? (
           <div className="flex h-14 items-center justify-center px-4 text-[15px] font-medium text-gray-900">
@@ -66,9 +66,9 @@ export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps)
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex h-[52px] items-center rounded-[12px] border border-[#E9EAEB] bg-white"
+      className="flex h-[52px] w-full items-center rounded-[12px] border border-[#E9EAEB] bg-white"
       style={{
-        width,
+        maxWidth: width,
         boxShadow: '0 4px 16px 0 rgba(10,13,18,0.10), 0 1px 4px 0 rgba(10,13,18,0.03)'
       }}
     >

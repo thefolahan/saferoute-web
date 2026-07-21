@@ -8,12 +8,12 @@ import { SiteNav } from '../site-nav';
  */
 export function FeaturesHero() {
   return (
-    <section className="relative bg-white">
+    <section className="relative min-h-screen bg-white">
       <SiteNav active="Features" theme="light" />
-      <div className="mx-auto flex max-w-[1280px] flex-col items-center px-20 pb-10 pt-[120px]">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center px-6 pb-10 pt-[104px] sm:px-10 lg:px-20 lg:pt-[120px]">
         {/* Heading block */}
         <div className="flex max-w-[660px] flex-col items-center gap-4 text-center">
-          <h1 className="text-[72px] font-medium leading-[79px] tracking-tightest text-gray-950">
+          <h1 className="text-[40px] font-medium leading-[46px] tracking-tightest text-gray-950 sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
             Everything you need to travel safer.
           </h1>
           <p className="text-base font-normal text-gray-500">
@@ -22,8 +22,8 @@ export function FeaturesHero() {
           </p>
         </div>
 
-        {/* Cityscape */}
-        <div className="relative mt-10 h-[560px] w-full overflow-hidden rounded-2xl bg-gray-200">
+        {/* Cityscape — portrait on mobile, wide on desktop */}
+        <div className="relative mt-10 aspect-[4/5] w-full overflow-hidden rounded-2xl bg-gray-200 sm:aspect-[16/10] lg:aspect-auto lg:h-[560px]">
           <Image
             src="/images/landing/491-24604.png"
             alt="Aerial view of the Lagos cityscape"

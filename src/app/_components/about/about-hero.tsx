@@ -9,10 +9,10 @@ const STATS = [
 
 export function AboutHero() {
   return (
-    <section className="relative bg-white">
+    <section className="relative min-h-screen bg-white">
       <SiteNav theme="light" />
 
-      <div className="mx-auto max-w-[1280px] px-6 pb-20 pt-[160px] sm:px-10 md:px-20">
+      <div className="mx-auto w-full max-w-[1280px] px-6 pb-16 pt-[120px] sm:px-10 md:px-20">
         <div className="flex flex-col items-center text-center">
           <p className="text-[16px] font-medium uppercase leading-6 tracking-[0.08em] text-gray-500">
             About us

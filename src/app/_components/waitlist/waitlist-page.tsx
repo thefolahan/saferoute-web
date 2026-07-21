@@ -4,6 +4,7 @@ import { MapPin, Shield } from 'lucide-react';
 import { GradientOrbs } from './gradient-orbs';
 import { AvatarStack } from './avatar-stack';
 import { WaitlistForm } from './waitlist-form';
+import { WaitlistMobile } from './waitlist-mobile';
 
 export type WaitlistConfig = {
   orbVariant: 'enterprise' | 'journalist';
@@ -128,11 +129,16 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
   );
 
   return (
-    <main
-      className="relative min-h-[900px] w-full overflow-hidden"
-      style={{ backgroundColor: config.pageBg }}
-    >
-      <div className="relative mx-auto flex min-h-[900px] max-w-[1280px] flex-col">
+    <main className="relative w-full">
+      {/* Mobile (light, full-width) */}
+      <WaitlistMobile config={config} />
+
+      {/* Desktop */}
+      <div
+        className="relative hidden min-h-screen w-full overflow-hidden lg:block"
+        style={{ backgroundColor: config.pageBg }}
+      >
+      <div className="relative flex min-h-screen w-full flex-col">
         <GradientOrbs variant={config.orbVariant} />
 
         {/* Header / TopBar */}
@@ -303,6 +309,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
             </div>
           </footer>
         )}
+      </div>
       </div>
     </main>
   );

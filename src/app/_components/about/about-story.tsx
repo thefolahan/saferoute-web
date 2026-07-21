@@ -7,7 +7,7 @@ import Image from 'next/image';
  */
 export function AboutStory() {
   return (
-    <section className="bg-[#0A0D12]">
+    <section className="flex min-h-screen flex-col justify-center bg-[#0A0D12]">
       <div className="mx-auto max-w-[1280px] px-6 py-16 sm:px-10 md:px-20 md:py-[72px]">
         <h2 className="text-center text-[32px] font-medium leading-tight tracking-[-0.02em] text-white sm:text-[40px]">
           How SafeRoute Started

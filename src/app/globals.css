@@ -50,6 +50,40 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Scroll-reveal primitives — toggled by the <Reveal> client component. */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal[data-from='left'] {
+  transform: translateX(-72px);
+}
+.reveal[data-from='right'] {
+  transform: translateX(72px);
+}
+.reveal[data-from='scale'] {
+  transform: scale(0.92);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 body {
   margin: 0;
   min-height: 100%;
