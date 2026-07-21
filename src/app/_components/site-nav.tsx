@@ -18,7 +18,7 @@ export function SiteNav({
   active,
   theme = 'light'
 }: {
-  active: 'Home' | 'Features' | 'Journalist' | 'Enterprise';
+  active?: 'Home' | 'Features' | 'Journalist' | 'Enterprise';
   theme?: 'dark' | 'light';
 }) {
   const dark = theme === 'dark';
@@ -44,9 +44,11 @@ export function SiteNav({
           </span>
         </Link>
 
-        {/* Tab pill — 346:8996 (dark) / 491:21551 (light) */}
+        {/* Tab pill — 346:8996 (dark) / 491:21551 (light). Hidden below lg where
+            the four-tab pill would overflow narrow viewports (the design is
+            desktop-only; brand + Download App remain). */}
         <nav
-          className={`flex items-center gap-0.5 rounded-full p-1 ${
+          className={`hidden items-center gap-0.5 rounded-full p-1 lg:flex ${
             dark
               ? 'border border-[#1C1C1E] bg-[#121214]'
               : 'border border-[#E2E2E6] bg-[#ECECEF]'

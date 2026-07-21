@@ -1,5 +1,5 @@
 import { SiteFooter } from '../_components/site-footer';
-import { FeaturesDownload } from '../_components/features/download';
+import { DownloadCta } from '../_components/download-cta';
 import { FeatureBlock } from '../_components/features/feature-block';
 import { FeaturesHero } from '../_components/features/hero';
 
@@ -52,7 +52,7 @@ export default function FeaturesPage() {
         />
       </div>
 
-      <FeaturesDownload />
+      <DownloadCta />
       <SiteFooter />
     </main>
   );

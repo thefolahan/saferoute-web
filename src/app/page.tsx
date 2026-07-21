@@ -1,4 +1,4 @@
-import { Download } from './_components/home/download';
+import { DownloadCta } from './_components/download-cta';
 import { Faq } from './_components/home/faq';
 import { FeatureShowcase } from './_components/home/feature-showcase';
 import { Hero } from './_components/home/hero';
@@ -16,7 +16,7 @@ export default function HomePage() {
       <HowItWorks />
       <Testimonials />
       <Faq />
-      <Download />
+      <DownloadCta />
       <SiteFooter />
     </main>
   );
