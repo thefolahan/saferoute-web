@@ -16,7 +16,7 @@ export default function HelpCenterPage() {
           <h1 className="text-[40px] font-bold leading-[1.1] tracking-[-0.02em] text-[#0A0D12] sm:text-[58px] sm:leading-[68px]">
             Need some help?
           </h1>
-          <WaitlistForm variant="row" placeholder="Enter your press email..." width={520} />
+          <WaitlistForm variant="row" placeholder="Enter your email..." width={520} />
         </div>
       </section>
       <SiteFooter />
