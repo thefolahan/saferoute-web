@@ -6,7 +6,7 @@ import { DownloadCta } from '../_components/download-cta';
 import { SiteFooter } from '../_components/site-footer';
 
 export const metadata: Metadata = {
-  title: 'About us — SafeRoute',
+  title: 'About us',
   description:
     "We're helping people travel with confidence. SafeRoute provides real-time road intelligence that helps travelers avoid delays, navigate disruptions, and make smarter decisions before they hit the road."
 };

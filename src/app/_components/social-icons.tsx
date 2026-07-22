@@ -15,11 +15,12 @@ export const SOCIALS: Social[] = [
     )
   },
   {
-    label: 'Email',
+    // Gmail "M" mark (simple-icons:gmail), per Figma.
+    label: 'Gmail',
     href: '#',
     icon: (
       <path
-        d="M2.5 4.5h15c.6 0 1 .4 1 1v9c0 .6-.4 1-1 1h-15c-.6 0-1-.4-1-1v-9c0-.6.4-1 1-1Zm.5 2v.9l7 4.4 7-4.4V6.5l-7 4.4-7-4.4Z"
+        d="M3.2 15.5H5.5V9.1L10 12.5l4.5-3.4v6.4h2.3c.6 0 1.1-.5 1.1-1.1V6.1c0-.75-.86-1.18-1.46-.73L10 10.1 4.56 5.37C3.96 4.92 3.1 5.35 3.1 6.1v8.3c0 .6.5 1.1 1.1 1.1Z"
         fill="currentColor"
       />
     )

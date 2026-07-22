@@ -22,7 +22,7 @@ export function DownloadCta() {
               </p>
             </div>
             <div className="flex justify-center gap-3 lg:justify-start">
-              <a href="#" aria-label="Get it on Google Play">
+              <a href="/coming-soon" aria-label="Get it on Google Play">
                 <Image
                   src="/images/landing/badge-google-play.png"
                   alt="Get it on Google Play"
@@ -31,7 +31,7 @@ export function DownloadCta() {
                   className="h-11 w-auto"
                 />
               </a>
-              <a href="#" aria-label="Download on the App Store">
+              <a href="/coming-soon" aria-label="Download on the App Store">
                 <Image
                   src="/images/landing/badge-app-store.png"
                   alt="Download on the App Store"

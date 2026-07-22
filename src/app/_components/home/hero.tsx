@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { SiteNav } from '../site-nav';
 
@@ -32,18 +33,18 @@ export function Hero() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              type="button"
+            <Link
+              href="/coming-soon"
               className="rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]"
             >
               Download App
-            </button>
-            <button
-              type="button"
+            </Link>
+            <Link
+              href="/features"
               className="rounded-full border border-gray-700 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-100 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]"
             >
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
 

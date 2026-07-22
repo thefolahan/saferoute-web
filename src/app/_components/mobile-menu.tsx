@@ -86,7 +86,7 @@ export function MobileMenu({
               </Link>
             ))}
             <Link
-              href="#download"
+              href="/coming-soon"
               onClick={() => setOpen(false)}
               className="mt-4 flex items-center justify-center rounded-full bg-gray-950 px-6 py-4 text-[16px] font-semibold text-white"
             >

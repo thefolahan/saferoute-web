@@ -7,18 +7,18 @@ const COLUMNS = [
     title: 'Company',
     links: [
       { label: 'About Us', href: '/about' },
-      { label: 'Careers', href: '#' }
+      { label: 'Careers', href: '/careers' }
     ]
   },
   {
     title: 'Support',
-    links: [{ label: 'Help Center', href: '#' }]
+    links: [{ label: 'Help Center', href: '/help-center' }]
   }
 ] as const;
 
 const BADGES = (
   <>
-    <a href="#download" aria-label="Get it on Google Play">
+    <a href="/coming-soon" aria-label="Get it on Google Play">
       <Image
         src="/images/landing/badge-google-play.png"
         alt="Get it on Google Play"
@@ -27,7 +27,7 @@ const BADGES = (
         className="h-10 w-auto"
       />
     </a>
-    <a href="#download" aria-label="Download on the App Store">
+    <a href="/coming-soon" aria-label="Download on the App Store">
       <Image
         src="/images/landing/badge-app-store.png"
         alt="Download on the App Store"

@@ -12,12 +12,17 @@ const siteFont = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'SafeRoute | Know Before You Go',
+  // Home tab reads "SafeRoute - Know Before You Go"; every other page reads
+  // "<Page> | SafeRoute" via the template.
+  title: {
+    default: 'SafeRoute - Know Before You Go',
+    template: '%s | SafeRoute'
+  },
   description:
     'SafeRoute helps people in Nigerian cities see verified safety alerts, report incidents responsibly, and call 112 when it matters.',
   applicationName: 'SafeRoute',
   openGraph: {
-    title: 'SafeRoute | Know Before You Go',
+    title: 'SafeRoute - Know Before You Go',
     description:
       'Verified safety alerts, responsible reporting, and emergency guidance for Nigerian cities.',
     siteName: 'SafeRoute',

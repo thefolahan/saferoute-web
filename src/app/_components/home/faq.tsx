@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const FAQS = [
@@ -129,12 +130,12 @@ export function Faq() {
             </p>
           </div>
 
-          <button
-            type="button"
-            className="rounded-full bg-gray-800 px-[18px] py-3 text-[16px] font-semibold leading-6 text-white shadow-[0_1px_2px_rgba(10,13,18,0.05)]"
+          <Link
+            href="/help-center"
+            className="inline-flex items-center justify-center rounded-full bg-gray-800 px-[18px] py-3 text-[16px] font-semibold leading-6 text-white shadow-[0_1px_2px_rgba(10,13,18,0.05)]"
           >
             Get in touch
-          </button>
+          </Link>
         </div>
       </div>
     </section>

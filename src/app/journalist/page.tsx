@@ -2,44 +2,16 @@ import type { Metadata } from 'next';
 import { WaitlistPage, type WaitlistConfig } from '../_components/waitlist/waitlist-page';
 
 export const metadata: Metadata = {
-  title: 'Journalist | SafeRoute',
+  title: 'Journalist',
   description:
     'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.'
 };
 
 const journalistConfig: WaitlistConfig = {
   orbVariant: 'journalist',
-  pageBg: '#FAFAFA',
-  header: {
-    variant: 'back-right',
-    logo: 'pin',
-    brandColor: '#0A0D12',
-    brandSize: 17,
-    brandLineHeight: 21,
-    backColor: '#717680'
-  },
-  badge: {
-    text: 'Reporters & Press',
-    dotColor: '#F59E0B',
-    textColor: '#6B7280',
-    borderColor: '#E9EAEB',
-    shadow: '0 1px 3px 0 rgba(10,13,18,0.04)',
-    fontSize: 12,
-    lineHeight: 15,
-    gap: 6,
-    uppercase: true
-  },
-  heading: {
-    text: 'Get the story first. Verify with community truth.',
-    color: '#0A0D12',
-    size: 58,
-    lineHeight: 68
-  },
+  heading: { text: 'Get the story first. Verify with community truth.' },
   subhead: {
-    text: 'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.',
-    color: '#717680',
-    size: 18,
-    lineHeight: 28
+    text: 'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.'
   },
   socialProof: {
     orientation: 'horizontal',
@@ -56,25 +28,18 @@ const journalistConfig: WaitlistConfig = {
     countSize: 10,
     countLineHeight: 12,
     title: 'Join 200+ journalists',
-    titleColor: '#0A0D12',
-    subtitle: 'from Reuters, AP, BBC and more',
-    subtitleColor: '#9CA3AF'
+    subtitle: 'from Reuters, AP, BBC and more'
   },
   form: { variant: 'row', placeholder: 'Enter your press email...', width: 520 },
-  trustNote: {
-    text: 'Trusted by reporters at leading outlets. No spam, ever.',
-    color: '#9CA3AF'
-  },
+  trustNote: { text: 'Trusted by reporters at leading outlets. No spam, ever.' },
   valueProps: [
-    { label: 'Exclusive Press Kits', dot: '#A78BFA', color: '#6B7280' },
-    { label: 'Live Citizen Updates', dot: '#F9A8D4', color: '#6B7280' },
-    { label: 'Incident News Desks', dot: '#6EE7B7', color: '#6B7280' }
+    { label: 'Exclusive Press Kits', dot: '#A78BFA' },
+    { label: 'Live Citizen Updates', dot: '#F9A8D4' },
+    { label: 'Incident News Desks', dot: '#6EE7B7' }
   ],
   footer: {
-    copyright: '© 2024 SafeRoute. All rights reserved.',
-    copyrightColor: '#73737A',
-    links: ['Privacy Policy', 'Terms of Service'],
-    linkColor: '#9CA3AF'
+    copyright: '© 2026 SafeRoute. All rights reserved.',
+    links: ['Privacy Policy', 'Terms of Service']
   }
 };
 

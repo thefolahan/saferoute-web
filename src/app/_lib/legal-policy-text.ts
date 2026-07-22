@@ -246,207 +246,243 @@ Email: copyright@saferoute.ng
 
 This policy complies with the Nigerian Copyright Act, 2022 and applicable Nigerian copyright law.`;
 
-export const termsPolicyText = `Last Updated: July 3, 2026
+export const termsPolicyText = `Last Updated: July 2026
 
-TERMS OF SERVICE
-These Terms explain the rules for using SafeRoute, submitting content, receiving alerts, and using safety features responsibly in Nigeria.
+1. Definitions
 
-1. SAFEROUTE IS FOR SAFETY AWARENESS, NOT EMERGENCY DISPATCH
-SafeRoute helps people understand nearby safety reports, community alerts, road hazards, fire, flooding, accidents, missing-person notices, and other public-safety information.
+1.1 In these Terms, unless the context requires otherwise.
+  a. "Company", "we", "our", or "us" means Safe Route, SafeRouteApp its affiliates, and subsidiaries.
+  b. "Services" means the information technology, public safety, and related offerings made available through our platform.
+  c. "User", "you", or "your" means the individual or legal entity using the Services, as the context requires.
+  d. "Information" means information pertaining to public safety, user interface, data pertaining to real time insecurity news and publication within all geo-political zones in Nigeria accepted on our platform.
+  e. "AML" means anti-money laundering; "CFT" means counter-terrorism financing.
 
-SafeRoute is not a police service, ambulance service, fire service, government emergency dispatch center, or guaranteed rescue service.
+2. Incorporation of Terms
 
-In Nigeria, call 112 in an emergency.
+2.1 These Terms are supplemented by and incorporate by reference our Privacy Policy, Data Protection Policy, and any other notices, guidelines, or legal policies issued by us from time to time.
 
-2. USE THE APP WITHOUT PUTTING YOURSELF IN DANGER
-You must not approach dangerous scenes, chase suspects, livestream active violence, interfere with responders, or encourage others to gather at a risky location.
+3. Services
 
-If you report an incident, do it only when it is safe. Stay away from danger and follow official instructions.
+3.1 We provide Services that may include information technology, product engineering, and public safety, and related services.
+3.2 We reserve the right to modify, suspend, or discontinue any Service at our sole discretion without liability to you.
 
-3. ACCOUNT ELIGIBILITY AND RESPONSIBILITY
-You are responsible for the information you submit, the device you use, and all activity under your account.
+4. Account Registration
 
-You must not impersonate another person, create accounts for unlawful activity, sell or transfer accounts, or use SafeRoute to harass, threaten, expose, or endanger anyone.
+4.1 To access the Services, you must register an account and provide accurate, complete, and current information.
+4.2 You are responsible for safeguarding your login credentials. Any activity conducted under your account shall be deemed authorized by you.
 
-4. REPORTING RULES
-Reports must be made in good faith and must describe what you reasonably believe is true.
+5. Access and Security
 
-Do not submit hoaxes, rumors presented as facts, private accusations, ethnic or religious blame, exact private home addresses, threats, weapon guidance, or content that may trigger mob action.
+5.1 You agree not to circumvent, disable, or otherwise interfere with the moral security or integrity of the Services.
+5.2 We may restrict access to the Services if we suspect unauthorized use, fraud, or breach of these Terms.
 
-Serious allegations may be held for moderation before wide public alerting.
+6. Eligibility
 
-5. VERIFICATION AND MODERATION
-SafeRoute may mark reports as reported, under review, verified, resolved, rejected, duplicate, or expired.
+6.1 Use of the Services is limited to:
+  a. natural persons who are at least eighteen (18) years old, have full legal capacity, and are not subject to any legal or regulatory restrictions or criminal record; and
+  b. legal entities that are duly incorporated, validly existing, and in good standing under the laws of their jurisdiction, acting through duly authorized representatives.
+6.2 You represent and warrant that you are not a resident, national, or agent of, and will not access or use the Services from, any jurisdiction or person subject to any sanctions administered by the United Nations, European Union, United States, United Kingdom, or any other competent authority.
 
-We may use moderator review, trusted reporters, multiple nearby reports, media evidence, official sources, confidence scoring, and abuse detection.
+7. Know Your Customer (KYC)
 
-We may remove, reduce visibility, or delay alerts when content creates panic, privacy risk, legal risk, or harm.
+7.1 As a condition of accessing or continuing to use the Services, you agree to provide such information, documentation, and evidence as we may reasonably request to verify your identity upon submission of information, and comply with our legal and regulatory obligations.
+7.2 For individual users, verification may include, without limitation:
+  a. a valid government-issued identification document (e.g., National Identification Number card, international passport, driver's license)
+  b. proof of residential address (e.g., utility bill, bank statement, government correspondence); and
+  c. any additional information we may request, such as source of information, credibility of same information or occupation details.
+7.3 You agree that failure to provide accurate, complete, and up-to-date information, or failure to pass our verification checks, may result in refusal of access to the Services or immediate suspension in accordance with Section 12.
+7.5 Where you are a legal entity that provides services to end-users through or in connection with our Services, you shall
+  a. conduct appropriate KYC and due diligence checks on your customers in accordance with standards that are no less stringent than our own and in compliance with applicable laws;
+  b. maintain accurate, complete, and up-to-date records of such customer information;
+  c. upon our reasonable request, promptly provide us with copies of such KYC information, transaction details, or related documentation for compliance or regulatory purposes; and
+  d. accept full responsibility for the legality, accuracy, and completeness of any such customer information shared with us.
 
-6. COMMUNITY ALERTS AND SOS-STYLE FEATURES
-Community alerts are designed to ask nearby SafeRoute users to be aware, avoid danger, and call 112 where appropriate.
+8. User Obligations
 
-They are not a request for vigilantism or confrontation. Users receiving alerts should not go to a dangerous scene unless they are trained responders acting within the law.
+8.1 You must use the Services in accordance with applicable laws and these Terms.
+8.2 You are solely responsible for the accuracy of information you provide and for all activities under your account.
 
-7. MEDIA AND USER CONTENT
-If you upload photos, videos, audio, text, or location details, you give SafeRoute permission to process, moderate, store, display, and share that content as needed to operate safety features.
+9. Prohibited Activities
 
-Do not upload graphic violence, private faces in sensitive contexts, private identity documents, illegal content, copyrighted content you do not have permission to use, or media that exposes people to harm.
+9.1 You shall not use the Services to:
+  a. engage in fraud, falsefully disseminate information, mass falseful propaganda, or any unlawful activity;
+  b. transmit harmful code, interfere with the Services, or attempt unauthorized access;
+  c. disguise or misrepresent the source of information; or
+  d. breach any applicable sanctions laws.
 
-8. COPYRIGHT AND THIRD-PARTY RIGHTS
-You may only upload content you created, own, or have permission to use.
+10. Data Verification
 
-SafeRoute may remove content that appears to infringe copyright, trademark, privacy, publicity, or other legal rights.
+10.1 All information are once recorded on the SafeRouteApp and legal authorities in real-time, except as required by law or our internal policies.
+10.2 We may delay, reverse, or refuse to process an information if we reasonably believe it is suspicious, fraudulent, or in breach of these Terms.
 
-9. PRIVACY AND LOCATION SAFETY
-SafeRoute is built around sensitive location data. We may hide exact locations, round locations, remove metadata, restrict media, or limit visibility to protect users and bystanders.
+11. Fees and Charges
 
-You must not use SafeRoute to track private people, expose private homes, identify alleged suspects, or encourage others to confront anyone.
+11.1 You agree to pay all applicable fees as published on our platform.
+11.2 Fees may be amended at our discretion upon prior notice.
 
-10. PREMIUM, ENTERPRISE, AND PARTNER FEATURES
-Some features may be offered as paid, premium, enterprise, partner, or invite-only services.
+12. Intellectual Property
 
-Feature availability, pricing, access, support levels, and usage limits may change as SafeRoute grows.
+12.1 All intellectual property in the Services, including software, designs, logos, and trademarks, are owned by or licensed to us.
+12.2 You are granted a limited, non-exclusive, non-transferable license to use the Services solely for lawful purposes.
 
-11. NO GUARANTEE OF ACCURACY
-Incident information may be incomplete, delayed, wrong, duplicated, or later rejected.
+13. Suspension, Restriction, and Termination
 
-SafeRoute provides safety awareness, not legal, security, medical, route, or emergency advice.
+13.1 We may suspend, restrict, or terminate your account or access to the Services if you:
+  a. breach these Terms;
+  b. fail to satisfy our KYC/AML requirements;
+  c. engage in prohibited activities; or
+  d. create legal, regulatory, or reputational risk for us.
+13.2 We may further access your KYC during investigations or compliance reviews. We will endeavor to resolve such matters promptly, but no specific timeframes are guaranteed.
 
-Always use your judgment, call 112 in emergencies, and follow official agency instructions.
+14. Disclosure
 
-12. PROHIBITED CONDUCT
-You may not use SafeRoute to:
+14.1 You acknowledge that Information provided by users are unverified and subject to verification by SafeRoute.
+14.2 You accept sole responsibility for evaluating these data before using the Services.
 
-- Submit false emergency reports
+15. Limitation of Liability
 
-- Harass, threaten, dox, or expose private people
+15.1 To the maximum extent permitted by law, we shall not be liable for indirect, incidental, or consequential losses arising from your use of the Services.
+15.2 Nothing in these Terms excludes liability for conspiracy, obstruction of justice, or gross negligence.
 
-- Encourage violence, mob action, vigilantism, or discrimination
+16. Indemnification
 
-- Interfere with emergency responders
+16.1 You agree to indemnify and hold us harmless against any claims, damages, liabilities, or expenses arising from your breach of these Terms or misuse of the Services.
 
-- Upload illegal, infringing, or harmful content
+17. Governing Law and Dispute Resolution
 
-- Attempt to reverse engineer, scrape, overload, or attack the service
+17.1 These Terms shall be governed by and construed in accordance with the laws of Nigeria.
+17.2 Any dispute shall be resolved through arbitration in Lagos, Nigeria, under the Arbitration and Conciliation Act, with proceedings conducted in English.
 
-- Use bots, spam, or automated activity without permission
+18. Amendments
 
-13. ENFORCEMENT
-We may enforce these Terms by limiting features, removing content, suspending accounts, preserving evidence of abuse, cooperating with lawful requests where legally required and appropriate, or taking other action needed to protect SafeRoute and its users.
+18.1 We may amend these Terms at any time by posting updated Terms on our platform. Continued use of the Services constitutes acceptance of the amendments.
 
-14. CHANGES TO THESE TERMS
-We may update these Terms as SafeRoute grows across Nigeria and Africa.
+19. Notices
 
-Continued use of SafeRoute after changes are posted means you accept the revised Terms.
+19.1 Notices will be provided by email or through in-platform notifications.
+19.2 Notices sent electronically are deemed received on the day of transmission.
 
-15. CONTACT INFORMATION
-For General Inquiries: support@saferoutehq.com
+20. Miscellaneous
 
-For Copyright Infringement Claims: copyright@saferoute.ng
+20.1 If any provision of these Terms is held invalid, the remaining provisions shall remain enforceable.
+20.2 Our failure to enforce any right shall not constitute a waiver.
+20.3 These Terms constitute the entire agreement between you and us regarding the Services.`;
 
-SafeRoute
 
-Nigeria`;
+export const privacyPolicyText = `Last Updated: July 2026
 
-export const privacyPolicyText = `Last Updated: July 3, 2026
+Safe Route Africa Limited ("Safe Route," "we," or "us") is the owner and operator of the Safe Route. Safe Route provides an online platform where information relating to public safety, user interface, data pertaining to real time insecurity news and publication are broadcasted within all geo-political zones in Nigeria accepted on our platform.
 
-PRIVACY POLICY
-SafeRoute's mission is to help make movement safer. The same principle applies to your data: collect less, protect more, and use location only for safety.
+This Privacy Policy explains how we collect, use, store, share, and protect your information when you use:
+  - The Safe Route website (https://www.saferoutehq.com)
+  - Any Safe Route API directly or through a third-party application.
 
-This Privacy Policy explains how SafeRoute collects, uses, shares, protects, and retains personal information for users in Nigeria.
+Together, these are referred to as the "Safe Route" and "Services."
 
-1. WHAT SAFEROUTE COLLECTS
-SafeRoute may collect account details such as your name or display name, phone number, email address, sign-in provider identity, profile settings, device identifiers, push tokens, preferred city, alert radius, emergency contacts you choose to save, and app activity needed to operate the service.
+By using the Safe Route Site and Services, you consent to the data and information policies set out in this Privacy Policy. You also acknowledge that you have read and agreed to Safe Route General Terms of Use and other applicable policies, which form part of our contractual relationship with you.
 
-2. LOCATION DATA
-SafeRoute requests location permission so it can show nearby incidents, determine whether you are inside an alert region, help you create safer reports, and support emergency sharing features.
+1) Information We Collect
 
-We do not use location to encourage confrontation or to publicly expose your precise private address.
+a) Information You Provide Directly
+We collect information you provide when you register for and use the Services, including but not limited to:
+  - Full name, email address, phone number, date of birth, and residential address.
+  - Identification documents and government-issued numbers (such as NIN, BVN, passport, driver's license, or tax ID)
+  - Biographic information and, where required by law, additional documentation for KYC compliance.
 
-3. INCIDENT REPORTS, ALERTS, AND MEDIA
-When you submit a report or alert, we may process location, category, description, timestamps, confidence signals, media attachments, device metadata, moderation results, and duplicate-detection signals.
+b) Information Collected Automatically
+When you use our Services, we automatically collect:
+  - Information: details of your information, category & severity, and timestamps
+  - Device Data: operating system, language, device identifiers, IP address, browser type, and activity logs;
+  - Location Data: with your permission, precise or approximate geolocation.
+  - Cookies & Tracking Technologies: session and persistent cookies to recognize you, improve performance, and personalize your experience.
 
-Media may be scanned, stripped of metadata, kept private until approved, rejected, or shown with safety limits.
+c) Information from Third Parties
+We may collect information from third-party identity verification providers, and public databases as part of our compliance obligations.
 
-4. HOW WE USE DATA
-We use data to:
+2) Lawful Basis for Processing
 
-- Authenticate users
+We process your personal data only when permitted by law. The lawful bases include:
+  - Consent: when you give clear permission (e.g., for marketing communications);
+  - Contract: when processing is necessary to perform our agreement with you;
+  - Legal Obligation: to meet regulatory or statutory requirements.
+  - Legitimate Interests: for purposes such as falseful information, improving our services, and business analytics, provided your rights are not overridden.
 
-- Prevent abuse and false reporting
+3) Use of Information
 
-- Deliver nearby alerts
+We use your personal data to:
+  - Deliver and improve our Services;
+  - Verify your identity and fulfill KYC obligations;
+  - Detect and prevent mass dissemination of false information, or illegal activity;
+  - Provide real-time customer support and respond to inquiries;
+  - Send you important updates, including security alerts and policy changes;
+  - Carry out audits, troubleshooting, and analytics;
+  - Comply with applicable laws and regulatory requirements;
+  - Conduct marketing and promotional communications (where permitted by law and subject to your consent).
 
-- Operate moderation queues
+4) Sharing of Information
 
-- Verify reports and reduce duplicate incidents
+We may share your personal information only in the following circumstances:
+  - With third-party service providers under strict confidentiality agreements;
+  - With affiliates, subsidiaries, or other entities controlled by Safe Route;
+  - With regulators, law enforcement agencies, or courts when legally required (e.g., court order, subpoena, regulatory directive);
+  - In connection with a merger, acquisition, or sale of assets, subject to this Policy;
+  - With your consent or at your direction.
 
-- Send push notifications
+We do not sell or rent your personal data to third parties.
 
-- Improve safety guidance
+5) International Data Transfers
 
-- Maintain audit logs
+Your information may be transferred to and stored in jurisdictions outside your country of residence, including countries that may not provide the same level of data protection. Where we transfer personal data internationally, we implement appropriate safeguards in line with applicable data protection laws (e.g., Standard Contractual Clauses, NDPR provisions).
 
-- Support account deletion and user requests
+6) Data Retention and Deletion
 
-- Protect the SafeRoute community
+We retain personal data only as long as necessary for the purposes set out in this Policy, including compliance with obligations and other legal requirements. Retention periods vary depending on the type of data and applicable laws.
 
-5. DATA SHARING
-We do not sell sensitive location data.
+If you request account closure, we will delete your personal information unless retention is required for:
+  - Ongoing investigations or disputes;
+  - Compliance with law or regulatory obligations;
+  - Fraud prevention.
 
-We may share limited safety information with users, moderators, service providers, emergency contacts you select, agency partners, or lawful authorities when needed to operate the app, prevent harm, comply with law, or protect people.
+7) Your Rights as a Data Subject
 
-We avoid sharing personal data unless there is a clear product, safety, legal, or consent basis.
+Depending on your jurisdiction, you may have the following rights:
+  - Right to access the personal data we hold about you;
+  - Right to correct inaccurate or incomplete data;
+  - Right to request deletion (erasure), subject to legal/regulatory retention obligations;
+  - Right to object to certain processing (including direct marketing);
+  - Right to restrict processing in certain circumstances;
+  - Right to data portability;
+  - Right to withdraw consent (where processing is based on consent);
+  - Right to lodge a complaint with a supervisory authority or regulator.
 
-6. DATA RIGHTS AND CHOICES
-You can manage notification settings, privacy settings, alert radius, watched places, emergency contacts, and account details.
+8) Children's Privacy
 
-You may request access, correction, deletion, portability, restriction, objection, or other applicable data-rights support.
+You must be at least 18 years old to use Safe Route Services. We do not knowingly collect data from individuals under 18. If we discover such data, it will be deleted immediately.
 
-Some records may be retained where needed for safety, fraud prevention, audit logs, legal compliance, or abuse investigations.
+9) Security Measures
 
-7. SECURITY
-SafeRoute uses security controls such as token-based sessions, rate limits, private media storage, signed uploads, moderation review, access controls, audit logs, and least-privilege practices.
+We use administrative, technical, and physical safeguards designed to protect your personal information against unauthorized access, loss, misuse, or disclosure. These measures include encryption, restricted access, firewalls, and monitoring systems.
 
-No system is perfectly secure, but we design the app to reduce exposure of sensitive identity, location, and media data.
+10) Updates to This Privacy Policy
 
-8. RETENTION
-We keep data only as long as needed for safety operations, account management, moderation, analytics, legal obligations, and abuse prevention.
+We may update this Policy from time to time. When we make material changes, we will notify you by email or through the Safe Route App. The updated version will always carry the "Last Updated" date at the top.
 
-Public incident data may expire or be resolved.
+11) Jurisdiction and Governing Law
 
-Account deletion will remove or anonymize personal profile data where possible, while some safety and audit records may be retained when necessary.
+This Privacy Policy is governed by and construed in accordance with the laws of the Federal Republic of Nigeria.
 
-9. CHILDREN AND VULNERABLE USERS
-SafeRoute is not designed to expose children or vulnerable people to public identification.
+For users located in the European Union (EU), United Kingdom (UK), or other jurisdictions with specific data protection laws, Safe Route will apply the relevant provisions of the General Data Protection Regulation (GDPR), the UK Data Protection Act, or other applicable laws in addition to Nigeria's Nigeria Data Protection Regulation (NDPR).
 
-Missing-person and found-person reports require careful moderation.
+References in this Policy to "foreign law enforcement agencies" include law enforcement or regulatory bodies outside Nigeria acting under applicable law.
 
-Users must avoid sharing private child details, private school addresses, sensitive images, or identity information unless lawful, necessary, and safe.
+12) Indemnity & Limitation of Liability
 
-10. SERVICE PROVIDERS
-SafeRoute may use trusted service providers for hosting, authentication, analytics, notifications, maps, media storage, moderation support, email, and security.
+By using our Services, you agree to hold Safe Route, its officers, directors, employees, and affiliates harmless from any claims, liabilities, or expenses arising from your breach of this Policy or misuse of the Services.
 
-These providers may process limited data only as needed to provide services to SafeRoute.
+Safe Route will not be liable for indirect, consequential, or punitive damages, except as required by law.
 
-11. LEGAL REQUESTS AND SAFETY
-We may preserve or disclose information where required by Nigerian law, lawful process, emergency safety needs, or to protect the rights, safety, and integrity of SafeRoute, users, responders, or the public.
+13) Contact Us
 
-12. NIGERIA AND AFRICA EXPANSION
-SafeRoute is starting in Nigeria and is designed to expand across Africa with local emergency numbers, languages, moderation rules, country settings, and agency integrations.
+This Privacy Policy is governed by and construed in accordance with the laws of the Federal Republic of Nigeria.
 
-Privacy practices may be updated to reflect local laws, hosting requirements, and user rights in each supported country.
-
-13. CHANGES TO THIS POLICY
-We may update this Privacy Policy from time to time.
-
-Continued use of SafeRoute after changes are posted means you accept the revised Privacy Policy.
-
-14. CONTACT INFORMATION
-For Privacy Requests and General Inquiries: support@saferoutehq.com
-
-For Copyright Infringement Claims: copyright@saferoute.ng
-
-SafeRoute
-
-Nigeria`;
+If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at: support@saferoutehq.com`;

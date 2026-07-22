@@ -4,7 +4,7 @@ import { FeaturesShowcase } from '../_components/features/features-showcase';
 import { FeaturesHero } from '../_components/features/hero';
 
 export const metadata = {
-  title: 'Features — SafeRoute',
+  title: 'Features',
   description:
     'From real-time incident reports to route safety scores, SafeRoute gives you the information you need before and during every journey.'
 };

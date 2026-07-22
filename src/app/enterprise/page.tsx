@@ -2,43 +2,16 @@ import type { Metadata } from 'next';
 import { WaitlistPage, type WaitlistConfig } from '../_components/waitlist/waitlist-page';
 
 export const metadata: Metadata = {
-  title: 'Enterprise | SafeRoute',
+  title: 'Enterprise',
   description:
     'Get early access to real-time safety routing and secure your spot on the enterprise waitlist.'
 };
 
 const enterpriseConfig: WaitlistConfig = {
   orbVariant: 'enterprise',
-  pageBg: '#000000',
-  header: {
-    variant: 'back-left',
-    logo: 'globe',
-    brandColor: '#1C1C1C',
-    brandSize: 24,
-    brandLineHeight: 29,
-    backColor: '#9CA3AF'
-  },
-  badge: {
-    text: 'Enterprise is launching soon',
-    dotColor: '#7C3AED',
-    textColor: '#4B5563',
-    borderColor: '#E5E7EB',
-    shadow: '0 1px 4px 0 rgba(0,0,0,0.04)',
-    fontSize: 13,
-    lineHeight: 16,
-    gap: 8
-  },
-  heading: {
-    text: 'Protect your workforce. Optimize their transit.',
-    color: '#111827',
-    size: 60,
-    lineHeight: 68
-  },
+  heading: { text: 'Protect your workforce. Optimize their transit.' },
   subhead: {
-    text: 'Get early access to real-time safety routing and secure your spot on the enterprise waitlist.',
-    color: '#6B7280',
-    size: 17,
-    lineHeight: 26
+    text: 'Get early access to real-time safety routing and secure your spot on the enterprise waitlist.'
   },
   socialProof: {
     orientation: 'vertical',
@@ -56,12 +29,9 @@ const enterpriseConfig: WaitlistConfig = {
     countSize: 11,
     countLineHeight: 13,
     title: 'Join the waitlist',
-    titleColor: '#111827',
-    subtitle: 'Sign up to be one of the first to use SafeRoute.',
-    subtitleColor: '#6B7280'
+    subtitle: 'Sign up to be one of the first to use SafeRoute.'
   },
-  form: { variant: 'card', placeholder: 'Enter your email...', width: 460 },
-  followUs: { text: 'Follow us', color: '#9CA3AF' }
+  form: { variant: 'card', placeholder: 'Enter your email...', width: 460 }
 };
 
 export default function EnterpriseWaitlistPage() {

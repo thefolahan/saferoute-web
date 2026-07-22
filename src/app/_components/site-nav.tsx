@@ -25,11 +25,11 @@ export function SiteNav({
   const dark = theme === 'dark';
   return (
     <header className="absolute inset-x-0 top-0 z-50">
-      <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-10">
+      <div className="flex h-20 w-full items-center justify-between px-6 sm:px-10 lg:px-16">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-1">
           <Image
-            src={dark ? '/images/landing/logo-mark-white.png' : '/images/landing/logo-mark.png'}
+            src={dark ? '/images/landing/logo-mark-white.png' : '/images/landing/logo-mark-dark.png'}
             alt="SafeRoute"
             width={32}
             height={32}
@@ -90,7 +90,7 @@ export function SiteNav({
 
         {/* Download App — desktop */}
         <Link
-          href="#download"
+          href="/coming-soon"
           className="hidden items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08] lg:flex"
         >
           Download App
