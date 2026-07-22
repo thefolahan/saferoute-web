@@ -7,25 +7,20 @@ const STATS = [
   { value: '$1B+', label: 'Processed for customers' }
 ] as const;
 
-/**
- * About hero — Figma 2001:9175. Nav + centered "ABOUT US" eyebrow, 72/79 w500
- * heading (max 760), 16/24 subtext, dark Download App pill, then a 4-cell stats
- * strip (border #D5D7DA, radius 17, cells divided by hairlines).
- */
 export function AboutHero() {
   return (
-    <section className="relative min-h-screen bg-white">
+    <section className="relative flex min-h-screen flex-col bg-white">
       <SiteNav theme="light" />
 
-      <div className="mx-auto max-w-[1280px] px-6 pb-16 pt-[120px] sm:px-10 lg:px-20">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col px-6 pb-16 pt-[104px] sm:px-10 lg:flex-1 lg:justify-center lg:px-20 lg:pt-[120px]">
         <div className="flex flex-col items-center text-center">
           <p className="text-[16px] font-medium uppercase leading-6 tracking-[-0.02em] text-[#717680]">
             About us
           </p>
-          <h1 className="mt-4 max-w-[760px] text-[40px] font-medium leading-[1.1] tracking-[-0.02em] text-[#0A0D12] sm:text-[56px] lg:text-[72px] lg:leading-[79px]">
-            We&apos;re helping people travel with confidence.
+          <h1 className="mt-4 max-w-[760px] text-[32px] font-medium leading-[40px] tracking-[-0.02em] text-[#0A0D12] sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
+            We are helping people travel with confidence.
           </h1>
-          <p className="mt-4 max-w-[680px] text-[16px] font-normal leading-6 text-[#717680]">
+          <p className="mt-4 max-w-[680px] text-[14px] font-normal leading-6 text-[#717680] sm:text-[16px]">
             SafeRoute provides real-time road intelligence that helps travelers
             avoid delays, navigate disruptions, and make smarter decisions before
             they hit the road.
@@ -38,7 +33,6 @@ export function AboutHero() {
           </a>
         </div>
 
-        {/* Stats */}
         <div className="mt-14 grid grid-cols-2 overflow-hidden rounded-[17px] border border-[#D5D7DA] lg:grid-cols-4">
           {STATS.map((stat, i) => (
             <div
@@ -49,10 +43,10 @@ export function AboutHero() {
                 i % 4 !== 0 ? 'lg:border-l lg:border-[#D5D7DA]' : ''
               }`}
             >
-              <p className="text-[36px] font-semibold leading-none tracking-[-0.02em] text-[#0A0D12] sm:text-[48px]">
+              <p className="text-[32px] font-semibold leading-none tracking-[-0.02em] text-[#0A0D12] sm:text-[48px]">
                 {stat.value}
               </p>
-              <p className="mt-3 text-[14px] font-normal leading-5 tracking-[-0.02em] text-[#717680]">
+              <p className="mt-3 text-[12px] font-normal leading-5 tracking-[-0.02em] text-[#717680] sm:text-[14px]">
                 {stat.label}
               </p>
             </div>

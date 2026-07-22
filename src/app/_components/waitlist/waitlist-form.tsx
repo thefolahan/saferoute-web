@@ -9,7 +9,6 @@ type WaitlistFormProps = {
   width: number;
 };
 
-// Waitlist stub — no backend. On submit we flip to an inert "Thanks!" state.
 export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);

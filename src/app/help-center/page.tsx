@@ -7,11 +7,6 @@ export const metadata: Metadata = {
   title: 'Help Center'
 };
 
-/**
- * Help Center — Figma 2059:11337. Standard nav, a big centered "Need some help?"
- * with an email form, then the shared footer — the whole page fits one viewport
- * on desktop (no scroll).
- */
 export default function HelpCenterPage() {
   return (
     <main id="top" className="flex flex-col lg:h-screen lg:overflow-hidden">

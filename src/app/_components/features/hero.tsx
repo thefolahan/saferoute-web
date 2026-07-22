@@ -13,7 +13,7 @@ export function FeaturesHero() {
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center px-6 pb-10 pt-[104px] sm:px-10 lg:px-20 lg:pt-[120px]">
         {/* Heading block */}
         <div className="flex max-w-[660px] flex-col items-center gap-4 text-center">
-          <h1 className="text-[40px] font-medium leading-[46px] tracking-tightest text-gray-950 sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
+          <h1 className="text-[40px] font-medium leading-[50px] tracking-tightest text-gray-950 sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
             Everything you need to travel safer.
           </h1>
           <p className="text-base font-normal text-gray-500">
