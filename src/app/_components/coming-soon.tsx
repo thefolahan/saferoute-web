@@ -26,7 +26,7 @@ export function ComingSoon({
         <div className="absolute left-1/2 top-1/2 h-[360px] w-[440px] -translate-x-1/2 rounded-full bg-[#FBCFE8] opacity-25 blur-[100px] sm:h-[400px] sm:w-[500px] sm:opacity-30" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[1280px] flex-col">
+      <div className="relative mx-auto flex min-h-screen w-full flex-col">
         {/* Header: logo centred on mobile, logo-left + back-right on desktop */}
         <header className="relative z-10 flex h-[73px] items-center px-4 sm:h-[88px] sm:px-12">
           <div className="mx-auto flex items-center gap-1 sm:mx-0">

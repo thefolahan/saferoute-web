@@ -25,7 +25,7 @@ export function SiteNav({
   const dark = theme === 'dark';
   return (
     <header className="absolute inset-x-0 top-0 z-50">
-      <div className="flex h-20 w-full items-center justify-between px-6 sm:px-10 lg:px-16">
+      <div className="flex h-20 w-full items-center justify-between px-6 sm:px-10">
         {/* Brand */}
         <Link href="/" className="flex items-center gap-1">
           <Image

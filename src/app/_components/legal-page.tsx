@@ -11,7 +11,7 @@ export function LegalPage({ title, body }: { title: string; body: string }) {
     <main id="top">
       <div className="relative bg-white pb-24 pt-32">
         <SiteNav theme="light" />
-        <div className="mx-auto max-w-[760px] px-6">
+        <div className="mx-auto max-w-[1280px] px-6 sm:px-10 lg:px-20">
           <h1 className="text-[40px] font-semibold leading-tight tracking-tightest text-gray-900">
             {title}
           </h1>
