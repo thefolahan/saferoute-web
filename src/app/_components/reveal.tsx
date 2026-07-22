@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ElementType, type
 type RevealProps = {
   children: ReactNode;
   /** Direction the element animates in from. */
-  from?: 'up' | 'left' | 'right' | 'scale';
+  from?: 'up' | 'left' | 'right' | 'scale' | 'morph';
   /** Stagger delay in ms. */
   delay?: number;
   /** Re-animate every time it re-enters the viewport. */

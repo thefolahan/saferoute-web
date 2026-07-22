@@ -4,12 +4,11 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Features — the dark section under the hero. A single pinned section: the
- * panel stays fixed while you scroll and the feature layers cross-dissolve.
- * The transition is *scrubbed* to scroll progress (not fired on a discrete
- * index change), so adjacent features blend continuously with a gentle depth
- * drift + scale + blur — smooth instead of snapping. Content is verbatim from
- * the 491:* frames.
+ * Features — one single pinned section. The panel stays put while you scroll and
+ * the six features advance through it; each feature's phone + copy *morph* in and
+ * out — scaling up out of a soft blur as it becomes active, then blurring/shrinking
+ * away as the next takes its place. Everything is scrubbed to scroll progress, so
+ * the motion tracks the scrollbar exactly. Content is verbatim from the 491:* frames.
  */
 const FEATURES = [
   {
@@ -65,7 +64,7 @@ const FEATURES = [
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
 
-// easeInOutCubic — softens the linear crossfade so layers ease in/out.
+// easeInOutCubic
 const ease = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
@@ -96,10 +95,9 @@ export function FeaturesShowcase() {
       raf = 0;
       const el = ref.current;
       if (!el) return;
-      const rect = el.getBoundingClientRect();
       const range = el.offsetHeight - window.innerHeight;
       if (range <= 0) return;
-      const scrolled = clamp(-rect.top, 0, range);
+      const scrolled = clamp(-el.getBoundingClientRect().top, 0, range);
       setP((scrolled / range) * (FEATURES.length - 1));
     };
     const onScroll = () => {
@@ -115,21 +113,19 @@ export function FeaturesShowcase() {
     };
   }, []);
 
-  // For a layer i, return the shared envelope plus the signed "leave" amount `s`
-  // (0 while the feature is held on-screen, ramping to ±1 as it slides away).
-  // Phone and copy use `s` with opposite signs so they enter/exit from opposite
-  // edges as you scroll.
-  const layer = (i: number) => {
+  // Morph envelope: crisp while held (|d| < 0.3), then fade + scale-down into a
+  // blur as the feature leaves (and the reverse as the next one arrives).
+  const morph = (i: number): React.CSSProperties => {
     const d = p - i;
     const ad = Math.abs(d);
-    // Hold crisp within a plateau (|d| < 0.3), then transition at the boundary.
-    const t = clamp((ad - 0.3) / 0.4, 0, 1);
-    const s = ease(t) * Math.sign(d || 1); // signed slide progress, -1 … 1
+    const t = clamp((ad - 0.3) / 0.42, 0, 1);
     return {
       opacity: ease(1 - t),
-      s,
-      pointerEvents: (ad < 0.5 ? 'auto' : 'none') as React.CSSProperties['pointerEvents'],
-      zIndex: Math.round(100 - ad * 100)
+      transform: `scale(${1 - t * 0.09})`,
+      filter: t > 0.01 ? `blur(${t * 22}px)` : 'none',
+      pointerEvents: ad < 0.5 ? 'auto' : 'none',
+      zIndex: Math.round(100 - ad * 100),
+      willChange: 'opacity, transform, filter'
     };
   };
 
@@ -139,84 +135,62 @@ export function FeaturesShowcase() {
       className="relative bg-gray-950"
       style={{ height: `${FEATURES.length * 100}vh` }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Desktop: phone + copy slide in from opposite sides as you scroll. */}
-        <div className="relative mx-auto hidden h-full w-full max-w-[1280px] lg:block">
-          {FEATURES.map((f, i) => {
-            const { opacity, s, pointerEvents, zIndex } = layer(i);
-            const dir = f.phoneLeft ? -1 : 1; // phone rests on left (-) or right (+)
-            return (
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        {/* Desktop: phone one side, copy the other; the whole feature morphs. */}
+        <div className="relative mx-auto hidden h-[620px] w-full max-w-[1280px] px-6 sm:px-10 lg:block lg:px-20">
+          {FEATURES.map((f, i) => (
+            <div
+              key={f.heading}
+              className="absolute inset-0 flex items-center"
+              style={morph(i)}
+              aria-hidden={Math.round(p) !== i}
+            >
               <div
-                key={f.heading}
-                className="absolute inset-0 flex items-center py-16"
-                style={{ opacity, pointerEvents, zIndex, willChange: 'opacity' }}
-                aria-hidden={Math.round(p) !== i}
+                className="absolute top-1/2 h-[560px] w-[44%] -translate-y-1/2 overflow-hidden rounded-[32px] bg-gray-900"
+                style={{ left: f.phoneLeft ? '4%' : '52%' }}
               >
-                {/* Phone — enters from its own side */}
-                <div
-                  className="absolute top-1/2 h-[560px] w-[46%] -translate-y-1/2"
-                  style={{ left: f.phoneLeft ? '6%' : '48%' }}
-                >
-                  <div
-                    className="h-full w-full overflow-hidden rounded-[32px] bg-gray-900"
-                    style={{ transform: `translate3d(${dir * s * 220}px, 0, 0)`, willChange: 'transform' }}
-                  >
-                    <Image
-                      src={f.phone}
-                      alt=""
-                      width={397}
-                      height={818}
-                      priority={i === 0}
-                      className="absolute left-1/2 top-20 h-[818px] w-[300px] -translate-x-1/2"
-                    />
-                  </div>
-                </div>
-                {/* Copy — enters from the opposite side */}
-                <div
-                  className="absolute top-1/2 w-[38%] -translate-y-1/2"
-                  style={{ left: f.phoneLeft ? '58%' : '6%' }}
-                >
-                  <div style={{ transform: `translate3d(${-dir * s * 160}px, 0, 0)`, willChange: 'transform' }}>
-                    <Copy f={f} />
-                  </div>
-                </div>
+                <Image
+                  src={f.phone}
+                  alt=""
+                  width={397}
+                  height={818}
+                  priority={i === 0}
+                  className="absolute left-1/2 top-20 h-[818px] w-[300px] -translate-x-1/2"
+                />
               </div>
-            );
-          })}
+              <div
+                className="absolute top-1/2 w-[38%] -translate-y-1/2"
+                style={{ left: f.phoneLeft ? '56%' : '4%' }}
+              >
+                <Copy f={f} />
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Mobile: copy slides in from the left, phone from the right. */}
-        <div className="relative flex h-full w-full flex-col lg:hidden">
-          {FEATURES.map((f, i) => {
-            const { opacity, s, pointerEvents, zIndex } = layer(i);
-            return (
-              <div
-                key={`m-${f.heading}`}
-                className="absolute inset-0 mx-auto flex w-full max-w-[560px] flex-col items-center justify-center gap-8 px-6 sm:px-10"
-                style={{ opacity, pointerEvents, zIndex, willChange: 'opacity' }}
-                aria-hidden={Math.round(p) !== i}
-              >
-                <div
-                  className="w-full"
-                  style={{ transform: `translate3d(${-s * 80}px, 0, 0)`, willChange: 'transform' }}
-                >
-                  <Copy f={f} />
-                </div>
-                <div
-                  className="relative h-[380px] w-full overflow-hidden rounded-[32px] bg-gray-900"
-                  style={{ transform: `translate3d(${s * 80}px, 0, 0)`, willChange: 'transform' }}
-                >
-                  <Image
-                    src={f.phone}
-                    alt=""
-                    width={397}
-                    height={818}
-                    className="absolute left-1/2 top-12 h-[818px] w-[240px] -translate-x-1/2"
-                  />
-                </div>
+        {/* Mobile: copy above phone, the whole feature morphs. */}
+        <div className="relative mx-auto h-[620px] w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
+          {FEATURES.map((f, i) => (
+            <div
+              key={`m-${f.heading}`}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-8"
+              style={morph(i)}
+              aria-hidden={Math.round(p) !== i}
+            >
+              <div className="w-full">
+                <Copy f={f} />
               </div>
-            );
-          })}
+              <div className="relative h-[360px] w-full overflow-hidden rounded-[32px] bg-gray-900">
+                <Image
+                  src={f.phone}
+                  alt=""
+                  width={397}
+                  height={818}
+                  className="absolute left-1/2 top-12 h-[818px] w-[240px] -translate-x-1/2"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

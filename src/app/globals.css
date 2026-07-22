@@ -61,9 +61,10 @@ body {
   opacity: 0;
   transform: translateY(28px);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
 }
 .reveal[data-from='left'] {
   transform: translateX(-72px);
@@ -74,9 +75,15 @@ body {
 .reveal[data-from='scale'] {
   transform: scale(0.92);
 }
+/* Morph — content materialises: fades + scales up out of a blur. */
+.reveal[data-from='morph'] {
+  transform: scale(0.92);
+  filter: blur(18px);
+}
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  filter: blur(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -86,6 +93,7 @@ body {
   .reveal {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
 }
