@@ -1,11 +1,5 @@
 import Image from 'next/image';
 
-/**
- * Incident showcase — the composited image (hand holding the live broadcast,
- * surrounded by community report cards). The Figma frame (488:18699) is
- * 1280x928 while the export runs 1280x1211, so we clip the bottom ~283px of
- * the image to match the shorter hand shown in Figma.
- */
 export function IncidentShowcase() {
   return (
     <section className="relative flex min-h-screen flex-col justify-center bg-white">
