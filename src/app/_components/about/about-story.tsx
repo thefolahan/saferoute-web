@@ -1,10 +1,5 @@
 import Image from 'next/image';
 
-/**
- * "Why We Built SafeRoute" — dark gray-950 section. A centered heading, a
- * full-width opening paragraph, then a map-phone card (left) beside the rest of
- * the story (right) with a white accent line.
- */
 export function AboutStory() {
   return (
     <section className="flex min-h-screen flex-col justify-center bg-[#0A0D12]">

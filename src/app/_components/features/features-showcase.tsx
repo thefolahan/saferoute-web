@@ -135,23 +135,23 @@ export function FeaturesShowcase() {
             ))}
           </div>
 
-          <div className="relative mx-auto h-full w-full max-w-[440px] px-6 lg:hidden">
+          <div className="relative mx-auto h-full w-full max-w-[480px] lg:hidden">
             {FEATURES.map((f, i) => (
               <div
                 key={`m-${f.heading}`}
-                className={`absolute inset-0 flex items-center justify-center gap-6 ${
+                className={`absolute inset-0 flex items-center justify-center gap-8 px-6 ${
                   f.phoneLeft ? 'flex-col-reverse' : 'flex-col'
                 }`}
                 style={morph(i)}
                 aria-hidden={Math.round(p) !== i}
               >
-                <div className="relative h-[344px] w-[210px] overflow-hidden rounded-[28px] bg-gray-900">
+                <div className="relative h-[400px] w-full max-w-[460px] shrink-0 overflow-hidden rounded-[32px] bg-gray-900 sm:h-[440px]">
                   <Image
                     src={PHONE}
                     alt=""
                     width={397}
                     height={818}
-                    className="absolute left-1/2 top-7 h-[700px] w-[204px] -translate-x-1/2"
+                    className="absolute left-1/2 top-14 h-[720px] w-[264px] -translate-x-1/2 sm:top-16 sm:h-[818px] sm:w-[300px]"
                   />
                 </div>
                 <div className="w-full text-center">

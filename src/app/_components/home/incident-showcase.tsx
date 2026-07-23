@@ -113,26 +113,24 @@ export function IncidentShowcase() {
     return (
       <div className="relative" style={{ width: screenW, height: screenH }}>
         {mobile
-          ? STATES.map((st, i) => {
-              // A single alert card overlapping the phone; the states cross-fade
-              // cleanly (no stacking/blur), so exactly one shows at a time.
-              const op = clamp(1 - Math.abs(p - i) * 1.7, 0, 1);
-              return (
-                <div
-                  key={`m${i}`}
-                  className="absolute left-[-4%] top-[48%]"
-                  style={{ width: cardW, opacity: op, zIndex: 20, willChange: 'opacity' }}
-                >
-                  <Image
-                    src={st.alerts[1]}
-                    alt=""
-                    width={724}
-                    height={374}
-                    className="h-auto w-full drop-shadow-[0_18px_40px_rgba(16,24,40,0.14)]"
-                  />
-                </div>
-              );
-            })
+          ? // A single-column vertical carousel (like the desktop columns): the
+            // active alert sits centered on the phone, the others blurred above
+            // and below.
+            STATES.map((st, i) => (
+              <div
+                key={`m${i}`}
+                className="absolute left-[-6%]"
+                style={{ width: cardW, ...carousel(i, gap, 20) }}
+              >
+                <Image
+                  src={st.alerts[1]}
+                  alt=""
+                  width={724}
+                  height={374}
+                  className="h-auto w-full drop-shadow-[0_18px_40px_rgba(16,24,40,0.14)]"
+                />
+              </div>
+            ))
           : STATES.flatMap((st, i) => [
               <div
                 key={`l${i}`}
@@ -195,7 +193,7 @@ export function IncidentShowcase() {
   // Size the phone to the viewport height so it never gets too big on short
   // laptops (leaving room for margins), with sensible fallbacks before mount.
   const dH = vh ? clamp(400, vh - 190, 560) : 520;
-  const mH = vh ? clamp(380, vh - 160, 520) : 480;
+  const mH = vh ? clamp(320, vh - 320, 420) : 400;
 
   return (
     <section
