@@ -2,20 +2,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { SiteNav } from '../site-nav';
+import { MapIncidents } from './map-incidents';
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#0A0D12]">
+      {/* Map background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <Image
-          src="/images/landing/486-18019.png"
-          alt=""
-          width={1636}
-          height={919}
-          priority
-          className="absolute bottom-0 left-1/2 w-full min-w-[1280px] max-w-none -translate-x-1/2 select-none"
-        />
+        <div className="absolute inset-0 bg-[url('/images/landing/map.svg')] bg-cover bg-center bg-no-repeat opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0D12] via-[#0A0D12]/55 to-[#0A0D12]" />
       </div>
+
+      {/* Randomly popping incident markers over the map */}
+      <MapIncidents />
 
       <SiteNav active="Home" theme="dark" />
 
@@ -41,7 +40,7 @@ export function Hero() {
               Get the App
             </Link>
             <Link
-              href="/#how-it-works"
+              href="/features"
               className="rounded-full border border-gray-700 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-100 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]"
             >
               How it works

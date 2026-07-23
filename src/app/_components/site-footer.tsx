@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SOCIALS } from './social-icons';
+import { ScrollButton } from './scroll-button';
 
 const COLUMNS = [
   {
@@ -131,9 +132,9 @@ export function SiteFooter() {
               </Link>
             ))}
           </div>
-          <a
-            href="#top"
-            aria-label="Back to top"
+          <ScrollButton
+            target="top"
+            ariaLabel="Back to top"
             className="flex h-10 w-10 items-center justify-center text-white transition-opacity hover:opacity-70"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -145,7 +146,7 @@ export function SiteFooter() {
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </ScrollButton>
         </div>
       </div>
     </footer>
