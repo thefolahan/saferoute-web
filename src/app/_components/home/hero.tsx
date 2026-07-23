@@ -21,7 +21,7 @@ export function Hero() {
       <div className="relative mx-auto h-[740px] w-full sm:h-[906px]">
         <div className="absolute inset-x-0 top-[104px] flex flex-col items-center gap-8 px-6 text-center sm:top-[160px] sm:gap-12 sm:px-8">
           <div className="flex max-w-[880px] flex-col items-center gap-4 sm:gap-6">
-            <h1 className="text-[36px] font-normal leading-[44px] tracking-[-0.02em] text-white sm:text-[56px] sm:leading-[64px] lg:text-[72px] lg:leading-[86px]">
+            <h1 className="text-[36px] font-bold leading-[44px] tracking-[-0.02em] text-white sm:text-[56px] sm:leading-[64px] lg:text-[72px] lg:leading-[86px]">
               Know what&apos;s ahead before you get there.
             </h1>
             <p className="max-w-[880px] text-[16px] font-normal leading-[24px] text-gray-300 sm:text-[20px] sm:leading-[30px]">

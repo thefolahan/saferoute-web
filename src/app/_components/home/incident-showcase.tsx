@@ -40,12 +40,11 @@ const STATES = [
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
-const ease = (t: number) =>
-  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 export function IncidentShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0);
+  const [vh, setVh] = useState(0);
 
   useEffect(() => {
     let raf = 0;
@@ -61,18 +60,25 @@ export function IncidentShowcase() {
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
     };
+    const onResize = () => {
+      setVh(window.innerHeight);
+      onScroll();
+    };
+    onResize();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
     update();
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      window.removeEventListener('resize', onResize);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
-  const screenOpacity = (i: number) =>
-    ease(1 - clamp((Math.abs(p - i) - 0.28) / 0.44, 0, 1));
+  // Progressive cross-fade: state 0 stays fully opaque underneath, later states
+  // fade in on top. There's always a solid image, so the black phone screen
+  // never shows through during a transition.
+  const screenOpacity = (i: number) => clamp(p - i + 1, 0, 1);
 
   const N = STATES.length;
   const carousel = (i: number, gap: number, zMax: number): React.CSSProperties => {
@@ -181,6 +187,11 @@ export function IncidentShowcase() {
     );
   };
 
+  // Size the phone to the viewport height so it never gets too big on short
+  // laptops (leaving room for margins), with sensible fallbacks before mount.
+  const dH = vh ? clamp(440, vh - 150, 660) : 600;
+  const mH = vh ? clamp(400, vh - 150, 540) : 500;
+
   return (
     <section
       ref={ref}
@@ -198,10 +209,20 @@ export function IncidentShowcase() {
 
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <div className="hidden lg:block">
-          <Stage screenH={700} cardW={336} gap={236} mobile={false} />
+          <Stage
+            screenH={dH}
+            cardW={Math.round(dH * 0.48)}
+            gap={Math.round(dH * 0.34)}
+            mobile={false}
+          />
         </div>
         <div className="lg:hidden">
-          <Stage screenH={560} cardW={244} gap={182} mobile />
+          <Stage
+            screenH={mH}
+            cardW={Math.round(mH * 0.44)}
+            gap={Math.round(mH * 0.33)}
+            mobile
+          />
         </div>
       </div>
     </section>

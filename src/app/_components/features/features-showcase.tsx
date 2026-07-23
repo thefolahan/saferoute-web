@@ -41,10 +41,10 @@ const ease = (t: number) =>
 function Copy({ f }: { f: (typeof FEATURES)[number] }) {
   return (
     <>
-      <h3 className="text-[32px] font-medium leading-[42px] tracking-tightest text-gray-25 sm:text-[48px] sm:leading-[56px] lg:text-[56px] lg:leading-[64px]">
+      <h3 className="text-[28px] font-medium leading-[36px] tracking-tightest text-gray-25 sm:text-[48px] sm:leading-[56px] lg:text-[56px] lg:leading-[64px]">
         {f.heading}
       </h3>
-      <p className="mt-4 max-w-[460px] text-base font-normal text-gray-200">
+      <p className="mt-3 max-w-[460px] text-[15px] font-normal leading-[22px] text-gray-200 sm:mt-4 sm:text-base sm:leading-normal">
         {f.description}
       </p>
     </>
@@ -134,24 +134,24 @@ export function FeaturesShowcase() {
             ))}
           </div>
 
-          <div className="relative mx-auto h-[620px] w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
+          <div className="relative mx-auto h-full w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
             {FEATURES.map((f, i) => (
               <div
                 key={`m-${f.heading}`}
-                className="absolute inset-0 flex flex-col items-center justify-center gap-8"
+                className="absolute inset-0 flex flex-col items-center justify-center gap-6"
                 style={morph(i)}
                 aria-hidden={Math.round(p) !== i}
               >
                 <div className="w-full">
                   <Copy f={f} />
                 </div>
-                <div className="relative h-[360px] w-full overflow-hidden rounded-[32px] bg-gray-900">
+                <div className="relative h-[300px] w-full overflow-hidden rounded-[28px] bg-gray-900">
                   <Image
                     src={PHONE}
                     alt=""
                     width={397}
                     height={818}
-                    className="absolute left-1/2 top-12 h-[818px] w-[240px] -translate-x-1/2"
+                    className="absolute left-1/2 top-10 h-[720px] w-[212px] -translate-x-1/2"
                   />
                 </div>
               </div>
