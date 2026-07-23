@@ -146,25 +146,25 @@ export function FeaturesShowcase() {
             ))}
           </div>
 
-          <div className="relative mx-auto h-full w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
+          <div className="relative mx-auto h-full w-full max-w-[560px] overflow-hidden px-6 sm:px-10 lg:hidden">
             {FEATURES.map((f, i) => (
               <div
                 key={`m-${f.heading}`}
                 className="absolute inset-0 flex flex-col items-center justify-center gap-6"
-                style={morph(i)}
+                style={slide(i)}
                 aria-hidden={Math.round(p) !== i}
               >
-                <div className="w-full">
-                  <Copy f={f} />
-                </div>
-                <div className="relative h-[300px] w-full overflow-hidden rounded-[28px] bg-gray-900">
+                <div className="relative h-[368px] w-full overflow-hidden rounded-[28px] bg-gray-900">
                   <Image
                     src={PHONE}
                     alt=""
                     width={397}
                     height={818}
-                    className="absolute left-1/2 top-10 h-[720px] w-[212px] -translate-x-1/2"
+                    className="absolute left-1/2 top-8 h-[760px] w-[224px] -translate-x-1/2"
                   />
+                </div>
+                <div className="w-full">
+                  <Copy f={f} />
                 </div>
               </div>
             ))}

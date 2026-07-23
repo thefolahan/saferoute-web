@@ -113,21 +113,34 @@ export function IncidentShowcase() {
     return (
       <div className="relative" style={{ width: screenW, height: screenH }}>
         {mobile
-          ? STATES.map((st, i) => (
-              <div
-                key={`m${i}`}
-                className="absolute"
-                style={{ left: '-8%', width: cardW, ...carousel(i, gap, 12) }}
-              >
-                <Image
-                  src={st.alerts[1]}
-                  alt=""
-                  width={724}
-                  height={374}
-                  className="h-auto w-full drop-shadow-[0_18px_40px_rgba(16,24,40,0.14)]"
-                />
-              </div>
-            ))
+          ? STATES.map((st, i) => {
+              // Fixed 3-card stack (one per state); the active one is bright and
+              // in front, the others dim behind — no carousel wrap/teleport.
+              const prom = clamp(1 - Math.abs(p - i), 0, 1);
+              return (
+                <div
+                  key={`m${i}`}
+                  className="absolute left-[-6%]"
+                  style={{
+                    top: `${14 + i * 29}%`,
+                    width: cardW,
+                    opacity: 0.3 + 0.7 * prom,
+                    filter: `blur(${(1 - prom) * 4}px)`,
+                    transform: `scale(${0.92 + 0.08 * prom})`,
+                    zIndex: prom > 0.5 ? 20 : 5,
+                    willChange: 'opacity, transform, filter'
+                  }}
+                >
+                  <Image
+                    src={st.alerts[1]}
+                    alt=""
+                    width={724}
+                    height={374}
+                    className="h-auto w-full drop-shadow-[0_18px_40px_rgba(16,24,40,0.14)]"
+                  />
+                </div>
+              );
+            })
           : STATES.flatMap((st, i) => [
               <div
                 key={`l${i}`}
