@@ -93,6 +93,18 @@ export function FeaturesShowcase() {
     };
   };
 
+  // Mobile: each feature slides vertically (up as you scroll) and fades.
+  const slide = (i: number): React.CSSProperties => {
+    const d = p - i;
+    const ad = Math.abs(d);
+    return {
+      transform: `translateY(${-d * 100}%)`,
+      opacity: clamp(1 - ad * 1.3, 0, 1),
+      pointerEvents: ad < 0.5 ? 'auto' : 'none',
+      willChange: 'transform, opacity'
+    };
+  };
+
   return (
     <section className="bg-gray-950">
       <div className="mx-auto max-w-[1280px] px-6 pt-20 text-center sm:px-10 lg:px-20 lg:pt-28">

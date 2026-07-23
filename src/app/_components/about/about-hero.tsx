@@ -1,11 +1,5 @@
 import { SiteNav } from '../site-nav';
-
-const STATS = [
-  { value: '20k+', label: 'Processed for customers' },
-  { value: '300K+', label: 'Processed for customers' },
-  { value: '60%', label: 'Processed for customers' },
-  { value: '$1B+', label: 'Processed for customers' }
-] as const;
+import { AboutStats } from './about-stats';
 
 export function AboutHero() {
   return (
@@ -35,25 +29,7 @@ export function AboutHero() {
           </a>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 overflow-hidden rounded-[17px] border border-[#D5D7DA] lg:grid-cols-4">
-          {STATS.map((stat, i) => (
-            <div
-              key={i}
-              className={`flex flex-col items-center justify-center px-6 py-7 text-center sm:px-[42px] sm:py-[30px] ${
-                i % 2 === 1 ? 'border-l border-[#D5D7DA]' : ''
-              } ${i >= 2 ? 'border-t border-[#D5D7DA] lg:border-t-0' : ''} ${
-                i % 4 !== 0 ? 'lg:border-l lg:border-[#D5D7DA]' : ''
-              }`}
-            >
-              <p className="text-[32px] font-semibold leading-none tracking-[-0.02em] text-[#0A0D12] sm:text-[48px]">
-                {stat.value}
-              </p>
-              <p className="mt-3 text-[12px] font-normal leading-5 tracking-[-0.02em] text-[#717680] sm:text-[14px]">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
+        <AboutStats />
       </div>
     </section>
   );
