@@ -18,7 +18,7 @@ export function Hero() {
 
       <SiteNav active="Home" theme="dark" />
 
-      <div className="relative mx-auto h-[840px] w-full sm:h-[906px]">
+      <div className="relative mx-auto h-[740px] w-full sm:h-[906px]">
         <div className="absolute inset-x-0 top-[104px] flex flex-col items-center gap-8 px-6 text-center sm:top-[160px] sm:gap-12 sm:px-8">
           <div className="flex max-w-[880px] flex-col items-center gap-4 sm:gap-6">
             <h1 className="text-[36px] font-normal leading-[44px] tracking-[-0.02em] text-white sm:text-[56px] sm:leading-[64px] lg:text-[72px] lg:leading-[86px]">
@@ -48,7 +48,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="absolute left-1/2 top-[520px] h-[300px] w-[378px] -translate-x-1/2 sm:top-[520px] sm:h-[440px] sm:w-[554px] lg:top-[576px] lg:h-[540px] lg:w-[680px]">
+        <div className="absolute left-1/2 top-[540px] h-[326px] w-[410px] -translate-x-1/2 sm:top-[520px] sm:h-[440px] sm:w-[554px] lg:top-[576px] lg:h-[540px] lg:w-[680px]">
           <Image
             src="/images/landing/346-9023.png"
             alt="SafeRoute app screens"

@@ -96,10 +96,11 @@ export function IncidentShowcase() {
     const ao = Math.abs(o);
     return {
       top: '50%',
-      transform: `translateY(calc(-50% + ${o * gap}px)) scale(${1 - Math.min(ao, 1) * 0.1})`,
-      // Fade to 0 as a card approaches the wrap edge so the loop is seamless.
-      opacity: clamp(1 - ao * 0.72, 0, 1),
-      filter: `blur(${Math.min(ao, 1) * 7}px)`,
+      transform: `translateY(calc(-50% + ${o * gap}px)) scale(${1 - Math.min(ao, 1) * 0.14})`,
+      // Active card stays crisp/opaque; neighbours dim, shrink and blur more so
+      // the centered pair reads clearly. Fades to 0 near the wrap edge.
+      opacity: clamp(1 - ao * 0.82, 0, 1),
+      filter: `blur(${Math.min(ao, 1) * 9}px)`,
       zIndex: Math.round(Math.max(0, N / 2 - ao) * zMax),
       willChange: 'transform, opacity, filter'
     };
@@ -133,7 +134,7 @@ export function IncidentShowcase() {
               <div
                 key={`m${i}`}
                 className="absolute"
-                style={{ left: '-24%', width: cardW, ...carousel(i, gap, 12) }}
+                style={{ left: '-8%', width: cardW, ...carousel(i, gap, 12) }}
               >
                 <Image
                   src={st.alerts[1]}
@@ -211,12 +212,23 @@ export function IncidentShowcase() {
       className="relative bg-white"
       style={{ height: `${STATES.length * 100}vh` }}
     >
+      {/* One snap point per state so scrolling settles (pauses) on each active
+          state, giving the viewer a beat to read it before moving on. */}
+      {STATES.map((_, i) => (
+        <div
+          key={`snap${i}`}
+          aria-hidden
+          className="pointer-events-none absolute left-0 h-px w-px"
+          style={{ top: `${i * 100}vh`, scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+        />
+      ))}
+
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <div className="hidden lg:block">
           <Stage screenH={700} cardW={336} gap={236} mobile={false} />
         </div>
         <div className="lg:hidden">
-          <Stage screenH={600} cardW={250} gap={190} mobile />
+          <Stage screenH={560} cardW={244} gap={182} mobile />
         </div>
       </div>
     </section>
