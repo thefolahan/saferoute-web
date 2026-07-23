@@ -161,7 +161,7 @@ export function IncidentShowcase() {
               <div
                 key={`r${i}`}
                 className="absolute"
-                style={{ left: '100%', marginLeft: -46, width: cardW, ...carousel(i, gap, 8) }}
+                style={{ left: '100%', marginLeft: 22, width: cardW, ...carousel(i, gap, 6) }}
               >
                 <Image
                   src={st.alerts[1]}
