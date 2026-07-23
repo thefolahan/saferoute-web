@@ -18,20 +18,20 @@ export function AboutHero() {
             About us
           </p>
           <h1 className="mt-4 max-w-[760px] text-[32px] font-medium leading-[40px] tracking-[-0.02em] text-[#0A0D12] sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
-            We&apos;re helping people travel with confidence.
+            We are helping people travel with confidence.
           </h1>
           <p className="mt-4 max-w-[720px] text-[14px] font-normal leading-6 text-[#717680] sm:text-[16px]">
-            SafeRoute is a Nigeria-first safety platform that helps people travel
-            with confidence. We turn scattered, hard-to-verify safety chatter into
-            real-time, community-verified road intelligence — so you know what&apos;s
-            happening on your route before you set out, not after you&apos;re stuck
-            in it.
+            SafeRoute is Africa's road intelligence platform, helping people
+            travel with confidence. We turn scattered, hard-to-verify safety
+            chatter into real-time, community-verified road intelligence, so you
+            know what's happening on your route before you set out, not after
+            you are stuck in it.
           </p>
           <a
             href="/coming-soon"
             className="mt-8 inline-flex items-center justify-center rounded-full bg-[#181D27] px-8 py-3.5 text-[16px] font-semibold leading-6 text-white shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] transition-opacity hover:opacity-90"
           >
-            Download App
+            Get the App
           </a>
         </div>
 

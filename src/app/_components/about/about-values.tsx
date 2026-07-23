@@ -9,7 +9,7 @@ const VALUES: { icon: LucideIcon; title: string; body: string }[] = [
   {
     icon: BadgeCheck,
     title: 'Verified, not viral',
-    body: "Every report is checked by the community and SafeRoute before it's presented as fact — clearly labeled reported, under review, or verified."
+    body: "Every report is checked by the community and SafeRoute before it's presented as fact, clearly labeled reported, under review, or verified."
   },
   {
     icon: Siren,

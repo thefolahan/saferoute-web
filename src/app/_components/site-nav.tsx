@@ -93,7 +93,7 @@ export function SiteNav({
           href="/coming-soon"
           className="hidden items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08] lg:flex"
         >
-          Download App
+          Get the App
         </Link>
 
         {/* Hamburger — mobile / tablet */}

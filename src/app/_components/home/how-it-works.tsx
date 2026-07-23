@@ -23,7 +23,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="flex min-h-screen flex-col justify-center bg-white">
+    <section id="how-it-works" className="flex min-h-screen scroll-mt-20 flex-col justify-center bg-white">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-6 py-16 sm:px-10 lg:gap-16 lg:px-20 lg:py-24">
         <header className="flex flex-col items-center gap-5 text-center">
           <h2 className="text-[32px] font-medium leading-[40px] tracking-tightest text-gray-950 sm:text-[48px] sm:leading-[60px]">

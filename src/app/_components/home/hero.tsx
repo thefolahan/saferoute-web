@@ -23,12 +23,13 @@ export function Hero() {
         <div className="absolute inset-x-0 top-[104px] flex flex-col items-center gap-8 px-6 text-center sm:top-[160px] sm:gap-12 sm:px-8">
           <div className="flex max-w-[880px] flex-col items-center gap-4 sm:gap-6">
             <h1 className="text-[36px] font-normal leading-[44px] tracking-[-0.02em] text-white sm:text-[56px] sm:leading-[64px] lg:text-[72px] lg:leading-[86px]">
-              Know what's happening before you get there.
+              Know what&apos;s ahead before you get there.
             </h1>
             <p className="max-w-[880px] text-[16px] font-normal leading-[24px] text-gray-300 sm:text-[20px] sm:leading-[30px]">
-              SafeRoute helps you make safer travel decisions with real-time
-              community reports, verified updates, live broadcasts, and route
-              safety intelligence.
+              SafeRoute gives you real-time road intelligence, helping you avoid
+              incidents, flooding, criminal activities, roadblocks, accidents,
+              unauthorized checkpoints, traffic disruptions, and other hazards
+              through verified community reports and AI-powered insights.
             </p>
           </div>
 
@@ -37,13 +38,13 @@ export function Hero() {
               href="/coming-soon"
               className="rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]"
             >
-              Download App
+              Get the App
             </Link>
             <Link
-              href="/features"
+              href="/#how-it-works"
               className="rounded-full border border-gray-700 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-100 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]"
             >
-              Learn More
+              How it works
             </Link>
           </div>
         </div>

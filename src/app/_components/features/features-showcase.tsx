@@ -16,13 +16,13 @@ const FEATURES = [
   {
     heading: 'Stay informed in real time.',
     description:
-      'See reports from nearby residents, verified organizations, and trusted news outlets the moment incidents unfold — each one growing more reliable as people nearby confirm it with photos, videos, and live updates.',
+      'See reports from nearby residents, verified organizations, and trusted news outlets the moment incidents unfold, each one growing more reliable as people nearby confirm it with photos, videos, and live updates.',
     phoneLeft: false
   },
   {
     heading: "See what's happening before you arrive.",
     description:
-      'Watch live broadcasts from people at the scene to understand traffic, flooding, accidents, and other incidents — so you know an area before you ever set foot in it.',
+      'Watch live broadcasts from people at the scene to understand traffic, flooding, accidents, and other incidents, so you know an area before you ever set foot in it.',
     phoneLeft: true
   },
   {
