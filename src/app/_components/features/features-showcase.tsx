@@ -3,13 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-/**
- * Features — the dark section under the hero. A standard section heading, then a
- * single PINNED sub-section that scrubs through the four features as you scroll:
- * each feature's phone + copy morph in (scale up out of a soft blur) and morph
- * out as the next takes its place. Content is the consolidated four-section copy;
- * every phone shows the live incident map.
- */
 const PHONE = '/images/landing/491-26551.png';
 
 const FEATURES = [
@@ -42,7 +35,6 @@ const FEATURES = [
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
 
-// easeInOutCubic
 const ease = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
@@ -61,7 +53,6 @@ function Copy({ f }: { f: (typeof FEATURES)[number] }) {
 
 export function FeaturesShowcase() {
   const ref = useRef<HTMLDivElement>(null);
-  // Continuous scroll progress across the features, 0 … FEATURES.length - 1.
   const [p, setP] = useState(0);
 
   useEffect(() => {
@@ -88,8 +79,6 @@ export function FeaturesShowcase() {
     };
   }, []);
 
-  // Morph envelope: crisp while held (|d| < 0.3), then fade + scale-down into a
-  // blur as the feature leaves (and the reverse as the next one arrives).
   const morph = (i: number): React.CSSProperties => {
     const d = p - i;
     const ad = Math.abs(d);
@@ -114,7 +103,6 @@ export function FeaturesShowcase() {
 
       <div ref={ref} className="relative" style={{ height: `${FEATURES.length * 100}vh` }}>
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          {/* Desktop: phone one side, copy the other; the whole feature morphs. */}
           <div className="relative mx-auto hidden h-[620px] w-full max-w-[1280px] px-6 sm:px-10 lg:block lg:px-20">
             {FEATURES.map((f, i) => (
               <div
@@ -146,7 +134,6 @@ export function FeaturesShowcase() {
             ))}
           </div>
 
-          {/* Mobile: copy above phone, the whole feature morphs. */}
           <div className="relative mx-auto h-[620px] w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
             {FEATURES.map((f, i) => (
               <div

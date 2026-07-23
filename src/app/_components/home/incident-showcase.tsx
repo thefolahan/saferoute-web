@@ -3,28 +3,16 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-/**
- * Incident showcase — a big hand holding a phone, centered on the PHONE (the
- * hand/wrist runs off the frame). The live broadcast inside the phone changes
- * through three states (accident → flood → harassment) as you scroll, and the
- * alert cards ride a vertical carousel: the active pair sits sharp on the
- * phone's mid-line while the others drift above/below, blurred.
- */
 const HAND = '/images/landing/hand-holding-phone.png';
 
-// hand-holding-phone.png geometry (measured): image is 1012x1438, the phone
-// screen at x88-547 / y8-952 (fractions below). This box is used to center the
-// phone and align the hand.
 const RATIO = 1012 / 1438;
-const SL = 88 / 1012; // screen left
-const ST = 8 / 1438; // screen top
-const SW = 459 / 1012; // screen width
-const SH = 944 / 1438; // screen height
-const SCREEN_ASPECT = (SW * RATIO) / SH; // screenW / screenH
-// The live broadcast sits INSIDE the screen at its natural aspect, smaller than
-// the screen, leaving a black bezel margin around it before the phone's frame.
+const SL = 88 / 1012;
+const ST = 8 / 1438;
+const SW = 459 / 1012;
+const SH = 944 / 1438;
+const SCREEN_ASPECT = (SW * RATIO) / SH;
 const MOCKUP_ASPECT = 804 / 1748;
-const LIVE_SCALE = 0.985; // live image height as a fraction of the screen height
+const LIVE_SCALE = 0.985;
 
 const STATES = [
   {
@@ -86,19 +74,13 @@ export function IncidentShowcase() {
   const screenOpacity = (i: number) =>
     ease(1 - clamp((Math.abs(p - i) - 0.28) / 0.44, 0, 1));
 
-  // Circular vertical-carousel style for an alert card of state i: the active
-  // state is always centered, its neighbours sit one above and one below (the
-  // offset wraps around so it never bunches all cards on one side).
   const N = STATES.length;
   const carousel = (i: number, gap: number, zMax: number): React.CSSProperties => {
-    // signed offset in [-N/2, N/2): 0 = centered/active.
     const o = (((i - p + N / 2) % N) + N) % N - N / 2;
     const ao = Math.abs(o);
     return {
       top: '50%',
       transform: `translateY(calc(-50% + ${o * gap}px)) scale(${1 - Math.min(ao, 1) * 0.14})`,
-      // Active card stays crisp/opaque; neighbours dim, shrink and blur more so
-      // the centered pair reads clearly. Fades to 0 near the wrap edge.
       opacity: clamp(1 - ao * 0.82, 0, 1),
       filter: `blur(${Math.min(ao, 1) * 9}px)`,
       zIndex: Math.round(Math.max(0, N / 2 - ao) * zMax),
@@ -106,7 +88,6 @@ export function IncidentShowcase() {
     };
   };
 
-  // Renders the phone (centered on its screen) plus the surrounding alert cards.
   const Stage = ({
     screenH,
     cardW,
@@ -121,14 +102,10 @@ export function IncidentShowcase() {
     const screenW = screenH * SCREEN_ASPECT;
     const imgH = screenH / SH;
     const imgW = imgH * RATIO;
-    // The live broadcast, inset within the screen (natural aspect, black margin).
     const liveH = screenH * LIVE_SCALE;
     const liveW = liveH * MOCKUP_ASPECT;
     return (
-      // Box == the phone screen; the flex parent centers THIS, so the phone
-      // (not the whole hand image) lands in the middle.
       <div className="relative" style={{ width: screenW, height: screenH }}>
-        {/* Alert cards */}
         {mobile
           ? STATES.map((st, i) => (
               <div
@@ -174,7 +151,6 @@ export function IncidentShowcase() {
               </div>
             ])}
 
-        {/* Hand image, offset so its screen aligns with this box */}
         <div
           className="absolute"
           style={{ width: imgW, height: imgH, left: -SL * imgW, top: -ST * imgH, zIndex: 10 }}
@@ -182,7 +158,6 @@ export function IncidentShowcase() {
           <Image src={HAND} alt="Hand holding a SafeRoute live broadcast" fill priority className="object-contain" />
         </div>
 
-        {/* Live broadcasts, inset within the screen with a black bezel margin */}
         {STATES.map((st, i) => (
           <div
             key={st.live}
@@ -212,8 +187,6 @@ export function IncidentShowcase() {
       className="relative bg-white"
       style={{ height: `${STATES.length * 100}vh` }}
     >
-      {/* One snap point per state so scrolling settles (pauses) on each active
-          state, giving the viewer a beat to read it before moving on. */}
       {STATES.map((_, i) => (
         <div
           key={`snap${i}`}
