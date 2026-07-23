@@ -56,36 +56,6 @@ body {
   overscroll-behavior: none;
 }
 
-/* Scroll-reveal primitives — toggled by the <Reveal> client component. */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition:
-    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
-}
-.reveal[data-from='left'] {
-  transform: translateX(-72px);
-}
-.reveal[data-from='right'] {
-  transform: translateX(72px);
-}
-.reveal[data-from='scale'] {
-  transform: scale(0.92);
-}
-/* Morph — content materialises: fades + scales up out of a blur. */
-.reveal[data-from='morph'] {
-  transform: scale(0.92);
-  filter: blur(18px);
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
-  filter: blur(0);
-}
-
 /* Hero map incident markers — pop in, hold, fade out over ~2s. */
 @keyframes mapIncidentPop {
   0% {
@@ -114,14 +84,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  .reveal,
-  .reveal[data-from],
-  .reveal[data-from='morph'] {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    transition: none !important;
   }
   .map-incident {
     animation: none !important;
