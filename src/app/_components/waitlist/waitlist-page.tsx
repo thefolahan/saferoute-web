@@ -233,7 +233,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
         {config.footer && (
           <footer className="relative z-10 hidden items-center justify-between px-6 py-5 sm:flex sm:px-12">
             <span className="text-[12px] leading-[15px] text-[#73737A]">
-              {config.footer.copyright}
+              © {new Date().getFullYear()} {config.footer.copyright}
             </span>
             <div className="flex items-center gap-5">
               {config.footer.links.map((link) => (

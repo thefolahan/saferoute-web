@@ -28,7 +28,7 @@ const enterpriseConfig: WaitlistConfig = {
   },
   form: { variant: 'card', placeholder: 'Enter your email...', width: 460 },
   footer: {
-    copyright: '© 2026 SafeRoute. All rights reserved.',
+    copyright: 'SafeRoute. All rights reserved.',
     links: ['Privacy Policy', 'Terms of Service']
   }
 };
