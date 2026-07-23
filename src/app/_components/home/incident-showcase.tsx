@@ -127,7 +127,7 @@ export function IncidentShowcase() {
                     opacity: 0.3 + 0.7 * prom,
                     filter: `blur(${(1 - prom) * 4}px)`,
                     transform: `scale(${0.92 + 0.08 * prom})`,
-                    zIndex: prom > 0.5 ? 20 : 5,
+                    zIndex: prom > 0.5 ? 22 : 14,
                     willChange: 'opacity, transform, filter'
                   }}
                 >
