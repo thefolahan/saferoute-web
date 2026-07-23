@@ -84,22 +84,29 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
     </Link>
   );
 
-  const proofText = (
+  const hasAvatars = socialProof.avatars.length > 0;
+  const hasProofText = Boolean(socialProof.title || socialProof.subtitle);
+
+  const proofText = hasProofText ? (
     <div
       className={`flex flex-col gap-0.5 ${
         socialProof.orientation === 'vertical' ? 'items-center text-center' : 'text-left'
       }`}
     >
-      <span className="text-[14px] font-semibold leading-[17px] text-[#0A0D12]">
-        {socialProof.title}
-      </span>
-      <span className="text-[13px] font-normal leading-4 text-gray-400 sm:text-[14px]">
-        {socialProof.subtitle}
-      </span>
+      {socialProof.title ? (
+        <span className="text-[14px] font-semibold leading-[17px] text-[#0A0D12]">
+          {socialProof.title}
+        </span>
+      ) : null}
+      {socialProof.subtitle ? (
+        <span className="text-[13px] font-normal leading-4 text-gray-400 sm:text-[14px]">
+          {socialProof.subtitle}
+        </span>
+      ) : null}
     </div>
-  );
+  ) : null;
 
-  const avatars = (
+  const avatars = hasAvatars ? (
     <AvatarStack
       avatars={socialProof.avatars}
       size={socialProof.avatarSize}
@@ -110,7 +117,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
       countSize={socialProof.countSize}
       countLineHeight={socialProof.countLineHeight}
     />
-  );
+  ) : null;
 
   return (
     <main
@@ -155,17 +162,18 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
           </div>
 
           {/* Social proof */}
-          {socialProof.orientation === 'vertical' ? (
-            <div className="flex flex-col items-center gap-2.5">
-              {avatars}
-              {proofText}
-            </div>
-          ) : (
-            <div className="flex items-center gap-3">
-              {avatars}
-              {proofText}
-            </div>
-          )}
+          {(hasAvatars || hasProofText) &&
+            (socialProof.orientation === 'vertical' ? (
+              <div className="flex flex-col items-center gap-2.5">
+                {avatars}
+                {proofText}
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                {avatars}
+                {proofText}
+              </div>
+            ))}
 
           {/* Form */}
           <WaitlistForm variant={form.variant} placeholder={form.placeholder} width={form.width} />

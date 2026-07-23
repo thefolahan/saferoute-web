@@ -15,28 +15,19 @@ const journalistConfig: WaitlistConfig = {
   },
   socialProof: {
     orientation: 'horizontal',
-    avatars: [
-      '/images/landing/496-18346.png',
-      '/images/landing/496-18347.png',
-      '/images/landing/496-18348.png'
-    ],
+    avatars: [],
     avatarSize: 32,
     overlap: 10,
-    countText: '+14',
+    countText: '',
     countBg: '#F3F4F6',
     countColor: '#6B7280',
     countSize: 10,
     countLineHeight: 12,
-    title: 'Join 200+ journalists',
-    subtitle: 'from Reuters, AP, BBC and more'
+    title: '',
+    subtitle: ''
   },
   form: { variant: 'row', placeholder: 'Enter your press email...', width: 520 },
   trustNote: { text: 'Trusted by reporters at leading outlets. No spam, ever.' },
-  valueProps: [
-    { label: 'Exclusive Press Kits', dot: '#A78BFA' },
-    { label: 'Live Citizen Updates', dot: '#F9A8D4' },
-    { label: 'Incident News Desks', dot: '#6EE7B7' }
-  ],
   footer: {
     copyright: '© 2026 SafeRoute. All rights reserved.',
     links: ['Privacy Policy', 'Terms of Service']

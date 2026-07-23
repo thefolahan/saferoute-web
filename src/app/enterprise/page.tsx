@@ -15,15 +15,10 @@ const enterpriseConfig: WaitlistConfig = {
   },
   socialProof: {
     orientation: 'vertical',
-    avatars: [
-      '/images/landing/496-17883.png',
-      '/images/landing/496-17884.png',
-      '/images/landing/496-17885.png',
-      '/images/landing/496-17886.png'
-    ],
+    avatars: [],
     avatarSize: 36,
     overlap: 7,
-    countText: '+1k',
+    countText: '',
     countBg: '#F3F4F6',
     countColor: '#374151',
     countSize: 11,
