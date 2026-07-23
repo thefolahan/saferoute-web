@@ -50,14 +50,6 @@ html {
   -webkit-text-size-adjust: 100%;
   /* No rubber-band/elastic overscroll (no white gap at the extreme top/bottom). */
   overscroll-behavior: none;
-  /* Gentle snapping: only the incident showcase declares snap points, so the
-     scroll settles on each active state there and scrolls freely everywhere else. */
-  scroll-snap-type: y proximity;
-}
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-snap-type: none;
-  }
 }
 
 body {

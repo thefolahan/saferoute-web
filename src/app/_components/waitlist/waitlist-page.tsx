@@ -53,7 +53,7 @@ function Orbs() {
 
 function Wordmark() {
   return (
-    <div className="flex items-center gap-1">
+    <Link href="/" className="flex items-center gap-1">
       <Image
         src="/images/landing/logo-mark-dark.png"
         alt="SafeRoute"
@@ -65,7 +65,7 @@ function Wordmark() {
       <span className="text-[22px] font-medium leading-[29px] tracking-[-0.03em] text-[#1C1C1C] sm:text-[24px]">
         SafeRoute
       </span>
-    </div>
+    </Link>
   );
 }
 

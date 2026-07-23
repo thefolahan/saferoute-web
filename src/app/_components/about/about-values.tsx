@@ -33,12 +33,10 @@ export function AboutValues() {
     <section className="bg-[#F6FBFF] py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1280px] gap-12 px-6 sm:px-10 lg:grid-cols-3 lg:gap-16 lg:px-20">
         <div className="lg:col-span-1">
-          <h2 className="text-[32px] font-medium leading-[40px] tracking-tightest text-gray-950 sm:text-[48px] sm:leading-[60px]">
-            What We
-            <br />
-            Stand For
+          <h2 className="whitespace-nowrap text-center text-[30px] font-medium leading-[40px] tracking-tightest text-gray-950 sm:text-[48px] sm:leading-[60px] lg:text-left">
+            What We Stand For
           </h2>
-          <p className="mt-5 max-w-[420px] text-[18px] leading-[28px] text-gray-600">
+          <p className="mx-auto mt-5 max-w-[420px] text-center text-[18px] leading-[28px] text-gray-600 lg:mx-0 lg:text-left">
             Real-time, community-verified road and safety intelligence for every
             journey.
           </p>

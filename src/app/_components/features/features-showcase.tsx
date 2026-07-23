@@ -41,10 +41,10 @@ const ease = (t: number) =>
 function Copy({ f }: { f: (typeof FEATURES)[number] }) {
   return (
     <>
-      <h3 className="text-[28px] font-medium leading-[36px] tracking-tightest text-gray-25 sm:text-[48px] sm:leading-[56px] lg:text-[56px] lg:leading-[64px]">
+      <h3 className="text-[24px] font-medium leading-[30px] tracking-tightest text-gray-25 sm:text-[48px] sm:leading-[56px] lg:text-[56px] lg:leading-[64px]">
         {f.heading}
       </h3>
-      <p className="mt-3 max-w-[460px] text-[15px] font-normal leading-[22px] text-gray-200 sm:mt-4 sm:text-base sm:leading-normal">
+      <p className="mt-2 max-w-[460px] text-[13px] font-normal leading-[19px] text-gray-200 sm:mt-4 sm:text-base sm:leading-normal">
         {f.description}
       </p>
     </>
@@ -93,17 +93,6 @@ export function FeaturesShowcase() {
     };
   };
 
-  // Mobile: each feature slides vertically (up as you scroll) and fades.
-  const slide = (i: number): React.CSSProperties => {
-    const d = p - i;
-    const ad = Math.abs(d);
-    return {
-      transform: `translateY(${-d * 100}%)`,
-      opacity: clamp(1 - ad * 1.3, 0, 1),
-      pointerEvents: ad < 0.5 ? 'auto' : 'none',
-      willChange: 'transform, opacity'
-    };
-  };
 
   return (
     <section className="bg-gray-950">
@@ -146,24 +135,26 @@ export function FeaturesShowcase() {
             ))}
           </div>
 
-          <div className="relative mx-auto h-full w-full max-w-[560px] overflow-hidden px-6 sm:px-10 lg:hidden">
+          <div className="relative mx-auto h-full w-full max-w-[440px] px-6 lg:hidden">
             {FEATURES.map((f, i) => (
               <div
                 key={`m-${f.heading}`}
-                className="absolute inset-0 flex flex-col items-center justify-center gap-6"
-                style={slide(i)}
+                className={`absolute inset-0 flex items-center justify-center gap-6 ${
+                  f.phoneLeft ? 'flex-col-reverse' : 'flex-col'
+                }`}
+                style={morph(i)}
                 aria-hidden={Math.round(p) !== i}
               >
-                <div className="relative h-[368px] w-full overflow-hidden rounded-[28px] bg-gray-900">
+                <div className="relative h-[344px] w-[210px] overflow-hidden rounded-[28px] bg-gray-900">
                   <Image
                     src={PHONE}
                     alt=""
                     width={397}
                     height={818}
-                    className="absolute left-1/2 top-8 h-[760px] w-[224px] -translate-x-1/2"
+                    className="absolute left-1/2 top-7 h-[700px] w-[204px] -translate-x-1/2"
                   />
                 </div>
-                <div className="w-full">
+                <div className="w-full text-center">
                   <Copy f={f} />
                 </div>
               </div>

@@ -48,7 +48,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="absolute left-1/2 top-[540px] h-[326px] w-[410px] -translate-x-1/2 sm:top-[520px] sm:h-[440px] sm:w-[554px] lg:top-[576px] lg:h-[540px] lg:w-[680px]">
+        <div className="absolute left-1/2 top-[566px] h-[270px] w-[340px] -translate-x-1/2 sm:top-[520px] sm:h-[440px] sm:w-[554px] lg:top-[576px] lg:h-[540px] lg:w-[680px]">
           <Image
             src="/images/landing/346-9023.png"
             alt="SafeRoute app screens"

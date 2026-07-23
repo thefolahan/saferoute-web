@@ -114,22 +114,14 @@ export function IncidentShowcase() {
       <div className="relative" style={{ width: screenW, height: screenH }}>
         {mobile
           ? STATES.map((st, i) => {
-              // Fixed 3-card stack (one per state); the active one is bright and
-              // in front, the others dim behind — no carousel wrap/teleport.
-              const prom = clamp(1 - Math.abs(p - i), 0, 1);
+              // A single alert card overlapping the phone; the states cross-fade
+              // cleanly (no stacking/blur), so exactly one shows at a time.
+              const op = clamp(1 - Math.abs(p - i) * 1.7, 0, 1);
               return (
                 <div
                   key={`m${i}`}
-                  className="absolute left-[-6%]"
-                  style={{
-                    top: `${14 + i * 29}%`,
-                    width: cardW,
-                    opacity: 0.3 + 0.7 * prom,
-                    filter: `blur(${(1 - prom) * 4}px)`,
-                    transform: `scale(${0.92 + 0.08 * prom})`,
-                    zIndex: prom > 0.5 ? 22 : 14,
-                    willChange: 'opacity, transform, filter'
-                  }}
+                  className="absolute left-[-4%] top-[48%]"
+                  style={{ width: cardW, opacity: op, zIndex: 20, willChange: 'opacity' }}
                 >
                   <Image
                     src={st.alerts[1]}
@@ -202,8 +194,8 @@ export function IncidentShowcase() {
 
   // Size the phone to the viewport height so it never gets too big on short
   // laptops (leaving room for margins), with sensible fallbacks before mount.
-  const dH = vh ? clamp(440, vh - 150, 660) : 600;
-  const mH = vh ? clamp(400, vh - 150, 540) : 500;
+  const dH = vh ? clamp(400, vh - 190, 560) : 520;
+  const mH = vh ? clamp(380, vh - 160, 520) : 480;
 
   return (
     <section
@@ -211,15 +203,6 @@ export function IncidentShowcase() {
       className="relative bg-white"
       style={{ height: `${STATES.length * 100}vh` }}
     >
-      {STATES.map((_, i) => (
-        <div
-          key={`snap${i}`}
-          aria-hidden
-          className="pointer-events-none absolute left-0 h-px w-px"
-          style={{ top: `${i * 100}vh`, scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
-        />
-      ))}
-
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <div className="hidden lg:block">
           <Stage
