@@ -12,16 +12,19 @@ import { useEffect, useRef, useState } from 'react';
  */
 const HAND = '/images/landing/hand-holding-phone.png';
 
-// hand-holding-phone.png geometry (measured): image is 1012x1438 and the phone
-// screen's straight edges sit at x92-541 / y9-951, with a corner radius of ~14.3%
-// of the screen width. Expressed as fractions of the image below.
+// hand-holding-phone.png geometry (measured): image is 1012x1438, the phone
+// screen at x88-547 / y8-952 (fractions below). This box is used to center the
+// phone and align the hand.
 const RATIO = 1012 / 1438;
-const SL = 92 / 1012; // screen left
-const ST = 9 / 1438; // screen top
-const SW = 449 / 1012; // screen width
-const SH = 942 / 1438; // screen height
+const SL = 88 / 1012; // screen left
+const ST = 8 / 1438; // screen top
+const SW = 459 / 1012; // screen width
+const SH = 944 / 1438; // screen height
 const SCREEN_ASPECT = (SW * RATIO) / SH; // screenW / screenH
-const SCREEN_RADIUS = 0.143; // corner radius as a fraction of the screen width
+// The live broadcast sits INSIDE the screen at its natural aspect, smaller than
+// the screen, leaving a black bezel margin around it before the phone's frame.
+const MOCKUP_ASPECT = 804 / 1748;
+const LIVE_SCALE = 0.985; // live image height as a fraction of the screen height
 
 const STATES = [
   {
@@ -83,16 +86,21 @@ export function IncidentShowcase() {
   const screenOpacity = (i: number) =>
     ease(1 - clamp((Math.abs(p - i) - 0.28) / 0.44, 0, 1));
 
-  // Vertical-carousel style for an alert card of state i.
+  // Circular vertical-carousel style for an alert card of state i: the active
+  // state is always centered, its neighbours sit one above and one below (the
+  // offset wraps around so it never bunches all cards on one side).
+  const N = STATES.length;
   const carousel = (i: number, gap: number, zMax: number): React.CSSProperties => {
-    const d = p - i;
-    const ad = Math.abs(d);
+    // signed offset in [-N/2, N/2): 0 = centered/active.
+    const o = (((i - p + N / 2) % N) + N) % N - N / 2;
+    const ao = Math.abs(o);
     return {
       top: '50%',
-      transform: `translateY(calc(-50% + ${d * gap}px)) scale(${1 - Math.min(ad, 1) * 0.1})`,
-      opacity: clamp(1 - ad * 0.58, 0.1, 1),
-      filter: `blur(${Math.min(ad, 1.3) * 7}px)`,
-      zIndex: Math.round((1 - Math.min(ad, 1)) * zMax),
+      transform: `translateY(calc(-50% + ${o * gap}px)) scale(${1 - Math.min(ao, 1) * 0.1})`,
+      // Fade to 0 as a card approaches the wrap edge so the loop is seamless.
+      opacity: clamp(1 - ao * 0.72, 0, 1),
+      filter: `blur(${Math.min(ao, 1) * 7}px)`,
+      zIndex: Math.round(Math.max(0, N / 2 - ao) * zMax),
       willChange: 'transform, opacity, filter'
     };
   };
@@ -110,9 +118,11 @@ export function IncidentShowcase() {
     mobile: boolean;
   }) => {
     const screenW = screenH * SCREEN_ASPECT;
-    const rounded = screenW * SCREEN_RADIUS;
     const imgH = screenH / SH;
     const imgW = imgH * RATIO;
+    // The live broadcast, inset within the screen (natural aspect, black margin).
+    const liveH = screenH * LIVE_SCALE;
+    const liveW = liveH * MOCKUP_ASPECT;
     return (
       // Box == the phone screen; the flex parent centers THIS, so the phone
       // (not the whole hand image) lands in the middle.
@@ -123,7 +133,7 @@ export function IncidentShowcase() {
               <div
                 key={`m${i}`}
                 className="absolute"
-                style={{ left: '-24%', width: cardW, ...carousel(i, gap, 30) }}
+                style={{ left: '-24%', width: cardW, ...carousel(i, gap, 12) }}
               >
                 <Image
                   src={st.alerts[1]}
@@ -138,7 +148,7 @@ export function IncidentShowcase() {
               <div
                 key={`l${i}`}
                 className="absolute"
-                style={{ right: '100%', marginRight: -46, width: cardW, ...carousel(i, gap, 8) }}
+                style={{ right: '100%', marginRight: 22, width: cardW, ...carousel(i, gap, 6) }}
               >
                 <Image
                   src={st.alerts[0]}
@@ -171,15 +181,24 @@ export function IncidentShowcase() {
           <Image src={HAND} alt="Hand holding a SafeRoute live broadcast" fill priority className="object-contain" />
         </div>
 
-        {/* Live broadcasts, filling the screen */}
+        {/* Live broadcasts, inset within the screen with a black bezel margin */}
         {STATES.map((st, i) => (
           <div
             key={st.live}
-            className="absolute inset-0 overflow-hidden"
-            style={{ borderRadius: rounded, opacity: screenOpacity(i), zIndex: 11 }}
+            className="absolute overflow-hidden"
+            style={{
+              left: '50%',
+              top: '50%',
+              width: liveW,
+              height: liveH,
+              transform: 'translate(-50%, -50%)',
+              borderRadius: liveW * 0.12,
+              opacity: screenOpacity(i),
+              zIndex: 11
+            }}
             aria-hidden={Math.round(p) !== i}
           >
-            <Image src={st.live} alt="" fill priority={i === 0} sizes="360px" className="object-cover object-top" />
+            <Image src={st.live} alt="" fill priority={i === 0} sizes="320px" className="object-cover" />
           </div>
         ))}
       </div>
