@@ -55,11 +55,23 @@ function Icon({ open }: { open: boolean }) {
   );
 }
 
-export function Faq() {
+export function Faq({
+  showContact = true,
+  fullHeight = true
+}: {
+  /** Show the "Still have questions?" contact card below the list. */
+  showContact?: boolean;
+  /** Fill the viewport (home) vs. sit inline in the flow (help-center). */
+  fullHeight?: boolean;
+} = {}) {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section className="flex min-h-screen flex-col justify-center bg-white">
+    <section
+      className={`flex flex-col justify-center bg-white ${
+        fullHeight ? 'min-h-screen' : ''
+      }`}
+    >
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-16 px-8 py-24">
         <header className="flex max-w-[768px] flex-col items-center gap-5 text-center">
           <h2 className="text-[48px] font-medium leading-[60px] tracking-tightest text-gray-950">
@@ -96,6 +108,7 @@ export function Faq() {
           })}
         </div>
 
+        {showContact && (
         <div className="flex w-full flex-col items-center gap-8 rounded-2xl bg-gray-50 px-8 pb-10 pt-8">
           <div className="relative h-14 w-[120px]">
             <Image
@@ -137,6 +150,7 @@ export function Faq() {
             Get in touch
           </Link>
         </div>
+        )}
       </div>
     </section>
   );

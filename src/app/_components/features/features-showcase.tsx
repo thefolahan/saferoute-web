@@ -4,59 +4,37 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Features — one single pinned section. The panel stays put while you scroll and
- * the six features advance through it; each feature's phone + copy *morph* in and
- * out — scaling up out of a soft blur as it becomes active, then blurring/shrinking
- * away as the next takes its place. Everything is scrubbed to scroll progress, so
- * the motion tracks the scrollbar exactly. Content is verbatim from the 491:* frames.
+ * Features — the dark section under the hero. A standard section heading, then a
+ * single PINNED sub-section that scrubs through the four features as you scroll:
+ * each feature's phone + copy morph in (scale up out of a soft blur) and morph
+ * out as the next takes its place. Content is the consolidated four-section copy;
+ * every phone shows the live incident map.
  */
+const PHONE = '/images/landing/491-26551.png';
+
 const FEATURES = [
   {
-    eyebrow: undefined,
     heading: 'Stay informed in real time.',
     description:
-      'View reports from nearby residents, verified organizations, and trusted news outlets as incidents unfold.',
-    phone: '/images/landing/491-22714.png',
+      'See reports from nearby residents, verified organizations, and trusted news outlets the moment incidents unfold — each one growing more reliable as people nearby confirm it with photos, videos, and live updates.',
     phoneLeft: false
   },
   {
-    eyebrow: undefined,
     heading: "See what's happening before you arrive.",
     description:
-      'Watch live broadcasts from people at the scene to better understand traffic, flooding, accidents, and other incidents.',
-    phone: '/images/landing/491-25783.png',
+      'Watch live broadcasts from people at the scene to understand traffic, flooding, accidents, and other incidents — so you know an area before you ever set foot in it.',
     phoneLeft: true
   },
   {
-    eyebrow: undefined,
     heading: 'Choose the safest route.',
     description:
       'Every route is analyzed using community reports, live activity, and neighborhood intelligence to help you make informed travel decisions.',
-    phone: '/images/landing/491-26551.png',
     phoneLeft: false
   },
   {
-    eyebrow: 'Explore Neighborhoods',
-    heading: 'Know an area before you visit.',
-    description:
-      'Watch live broadcasts from people at the scene to better understand traffic, flooding, accidents, and other incidents.',
-    phone: '/images/landing/491-26798.png',
-    phoneLeft: true
-  },
-  {
-    eyebrow: undefined,
     heading: 'Share every journey with people you trust.',
     description:
       'Keep family and friends informed with live journey sharing and emergency notifications whenever you need them.',
-    phone: '/images/landing/491-27059.png',
-    phoneLeft: false
-  },
-  {
-    eyebrow: undefined,
-    heading: 'Built on trusted community intelligence.',
-    description:
-      'Reports become more reliable as nearby users verify incidents with photos, videos, and live updates.',
-    phone: '/images/landing/491-26031.png',
     phoneLeft: true
   }
 ] as const;
@@ -71,13 +49,10 @@ const ease = (t: number) =>
 function Copy({ f }: { f: (typeof FEATURES)[number] }) {
   return (
     <>
-      {f.eyebrow ? (
-        <p className="mb-4 text-base font-normal text-[#0BA5EC]">{f.eyebrow}</p>
-      ) : null}
-      <h2 className="text-[32px] font-medium leading-[42px] tracking-tightest text-gray-25 sm:text-[48px] sm:leading-[56px] lg:text-[56px] lg:leading-[64px]">
+      <h3 className="text-[32px] font-medium leading-[42px] tracking-tightest text-gray-25 sm:text-[48px] sm:leading-[56px] lg:text-[56px] lg:leading-[64px]">
         {f.heading}
-      </h2>
-      <p className="mt-4 max-w-[440px] text-base font-normal text-gray-200">
+      </h3>
+      <p className="mt-4 max-w-[460px] text-base font-normal text-gray-200">
         {f.description}
       </p>
     </>
@@ -130,67 +105,71 @@ export function FeaturesShowcase() {
   };
 
   return (
-    <section
-      ref={ref}
-      className="relative bg-gray-950"
-      style={{ height: `${FEATURES.length * 100}vh` }}
-    >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        {/* Desktop: phone one side, copy the other; the whole feature morphs. */}
-        <div className="relative mx-auto hidden h-[620px] w-full max-w-[1280px] px-6 sm:px-10 lg:block lg:px-20">
-          {FEATURES.map((f, i) => (
-            <div
-              key={f.heading}
-              className="absolute inset-0 flex items-center"
-              style={morph(i)}
-              aria-hidden={Math.round(p) !== i}
-            >
-              <div
-                className="absolute top-1/2 h-[560px] w-[44%] -translate-y-1/2 overflow-hidden rounded-[32px] bg-gray-900"
-                style={{ left: f.phoneLeft ? '4%' : '52%' }}
-              >
-                <Image
-                  src={f.phone}
-                  alt=""
-                  width={397}
-                  height={818}
-                  priority={i === 0}
-                  className="absolute left-1/2 top-20 h-[818px] w-[300px] -translate-x-1/2"
-                />
-              </div>
-              <div
-                className="absolute top-1/2 w-[38%] -translate-y-1/2"
-                style={{ left: f.phoneLeft ? '56%' : '4%' }}
-              >
-                <Copy f={f} />
-              </div>
-            </div>
-          ))}
-        </div>
+    <section className="bg-gray-950">
+      <div className="mx-auto max-w-[1280px] px-6 pt-20 text-center sm:px-10 lg:px-20 lg:pt-28">
+        <h2 className="mx-auto max-w-[640px] text-[32px] font-medium leading-[40px] tracking-tightest text-white sm:text-[48px] sm:leading-[60px]">
+          Everything Working Together for Your Journey
+        </h2>
+      </div>
 
-        {/* Mobile: copy above phone, the whole feature morphs. */}
-        <div className="relative mx-auto h-[620px] w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
-          {FEATURES.map((f, i) => (
-            <div
-              key={`m-${f.heading}`}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-8"
-              style={morph(i)}
-              aria-hidden={Math.round(p) !== i}
-            >
-              <div className="w-full">
-                <Copy f={f} />
+      <div ref={ref} className="relative" style={{ height: `${FEATURES.length * 100}vh` }}>
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          {/* Desktop: phone one side, copy the other; the whole feature morphs. */}
+          <div className="relative mx-auto hidden h-[620px] w-full max-w-[1280px] px-6 sm:px-10 lg:block lg:px-20">
+            {FEATURES.map((f, i) => (
+              <div
+                key={f.heading}
+                className="absolute inset-0 flex items-center"
+                style={morph(i)}
+                aria-hidden={Math.round(p) !== i}
+              >
+                <div
+                  className="absolute top-1/2 h-[560px] w-[44%] -translate-y-1/2 overflow-hidden rounded-[32px] bg-gray-900"
+                  style={{ left: f.phoneLeft ? '4%' : '52%' }}
+                >
+                  <Image
+                    src={PHONE}
+                    alt=""
+                    width={397}
+                    height={818}
+                    priority={i === 0}
+                    className="absolute left-1/2 top-20 h-[818px] w-[300px] -translate-x-1/2"
+                  />
+                </div>
+                <div
+                  className="absolute top-1/2 w-[38%] -translate-y-1/2"
+                  style={{ left: f.phoneLeft ? '56%' : '4%' }}
+                >
+                  <Copy f={f} />
+                </div>
               </div>
-              <div className="relative h-[360px] w-full overflow-hidden rounded-[32px] bg-gray-900">
-                <Image
-                  src={f.phone}
-                  alt=""
-                  width={397}
-                  height={818}
-                  className="absolute left-1/2 top-12 h-[818px] w-[240px] -translate-x-1/2"
-                />
+            ))}
+          </div>
+
+          {/* Mobile: copy above phone, the whole feature morphs. */}
+          <div className="relative mx-auto h-[620px] w-full max-w-[560px] px-6 sm:px-10 lg:hidden">
+            {FEATURES.map((f, i) => (
+              <div
+                key={`m-${f.heading}`}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-8"
+                style={morph(i)}
+                aria-hidden={Math.round(p) !== i}
+              >
+                <div className="w-full">
+                  <Copy f={f} />
+                </div>
+                <div className="relative h-[360px] w-full overflow-hidden rounded-[32px] bg-gray-900">
+                  <Image
+                    src={PHONE}
+                    alt=""
+                    width={397}
+                    height={818}
+                    className="absolute left-1/2 top-12 h-[818px] w-[240px] -translate-x-1/2"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

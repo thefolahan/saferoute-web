@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { AboutHero } from '../_components/about/about-hero';
 import { AboutStory } from '../_components/about/about-story';
 import { AboutMission } from '../_components/about/about-mission';
+import { AboutValues } from '../_components/about/about-values';
 import { DownloadCta } from '../_components/download-cta';
 import { SiteFooter } from '../_components/site-footer';
 
@@ -17,6 +18,7 @@ export default function AboutPage() {
       <AboutHero />
       <AboutStory />
       <AboutMission />
+      <AboutValues />
       <DownloadCta />
       <SiteFooter />
     </main>

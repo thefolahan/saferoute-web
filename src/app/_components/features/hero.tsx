@@ -3,14 +3,14 @@ import { SiteNav } from '../site-nav';
 
 /**
  * Features hero — Figma 491:21550. Light bg. Centered 72/79 heading + subtext
- * (max 696), then a full-column Lagos cityscape (1120x560, radius 16) with a
- * small carousel-dot indicator. Nav is absolute/80 tall, so pad the top.
+ * (max 696), then a full-column dusk-cityscape image (1120x560, radius 16) with
+ * floating incident pins baked in. Nav is absolute/80 tall, so pad the top.
  */
 export function FeaturesHero() {
   return (
-    <section className="relative min-h-screen bg-white">
+    <section className="relative bg-white">
       <SiteNav active="Features" theme="light" />
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center px-6 pb-10 pt-[104px] sm:px-10 lg:px-20 lg:pt-[120px]">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center px-6 pb-16 pt-[104px] sm:px-10 lg:px-20 lg:pt-[120px]">
         {/* Heading block */}
         <div className="flex max-w-[660px] flex-col items-center gap-4 text-center">
           <h1 className="text-[40px] font-medium leading-[50px] tracking-tightest text-gray-950 sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
@@ -22,20 +22,16 @@ export function FeaturesHero() {
           </p>
         </div>
 
-        {/* Cityscape — portrait on mobile, wide on desktop */}
-        <div className="relative mt-10 aspect-[4/5] w-full overflow-hidden rounded-2xl bg-gray-200 sm:aspect-[16/10] lg:aspect-auto lg:h-[560px]">
+        {/* Dusk cityscape with live incident pins (2:1) */}
+        <div className="relative mt-10 aspect-[2/1] w-full overflow-hidden rounded-2xl bg-gray-200">
           <Image
-            src="/images/landing/491-24604.png"
-            alt="Aerial view of the Lagos cityscape"
+            src="/images/landing/features-hero-image.png"
+            alt="SafeRoute live incident map over a Lagos cityscape at dusk"
             fill
             priority
-            sizes="1120px"
+            sizes="(min-width: 1024px) 1120px, 100vw"
             className="object-cover"
           />
-          <div className="absolute inset-x-0 bottom-4 flex justify-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-white" />
-            <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-          </div>
         </div>
       </div>
     </section>

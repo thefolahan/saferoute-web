@@ -90,11 +90,13 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .reveal {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    transition: none;
+  .reveal,
+  .reveal[data-from],
+  .reveal[data-from='morph'] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
   }
 }
 

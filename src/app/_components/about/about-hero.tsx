@@ -18,12 +18,14 @@ export function AboutHero() {
             About us
           </p>
           <h1 className="mt-4 max-w-[760px] text-[32px] font-medium leading-[40px] tracking-[-0.02em] text-[#0A0D12] sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
-            We are helping people travel with confidence.
+            We&apos;re helping people travel with confidence.
           </h1>
-          <p className="mt-4 max-w-[680px] text-[14px] font-normal leading-6 text-[#717680] sm:text-[16px]">
-            SafeRoute provides real-time road intelligence that helps travelers
-            avoid delays, navigate disruptions, and make smarter decisions before
-            they hit the road.
+          <p className="mt-4 max-w-[720px] text-[14px] font-normal leading-6 text-[#717680] sm:text-[16px]">
+            SafeRoute is a Nigeria-first safety platform that helps people travel
+            with confidence. We turn scattered, hard-to-verify safety chatter into
+            real-time, community-verified road intelligence — so you know what&apos;s
+            happening on your route before you set out, not after you&apos;re stuck
+            in it.
           </p>
           <a
             href="/coming-soon"
@@ -37,7 +39,7 @@ export function AboutHero() {
           {STATS.map((stat, i) => (
             <div
               key={i}
-              className={`px-6 py-7 sm:px-[42px] sm:py-[30px] ${
+              className={`flex flex-col items-center justify-center px-6 py-7 text-center sm:px-[42px] sm:py-[30px] ${
                 i % 2 === 1 ? 'border-l border-[#D5D7DA]' : ''
               } ${i >= 2 ? 'border-t border-[#D5D7DA] lg:border-t-0' : ''} ${
                 i % 4 !== 0 ? 'lg:border-l lg:border-[#D5D7DA]' : ''

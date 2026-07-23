@@ -6,11 +6,15 @@
 const ITEMS = [
   {
     label: 'Our Mission',
-    text: 'To make travel safer, smarter, and more predictable through real-time road intelligence.'
+    text: 'To make travel safer, smarter, and more predictable through real-time road intelligence.',
+    support:
+      'We help people avoid danger and delays by giving them verified, on-the-ground information the moment it matters — clear enough to act on, calm enough to trust.'
   },
   {
     label: 'Our Vision',
-    text: "Become Africa's most trusted road information platform."
+    text: "Become Africa's most trusted road information platform.",
+    support:
+      "Starting in Nigeria and expanding city by city, we're building the layer of real-time, community-powered intelligence that every traveler on the continent can rely on."
   }
 ] as const;
 
@@ -43,8 +47,11 @@ export function AboutMission() {
               <p className="mt-12 text-[18px] font-normal uppercase leading-6 tracking-[0.04em] text-gray-500">
                 {item.label}
               </p>
-              <p className="mt-5 max-w-full text-[24px] font-bold leading-9 tracking-[-0.01em] text-white sm:max-w-[370px] sm:text-[28px] sm:leading-[40px]">
+              <p className="mt-5 max-w-full text-[24px] font-bold leading-9 tracking-[-0.01em] text-white sm:max-w-[380px] sm:text-[28px] sm:leading-[40px]">
                 {item.text}
+              </p>
+              <p className="mt-5 max-w-full text-[16px] font-normal leading-7 text-gray-400 sm:max-w-[420px]">
+                {item.support}
               </p>
             </div>
           ))}
