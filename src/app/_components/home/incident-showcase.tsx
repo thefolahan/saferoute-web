@@ -4,40 +4,62 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Incident showcase — a pinned section that scrubs through the three states the
- * designer drew (Road Accident → Flood → Police harassment). The hand/phone and
- * the surrounding alert cards sit in the same place in every frame, so the live
- * broadcast and the reports simply cross-dissolve as you scroll. Each state is a
- * flattened export (desktop + mobile) exported at the same crop, so they align.
+ * Incident showcase — a single hand holding a phone stays put while you scroll;
+ * the live broadcast INSIDE the phone changes through three states (accident →
+ * flood → harassment), and the matching alert cards float in around it. Pinned
+ * and scrubbed to scroll progress, so everything cross-fades with the scrollbar.
  */
+const HAND = '/images/landing/hand-holding-phone.png';
+
 const STATES = [
   {
-    desktop: '/images/landing/incident-state-1.png',
-    mobile: '/images/landing/incident-state-1-mobile.png',
-    alt: 'Live road-accident broadcast surrounded by community incident reports'
+    live: '/images/landing/live-mockup-accident.png',
+    alerts: [
+      '/images/landing/alert-for-live-mockup-accident-1.png',
+      '/images/landing/alert-for-live-mockup-accident-2.png'
+    ]
   },
   {
-    desktop: '/images/landing/incident-state-2.png',
-    mobile: '/images/landing/incident-state-2-mobile.png',
-    alt: 'Live flood broadcast surrounded by community incident reports'
+    live: '/images/landing/live-mockup-flood.png',
+    alerts: [
+      '/images/landing/alert-for-live-mockup-flood-1.png',
+      '/images/landing/alert-for-live-mockup-flood-2.png'
+    ]
   },
   {
-    desktop: '/images/landing/incident-state-3.png',
-    mobile: '/images/landing/incident-state-3-mobile.png',
-    alt: 'Live police-harassment broadcast surrounded by community incident reports'
+    live: '/images/landing/live-mockup-harrasment.png',
+    alerts: [
+      '/images/landing/alert-for-live-mockup-harrasment-1.png',
+      '/images/landing/alert-for-live-mockup-harrasment-2.png'
+    ]
   }
 ] as const;
 
+// Desktop card slots — each state owns two, positioned so the active pair reads
+// as the focal cards while the rest sit dimmed around them.
+const SLOTS: { s: number; a: number; style: React.CSSProperties }[] = [
+  { s: 0, a: 0, style: { left: '10%', top: '36%' } },
+  { s: 0, a: 1, style: { right: '10%', top: '36%' } },
+  { s: 1, a: 0, style: { left: '0%', top: '2%' } },
+  { s: 1, a: 1, style: { right: '0%', top: '66%' } },
+  { s: 2, a: 0, style: { left: '0%', top: '66%' } },
+  { s: 2, a: 1, style: { right: '0%', top: '2%' } }
+];
+
+const SCREEN: React.CSSProperties = {
+  left: '8.6%',
+  top: '1.4%',
+  width: '45.2%',
+  height: '63.6%'
+};
+
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
-
-// easeInOutCubic
 const ease = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 export function IncidentShowcase() {
   const ref = useRef<HTMLDivElement>(null);
-  // Continuous scroll progress across the states, 0 … STATES.length - 1.
   const [p, setP] = useState(0);
 
   useEffect(() => {
@@ -64,19 +86,27 @@ export function IncidentShowcase() {
     };
   }, []);
 
-  // Hold each state crisp within a plateau (|d| < 0.28), then cross-dissolve to
-  // the next with a hair of depth-scale so the swap reads as motion.
-  const style = (i: number): React.CSSProperties => {
-    const d = p - i;
-    const ad = Math.abs(d);
-    const t = clamp((ad - 0.28) / 0.44, 0, 1);
-    return {
-      opacity: ease(1 - t),
-      transform: `scale(${1 - t * 0.04})`,
-      zIndex: Math.round(100 - ad * 100),
-      willChange: 'opacity, transform'
-    };
-  };
+  // Screen cross-fade: crisp hold on each state, quick dissolve between.
+  const screenOpacity = (i: number) =>
+    ease(1 - clamp((Math.abs(p - i) - 0.28) / 0.44, 0, 1));
+  // How "active" a state is right now (1 at its hold, fading to 0 either side).
+  const prominence = (s: number) => ease(clamp(1 - Math.abs(p - s), 0, 1));
+
+  const PhoneStack = ({ rounded }: { rounded: number }) => (
+    <>
+      <Image src={HAND} alt="Hand holding a SafeRoute live broadcast" fill priority className="object-contain" />
+      {STATES.map((st, i) => (
+        <div
+          key={st.live}
+          className="absolute overflow-hidden"
+          style={{ ...SCREEN, borderRadius: rounded, opacity: screenOpacity(i) }}
+          aria-hidden={Math.round(p) !== i}
+        >
+          <Image src={st.live} alt="" fill priority={i === 0} className="object-cover object-top" sizes="240px" />
+        </div>
+      ))}
+    </>
+  );
 
   return (
     <section
@@ -85,38 +115,67 @@ export function IncidentShowcase() {
       style={{ height: `${STATES.length * 100}vh` }}
     >
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
-        {/* Desktop keyframes */}
-        <div className="relative mx-auto hidden aspect-[1280/928] w-full max-w-[1280px] lg:block">
-          {STATES.map((s, i) => (
-            <Image
-              key={s.desktop}
-              src={s.desktop}
-              alt={i === 0 ? s.alt : ''}
-              fill
-              priority={i === 0}
-              sizes="1280px"
-              className="select-none object-contain"
-              style={style(i)}
-              aria-hidden={Math.round(p) !== i}
-            />
-          ))}
+        {/* Desktop: hand + phone centered, six alert cards floating behind it */}
+        <div className="relative mx-auto hidden h-[640px] w-full max-w-[1200px] lg:block">
+          {SLOTS.map((slot, idx) => {
+            const pr = prominence(slot.s);
+            return (
+              <div
+                key={idx}
+                className="absolute w-[330px]"
+                style={{
+                  ...slot.style,
+                  opacity: 0.22 + 0.78 * pr,
+                  transform: `scale(${0.9 + 0.1 * pr})`,
+                  zIndex: pr > 0.5 ? 5 : 1,
+                  filter: pr > 0.5 ? 'none' : 'saturate(0.4)'
+                }}
+              >
+                <Image
+                  src={STATES[slot.s]!.alerts[slot.a]!}
+                  alt=""
+                  width={724}
+                  height={374}
+                  className="h-auto w-full drop-shadow-[0_18px_40px_rgba(16,24,40,0.12)]"
+                />
+              </div>
+            );
+          })}
+
+          <div className="absolute left-1/2 top-1/2 z-10 h-[640px] w-[451px] -translate-x-1/2 -translate-y-1/2">
+            <PhoneStack rounded={28} />
+          </div>
         </div>
 
-        {/* Mobile keyframes */}
-        <div className="relative mx-auto aspect-[402/559] w-full max-w-[440px] px-4 lg:hidden">
-          {STATES.map((s, i) => (
-            <Image
-              key={s.mobile}
-              src={s.mobile}
-              alt={i === 0 ? s.alt : ''}
-              fill
-              priority={i === 0}
-              sizes="440px"
-              className="select-none object-contain"
-              style={style(i)}
-              aria-hidden={Math.round(p) !== i}
-            />
+        {/* Mobile: hand + phone with a stacked alert card overlapping the left */}
+        <div className="relative mx-auto flex h-[600px] w-full max-w-[440px] items-center justify-center lg:hidden">
+          {[
+            { top: '10%', dim: true },
+            { top: '30%', dim: false },
+            { top: '58%', dim: true }
+          ].map((row, r) => (
+            <div
+              key={r}
+              className="absolute left-[-4%] w-[260px]"
+              style={{ top: row.top, zIndex: row.dim ? 1 : 20 }}
+            >
+              {STATES.map((st, i) => (
+                <Image
+                  key={st.live}
+                  src={st.alerts[1]!}
+                  alt=""
+                  width={724}
+                  height={374}
+                  className="absolute inset-0 h-auto w-full drop-shadow-[0_18px_40px_rgba(16,24,40,0.14)]"
+                  style={{ opacity: (row.dim ? 0.3 : 1) * screenOpacity(i) }}
+                />
+              ))}
+            </div>
           ))}
+
+          <div className="relative z-10 h-[560px] w-[394px]">
+            <PhoneStack rounded={24} />
+          </div>
         </div>
       </div>
     </section>
