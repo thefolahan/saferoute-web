@@ -43,8 +43,15 @@ const clamp = (v: number, lo: number, hi: number) =>
 
 export function IncidentShowcase() {
   const ref = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0);
-  const [vh, setVh] = useState(0);
+  // The actual rendered height of the pinned stage (in px). Measured from the
+  // DOM rather than read from `window.innerHeight` / `100vh`, because on iOS
+  // Safari those disagree (and shift as the address bar hides), which desyncs
+  // the scroll maths and the phone sizing — the section looks fine in Chrome's
+  // device emulator but breaks on a real iPhone. Measuring the pinned element
+  // keeps everything self-consistent regardless of the browser chrome.
+  const [pinH, setPinH] = useState(0);
   const [vw, setVw] = useState(0);
 
   useEffect(() => {
@@ -52,8 +59,9 @@ export function IncidentShowcase() {
     const update = () => {
       raf = 0;
       const el = ref.current;
-      if (!el) return;
-      const range = el.offsetHeight - window.innerHeight;
+      const pin = pinRef.current;
+      if (!el || !pin) return;
+      const range = el.offsetHeight - pin.clientHeight;
       if (range <= 0) return;
       const scrolled = clamp(-el.getBoundingClientRect().top, 0, range);
       setP((scrolled / range) * (STATES.length - 1));
@@ -62,17 +70,20 @@ export function IncidentShowcase() {
       if (!raf) raf = requestAnimationFrame(update);
     };
     const onResize = () => {
-      setVh(window.innerHeight);
+      if (pinRef.current) setPinH(pinRef.current.clientHeight);
       setVw(window.innerWidth);
       onScroll();
     };
     onResize();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize, { passive: true });
+    // iOS fires visualViewport resize when the address bar shows/hides.
+    window.visualViewport?.addEventListener('resize', onResize);
     update();
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
+      window.visualViewport?.removeEventListener('resize', onResize);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
@@ -203,26 +214,29 @@ export function IncidentShowcase() {
     );
   };
 
-  // Size the phone to the viewport height so it never gets too big on short
-  // laptops (leaving room for margins), with sensible fallbacks before mount.
-  const dH = vh ? clamp(400, vh - 190, 560) : 520;
+  // Size the phone to the pinned stage height (measured, so it matches what's
+  // actually on screen on iOS) so it never gets too big on short laptops.
+  const dH = pinH ? clamp(400, pinH - 190, 560) : 520;
   // Mobile: make the hand/phone as large as the viewport allows. `screenH`
   // drives the whole composite — the full hand image is `screenH / SH` tall and
   // `screenH * RATIO / SH` wide. The PNG has no transparent side margin, so the
   // width must stay within the viewport (or the fingers get clipped); size it to
   // fill the width, capped so it never overflows the height either.
   const mH =
-    vh && vw
-      ? clamp(360, Math.min(vh * 0.98 * SH, (vw * 0.99 * SH) / RATIO), 560)
+    pinH && vw
+      ? clamp(360, Math.min(pinH * 0.98 * SH, (vw * 0.99 * SH) / RATIO), 560)
       : 420;
 
   return (
     <section
       ref={ref}
       className="relative bg-white"
-      style={{ height: `${STATES.length * 100}vh` }}
+      style={{ height: `calc(${STATES.length} * 100svh)` }}
     >
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+      <div
+        ref={pinRef}
+        className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden"
+      >
         <div className="hidden lg:block">
           <Stage
             screenH={dH}

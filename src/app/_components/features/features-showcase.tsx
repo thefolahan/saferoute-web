@@ -53,6 +53,7 @@ function Copy({ f }: { f: (typeof FEATURES)[number] }) {
 
 export function FeaturesShowcase() {
   const ref = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0);
 
   useEffect(() => {
@@ -60,8 +61,13 @@ export function FeaturesShowcase() {
     const update = () => {
       raf = 0;
       const el = ref.current;
-      if (!el) return;
-      const range = el.offsetHeight - window.innerHeight;
+      const pin = pinRef.current;
+      if (!el || !pin) return;
+      // Measure the pinned element rather than trusting window.innerHeight /
+      // 100vh — on iOS Safari those disagree and shift with the address bar,
+      // which desyncs the scroll animation on a real iPhone (fine in Chrome's
+      // emulator). Measuring keeps the maths self-consistent.
+      const range = el.offsetHeight - pin.clientHeight;
       if (range <= 0) return;
       const scrolled = clamp(-el.getBoundingClientRect().top, 0, range);
       setP((scrolled / range) * (FEATURES.length - 1));
@@ -71,10 +77,12 @@ export function FeaturesShowcase() {
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
+    window.visualViewport?.addEventListener('resize', onScroll);
     update();
     return () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
+      window.visualViewport?.removeEventListener('resize', onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
@@ -102,8 +110,8 @@ export function FeaturesShowcase() {
         </h2>
       </div>
 
-      <div ref={ref} className="relative" style={{ height: `${FEATURES.length * 100}vh` }}>
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      <div ref={ref} className="relative" style={{ height: `calc(${FEATURES.length} * 100svh)` }}>
+        <div ref={pinRef} className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
           <div className="relative mx-auto hidden h-[620px] w-full max-w-[1280px] px-6 sm:px-10 lg:block lg:px-20">
             {FEATURES.map((f, i) => (
               <div
