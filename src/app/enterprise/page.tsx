@@ -26,7 +26,11 @@ const enterpriseConfig: WaitlistConfig = {
     title: 'Join the waitlist',
     subtitle: 'Sign up to be one of the first to use SafeRoute.'
   },
-  form: { variant: 'card', placeholder: 'Enter your email...', width: 460 }
+  form: { variant: 'card', placeholder: 'Enter your email...', width: 460 },
+  footer: {
+    copyright: '© 2026 SafeRoute. All rights reserved.',
+    links: ['Privacy Policy', 'Terms of Service']
+  }
 };
 
 export default function EnterpriseWaitlistPage() {

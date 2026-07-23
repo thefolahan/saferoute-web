@@ -63,6 +63,7 @@ export function IncidentShowcase() {
     };
     const onResize = () => {
       setVh(window.innerHeight);
+      setVw(window.innerWidth);
       onScroll();
     };
     onResize();
@@ -82,14 +83,23 @@ export function IncidentShowcase() {
   const screenOpacity = (i: number) => clamp(p - i + 1, 0, 1);
 
   const N = STATES.length;
-  const carousel = (i: number, gap: number, zMax: number): React.CSSProperties => {
+  const carousel = (
+    i: number,
+    gap: number,
+    zMax: number,
+    // Mobile alerts sit on top of the live video, so fade the off-centre cards
+    // out faster and blur them less — that keeps a scroll transition from
+    // smearing a half-blurred card across the video.
+    fade = 0.82,
+    maxBlur = 9
+  ): React.CSSProperties => {
     const o = (((i - p + N / 2) % N) + N) % N - N / 2;
     const ao = Math.abs(o);
     return {
       top: '50%',
       transform: `translateY(calc(-50% + ${o * gap}px)) scale(${1 - Math.min(ao, 1) * 0.14})`,
-      opacity: clamp(1 - ao * 0.82, 0, 1),
-      filter: `blur(${Math.min(ao, 1) * 9}px)`,
+      opacity: clamp(1 - ao * fade, 0, 1),
+      filter: `blur(${Math.min(ao, 1) * maxBlur}px)`,
       zIndex: Math.round(Math.max(0, N / 2 - ao) * zMax),
       willChange: 'transform, opacity, filter'
     };
@@ -115,13 +125,15 @@ export function IncidentShowcase() {
       <div className="relative" style={{ width: screenW, height: screenH }}>
         {mobile
           ? // A single-column vertical carousel (like the desktop columns): the
-            // active alert sits centered on the phone, the others blurred above
-            // and below.
+            // active alert sits on the phone's left half and centered
+            // vertically, the others blurred above and below. Shifted left so
+            // the live video stays visible on the right and the transition blur
+            // never covers it.
             STATES.map((st, i) => (
               <div
                 key={`m${i}`}
-                className="absolute left-[-6%]"
-                style={{ width: cardW, ...carousel(i, gap, 20) }}
+                className="absolute left-[-46%]"
+                style={{ width: cardW, ...carousel(i, gap, 20, 1.35, 5) }}
               >
                 <Image
                   src={st.alerts[1]}
@@ -194,7 +206,15 @@ export function IncidentShowcase() {
   // Size the phone to the viewport height so it never gets too big on short
   // laptops (leaving room for margins), with sensible fallbacks before mount.
   const dH = vh ? clamp(400, vh - 190, 560) : 520;
-  const mH = vh ? clamp(320, vh - 320, 420) : 400;
+  // Mobile: make the hand/phone as large as the viewport allows. `screenH`
+  // drives the whole composite — the full hand image is `screenH / SH` tall and
+  // `screenH * RATIO / SH` wide. The PNG has no transparent side margin, so the
+  // width must stay within the viewport (or the fingers get clipped); size it to
+  // fill the width, capped so it never overflows the height either.
+  const mH =
+    vh && vw
+      ? clamp(360, Math.min(vh * 0.98 * SH, (vw * 0.99 * SH) / RATIO), 560)
+      : 420;
 
   return (
     <section
