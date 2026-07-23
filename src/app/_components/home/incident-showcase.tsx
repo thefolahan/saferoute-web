@@ -132,8 +132,8 @@ export function IncidentShowcase() {
             STATES.map((st, i) => (
               <div
                 key={`m${i}`}
-                className="absolute left-[-46%]"
-                style={{ width: cardW, ...carousel(i, gap, 20, 1.35, 5) }}
+                className="absolute left-[-44%]"
+                style={{ width: cardW, ...carousel(i, gap, 20, 0.55, 8) }}
               >
                 <Image
                   src={st.alerts[1]}
@@ -235,7 +235,7 @@ export function IncidentShowcase() {
           <Stage
             screenH={mH}
             cardW={Math.round(mH * 0.44)}
-            gap={Math.round(mH * 0.33)}
+            gap={Math.round(mH * 0.28)}
             mobile
           />
         </div>
