@@ -6,7 +6,7 @@ export function AboutHero() {
     <section className="relative flex min-h-screen flex-col bg-white">
       <SiteNav theme="light" />
 
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col px-6 pb-16 pt-[104px] sm:px-10 lg:flex-1 lg:justify-center lg:px-20 lg:pt-[120px]">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col justify-center px-6 pb-16 pt-[104px] sm:px-10 lg:px-20 lg:pt-[120px]">
         <div className="flex flex-col items-center text-center">
           <p className="text-[16px] font-medium uppercase leading-6 tracking-[-0.02em] text-[#717680]">
             About us

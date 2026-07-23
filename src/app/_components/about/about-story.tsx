@@ -34,24 +34,24 @@ export function AboutStory() {
           </div>
 
           <div className="flex max-w-[600px] flex-col gap-4">
-            <p className="text-[14px] font-normal leading-[22px] text-white/90 sm:text-[15px] sm:leading-[24px]">
+            <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
               Traditional navigation apps are excellent at finding the fastest
               route, but they rarely tell you what is actually happening on it. We
               believed road users deserved better.
             </p>
-            <p className="text-[14px] font-normal leading-[22px] text-white/90 sm:text-[15px] sm:leading-[24px]">
+            <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
               So we built SafeRoute, a community-powered road intelligence platform
               that combines real-time reports, AI verification, location-based
               insights, and trusted community contributions to help people make
               safer, smarter decisions before and during every trip.
             </p>
-            <p className="text-[14px] font-normal leading-[22px] text-white/90 sm:text-[15px] sm:leading-[24px]">
+            <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
               Whether you are driving to work, running a business, delivering
               goods, or travelling across the country, SafeRoute gives you the
               information you need to stay informed, avoid unnecessary risks, and
               travel with confidence.
             </p>
-            <p className="mt-2 text-[14px] font-bold italic leading-[22px] text-white sm:text-[15px] sm:leading-[24px]">
+            <p className="mt-2 text-[18px] font-bold italic leading-[30px] text-white lg:text-[15px] lg:leading-[24px]">
               Navigation apps tell you how to reach your destination. SafeRoute
               tells you what you will meet on the way.
             </p>
