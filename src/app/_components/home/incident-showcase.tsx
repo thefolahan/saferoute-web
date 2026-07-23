@@ -12,14 +12,16 @@ import { useEffect, useRef, useState } from 'react';
  */
 const HAND = '/images/landing/hand-holding-phone.png';
 
-// hand-holding-phone.png geometry (measured): image is 1012x1438 and the black
-// screen sits at x83-552 / y9-951 — expressed as fractions of the image below.
+// hand-holding-phone.png geometry (measured): image is 1012x1438 and the phone
+// screen's straight edges sit at x92-541 / y9-951, with a corner radius of ~14.3%
+// of the screen width. Expressed as fractions of the image below.
 const RATIO = 1012 / 1438;
-const SL = 83 / 1012; // screen left
+const SL = 92 / 1012; // screen left
 const ST = 9 / 1438; // screen top
-const SW = 469 / 1012; // screen width
+const SW = 449 / 1012; // screen width
 const SH = 942 / 1438; // screen height
 const SCREEN_ASPECT = (SW * RATIO) / SH; // screenW / screenH
+const SCREEN_RADIUS = 0.143; // corner radius as a fraction of the screen width
 
 const STATES = [
   {
@@ -100,16 +102,15 @@ export function IncidentShowcase() {
     screenH,
     cardW,
     gap,
-    rounded,
     mobile
   }: {
     screenH: number;
     cardW: number;
     gap: number;
-    rounded: number;
     mobile: boolean;
   }) => {
     const screenW = screenH * SCREEN_ASPECT;
+    const rounded = screenW * SCREEN_RADIUS;
     const imgH = screenH / SH;
     const imgW = imgH * RATIO;
     return (
@@ -193,10 +194,10 @@ export function IncidentShowcase() {
     >
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <div className="hidden lg:block">
-          <Stage screenH={700} cardW={336} gap={236} rounded={32} mobile={false} />
+          <Stage screenH={700} cardW={336} gap={236} mobile={false} />
         </div>
         <div className="lg:hidden">
-          <Stage screenH={600} cardW={250} gap={190} rounded={26} mobile />
+          <Stage screenH={600} cardW={250} gap={190} mobile />
         </div>
       </div>
     </section>
