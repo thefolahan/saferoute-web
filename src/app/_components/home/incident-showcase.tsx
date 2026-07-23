@@ -45,6 +45,7 @@ export function IncidentShowcase() {
   const ref = useRef<HTMLDivElement>(null);
   const [p, setP] = useState(0);
   const [vh, setVh] = useState(0);
+  const [vw, setVw] = useState(0);
 
   useEffect(() => {
     let raf = 0;

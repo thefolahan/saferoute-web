@@ -116,7 +116,7 @@ export function SiteFooter() {
 
         <div className="relative mt-14 flex items-center justify-between md:mt-16">
           <p className="text-[14px] font-normal leading-5 text-white/30">
-            All rights reserved
+            © 2026 SafeRoute. All rights reserved.
           </p>
           <div className="absolute left-1/2 hidden -translate-x-1/2 gap-6 sm:flex">
             {[
