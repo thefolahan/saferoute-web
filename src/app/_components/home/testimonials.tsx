@@ -38,6 +38,18 @@ const CARDS: Card[] = [
   },
   {
     quote:
+      '"My driver and I plan the morning differently now. If Third Mainland is bad we know before six, and I take the call from home instead of missing the board meeting."',
+    name: 'Adaeze Nwosu',
+    role: 'Managing Director'
+  },
+  {
+    quote:
+      '"Report time does not move because Lagos traffic decided otherwise. I check the run to the airport the night before, and I have not missed a briefing since."',
+    name: 'Ifeanyi Duru',
+    role: 'Airline captain'
+  },
+  {
+    quote:
       '"We route a dozen dispatch riders across Lagos every day. Community reports reach us faster than the radio, and the verification means we are not reacting to rumours."',
     name: 'Tunde Adeyemi',
     role: 'Logistics coordinator'
@@ -83,18 +95,6 @@ const CARDS: Card[] = [
       '"I was posted somewhere I did not know at all. The community reports told me which routes people actually avoid after dark, which no map was ever going to tell me."',
     name: 'Blessing Etim',
     role: 'Corps member'
-  },
-  {
-    quote:
-      '"My driver and I plan the morning differently now. If Third Mainland is bad we know before six, and I take the call from home instead of missing the board meeting."',
-    name: 'Adaeze Nwosu',
-    role: 'Managing Director'
-  },
-  {
-    quote:
-      '"Report time does not move because Lagos traffic decided otherwise. I check the run to the airport the night before, and I have not missed a briefing since."',
-    name: 'Ifeanyi Duru',
-    role: 'Airline captain'
   },
   {
     quote:
