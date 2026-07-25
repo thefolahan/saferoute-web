@@ -120,7 +120,9 @@ export function FeatureShowcase() {
             </div>
           </div>
 
-          <div className="relative aspect-[1502/1120] max-h-[30svh] w-full overflow-hidden rounded-2xl bg-gray-200 sm:rounded-[32px] lg:max-h-none lg:flex-1">
+          {/* Same box as the about-story image below lg: full width up to 480,
+              centred, no height cap — it only becomes the flex column at lg. */}
+          <div className="relative aspect-[1502/1120] w-full max-w-[480px] shrink-0 overflow-hidden rounded-[32px] bg-gray-200 lg:max-w-none lg:flex-1">
             {FEATURES.map((feature, i) => (
               <Image
                 key={feature.title}
@@ -130,7 +132,7 @@ export function FeatureShowcase() {
                 height={1120}
                 priority={i === 0}
                 sizes="(min-width: 1024px) 600px, 100vw"
-                className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                   i === active
                     ? 'scale-100 opacity-100'
                     : 'scale-[0.97] opacity-0'
