@@ -83,6 +83,42 @@ const CARDS: Card[] = [
       '"I was posted somewhere I did not know at all. The community reports told me which routes people actually avoid after dark, which no map was ever going to tell me."',
     name: 'Blessing Etim',
     role: 'Corps member'
+  },
+  {
+    quote:
+      '"My driver and I plan the morning differently now. If Third Mainland is bad we know before six, and I take the call from home instead of missing the board meeting."',
+    name: 'Adaeze Nwosu',
+    role: 'Managing Director'
+  },
+  {
+    quote:
+      '"Report time does not move because Lagos traffic decided otherwise. I check the run to the airport the night before, and I have not missed a briefing since."',
+    name: 'Ifeanyi Duru',
+    role: 'Airline captain'
+  },
+  {
+    quote:
+      '"I leave the office on Victoria Island well past ten most nights. Seeing the Lekki-Epe road before I set out is the difference between calm and anxious."',
+    name: 'Kemi Ogunlesi',
+    role: 'Investment banker'
+  },
+  {
+    quote:
+      '"When the hospital calls me in for an emergency, minutes are the whole story. The alerts tell me which route is actually open at that hour, not which one is shortest."',
+    name: 'Bashir Aliyu',
+    role: 'Consultant surgeon'
+  },
+  {
+    quote:
+      '"I move between Port Harcourt and the site constantly. Knowing about an incident ahead means I reschedule rather than sit exposed on a bad stretch of road."',
+    name: 'Ifeoma Okoro',
+    role: 'Petroleum engineer'
+  },
+  {
+    quote:
+      '"I sit in three courts across the state some weeks. My clerk checks SafeRoute before we set out, and we have stopped arriving after the judge."',
+    name: 'Yemi Balogun',
+    role: 'Senior advocate'
   }
 ];
 
@@ -148,7 +184,14 @@ export function Testimonials() {
         </header>
 
         <div className="marquee relative mt-14 overflow-hidden pb-4 [-webkit-mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)]">
-          <div className="marquee-track flex w-max">
+          <div
+            className="marquee-track flex w-max"
+            style={
+              {
+                '--marquee-duration': `${CARDS.length * 8}s`
+              } as React.CSSProperties
+            }
+          >
             <Deck />
             <Deck duplicate />
           </div>

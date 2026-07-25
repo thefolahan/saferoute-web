@@ -68,7 +68,8 @@ body {
   }
 }
 .marquee-track {
-  animation: marqueeScroll 80s linear infinite;
+  /* Duration comes from the component (scaled to the number of cards). */
+  animation: marqueeScroll var(--marquee-duration, 80s) linear infinite;
   will-change: transform;
 }
 /* Pause while a pointer is over it (or a card is keyboard-focused) so the copy
