@@ -18,13 +18,14 @@ export function AboutStory() {
         </p>
 
         <div className="mt-14 flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:gap-16">
-          <div className="relative h-[440px] w-full max-w-[460px] shrink-0 overflow-hidden rounded-[32px] bg-gray-900 sm:h-[520px]">
+          <div className="relative aspect-[1502/1120] w-full max-w-[480px] shrink-0 overflow-hidden rounded-[32px] bg-gray-200">
             <Image
-              src="/images/landing/491-26551.png"
-              alt="SafeRoute live incident map"
-              width={397}
-              height={818}
-              className="absolute left-1/2 top-14 h-[720px] w-[264px] -translate-x-1/2 sm:top-16 sm:h-[818px] sm:w-[300px]"
+              src="/images/landing/Community-Feed.png"
+              alt="SafeRoute community feed with live incident reports"
+              width={1502}
+              height={1120}
+              sizes="(min-width: 1024px) 480px, 100vw"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
 

@@ -7,14 +7,6 @@ type Card = {
   role: string;
 };
 
-const TINTS = [
-  'var(--color-gray-900)',
-  'var(--color-gray-700)',
-  'var(--color-gray-600)',
-  'var(--color-gray-800)',
-  'var(--color-gray-500)'
-];
-
 const initialsOf = (name: string) =>
   name
     .split(' ')
@@ -122,7 +114,7 @@ const CARDS: Card[] = [
   }
 ];
 
-function TestimonialCard({ card, index }: { card: Card; index: number }) {
+function TestimonialCard({ card }: { card: Card }) {
   return (
     <div className="flex h-[440px] w-[300px] shrink-0 flex-col justify-between rounded-3xl bg-white p-8 shadow-[0_10px_30px_rgba(16,24,40,0.07)] sm:h-[490px] sm:w-[360px]">
       <div className="flex">
@@ -137,8 +129,7 @@ function TestimonialCard({ card, index }: { card: Card; index: number }) {
         ) : (
           <div
             aria-hidden
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[14px] font-semibold leading-none text-white"
-            style={{ background: TINTS[index % TINTS.length] }}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-900 text-[14px] font-semibold leading-none tracking-[0.01em] text-white"
           >
             {initialsOf(card.name)}
           </div>
@@ -158,8 +149,8 @@ function TestimonialCard({ card, index }: { card: Card; index: number }) {
 function Deck({ duplicate = false }: { duplicate?: boolean }) {
   return (
     <div className="flex shrink-0 gap-6 pr-6" aria-hidden={duplicate || undefined}>
-      {CARDS.map((card, i) => (
-        <TestimonialCard key={card.name} card={card} index={i} />
+      {CARDS.map((card) => (
+        <TestimonialCard key={card.name} card={card} />
       ))}
     </div>
   );

@@ -1,4 +1,3 @@
-import { FeaturesShowcase } from './_components/features/features-showcase';
 import { Faq } from './_components/home/faq';
 import { FeatureShowcase } from './_components/home/feature-showcase';
 import { Hero } from './_components/home/hero';
@@ -11,7 +10,6 @@ export default function HomePage() {
     <main id="top">
       <Hero />
       <FeatureShowcase />
-      <FeaturesShowcase />
       <HowItWorks />
       <Testimonials />
       <Faq />

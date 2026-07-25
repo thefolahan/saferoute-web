@@ -3,36 +3,30 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-/**
- * "Navigate with absolute confidence" — 488:19649 / 19934 / 19963 / 19992.
- * Scroll-pinned reveal: the heading, feature list and phone panel stay fixed
- * while the active feature (and its phone) changes as you scroll through the
- * four steps. Text is verbatim from the frames.
- */
 const FEATURES = [
   {
     title: 'Community Feed',
     description:
       'Stay informed with real-time updates and community-reported events directly on your path. From traffic anomalies to verified security alerts, nearby Lagos residents keep your route mapped perfectly.',
-    phone: '/images/landing/489-20554.png'
+    image: '/images/landing/Community-Feed.png'
   },
   {
     title: 'Route Safety Score',
     description:
       'We analyze historical trend data, local community flags, and real-time reports to give each path a dynamic Safety Score before you step out. Get optimal recommendations and bypass hot zones seamlessly.',
-    phone: '/images/landing/491-20812.png'
+    image: '/images/landing/Route-Safety-Score.png'
   },
   {
     title: 'Live Broadcasts',
     description:
       'Create an active digital safety team. Securely share your live route with family or chosen emergency contacts. SafeRoute alerts them instantly if you deviate from your path or trigger an SOS signal.',
-    phone: '/images/landing/491-21058.png'
+    image: '/images/landing/Live-Broadcasts.png'
   },
   {
     title: 'Safety Circle',
     description:
       'Create an active digital safety team. Securely share your live route with family or chosen emergency contacts. SafeRoute alerts them instantly if you deviate from your path or trigger an SOS signal.',
-    phone: '/images/landing/491-21304.png'
+    image: '/images/landing/Safety-Circle.png'
   }
 ] as const;
 
@@ -75,7 +69,6 @@ export function FeatureShowcase() {
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-10 px-6 sm:px-10 lg:flex-row lg:gap-10 lg:px-20">
-          {/* Left: heading + subtext + feature list */}
           <div className="w-full lg:w-[489px] lg:shrink-0">
             <h2 className="text-[36px] font-medium leading-[44px] tracking-tightest text-[#0A0D12] sm:text-[48px] sm:leading-[60px]">
               Navigate with
@@ -121,18 +114,20 @@ export function FeatureShowcase() {
             </div>
           </div>
 
-          {/* Right: phone panel */}
           <div className="relative h-[420px] w-full overflow-hidden rounded-[32px] bg-gray-200 sm:h-[560px] lg:flex-1">
             {FEATURES.map((feature, i) => (
               <Image
                 key={feature.title}
-                src={feature.phone}
+                src={feature.image}
                 alt={`SafeRoute ${feature.title}`}
-                width={397}
-                height={818}
+                width={1502}
+                height={1120}
                 priority={i === 0}
-                className={`absolute left-1/2 top-16 w-[260px] -translate-x-1/2 transition-opacity duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:top-20 sm:w-[300px] ${
-                  i === active ? 'opacity-100' : 'opacity-0'
+                sizes="(min-width: 1024px) 600px, 100vw"
+                className={`absolute inset-0 h-full w-full object-contain object-bottom transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  i === active
+                    ? 'scale-100 opacity-100'
+                    : 'scale-[0.97] opacity-0'
                 }`}
               />
             ))}
