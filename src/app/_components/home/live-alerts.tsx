@@ -15,15 +15,15 @@ type Alert = {
  * unreadable, so below sm the cards become one wide alternating stack and the
  * two least-distinct reports drop out to make room.
  */
-const LEFT_COL = 'left-[4%] w-[50%] sm:w-[33%] lg:left-[7%] lg:w-[22%]';
+const LEFT_COL = 'left-[4%] w-[32%] sm:w-[33%] lg:left-[7%] lg:w-[22%]';
 // Right-hand cards sit in the same mobile stack, so they need `top` on phones
 // and have to hand back to `bottom` at sm.
 const RIGHT_COL =
-  'right-[4%] w-[50%] sm:w-[33%] sm:top-auto lg:right-[7%] lg:w-[22%]';
+  'right-[4%] w-[32%] sm:w-[33%] sm:top-auto lg:right-[7%] lg:w-[22%]';
 const LEFT_ROWS = ['sm:top-0', 'sm:top-[27%]', 'sm:top-[54%]'];
 const RIGHT_ROWS = ['sm:bottom-0', 'sm:bottom-[27%]', 'sm:bottom-[54%]'];
-// Phones: all six in one alternating stack, a card every 16% so none collide
-// while they float (a card is ~15% tall at the 600px minimum height).
+// Phones: all six in one alternating stack, kept small (a card is ~10% tall at
+// the 600px minimum height) with a row every 16% so none collide as they float.
 const MOBILE_ROWS = [
   'top-[1%]',
   'top-[17%]',
@@ -90,14 +90,14 @@ export function LiveAlerts() {
       aria-label="Live incident reports across the city"
       className="relative h-svh min-h-[600px] w-full overflow-hidden bg-[#0A0D12]"
     >
-      {/* Portrait crop of the interchange for phones; the wide plate from sm up,
-          where object-cover would otherwise throw most of it away. */}
+      {/* Portrait plate for phones — contained, not cropped, so the whole frame
+          and its black surround show; the wide one takes over at sm. */}
       <Image
         src="/images/landing/live-alerts-section-mobile-view.png"
         alt=""
         fill
         sizes="100vw"
-        className="object-cover sm:hidden"
+        className="object-contain sm:hidden"
       />
       <Image
         src="/images/landing/map-section.png"
@@ -125,7 +125,7 @@ export function LiveAlerts() {
               alt={alert.label}
               width={724}
               height={374}
-              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 33vw, 68vw"
+              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 33vw, 32vw"
               className="h-auto w-full drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
             />
           </div>
