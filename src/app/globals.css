@@ -56,9 +56,38 @@ body {
   overscroll-behavior: none;
 }
 
+/* Testimonials marquee — two identical decks scrolling left forever. The track
+   is exactly two decks wide, so translating -50% lands on the start of the
+   second one and the loop restart is invisible. */
+@keyframes marqueeScroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marqueeScroll 80s linear infinite;
+  will-change: transform;
+}
+/* Pause while a pointer is over it (or a card is keyboard-focused) so the copy
+   is actually readable. */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  /* No auto-scroll; fall back to a normal horizontal swipe/scroll. */
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none;
   }
 }
 
