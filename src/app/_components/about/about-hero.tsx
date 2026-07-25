@@ -4,7 +4,7 @@ import { AboutStats } from './about-stats';
 export function AboutHero() {
   return (
     <section className="relative flex min-h-screen flex-col bg-white">
-      <SiteNav theme="light" />
+      <SiteNav active="About" theme="light" />
 
       <div className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col justify-center px-6 pb-16 pt-[104px] sm:px-10 lg:px-20 lg:pt-[120px]">
         <div className="flex flex-col items-center text-center">
@@ -12,11 +12,11 @@ export function AboutHero() {
             About us
           </p>
           <h1 className="mt-4 max-w-[760px] text-[32px] font-medium leading-[40px] tracking-[-0.02em] text-[#0A0D12] sm:text-[56px] sm:leading-[62px] lg:text-[72px] lg:leading-[79px]">
-            We are helping people travel with confidence.
+            We are helping people move with confidence.
           </h1>
           <p className="mt-4 max-w-[720px] text-[14px] font-normal leading-6 text-[#717680] sm:text-[16px]">
             SafeRoute is Africa's road intelligence platform, helping people
-            travel with confidence. We turn scattered, hard-to-verify safety
+            move with confidence. We turn scattered, hard-to-verify safety
             chatter into real-time, community-verified road intelligence, so you
             know what's happening on your route before you set out, not after
             you are stuck in it.

@@ -16,7 +16,7 @@ const STEPS = [
   {
     n: 3,
     img: '/images/landing/489-20308.png',
-    title: 'Travel with Confidence',
+    title: 'Move with Confidence',
     body: 'View safer routes, receive live alerts, and share your journey with your Safety Circle so the people who matter most stay informed.',
   },
 ];

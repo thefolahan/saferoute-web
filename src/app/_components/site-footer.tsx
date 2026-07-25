@@ -45,7 +45,7 @@ export function SiteFooter() {
     <footer className="bg-[#111112]">
       <div className="mx-auto max-w-[1280px] px-6 pb-8 pt-16 sm:px-10 md:px-20 md:pt-20">
         <div className="flex flex-col justify-between gap-12 lg:flex-row">
-          <div className="flex w-full max-w-[400px] flex-col gap-6">
+          <div className="flex w-full max-w-[440px] flex-col gap-8">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-2">
                 <Image
@@ -68,7 +68,12 @@ export function SiteFooter() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-3">{BADGES}</div>
+            <div className="flex flex-col gap-3">
+              <p className="text-[18px] font-semibold leading-7 text-white">
+                DOWNLOAD FOR FREE
+              </p>
+              <div className="mt-1 flex gap-3">{BADGES}</div>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-12 sm:gap-16">
@@ -116,7 +121,7 @@ export function SiteFooter() {
 
         <div className="relative mt-14 flex items-center justify-between md:mt-16">
           <p className="text-[14px] font-normal leading-5 text-white/30">
-            © {new Date().getFullYear()} SafeRoute. All rights reserved.
+            © {new Date().getFullYear()} SafeRoute Africa. All rights reserved.
           </p>
           <div className="absolute left-1/2 hidden -translate-x-1/2 gap-6 sm:flex">
             {[

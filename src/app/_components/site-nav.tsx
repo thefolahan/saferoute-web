@@ -10,7 +10,7 @@ import { MobileMenu } from './mobile-menu';
  */
 const TABS = [
   { label: 'Home', href: '/' },
-  { label: 'Features', href: '/features' },
+  { label: 'About', href: '/about' },
   { label: 'Journalist', href: '/journalist' },
   { label: 'Enterprise', href: '/enterprise' }
 ] as const;
@@ -19,7 +19,7 @@ export function SiteNav({
   active,
   theme = 'light'
 }: {
-  active?: 'Home' | 'Features' | 'Journalist' | 'Enterprise';
+  active?: 'Home' | 'About' | 'Journalist' | 'Enterprise';
   theme?: 'dark' | 'light';
 }) {
   const dark = theme === 'dark';

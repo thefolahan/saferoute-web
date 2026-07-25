@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { SiteNav } from '../site-nav';
-import { MapIncidents } from './map-incidents';
 
 export function Hero() {
   return (
@@ -12,9 +11,6 @@ export function Hero() {
         <div className="absolute inset-0 bg-[url('/images/landing/map.svg')] bg-cover bg-center bg-no-repeat opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0D12] via-[#0A0D12]/55 to-[#0A0D12]" />
       </div>
-
-      {/* Randomly popping incident markers over the map */}
-      <MapIncidents />
 
       <SiteNav active="Home" theme="dark" />
 
@@ -40,7 +36,7 @@ export function Hero() {
               Get the App
             </Link>
             <Link
-              href="/features"
+              href="/#how-it-works"
               className="rounded-full border border-gray-700 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-100 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]"
             >
               How it works

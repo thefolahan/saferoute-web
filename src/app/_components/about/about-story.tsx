@@ -42,9 +42,9 @@ export function AboutStory() {
             </p>
             <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
               Whether you are driving to work, running a business, delivering
-              goods, or travelling across the country, SafeRoute gives you the
+              goods, or moving across the country, SafeRoute gives you the
               information you need to stay informed, avoid unnecessary risks, and
-              travel with confidence.
+              move with confidence.
             </p>
             <p className="mt-2 text-[18px] font-bold italic leading-[30px] text-white lg:text-[15px] lg:leading-[24px]">
               Navigation apps tell you how to reach your destination. SafeRoute

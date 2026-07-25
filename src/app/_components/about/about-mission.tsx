@@ -8,13 +8,13 @@ const ITEMS = [
     label: 'Our Mission',
     text: 'To empower every road user with real-time road intelligence that makes every journey safer, smarter, and more predictable.',
     support:
-      'We exist to help people make informed travel decisions by providing trusted, community-driven information about road conditions, safety incidents, emergencies, and disruptions across Africa.'
+      'We exist to help people make informed decisions about how they move by providing trusted, community-driven information about road conditions, safety incidents, emergencies, and disruptions across Africa.'
   },
   {
     label: 'Our Vision',
-    text: "To become Africa's most trusted road intelligence and travel safety platform.",
+    text: "To become Africa's most trusted road intelligence and movement safety platform.",
     support:
-      "We envision a future where no one starts a journey without knowing what's ahead, where communities work together, technology verifies information, and every traveler has access to reliable, real-time road intelligence that saves time, reduces risk, and protects lives."
+      "We envision a future where no one starts a journey without knowing what's ahead, where communities work together, technology verifies information, and everyone on the move has access to reliable, real-time road intelligence that saves time, reduces risk, and protects lives."
   }
 ] as const;
 

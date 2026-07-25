@@ -29,7 +29,7 @@ const journalistConfig: WaitlistConfig = {
   form: { variant: 'row', placeholder: 'Enter your press email...', width: 520 },
   trustNote: { text: 'Trusted by reporters at leading outlets. No spam, ever.' },
   footer: {
-    copyright: 'SafeRoute. All rights reserved.',
+    copyright: 'SafeRoute Africa. All rights reserved.',
     links: ['Privacy Policy', 'Terms of Service']
   }
 };

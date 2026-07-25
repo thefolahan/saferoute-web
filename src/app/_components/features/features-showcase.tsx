@@ -21,7 +21,7 @@ const FEATURES = [
   {
     heading: 'Choose the safest route.',
     description:
-      'Every route is analyzed using community reports, live activity, and neighborhood intelligence to help you make informed travel decisions.',
+      'Every route is analyzed using community reports, live activity, and neighborhood intelligence to help you make informed decisions about how you move.',
     phoneLeft: false
   },
   {

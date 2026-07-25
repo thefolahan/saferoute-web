@@ -34,7 +34,7 @@ export function Testimonials() {
           </p>
           <div className="flex flex-col gap-1">
             <h2 className="text-[48px] font-medium leading-[60px] tracking-tightest text-gray-950">
-              Trusted by thousands of travelers.
+              Trusted by thousands of people on the move.
             </h2>
             <p className="text-[24px] font-normal leading-[52px] text-[#475569]">
               See why people choose SafeRoute for every journey.

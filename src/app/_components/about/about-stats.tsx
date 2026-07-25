@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 const STATS = [
   { prefix: '', target: 20, suffix: 'k+', label: 'Active users' },
   { prefix: '', target: 300, suffix: 'K+', label: 'Incidents reported' },
-  { prefix: '', target: 60, suffix: '%', label: 'Fewer travel delays' },
+  { prefix: '', target: 60, suffix: '%', label: 'Fewer delays on the move' },
   { prefix: '$', target: 1, suffix: 'B+', label: 'Losses prevented' }
 ] as const;
 

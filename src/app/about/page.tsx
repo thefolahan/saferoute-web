@@ -3,13 +3,12 @@ import { AboutHero } from '../_components/about/about-hero';
 import { AboutStory } from '../_components/about/about-story';
 import { AboutMission } from '../_components/about/about-mission';
 import { AboutValues } from '../_components/about/about-values';
-import { DownloadCta } from '../_components/download-cta';
 import { SiteFooter } from '../_components/site-footer';
 
 export const metadata: Metadata = {
   title: 'About us',
   description:
-    "We're helping people travel with confidence. SafeRoute provides real-time road intelligence that helps travelers avoid delays, navigate disruptions, and make smarter decisions before they hit the road."
+    "We're helping people move with confidence. SafeRoute provides real-time road intelligence that helps road users avoid delays, navigate disruptions, and make smarter decisions before they hit the road."
 };
 
 export default function AboutPage() {
@@ -19,7 +18,6 @@ export default function AboutPage() {
       <AboutStory />
       <AboutMission />
       <AboutValues />
-      <DownloadCta />
       <SiteFooter />
     </main>
   );
