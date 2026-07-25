@@ -13,9 +13,21 @@ const COLUMNS = [
   },
   {
     title: 'Support',
-    links: [{ label: 'Help Center', href: '/help-center' }]
+    links: [
+      { label: 'Help Center', href: '/help-center' },
+      { label: 'Terms', href: '/terms' },
+      { label: 'Privacy', href: '/privacy' }
+    ]
   }
 ] as const;
+
+/**
+ * Column headings are labels, not links. They're deliberately smaller, dimmer
+ * and uppercase-tracked while the links below them sit brighter and at body
+ * size — users were tapping the headings when the two shared a weight.
+ */
+const COLUMN_HEADING =
+  'select-none text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-white/35';
 
 const BADGES = (
   <>
@@ -70,7 +82,7 @@ export function SiteFooter() {
             </div>
             <div className="flex flex-col gap-3">
               <p className="text-[18px] font-semibold leading-7 text-white">
-                DOWNLOAD FOR FREE
+                Download for free
               </p>
               <div className="mt-1 flex gap-3">{BADGES}</div>
             </div>
@@ -79,15 +91,13 @@ export function SiteFooter() {
           <div className="flex flex-wrap gap-12 sm:gap-16">
             {COLUMNS.map((col) => (
               <div key={col.title} className="flex flex-col gap-5">
-                <h3 className="text-[16px] font-semibold leading-5 text-white/55">
-                  {col.title}
-                </h3>
+                <h3 className={COLUMN_HEADING}>{col.title}</h3>
                 <ul className="flex flex-col gap-4">
                   {col.links.map((link) => (
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-[16px] font-normal leading-5 text-white/40 transition-colors hover:text-white/70"
+                        className="text-[16px] font-normal leading-5 text-white/70 transition-colors hover:text-white"
                       >
                         {link.label}
                       </Link>
@@ -98,9 +108,7 @@ export function SiteFooter() {
             ))}
 
             <div className="flex flex-col gap-5">
-              <h3 className="text-[16px] font-semibold leading-5 text-white/55">
-                Connect with us
-              </h3>
+              <h3 className={COLUMN_HEADING}>Connect with us</h3>
               <div className="flex flex-wrap items-center gap-2.5">
                 {SOCIALS.map((s) => (
                   <a
@@ -119,24 +127,10 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="relative mt-14 flex items-center justify-between md:mt-16">
+        <div className="mt-14 flex items-center justify-between md:mt-16">
           <p className="text-[14px] font-normal leading-5 text-white/30">
             © {new Date().getFullYear()} SafeRoute Africa. All rights reserved.
           </p>
-          <div className="absolute left-1/2 hidden -translate-x-1/2 gap-6 sm:flex">
-            {[
-              { label: 'Terms', href: '/terms' },
-              { label: 'Privacy', href: '/privacy' }
-            ].map((l) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                className="text-[14px] font-normal leading-5 text-white/40 transition-colors hover:text-white/70"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
           <ScrollButton
             target="top"
             ariaLabel="Back to top"
