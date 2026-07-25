@@ -114,7 +114,7 @@ export function FeatureShowcase() {
             </div>
           </div>
 
-          <div className="relative h-[420px] w-full overflow-hidden rounded-[32px] bg-gray-200 sm:h-[560px] lg:flex-1">
+          <div className="relative aspect-[1502/1120] w-full overflow-hidden rounded-[32px] bg-gray-200 lg:flex-1">
             {FEATURES.map((feature, i) => (
               <Image
                 key={feature.title}
@@ -124,7 +124,7 @@ export function FeatureShowcase() {
                 height={1120}
                 priority={i === 0}
                 sizes="(min-width: 1024px) 600px, 100vw"
-                className={`absolute inset-0 h-full w-full object-contain object-bottom transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                   i === active
                     ? 'scale-100 opacity-100'
                     : 'scale-[0.97] opacity-0'

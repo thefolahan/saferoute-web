@@ -73,10 +73,58 @@ body {
   will-change: transform;
 }
 /* Pause while a pointer is over it (or a card is keyboard-focused) so the copy
-   is actually readable. */
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
+   is actually readable. Gated on a real hover-capable pointer: touch browsers
+   emulate :hover on tap and keep it stuck on the tapped element, which would
+   freeze the marquee for the rest of the visit with no way to resume it. */
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Live alerts — report cards drifting over the map. Two nested loops so they
+   compose without fighting over `transform`: the wrapper owns the drift, the
+   inner element owns the highlight. Duration and delay come from the component
+   so each card runs on its own offset. */
+@keyframes alertFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+.alert-float {
+  animation-name: alertFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+/* One shared 24s cycle; the component staggers the delay by -8s per card down
+   a side and -4s between sides, so exactly one card per column is lit at a
+   time and the two columns trade off. */
+@keyframes alertFocus {
+  0% {
+    opacity: 0.22;
+    transform: scale(0.85);
+  }
+  8%,
+  25% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  33%,
+  100% {
+    opacity: 0.22;
+    transform: scale(0.85);
+  }
+}
+.alert-focus {
+  animation: alertFocus 24s ease-in-out infinite;
+  transform-origin: center;
+  will-change: opacity, transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -89,6 +137,14 @@ body {
   }
   .marquee-track {
     animation: none;
+  }
+  /* Hold the cards still and legible instead of cycling them. */
+  .alert-float,
+  .alert-focus {
+    animation: none;
+  }
+  .alert-focus {
+    opacity: 0.92;
   }
 }
 
