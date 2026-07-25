@@ -10,27 +10,27 @@ type Alert = {
 };
 
 /**
- * Two drifting columns from sm up. Phones are too narrow for that: at 45% the
- * card art renders under a quarter of its design size and the report text is
- * unreadable, so below sm the cards become one wide alternating stack and the
- * two least-distinct reports drop out to make room.
+ * Two drifting columns over a full-viewport map from sm up. On phones the
+ * section is just the portrait plate — no viewport height of its own — so every
+ * offset below is a share of that image and the cards stay inside its frame.
  */
-const LEFT_COL = 'left-[4%] w-[32%] sm:w-[33%] lg:left-[7%] lg:w-[22%]';
+const LEFT_COL = 'left-[9%] w-[26%] sm:left-[4%] sm:w-[33%] lg:left-[7%] lg:w-[22%]';
 // Right-hand cards sit in the same mobile stack, so they need `top` on phones
 // and have to hand back to `bottom` at sm.
 const RIGHT_COL =
-  'right-[4%] w-[32%] sm:w-[33%] sm:top-auto lg:right-[7%] lg:w-[22%]';
+  'right-[9%] w-[26%] sm:right-[4%] sm:w-[33%] sm:top-auto lg:right-[7%] lg:w-[22%]';
 const LEFT_ROWS = ['sm:top-0', 'sm:top-[27%]', 'sm:top-[54%]'];
 const RIGHT_ROWS = ['sm:bottom-0', 'sm:bottom-[27%]', 'sm:bottom-[54%]'];
-// Phones: all six in one alternating stack, kept small (a card is ~10% tall at
-// the 600px minimum height) with a row every 16% so none collide as they float.
+// Phones: all six alternate down one stack. A card is ~11% of the image tall,
+// so a row every 15% leaves more clearance than the 14px float travel, and the
+// last one ends at 90% — clear of the plate's bottom edge.
 const MOBILE_ROWS = [
-  'top-[1%]',
-  'top-[17%]',
-  'top-[33%]',
+  'top-[4%]',
+  'top-[19%]',
+  'top-[34%]',
   'top-[49%]',
-  'top-[65%]',
-  'top-[81%]'
+  'top-[64%]',
+  'top-[79%]'
 ];
 
 const ALERTS: Alert[] = [
@@ -88,16 +88,17 @@ export function LiveAlerts() {
   return (
     <section
       aria-label="Live incident reports across the city"
-      className="relative h-svh min-h-[600px] w-full overflow-hidden bg-[#0A0D12]"
+      className="relative w-full overflow-hidden bg-[#0A0D12] sm:h-svh sm:min-h-[600px]"
     >
-      {/* Portrait plate for phones — contained, not cropped, so the whole frame
-          and its black surround show; the wide one takes over at sm. */}
+      {/* Phones: in flow, so the plate's own aspect ratio sets the section
+          height and the absolutely-placed cards are measured against it. */}
       <Image
         src="/images/landing/live-alerts-section-mobile-view.png"
         alt=""
-        fill
+        width={804}
+        height={968}
         sizes="100vw"
-        className="object-contain sm:hidden"
+        className="h-auto w-full sm:hidden"
       />
       <Image
         src="/images/landing/map-section.png"
@@ -125,7 +126,7 @@ export function LiveAlerts() {
               alt={alert.label}
               width={724}
               height={374}
-              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 33vw, 32vw"
+              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 33vw, 26vw"
               className="h-auto w-full drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
             />
           </div>
