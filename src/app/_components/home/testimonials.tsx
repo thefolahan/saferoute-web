@@ -4,23 +4,23 @@ const CARDS = [
   {
     avatar: '/images/landing/346-9827.png',
     quote:
-      '"I check SafeRoute before every single commute from Lekki. It\'s the only app that accurately tags localized road challenges instantly."',
-    name: 'Folake A.',
-    role: 'Journalist',
+      '"I check it before every shift. It flags flooded stretches and closures on the Lekki axis long before I reach them, so my passengers actually get where they are going."',
+    name: 'Chidera Okonkwo',
+    role: 'Driver',
   },
   {
     avatar: '/images/landing/346-9835.png',
     quote:
-      '"It helped me avoid a major protest and traffic jam on the Mainland yesterday. Saved me hours and protected my passengers."',
-    name: 'Folake A.',
-    role: 'Journalist',
+      '"I close rounds at 11pm and my family used to worry the whole way home. Now they follow my route on my Safety Circle, and I get alerted if anything is happening ahead."',
+    name: 'Aisha Bello',
+    role: 'Nurse',
   },
   {
     avatar: '/images/landing/346-9843.png',
     quote:
-      '"Our newsroom now reaches people faster during transit emergencies. The verification system filters out fake reports beautifully."',
-    name: 'Folake A.',
-    role: 'Journalist',
+      '"We route a dozen dispatch riders across Lagos every day. Community reports reach us faster than the radio, and the verification means we are not reacting to rumours."',
+    name: 'Tunde Adeyemi',
+    role: 'Logistics coordinator',
   },
 ];
 

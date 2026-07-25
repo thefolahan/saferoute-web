@@ -59,15 +59,15 @@ export function SiteFooter() {
         <div className="flex flex-col justify-between gap-12 lg:flex-row">
           <div className="flex w-full max-w-[440px] flex-col gap-8">
             <div className="flex flex-col gap-4">
-              <Link href="/" className="flex items-center gap-2">
+              <Link href="/" className="flex items-center gap-3">
                 <Image
                   src="/images/landing/logo-mark-white.png"
                   alt="SafeRoute"
-                  width={32}
-                  height={32}
-                  className="h-8 w-8"
+                  width={48}
+                  height={48}
+                  className="h-12 w-12"
                 />
-                <span className="text-[22px] font-semibold leading-none text-white">
+                <span className="text-[30px] font-semibold leading-none text-white">
                   SafeRoute
                 </span>
               </Link>
