@@ -6,7 +6,6 @@ import { SiteNav } from '../site-nav';
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#0A0D12]">
-      {/* Map background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/landing/map.svg')] bg-cover bg-center bg-no-repeat opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0D12] via-[#0A0D12]/55 to-[#0A0D12]" />
@@ -18,7 +17,7 @@ export function Hero() {
         <div className="absolute inset-x-0 top-[73px] bottom-[188px] flex flex-col items-center justify-center gap-8 px-6 text-center sm:bottom-auto sm:top-[160px] sm:justify-start sm:gap-12 sm:px-8">
           <div className="flex max-w-[880px] flex-col items-center gap-4 sm:gap-6">
             <h1 className="text-[36px] font-bold leading-[44px] tracking-[-0.02em] text-white sm:text-[56px] sm:leading-[64px] lg:text-[72px] lg:leading-[86px]">
-              Know what&apos;s ahead before you get there.
+              Know Before You Go
             </h1>
             <p className="max-w-[880px] text-[16px] font-normal leading-[24px] text-gray-300 sm:text-[20px] sm:leading-[30px]">
               SafeRoute gives you real-time road intelligence, helping you avoid
