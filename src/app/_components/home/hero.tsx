@@ -47,21 +47,20 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto mt-auto h-[300px] w-[230px] shrink-0 sm:h-[380px] sm:w-[290px] lg:mx-0 lg:mr-[6%] lg:h-[580px] lg:w-[375px] lg:self-end">
+        <div className="mx-auto mt-auto mb-10 flex h-[320px] shrink-0 items-end justify-center sm:h-[400px] lg:mx-0 lg:mb-[12svh] lg:h-[min(64svh,680px)] lg:flex-1">
           <Image
-            src="/images/landing/hero-phone-live.png"
+            src="/images/landing/hero-image.png"
             alt="SafeRoute live broadcast of a road incident on the Lekki-Epe Expressway"
-            width={490}
-            height={1010}
+            width={704}
+            height={1429}
             priority
-            sizes="(min-width: 1024px) 375px, (min-width: 640px) 290px, 230px"
-            className="absolute inset-x-0 top-0 h-auto w-full"
+            sizes="(min-width: 1024px) 340px, (min-width: 640px) 220px, 180px"
+            className="h-full w-auto max-w-none object-contain"
           />
         </div>
       </div>
 
-      {/* Sits above the phone so its bottom dissolves into the fade too. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[24%] bg-gradient-to-b from-transparent to-black" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[14%] bg-gradient-to-b from-transparent to-black" />
     </section>
   );
 }
