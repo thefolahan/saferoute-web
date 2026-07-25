@@ -21,11 +21,6 @@ const COLUMNS = [
   }
 ] as const;
 
-/**
- * Column headings are labels, not links. They're deliberately smaller, dimmer
- * and uppercase-tracked while the links below them sit brighter and at body
- * size — users were tapping the headings when the two shared a weight.
- */
 const COLUMN_HEADING =
   'select-none text-[12px] font-semibold uppercase leading-4 tracking-[0.1em] text-white/35';
 
