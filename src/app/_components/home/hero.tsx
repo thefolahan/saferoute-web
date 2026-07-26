@@ -9,9 +9,11 @@ const CTA =
 
 export function Hero() {
   return (
-    /* Stops short of a full viewport, and no overflow clip — the phone is meant
-       to hang past the bottom edge onto the section below. */
-    <section className="relative flex min-h-[88svh] flex-col bg-black">
+    /* Stops short of a full viewport. Clipped on x only — the mobile phone box
+       is wider than the viewport and must not add a horizontal scrollbar — but
+       y stays visible, since the phone hangs past the bottom edge onto the
+       section below. */
+    <section className="relative flex min-h-[88svh] flex-col overflow-x-clip bg-black">
       <Image
         src="/images/landing/hero-section.png"
         alt=""
@@ -53,7 +55,14 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mx-auto -mb-[10svh] flex h-[min(58svh,520px)] shrink-0 items-end justify-center sm:h-[min(70svh,780px)] lg:mx-0 lg:-mb-[8svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
+        {/* On mobile the phone is width-driven and straddles the seam: at 9:16
+            a min(108vw,432px) box is min(192vw,768px) tall, so hanging half of
+            that — min(96vw,384px) — leaves half in the hero and half over the
+            features section, which pads its top by the same amount. The box
+            runs past the viewport on purpose: the clip trims 13.6% of it, so
+            the device itself lands ~93vw wide. From sm up it goes back to
+            being height-driven. */}
+        <div className="mx-auto -mb-[min(96vw,384px)] flex w-[min(108vw,432px)] shrink-0 items-end justify-center sm:-mb-[10svh] sm:h-[min(70svh,780px)] sm:w-auto lg:mx-0 lg:-mb-[8svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
           <HeroPhone />
         </div>
       </div>

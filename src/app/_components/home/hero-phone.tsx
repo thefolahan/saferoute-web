@@ -47,7 +47,7 @@ export function HeroPhone() {
   }, []);
 
   return (
-    <div className="relative h-full">
+    <div className="relative w-full sm:h-full sm:w-auto">
       <video
         ref={videoRef}
         src="/video/landing/phone-web.mp4"
@@ -61,7 +61,7 @@ export function HeroPhone() {
         width={720}
         height={1280}
         style={{ clipPath: DEVICE_CLIP }}
-        className="aspect-[9/16] h-full w-auto max-w-none object-contain"
+        className="aspect-[9/16] w-full max-w-none object-contain sm:h-full sm:w-auto"
       />
 
       <div className={`pointer-events-none absolute ${SCREEN}`} aria-hidden>
@@ -73,7 +73,7 @@ export function HeroPhone() {
             width={482}
             height={1000}
             priority={i === 0}
-            sizes="(min-width: 1024px) 440px, (min-width: 640px) 440px, 300px"
+            sizes="(min-width: 640px) 440px, 432px"
             className={`absolute inset-0 h-full w-full object-fill transition-opacity duration-100 ${
               i === shown ? 'opacity-100' : 'opacity-0'
             }`}
