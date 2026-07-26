@@ -10,8 +10,8 @@ const CTA =
 export function Hero() {
   return (
     /* Stops short of a full viewport. Clipped on x only — the mobile phone box
-       is wider than the viewport and must not add a horizontal scrollbar — but
-       y stays visible, since the phone hangs past the bottom edge onto the
+       overruns its column and must not add a horizontal scrollbar — but y
+       stays visible, since the phone hangs past the bottom edge onto the
        section below. */
     <section className="relative flex min-h-[88svh] flex-col overflow-x-clip bg-black">
       <Image
@@ -56,13 +56,15 @@ export function Hero() {
         </div>
 
         {/* On mobile the phone is width-driven and straddles the seam: at 9:16
-            a min(108vw,432px) box is min(192vw,768px) tall, so hanging half of
-            that — min(96vw,384px) — leaves half in the hero and half over the
-            features section, which pads its top by the same amount. The box
-            runs past the viewport on purpose: the clip trims 13.6% of it, so
-            the device itself lands ~93vw wide. From sm up it goes back to
-            being height-driven. */}
-        <div className="mx-auto -mb-[min(96vw,384px)] flex w-[min(108vw,432px)] shrink-0 items-end justify-center sm:-mb-[10svh] sm:h-[min(70svh,780px)] sm:w-auto lg:mx-0 lg:-mb-[8svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
+            a min(99vw,396px) box is min(176vw,704px) tall, so hanging half of
+            that — min(88vw,352px) — leaves half in the hero and half over the
+            features section, which pads its top by the same amount. The clip
+            trims 13.6% off the box, so the device itself lands ~85vw wide.
+            Centering is self-center, not mx-auto: the box is wider than this
+            padded column, and auto margins collapse to 0 against negative free
+            space, which would shove the phone left of centre. From sm up the
+            box fits again and it goes back to mx-auto and height-driven. */}
+        <div className="-mb-[min(88vw,352px)] flex w-[min(99vw,396px)] shrink-0 items-end justify-center self-center sm:mx-auto sm:-mb-[10svh] sm:h-[min(70svh,780px)] sm:w-auto lg:mx-0 lg:-mb-[8svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
           <HeroPhone />
         </div>
       </div>

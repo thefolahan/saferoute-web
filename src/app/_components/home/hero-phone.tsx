@@ -73,7 +73,7 @@ export function HeroPhone() {
             width={482}
             height={1000}
             priority={i === 0}
-            sizes="(min-width: 640px) 440px, 432px"
+            sizes="(min-width: 640px) 440px, 396px"
             className={`absolute inset-0 h-full w-full object-fill transition-opacity duration-100 ${
               i === shown ? 'opacity-100' : 'opacity-0'
             }`}

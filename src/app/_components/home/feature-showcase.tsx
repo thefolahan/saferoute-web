@@ -33,7 +33,7 @@ export function FeatureShowcase() {
       {/* Extra headroom up top: the hero's phone hangs over this section. On
           mobile that overhang is half the phone — the min() below mirrors the
           negative margin in Hero, so the two stay in step. */}
-      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-6 py-16 pt-[calc(min(96vw,384px)+3rem)] sm:px-10 sm:pt-28 lg:gap-20 lg:px-20 lg:py-24 lg:pt-36">
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-6 py-16 pt-[calc(min(88vw,352px)+3rem)] sm:px-10 sm:pt-28 lg:gap-20 lg:px-20 lg:py-24 lg:pt-36">
         <header className="flex flex-col items-center gap-5 text-center">
           <h2 className="text-[30px] font-medium leading-[38px] tracking-tightest text-[#0A0D12] sm:text-[48px] sm:leading-[60px]">
             Navigate with
