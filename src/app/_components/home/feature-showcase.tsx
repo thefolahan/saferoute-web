@@ -67,10 +67,6 @@ export function FeatureShowcase() {
       className="relative bg-[#FDFDFD]"
       style={{ height: `${FEATURES.length * 100}vh` }}
     >
-      {/* The pinned pane clips whatever doesn't fit. Centring it on phones cut
-          the heading off the top, so below lg the stack is top-aligned (and
-          svh-tall, to survive the mobile toolbar) and any shortfall comes off
-          the bottom of the image instead. */}
       <div className="sticky top-0 flex h-svh items-start overflow-hidden pt-10 lg:items-center lg:pt-0">
         <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-6 px-6 sm:px-10 lg:flex-row lg:gap-10 lg:px-20">
           <div className="w-full lg:w-[489px] lg:shrink-0">
@@ -120,8 +116,6 @@ export function FeatureShowcase() {
             </div>
           </div>
 
-          {/* Same box as the about-story image below lg: full width up to 480,
-              centred, no height cap — it only becomes the flex column at lg. */}
           <div className="relative aspect-[1502/1120] w-full max-w-[480px] shrink-0 overflow-hidden rounded-[32px] bg-gray-200 lg:max-w-none lg:flex-1">
             {FEATURES.map((feature, i) => (
               <Image
