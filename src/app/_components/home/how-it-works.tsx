@@ -10,7 +10,7 @@ const STEPS = [
   {
     n: 2,
     img: '/images/landing/489-20306.png',
-    title: 'Verified by the Community',
+    title: 'Verified by the Community and AI',
     body: "Nearby users help confirm reports, while SafeRoute combines community confirmations and artificial intelligence, to determine what's happening in real time.",
   },
   {
