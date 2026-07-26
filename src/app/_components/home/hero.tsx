@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { SiteNav } from '../site-nav';
 import { HeroPhone } from './hero-phone';
+import { ScrollToButton } from './scroll-to-button';
 
 const CTA =
   'inline-flex w-[160px] items-center justify-center rounded-full border px-[18px] py-3 text-[16px] font-semibold leading-6 shadow-[0_1px_2px_0_rgba(10,13,18,0.05)]';
@@ -46,12 +47,12 @@ export function Hero() {
             >
               Download App
             </Link>
-            <Link
-              href="/#how-it-works"
+            <ScrollToButton
+              target="how-it-works"
               className={`${CTA} border-gray-700 text-gray-100`}
             >
               Learn More
-            </Link>
+            </ScrollToButton>
           </div>
         </div>
 
