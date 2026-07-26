@@ -1,7 +1,4 @@
-'use client';
-
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
 
 const FEATURES = [
   {
@@ -19,7 +16,7 @@ const FEATURES = [
   {
     title: 'Live Broadcasts',
     description:
-      'Create an active digital safety team. Securely share your live route with family or chosen emergency contacts. SafeRoute alerts them instantly if you deviate from your path or trigger an SOS signal.',
+      'Go live from the road and show the community exactly what you are seeing. Viewers nearby watch, comment, and confirm as it unfolds, turning a single report into shared awareness for everyone headed your way.',
     image: '/images/landing/Live-Broadcasts.png'
   },
   {
@@ -31,109 +28,53 @@ const FEATURES = [
 ] as const;
 
 export function FeatureShowcase() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const range = el.offsetHeight - window.innerHeight;
-      if (range <= 0) return;
-      const scrolled = Math.min(Math.max(-rect.top, 0), range);
-      const idx = Math.min(
-        FEATURES.length - 1,
-        Math.floor((scrolled / range) * FEATURES.length)
-      );
-      setActive((prev) => (prev === idx ? prev : idx));
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(update);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    update();
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-
   return (
-    <section
-      ref={ref}
-      className="relative bg-[#FDFDFD]"
-      style={{ height: `${FEATURES.length * 100}vh` }}
-    >
-      <div className="sticky top-0 flex h-svh items-start overflow-hidden pt-10 lg:items-center lg:pt-0">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-6 px-6 sm:px-10 lg:flex-row lg:gap-10 lg:px-20">
-          <div className="w-full lg:w-[489px] lg:shrink-0">
-            <h2 className="text-[30px] font-medium leading-[38px] tracking-tightest text-[#0A0D12] sm:text-[48px] sm:leading-[60px]">
-              Navigate with
-              <br />
-              absolute confidence
-            </h2>
-            <p className="mt-4 text-[14px] font-normal leading-5 text-gray-500 sm:mt-6 sm:text-[16px] sm:leading-6">
-              SafeRoute provides 360-degree security tools designed specifically
-              for urban African commutes.
-            </p>
+    <section className="bg-[#FDFDFD]">
+      {/* Extra headroom up top: the hero's phone hangs over this section. */}
+      <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-6 py-16 pt-28 sm:px-10 lg:gap-20 lg:px-20 lg:py-24 lg:pt-36">
+        <header className="flex flex-col items-center gap-5 text-center">
+          <h2 className="text-[30px] font-medium leading-[38px] tracking-tightest text-[#0A0D12] sm:text-[48px] sm:leading-[60px]">
+            Navigate with
+            {/* Two lines while the column is narrow, one from lg up. */}
+            <br className="lg:hidden" /> absolute confidence
+          </h2>
+          <p className="max-w-[640px] text-[16px] font-normal leading-6 text-[#666668] sm:text-[18px] sm:leading-[28px] lg:max-w-none">
+            SafeRoute provides 360-degree security tools designed specifically
+            for urban African commutes.
+          </p>
+        </header>
 
-            <div className="mt-6 sm:mt-10">
-              {FEATURES.map((feature, i) => {
-                const isActive = i === active;
-                return (
-                  <div key={feature.title}>
-                    {i > 0 ? <div className="h-px w-full bg-gray-200" /> : null}
-                    <div
-                      className={`w-full text-left transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        isActive
-                          ? 'rounded-2xl bg-gray-100 p-3 sm:p-4'
-                          : 'px-3 py-3 sm:px-4 sm:py-[18px]'
-                      }`}
-                    >
-                      <span
-                        className={`block text-[17px] font-semibold leading-[24px] transition-colors duration-500 sm:text-[20px] sm:leading-[26px] ${
-                          isActive ? 'text-[#101828]' : 'text-gray-300'
-                        }`}
-                      >
-                        {feature.title}
-                      </span>
-                      <div
-                        className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                          isActive ? 'mt-1.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-                        }`}
-                      >
-                        <span className="overflow-hidden text-[14px] font-normal leading-5 text-gray-500">
-                          {feature.description}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        <div className="flex w-full flex-col gap-14 lg:gap-24">
+          {FEATURES.map((feature, i) => (
+            /* Rows alternate: image right on the first, left on the next, and
+               so on down. Below lg they all stack image-then-text. */
+            <article
+              key={feature.title}
+              className={`flex flex-col items-center gap-8 lg:gap-16 ${
+                i % 2 === 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'
+              }`}
+            >
+              <div className="relative aspect-[1502/1120] w-full max-w-[480px] shrink-0 overflow-hidden rounded-[32px] bg-gray-200 lg:max-w-none lg:flex-1">
+                <Image
+                  src={feature.image}
+                  alt={`SafeRoute ${feature.title}`}
+                  width={1502}
+                  height={1120}
+                  sizes="(min-width: 1024px) 600px, (min-width: 640px) 480px, 100vw"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
 
-          <div className="relative aspect-[1502/1120] w-full max-w-[480px] shrink-0 overflow-hidden rounded-[32px] bg-gray-200 lg:max-w-none lg:flex-1">
-            {FEATURES.map((feature, i) => (
-              <Image
-                key={feature.title}
-                src={feature.image}
-                alt={`SafeRoute ${feature.title}`}
-                width={1502}
-                height={1120}
-                priority={i === 0}
-                sizes="(min-width: 1024px) 600px, 100vw"
-                className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  i === active
-                    ? 'scale-100 opacity-100'
-                    : 'scale-[0.97] opacity-0'
-                }`}
-              />
-            ))}
-          </div>
+              <div className="w-full max-w-[480px] lg:max-w-none lg:flex-1">
+                <h3 className="text-[22px] font-semibold leading-[30px] text-[#101828] sm:text-[28px] sm:leading-[38px]">
+                  {feature.title}
+                </h3>
+                <p className="mt-3 text-[16px] font-normal leading-[26px] text-gray-500 sm:text-[18px] sm:leading-[30px]">
+                  {feature.description}
+                </p>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

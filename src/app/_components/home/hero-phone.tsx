@@ -16,6 +16,13 @@ const FADE_OUT_AT = 1.8;
 
 const SCREEN = 'inset-y-0 left-[8.6%] right-[8.9%]';
 
+/**
+ * The clip trims the black the render carries around the device: measured off a
+ * frame, the body runs x 48-670 of 720 and its corners are ~96px round, while
+ * top and bottom are already cropped flush by the frame.
+ */
+const DEVICE_CLIP = 'inset(0 6.9% 0 6.7% round 13.3% / 7.5%)';
+
 export function HeroPhone() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [shown, setShown] = useState(0);
@@ -53,6 +60,7 @@ export function HeroPhone() {
         preload="metadata"
         width={720}
         height={1280}
+        style={{ clipPath: DEVICE_CLIP }}
         className="aspect-[9/16] h-full w-auto max-w-none object-contain"
       />
 

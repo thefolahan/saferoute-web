@@ -9,7 +9,9 @@ const CTA =
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-svh flex-col overflow-hidden bg-black">
+    /* Stops short of a full viewport, and no overflow clip — the phone is meant
+       to hang past the bottom edge onto the section below. */
+    <section className="relative flex min-h-[88svh] flex-col bg-black">
       <Image
         src="/images/landing/hero-section.png"
         alt=""
@@ -51,7 +53,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mx-auto flex h-[min(58svh,520px)] shrink-0 items-end justify-center sm:h-[min(70svh,780px)] lg:mx-0 lg:mb-[6svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
+        <div className="mx-auto -mb-[10svh] flex h-[min(58svh,520px)] shrink-0 items-end justify-center sm:h-[min(70svh,780px)] lg:mx-0 lg:-mb-[8svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
           <HeroPhone />
         </div>
       </div>

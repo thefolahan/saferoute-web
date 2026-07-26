@@ -11,7 +11,7 @@ const STEPS = [
     n: 2,
     img: '/images/landing/489-20306.png',
     title: 'Verified by the Community',
-    body: "Nearby users help confirm reports, while SafeRoute combines community confirmations, to determine what's happening in real time.",
+    body: "Nearby users help confirm reports, while SafeRoute combines community confirmations and artificial intelligence, to determine what's happening in real time.",
   },
   {
     n: 3,
@@ -29,7 +29,7 @@ export function HowItWorks() {
           <h2 className="text-[32px] font-medium leading-[40px] tracking-tightest text-gray-950 sm:text-[48px] sm:leading-[60px]">
             How SafeRoute works
           </h2>
-          <p className="max-w-[640px] text-[18px] leading-[28px] text-[#666668]">
+          <p className="max-w-[640px] text-[18px] leading-[28px] text-[#666668] lg:max-w-none">
             A seamless cycle of community input, algorithmic analysis, and verified safety outcomes.
           </p>
         </header>
