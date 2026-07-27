@@ -9,12 +9,11 @@ export function AboutStory() {
         </h2>
 
         <p className="mt-10 max-w-[1040px] text-[18px] font-normal leading-[30px] text-white/90 sm:text-[22px] sm:leading-[36px]">
-          SafeRoute began with a simple but powerful realization: people don&apos;t
-          just need directions, they need awareness. Every day, thousands of
-          commuters set out without knowing what lies ahead. Roadblocks, flooding,
-          accidents, security incidents, protests, traffic disruptions,
-          unauthorized checkpoints, and other hazards can change a journey
-          entirely.
+          SafeRoute began with a simple realization: people don&apos;t just need
+          directions, they need awareness. A roadblock, a flooded underpass, a
+          protest on the bridge or an unauthorised checkpoint can turn a
+          twenty-minute trip into a three-hour ordeal, and the people already
+          sitting in it are the only ones who know.
         </p>
 
         <div className="mt-14 flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:gap-16">
@@ -32,24 +31,22 @@ export function AboutStory() {
           <div className="flex max-w-[600px] flex-col gap-4">
             <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
               Traditional navigation apps are excellent at finding the fastest
-              route, but they rarely tell you what is actually happening on it. We
-              believed road users deserved better.
+              route, but they rarely tell you what is actually happening on it.
+              We believed road users deserved better.
             </p>
             <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
-              So we built SafeRoute, a community-powered road intelligence platform
-              that combines real-time reports, AI verification, location-based
-              insights, and trusted community contributions to help people make
-              safer, smarter decisions before and during every trip.
+              So we built it the other way round. Someone on the road reports
+              what they see. AI and other users nearby check it within minutes.
+              The map updates for everyone heading the same way.
             </p>
             <p className="text-[18px] font-normal leading-[30px] text-white/90 lg:text-[15px] lg:leading-[24px]">
-              Whether you are driving to work, running a business, delivering
-              goods, or moving across the country, SafeRoute gives you the
-              information you need to stay informed, avoid unnecessary risks, and
-              move with confidence.
+              Commuters, dispatch riders, fleet operators, families travelling
+              between cities. The question is always the same: is the way clear
+              right now, and if not, what are my options?
             </p>
             <p className="mt-2 text-[18px] font-bold italic leading-[30px] text-white lg:text-[15px] lg:leading-[24px]">
               Navigation apps tell you how to reach your destination. SafeRoute
-              tells you what you will meet on the way.
+              tells you what you&apos;ll meet on the way.
             </p>
           </div>
         </div>

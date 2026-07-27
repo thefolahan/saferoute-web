@@ -8,7 +8,7 @@ import { SiteFooter } from '../_components/site-footer';
 export const metadata: Metadata = {
   title: 'About us',
   description:
-    "We're helping people move with confidence. SafeRoute provides real-time road intelligence that helps road users avoid delays, navigate disruptions, and make smarter decisions before they hit the road."
+    "Why we built SafeRoute, what we stand for, and how community reports become road intelligence you can act on before you set out."
 };
 
 export default function AboutPage() {

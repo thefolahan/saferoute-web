@@ -15,11 +15,11 @@ export function AboutHero() {
             We are helping people move with confidence.
           </h1>
           <p className="mt-4 max-w-[720px] text-[14px] font-normal leading-6 text-[#717680] sm:text-[16px]">
-            SafeRoute is Africa's road intelligence platform, helping people
-            move with confidence. We turn scattered, hard-to-verify safety
-            chatter into real-time, community-verified road intelligence, so you
-            know what's happening on your route before you set out, not after
-            you are stuck in it.
+            The warnings that matter most, a blocked road, a flooded junction,
+            an incident two streets ahead, are scattered across group chats and
+            usually arrive too late to be useful. SafeRoute gathers them in one
+            place, checks them, and puts them on a map while they still change
+            your decision.
           </p>
           <a
             href="/coming-soon"

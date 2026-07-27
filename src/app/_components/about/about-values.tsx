@@ -9,22 +9,22 @@ const VALUES: { icon: LucideIcon; title: string; body: string }[] = [
   {
     icon: BadgeCheck,
     title: 'Verified, not viral',
-    body: "Every report is checked by the community and SafeRoute before it's presented as fact, clearly labeled reported, under review, or verified."
+    body: "Nothing is presented as fact until it has been checked. Every report carries its status openly: reported, under review, or verified."
   },
   {
     icon: Siren,
-    title: "Inform, don't alarm.",
-    body: 'We surface risk to keep people safe, without encouraging panic, vigilantism, profiling, or doxxing.'
+    title: "Inform, don't alarm",
+    body: 'We surface risk so people can avoid it. We do not publish anything that invites panic, vigilantism, profiling, or doxxing.'
   },
   {
     icon: Shield,
-    title: 'Privacy by design.',
-    body: 'Precise location data is protected; sensitive areas are shown at area level, not doorstep level.'
+    title: 'Privacy by design',
+    body: 'Your precise location never leaves your device unnecessarily. Sensitive incidents are pinned to an area, not a doorstep.'
   },
   {
     icon: Users,
-    title: 'Community-powered.',
-    body: 'Reports get more reliable as nearby people confirm them with context, photos, and updates.'
+    title: 'Better with every voice',
+    body: 'A single report is a signal. Three people confirming it with photos and updates is something you can act on.'
   }
 ];
 
@@ -43,8 +43,8 @@ export function AboutValues() {
             Stand For
           </h2>
           <p className="mx-auto mt-5 max-w-[420px] text-center text-[18px] leading-[28px] text-gray-600 lg:mx-0 lg:text-left">
-            Real-time, community-verified road and safety intelligence for every
-            journey.
+            The rules we hold ourselves to, and the ones that decide what makes
+            it onto your map.
           </p>
         </div>
 
