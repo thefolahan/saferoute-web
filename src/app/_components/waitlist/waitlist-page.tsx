@@ -5,13 +5,6 @@ import { AvatarStack } from './avatar-stack';
 import { WaitlistForm } from './waitlist-form';
 import { SOCIALS } from '../social-icons';
 
-/**
- * Waitlist pages — enterprise (2016:12556) and journalist (2016:12557), plus
- * their mobile frames. Both are LIGHT, full-width, single-screen. One
- * responsive layout drives both; per-page differences (header side, social
- * proof orientation, form style, and the journalist trust-note / value-props /
- * footer) come from the config.
- */
 export type WaitlistConfig = {
   orbVariant: 'enterprise' | 'journalist';
   heading: { text: string };
@@ -33,7 +26,6 @@ export type WaitlistConfig = {
   trustNote?: { text: string };
   valueProps?: { label: string; dot: string }[];
   footer?: { copyright: string; links: string[] };
-  // Legacy color fields (kept so page configs still type-check; unused now).
   pageBg?: string;
   header?: unknown;
   badge?: unknown;
@@ -43,7 +35,6 @@ export type WaitlistConfig = {
 function Orbs() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      {/* blob-pink (top-left), blob-purple (top-right), blob-lavender (centre) */}
       <div className="absolute -left-32 -top-24 h-[380px] w-[440px] rounded-full bg-[#F9C5D1] opacity-30 blur-[100px] sm:h-[500px] sm:w-[600px] sm:opacity-40" />
       <div className="absolute -right-40 -top-20 h-[420px] w-[480px] rounded-full bg-[#C4B5FD] opacity-30 blur-[100px] sm:h-[600px] sm:w-[700px] sm:opacity-40" />
       <div className="absolute left-1/2 top-1/2 h-[360px] w-[440px] -translate-x-1/2 rounded-full bg-[#FBCFE8] opacity-25 blur-[100px] sm:h-[400px] sm:w-[500px] sm:opacity-30" />
