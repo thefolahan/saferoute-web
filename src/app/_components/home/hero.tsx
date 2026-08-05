@@ -35,7 +35,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-8 max-w-[680px] text-[16px] font-normal leading-[26px] text-gray-300 sm:text-[18px] sm:leading-[30px] lg:mt-10 lg:text-[20px]">
-            SafeRoute helps you make safer travel decisions with real-time
+            SafeRoute helps you make safer journey decisions with real-time
             community reports, verified updates, live broadcasts, and route
             safety intelligence.
           </p>

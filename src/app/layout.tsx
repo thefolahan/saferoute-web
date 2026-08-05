@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 
+import { extensionNoiseGuard } from './_lib/extension-noise-guard';
+
 const siteFont = Inter({
   subsets: ['latin'],
   variable: '--font-site',
@@ -71,6 +73,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={extensionNoiseGuard} />
+      </head>
       <body className={siteFont.variable}>{children}</body>
     </html>
   );
