@@ -29,11 +29,12 @@ export default function CareersPage() {
           </Link>
           <div className="mx-auto flex items-center gap-1 sm:mx-0">
             <Image
-              src="/images/landing/logo-mark-dark.png"
+              src="/images/saferoute-icon-black.svg"
               alt="SafeRoute"
               width={32}
               height={32}
               className="h-8 w-8"
+              unoptimized
             />
             <span className="text-[22px] font-medium leading-[29px] tracking-[-0.03em] text-[#1C1C1C] sm:text-[24px]">
               SafeRoute

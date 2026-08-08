@@ -29,12 +29,13 @@ export function SiteNav({
         {/* Brand */}
         <Link href="/" className="flex items-center gap-1">
           <Image
-            src={dark ? '/images/landing/logo-mark-white.png' : '/images/landing/logo-mark-dark.png'}
+            src={dark ? '/images/saferoute-icon-white.svg' : '/images/saferoute-icon-black.svg'}
             alt="SafeRoute"
             width={32}
             height={32}
             className="h-8 w-8"
             priority
+            unoptimized
           />
           <span
             className={`text-[24px] font-medium leading-[29px] ${

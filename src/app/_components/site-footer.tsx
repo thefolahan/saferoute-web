@@ -56,11 +56,12 @@ export function SiteFooter() {
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <Image
-                  src="/images/landing/logo-mark-white.png"
+                  src="/images/saferoute-icon-white.svg"
                   alt="SafeRoute"
                   width={48}
                   height={48}
                   className="h-12 w-12"
+                  unoptimized
                 />
                 <span className="text-[30px] font-semibold leading-none text-white">
                   SafeRoute
