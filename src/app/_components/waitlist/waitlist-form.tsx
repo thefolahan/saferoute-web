@@ -7,22 +7,67 @@ type WaitlistFormProps = {
   variant: 'card' | 'row';
   placeholder: string;
   width: number;
+  /** Which page this form is on, so the segments stay separable. */
+  source?: string;
 };
 
-export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps) {
+/**
+ * The API this posts to. Same backend the mobile app uses — the waitlist is
+ * just its one public, unauthenticated endpoint.
+ */
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000/api/v1';
+
+export function WaitlistForm({
+  variant,
+  placeholder,
+  width,
+  source = 'website'
+}: WaitlistFormProps) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  /**
+   * This used to set `submitted` and nothing else — the address was shown a
+   * thank-you and then discarded, so every signup was lost.
+   */
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!email.trim()) return;
-    setSubmitted(true);
+    if (!email.trim() || sending) return;
+
+    setSending(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), source })
+      });
+      if (!response.ok) {
+        throw new Error(String(response.status));
+      }
+      setSubmitted(true);
+    } catch {
+      // Never show a thank-you we cannot back up.
+      setError('Could not add you just yet. Please try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
-  const buttonLabel = 'Get Notified →';
+  const buttonLabel = sending ? 'Adding…' : 'Get Notified →';
+
+  const errorNote = error ? (
+    <p className="mt-2 text-[13px] leading-5 text-[#D92D20]" role="alert">
+      {error}
+    </p>
+  ) : null;
 
   if (variant === 'card') {
     return (
+      <div style={{ maxWidth: width }} className="w-full">
       <form
         onSubmit={handleSubmit}
         className="w-full rounded-[14px] border border-gray-200 bg-white p-1"
@@ -47,7 +92,8 @@ export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps)
             </div>
             <button
               type="submit"
-              className="flex items-center justify-center rounded-[10px] bg-[#111827] px-3 py-2 text-[14px] font-semibold leading-5 text-white"
+              disabled={sending}
+              className="flex items-center justify-center rounded-[10px] bg-[#111827] px-3 py-2 text-[14px] font-semibold leading-5 text-white disabled:opacity-60"
               style={{
                 boxShadow:
                   '0 1px 2px 0 rgba(10,13,18,0.05), inset 0 0 0 1px rgba(10,13,18,0.18), inset 0 -2px 0 0 rgba(10,13,18,0.05)'
@@ -58,11 +104,14 @@ export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps)
           </div>
         )}
       </form>
+      {errorNote}
+      </div>
     );
   }
 
   // variant === 'row' (Journalist)
   return (
+    <div style={{ maxWidth: width }} className="w-full">
     <form
       onSubmit={handleSubmit}
       className="flex h-[52px] w-full items-center rounded-[12px] border border-[#E9EAEB] bg-white"
@@ -88,7 +137,8 @@ export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps)
           <div className="p-2">
             <button
               type="submit"
-              className="flex h-9 items-center justify-center rounded-full bg-[#0A0D12] px-3 text-[14px] font-semibold leading-5 text-white"
+              disabled={sending}
+              className="flex h-9 items-center justify-center rounded-full bg-[#0A0D12] px-3 text-[14px] font-semibold leading-5 text-white disabled:opacity-60"
               style={{
                 boxShadow:
                   '0 1px 2px 0 rgba(10,13,18,0.05), inset 0 0 0 1px rgba(10,13,18,0.18), inset 0 -2px 0 0 rgba(10,13,18,0.05)'
@@ -100,5 +150,7 @@ export function WaitlistForm({ variant, placeholder, width }: WaitlistFormProps)
         </>
       )}
     </form>
+    {errorNote}
+    </div>
   );
 }

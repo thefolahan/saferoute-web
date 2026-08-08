@@ -14,9 +14,9 @@ SafeRoute
 
 Nigeria
 
-Email: copyright@saferoute.ng
+Email: copyright@saferoutehq.com
 
-All copyright infringement notices must be sent to copyright@saferoute.ng.
+All copyright infringement notices must be sent to copyright@saferoutehq.com.
 
 SafeRoute may consider guidance, requests, or lawful directions from the Nigerian Copyright Commission and other competent Nigerian authorities where relevant.
 
@@ -64,7 +64,7 @@ To help us review your notice, it must include all of the following information:
    - Typing your full legal name is sufficient for electronic signature
 
 HOW TO SUBMIT A COPYRIGHT NOTICE
-Email: copyright@saferoute.ng
+Email: copyright@saferoutehq.com
 
 Subject Line: Copyright Takedown Notice - [Brief Description]
 
@@ -116,7 +116,7 @@ Your counter-notification must include:
    - Typing your full legal name is sufficient for an electronic signature
 
 HOW TO SUBMIT A COUNTER-NOTIFICATION
-Email: copyright@saferoute.ng
+Email: copyright@saferoutehq.com
 
 Subject Line: Copyright Counter-Notification - [Brief Description]
 
@@ -200,7 +200,7 @@ When in doubt, do not upload or broadcast. If you did not create it and do not h
 MEDIA RELEASE FORM
 If you wish to upload content that was filmed or created by someone else, you must obtain a signed Media Release Form from the original creator before uploading.
 
-The signed form must be submitted to copyright@saferoute.ng before the content is uploaded. Uploading third-party content without a signed release is a violation of our copyright policy and may result in a copyright strike.
+The signed form must be submitted to copyright@saferoutehq.com before the content is uploaded. Uploading third-party content without a signed release is a violation of our copyright policy and may result in a copyright strike.
 
 FALSE CLAIMS
 Submitting a knowingly false or misleading copyright notice or counter-notification may result in:
@@ -223,14 +223,14 @@ If you believe your use qualifies as fair dealing or another lawful exception, y
 
 QUESTIONS ABOUT COPYRIGHT?
 
-If you have questions about what content you can upload or whether you need permission, contact us at copyright@saferoute.ng
+If you have questions about what content you can upload or whether you need permission, contact us at copyright@saferoutehq.com
 
 CHANGES TO THIS POLICY
 
 We may update this Copyright Policy from time to time. Continued use of SafeRoute following any changes constitutes acceptance of the revised policy.
 
 CONTACT INFORMATION
-For Copyright Infringement Claims: copyright@saferoute.ng
+For Copyright Infringement Claims: copyright@saferoutehq.com
 
 For General Inquiries: support@saferoutehq.com
 
@@ -242,7 +242,7 @@ SafeRoute
 
 Nigeria
 
-Email: copyright@saferoute.ng
+Email: copyright@saferoutehq.com
 
 This policy complies with the Nigerian Copyright Act, 2022 and applicable Nigerian copyright law.`;
 
