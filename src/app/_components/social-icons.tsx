@@ -4,8 +4,8 @@ export type Social = { label: string; href: string; icon: ReactNode };
 
 export const SOCIALS: Social[] = [
   {
-    label: 'Gmail',
-    href: '#',
+    label: 'Email us',
+    href: 'mailto:support@saferoutehq.com',
     icon: (
       <path
         d="M3.2 15.5H5.5V9.1L10 12.5l4.5-3.4v6.4h2.3c.6 0 1.1-.5 1.1-1.1V6.1c0-.75-.86-1.18-1.46-.73L10 10.1 4.56 5.37C3.96 4.92 3.1 5.35 3.1 6.1v8.3c0 .6.5 1.1 1.1 1.1Z"

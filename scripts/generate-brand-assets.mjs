@@ -2,11 +2,11 @@
  * Generates the share/link-preview assets that need the brand background baked
  * into the pixels.
  *
- * The source logo (public/images/logo.png) is a white mark on transparency, so
- * anywhere it lands on a light surface — a WhatsApp preview card, a browser tab
- * in light theme — it disappears. Chat clients render the card in their own
- * chrome and ignore any CSS we ship, so the only fix is an image that carries
- * its own dark background.
+ * The source logo (public/images/saferoute-icon-white.svg) is a white mark on
+ * transparency, so anywhere it lands on a light surface — a WhatsApp preview
+ * card, a browser tab in light theme — it disappears. Chat clients render the
+ * card in their own chrome and ignore any CSS we ship, so the only fix is an
+ * image that carries its own dark background.
  *
  * Run from apps/web:  node scripts/generate-brand-assets.mjs
  */
@@ -22,12 +22,12 @@ const IMAGES = join(WEB, 'public', 'images');
 const FONTS = join(WEB, '..', 'mobile', 'assets', 'fonts');
 
 const BG = '#111112'; // matches the site footer / dark nav pill
-const LOGO = join(IMAGES, 'logo.png');
+const LOGO = join(IMAGES, 'saferoute-icon-white.svg');
 
-/** The white mark, trimmed of its transparent padding so sizing is predictable. */
+/** The white mark. Its viewBox is already cropped to the artwork, so rasterising
+ *  it into a square box puts the mark at full height, centred — no trim pass. */
 const mark = (size) =>
-  sharp(LOGO)
-    .trim({ threshold: 10 })
+  sharp(LOGO, { density: 600 })
     .resize({ width: size, height: size, fit: 'inside' })
     .png()
     .toBuffer();
