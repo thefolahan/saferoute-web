@@ -109,7 +109,7 @@ export function WaitlistForm({
     );
   }
 
-  // variant === 'row' (Journalist)
+  // variant === 'row' (News Outlets)
   return (
     <div style={{ maxWidth: width }} className="w-full">
     <form

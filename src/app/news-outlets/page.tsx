@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import { WaitlistPage, type WaitlistConfig } from '../_components/waitlist/waitlist-page';
 
 export const metadata: Metadata = {
-  title: 'Journalist',
+  title: 'News Outlets',
   description:
     'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.'
 };
 
-const journalistConfig: WaitlistConfig = {
-  orbVariant: 'journalist',
+const newsOutletsConfig: WaitlistConfig = {
+  variant: 'news-outlets',
+  source: 'news-outlets',
   heading: { text: 'Get the story first. Verify with community truth.' },
   subhead: {
     text: 'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.'
@@ -34,6 +35,6 @@ const journalistConfig: WaitlistConfig = {
   }
 };
 
-export default function JournalistWaitlistPage() {
-  return <WaitlistPage config={journalistConfig} />;
+export default function NewsOutletsWaitlistPage() {
+  return <WaitlistPage config={newsOutletsConfig} />;
 }

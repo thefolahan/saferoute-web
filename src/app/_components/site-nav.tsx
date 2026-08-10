@@ -11,15 +11,18 @@ import { MobileMenu } from './mobile-menu';
 const TABS = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Journalist', href: '/journalist' },
-  { label: 'Enterprise', href: '/enterprise' }
+  { label: 'News Outlets', href: '/news-outlets' },
+  { label: 'Enterprise', href: '/enterprise' },
+  { label: 'Government Officials', href: '/government-officials' }
 ] as const;
+
+type TabLabel = (typeof TABS)[number]['label'];
 
 export function SiteNav({
   active,
   theme = 'light'
 }: {
-  active?: 'Home' | 'About' | 'Journalist' | 'Enterprise';
+  active?: TabLabel;
   theme?: 'dark' | 'light';
 }) {
   const dark = theme === 'dark';
@@ -47,10 +50,12 @@ export function SiteNav({
         </Link>
 
         {/* Tab pill — 346:8996 (dark) / 491:21551 (light). Hidden below lg where
-            the four-tab pill would overflow narrow viewports (the design is
-            desktop-only; brand + Download App remain). */}
+            tab pill would overflow narrow viewports (the design is desktop-only;
+            brand + Download App remain). This was `lg` when there were four
+            tabs; "News Outlets" and "Government Officials" push the row past
+            1024 wide, so it now waits for xl and the hamburger covers the gap. */}
         <nav
-          className={`hidden items-center gap-0.5 rounded-full p-1 lg:flex ${
+          className={`hidden items-center gap-0.5 rounded-full p-1 xl:flex ${
             dark
               ? 'border border-[#1C1C1E] bg-[#121214]'
               : 'border border-[#E2E2E6] bg-[#ECECEF]'
@@ -72,7 +77,7 @@ export function SiteNav({
                 <Link
                   href={tab.href}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`rounded-full px-5 py-2.5 text-[14px] leading-5 transition-colors ${
+                  className={`whitespace-nowrap rounded-full px-5 py-2.5 text-[14px] leading-5 transition-colors ${
                     isActive
                       ? dark
                         ? 'bg-[#1A1A1E] font-semibold text-white shadow-[0_2px_6px_rgba(0,0,0,0.2)]'
@@ -92,12 +97,12 @@ export function SiteNav({
         {/* Download App — desktop */}
         <Link
           href="/coming-soon"
-          className="hidden items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08] lg:flex"
+          className="hidden items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08] xl:flex"
         >
           Get the App
         </Link>
 
-        {/* Hamburger — mobile / tablet */}
+        {/* Hamburger — everything below xl */}
         <MobileMenu tabs={TABS} active={active} dark={dark} />
       </div>
     </header>

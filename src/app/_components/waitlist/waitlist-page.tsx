@@ -6,7 +6,13 @@ import { WaitlistForm } from './waitlist-form';
 import { SOCIALS } from '../social-icons';
 
 export type WaitlistConfig = {
-  orbVariant: 'enterprise' | 'journalist';
+  /**
+   * Which layout to render. `enterprise` is shared by the Enterprise and
+   * Government Officials pages — they differ only in copy.
+   */
+  variant: 'enterprise' | 'news-outlets';
+  /** Which page a signup came from, so the segments stay separable. */
+  source: 'enterprise' | 'news-outlets' | 'government-officials';
   heading: { text: string };
   subhead: { text: string };
   socialProof: {
@@ -62,9 +68,9 @@ function Wordmark() {
 }
 
 export function WaitlistPage({ config }: { config: WaitlistConfig }) {
-  const journalist = config.orbVariant === 'journalist';
+  const press = config.variant === 'news-outlets';
   const { heading, subhead, socialProof, form } = config;
-  const bg = journalist ? '#FAFAFA' : '#FFFFFF';
+  const bg = press ? '#FAFAFA' : '#FFFFFF';
 
   const back = (
     <Link
@@ -120,7 +126,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
         <Orbs />
 
         {/* Header — mobile: back left + logo centre; desktop: logo left + back
-            right. Same for enterprise and journalist. */}
+            right. Same for every waitlist page. */}
         <header className="relative z-10 flex h-[73px] items-center px-6 sm:h-[88px] sm:px-12">
           <div className="absolute left-6 sm:hidden">{back}</div>
           <div className="mx-auto sm:mx-0">
@@ -135,7 +141,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
           <div className="flex max-w-[680px] flex-col items-center gap-4">
             <h1
               className={`font-bold tracking-[-0.02em] text-[#0A0D12] ${
-                journalist
+                press
                   ? 'text-[34px] leading-[42px] sm:text-[58px] sm:leading-[68px]'
                   : 'text-[34px] leading-[42px] sm:text-[60px] sm:leading-[68px]'
               }`}
@@ -144,7 +150,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
             </h1>
             <p
               className={`font-normal text-gray-500 ${
-                journalist
+                press
                   ? 'text-[17px] leading-[26px] sm:text-[18px] sm:leading-7'
                   : 'text-[17px] leading-[26px]'
               }`}
@@ -168,10 +174,15 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
             ))}
 
           {/* Form */}
-          <WaitlistForm variant={form.variant} placeholder={form.placeholder} width={form.width} />
+          <WaitlistForm
+            variant={form.variant}
+            placeholder={form.placeholder}
+            width={form.width}
+            source={config.source}
+          />
 
-          {/* Enterprise: socials */}
-          {!journalist && (
+          {/* Enterprise / Government Officials: socials */}
+          {!press && (
             <div className="flex flex-col items-center gap-4">
               <h3 className="text-[14px] font-semibold leading-[17px] text-[#181D27]">
                 Connect with us
@@ -193,8 +204,8 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
             </div>
           )}
 
-          {/* Journalist: trust note + value props */}
-          {journalist && (
+          {/* News Outlets: trust note + value props */}
+          {press && (
             <div className="flex flex-col items-center gap-6">
               {config.trustNote ? (
                 <div className="flex items-center gap-1.5 text-gray-400">
@@ -221,7 +232,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
           )}
         </div>
 
-        {/* Journalist footer — desktop only (mobile design has no footer) */}
+        {/* Footer — desktop only (mobile design has no footer) */}
         {config.footer && (
           <footer className="relative z-10 hidden items-center justify-between px-6 py-5 sm:flex sm:px-12">
             <span className="text-[12px] leading-[15px] text-[#73737A]">

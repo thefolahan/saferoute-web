@@ -7,7 +7,7 @@ type Tab = { label: string; href: string };
 
 /**
  * Mobile nav — a hamburger that opens a full-screen menu (the Figma mobile
- * frames show a logo + hamburger, no inline tabs). Shown below lg only.
+ * frames show a logo + hamburger, no inline tabs). Shown below xl only.
  */
 export function MobileMenu({
   tabs,
@@ -28,7 +28,7 @@ export function MobileMenu({
   }, [open]);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         type="button"
         aria-label="Open menu"

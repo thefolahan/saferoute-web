@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
      * up on the next reload. Production builds optimize as normal.
      */
     unoptimized: isDev
+  },
+  /**
+   * /journalist became /news-outlets. Permanent so the old path stops being
+   * indexed, and so anything already linking to it — a pitch deck, an email,
+   * a social bio — still lands on the page instead of a 404.
+   */
+  async redirects() {
+    return [{ source: '/journalist', destination: '/news-outlets', permanent: true }];
   }
 };
 
