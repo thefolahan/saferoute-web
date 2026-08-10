@@ -1,3 +1,4 @@
+import { Reveal } from './reveal';
 import { SiteFooter } from './site-footer';
 import { SiteNav } from './site-nav';
 
@@ -30,10 +31,18 @@ export function LegalPage({
       <div className="relative bg-white pb-24 pt-32">
         <SiteNav theme="light" />
         <div className="mx-auto max-w-[1280px] px-6 sm:px-10 lg:px-20">
-          <h1 className="text-[40px] font-semibold leading-tight tracking-tightest text-gray-900">
+          <Reveal
+            as="h1"
+            className="text-[40px] font-semibold leading-tight tracking-tightest text-gray-900"
+          >
             {title}
-          </h1>
-          <div className="mt-8 whitespace-pre-wrap text-[16px] leading-7 text-gray-600">
+          </Reveal>
+          {/* One block, not one per paragraph: legal copy is a single wall of
+              prose and staggering it would be a distraction, not a flourish. */}
+          <Reveal
+            delay={110}
+            className="mt-8 whitespace-pre-wrap text-[16px] leading-7 text-gray-600"
+          >
             {boldHeadings
               ? body.split('\n').map((line, i) => (
                   <span
@@ -47,7 +56,7 @@ export function LegalPage({
                   </span>
                 ))
               : body}
-          </div>
+          </Reveal>
         </div>
       </div>
       <SiteFooter />

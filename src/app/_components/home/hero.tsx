@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { Reveal } from '../reveal';
 import { SiteNav } from '../site-nav';
 import { HeroPhone } from './hero-phone';
 import { ScrollToButton } from './scroll-to-button';
@@ -28,19 +29,26 @@ export function Hero() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-1 flex-col justify-center px-6 pb-8 pt-24 sm:px-10 sm:pt-32 lg:flex-row lg:items-center lg:justify-start lg:gap-10 lg:px-16 lg:pb-0 lg:pt-24">
         <div className="pb-10 lg:flex-1 lg:pb-0">
-          <h1 className="text-[44px] font-bold leading-[48px] tracking-tightest text-white sm:text-[64px] sm:leading-[64px] lg:text-[96px] lg:leading-[88px]">
+          <Reveal
+            as="h1"
+            className="text-[44px] font-bold leading-[48px] tracking-tightest text-white sm:text-[64px] sm:leading-[64px] lg:text-[96px] lg:leading-[88px]"
+          >
             Know Before
             <br />
             You Go
-          </h1>
+          </Reveal>
 
-          <p className="mt-8 max-w-[680px] text-[16px] font-normal leading-[26px] text-gray-300 sm:text-[18px] sm:leading-[30px] lg:mt-10 lg:text-[20px]">
+          <Reveal
+            as="p"
+            delay={140}
+            className="mt-8 max-w-[680px] text-[16px] font-normal leading-[26px] text-gray-300 sm:text-[18px] sm:leading-[30px] lg:mt-10 lg:text-[20px]"
+          >
             SafeRoute helps you make safer journey decisions with real-time
             community reports, verified updates, live broadcasts, and route
             safety intelligence.
-          </p>
+          </Reveal>
 
-          <div className="mt-10 flex items-center gap-3">
+          <Reveal delay={280} className="mt-10 flex items-center gap-3">
             <Link
               href="/coming-soon"
               className={`${CTA} border-transparent bg-gray-25 text-gray-950`}
@@ -53,7 +61,7 @@ export function Hero() {
             >
               Learn More
             </ScrollToButton>
-          </div>
+          </Reveal>
         </div>
 
         {/* On mobile the phone is width-driven and straddles the seam: at 9:16
@@ -66,7 +74,9 @@ export function Hero() {
             space, which would shove the phone left of centre. From sm up the
             box fits again and it goes back to mx-auto and height-driven. */}
         <div className="-mb-[min(88vw,352px)] flex w-[min(99vw,396px)] shrink-0 items-end justify-center self-center sm:mx-auto sm:-mb-[10svh] sm:h-[min(70svh,780px)] sm:w-auto lg:mx-0 lg:-mb-[8svh] lg:mt-auto lg:h-[min(82svh,860px)] lg:flex-1">
-          <HeroPhone />
+          <Reveal delay={200} y={0} duration={1100} className="w-full sm:h-full sm:w-auto">
+            <HeroPhone />
+          </Reveal>
         </div>
       </div>
 

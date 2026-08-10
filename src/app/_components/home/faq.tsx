@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { Reveal } from '../reveal';
+
 const FAQS = [
   {
     q: 'Is SafeRoute free to use?',
@@ -73,20 +75,25 @@ export function Faq({
       }`}
     >
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-16 px-8 py-24">
-        <header className="flex max-w-[768px] flex-col items-center gap-5 text-center">
+        <Reveal as="header" className="flex max-w-[768px] flex-col items-center gap-5 text-center">
           <h2 className="text-[48px] font-medium leading-[60px] tracking-tightest text-gray-950">
             Frequently asked questions
           </h2>
           <p className="text-[20px] leading-[30px] text-gray-600">
             Everything you need to know about the product and billing.
           </p>
-        </header>
+        </Reveal>
 
         <div className="flex w-full max-w-[768px] flex-col gap-8">
           {FAQS.map((item, i) => {
             const open = openIndex === i;
             return (
-              <div key={i} className={i === 0 ? '' : 'border-t border-gray-200 pt-6'}>
+              <Reveal
+                key={i}
+                delay={i * 70}
+                y={18}
+                className={i === 0 ? '' : 'border-t border-gray-200 pt-6'}
+              >
                 <button
                   type="button"
                   onClick={() => setOpenIndex(open ? -1 : i)}
@@ -103,13 +110,13 @@ export function Faq({
                   </span>
                   <Icon open={open} />
                 </button>
-              </div>
+              </Reveal>
             );
           })}
         </div>
 
         {showContact && (
-        <div className="flex w-full flex-col items-center gap-8 rounded-2xl bg-gray-50 px-8 pb-10 pt-8">
+        <Reveal className="flex w-full flex-col items-center gap-8 rounded-2xl bg-gray-50 px-8 pb-10 pt-8">
           <div className="relative h-14 w-[120px]">
             <Image
               src={AVATAR_LEFT}
@@ -149,7 +156,7 @@ export function Faq({
           >
             Get in touch
           </Link>
-        </div>
+        </Reveal>
         )}
       </div>
     </section>

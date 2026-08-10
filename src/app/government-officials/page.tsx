@@ -16,9 +16,7 @@ export const metadata: Metadata = {
 const governmentConfig: WaitlistConfig = {
   variant: 'enterprise',
   source: 'government-officials',
-  // Kept to two lines at desktop width, like Enterprise's heading — a longer
-  // line wraps to three and the two pages stop looking like siblings.
-  heading: { text: 'Protect your citizens. Optimize public transit.' },
+  heading: { lines: ['Protect your citizens.', 'Respond before it escalates.'] },
   subhead: {
     text: 'Get early access to real-time incident intelligence and secure your spot on the government waitlist.'
   },

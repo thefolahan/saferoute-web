@@ -1,6 +1,8 @@
 import { BadgeCheck, Shield, Siren, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
+import { Reveal } from '../reveal';
+
 /**
  * "What We Stand For" — light section (#F6FBFF). A left heading + subtitle beside
  * a 2×2 grid of principle cards (from the About copy pack).
@@ -32,7 +34,7 @@ export function AboutValues() {
   return (
     <section className="bg-[#F6FBFF] py-20 lg:py-28">
       <div className="mx-auto grid max-w-[1280px] gap-12 px-6 sm:px-10 lg:grid-cols-3 lg:gap-16 lg:px-20">
-        <div className="lg:col-span-1">
+        <Reveal className="lg:col-span-1">
           <h2 className="whitespace-nowrap text-center text-[30px] font-medium leading-[40px] tracking-tightest text-gray-950 sm:text-[48px] sm:leading-[60px] lg:text-left">
             What We{' '}
             {/* Desktop breaks the heading onto two lines; below lg it stays on
@@ -46,12 +48,13 @@ export function AboutValues() {
             The rules we hold ourselves to, and the ones that decide what makes
             it onto your map.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:col-span-2">
-          {VALUES.map(({ icon: Icon, title, body }) => (
-            <div
+          {VALUES.map(({ icon: Icon, title, body }, i) => (
+            <Reveal
               key={title}
+              delay={i * 110}
               className="rounded-2xl bg-white p-7 shadow-[0_1px_3px_rgba(16,24,40,0.06)] ring-1 ring-black/[0.03]"
             >
               <Icon className="h-10 w-10 text-gray-950" strokeWidth={1.75} />
@@ -61,7 +64,7 @@ export function AboutValues() {
               <p className="mt-3 text-[16px] leading-[24px] text-gray-600">
                 {body}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

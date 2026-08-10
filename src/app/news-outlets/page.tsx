@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const newsOutletsConfig: WaitlistConfig = {
   variant: 'news-outlets',
   source: 'news-outlets',
-  heading: { text: 'Get the story first. Verify with community truth.' },
+  heading: { lines: ['Get the story first.', 'Verify with community truth.'] },
   subhead: {
     text: 'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.'
   },

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
 
 import { extensionNoiseGuard } from './_lib/extension-noise-guard';
+import { revealGate } from './_lib/reveal-gate';
 
 const siteFont = Inter({
   subsets: ['latin'],
@@ -75,6 +76,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <script dangerouslySetInnerHTML={extensionNoiseGuard} />
+        {/* Must run before first paint — see reveal-gate.ts. */}
+        <script dangerouslySetInnerHTML={revealGate} />
       </head>
       <body className={siteFont.variable}>{children}</body>
     </html>

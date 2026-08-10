@@ -4,6 +4,7 @@ import { Shield } from 'lucide-react';
 import { AvatarStack } from './avatar-stack';
 import { WaitlistForm } from './waitlist-form';
 import { SOCIALS } from '../social-icons';
+import { Reveal } from '../reveal';
 
 export type WaitlistConfig = {
   /**
@@ -13,7 +14,13 @@ export type WaitlistConfig = {
   variant: 'enterprise' | 'news-outlets';
   /** Which page a signup came from, so the segments stay separable. */
   source: 'enterprise' | 'news-outlets' | 'government-officials';
-  heading: { text: string };
+  /**
+   * The headline, one entry per line. The designer's line breaks are part of
+   * the layout, so they are set here rather than left to wherever the text
+   * happens to wrap. Below lg the lines run together and wrap naturally — the
+   * desktop breaks do not fit a phone.
+   */
+  heading: { lines: string[] };
   subhead: { text: string };
   socialProof: {
     orientation: 'vertical' | 'horizontal';
@@ -138,52 +145,63 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
         {/* Centered content */}
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-9 px-6 pb-16 pt-6 text-center sm:gap-10 sm:px-10 sm:pb-20">
           {/* Hero text */}
-          <div className="flex max-w-[680px] flex-col items-center gap-4">
-            <h1
+          <div className="flex w-full max-w-[680px] flex-col items-center gap-4 lg:max-w-[940px]">
+            <Reveal
+              as="h1"
               className={`font-bold tracking-[-0.02em] text-[#0A0D12] ${
                 press
                   ? 'text-[34px] leading-[42px] sm:text-[58px] sm:leading-[68px]'
                   : 'text-[34px] leading-[42px] sm:text-[60px] sm:leading-[68px]'
               }`}
             >
-              {heading.text}
-            </h1>
-            <p
-              className={`font-normal text-gray-500 ${
+              {heading.lines.map((line, i) => (
+                <span key={line} className="lg:block">
+                  {line}
+                  {i < heading.lines.length - 1 ? ' ' : null}
+                </span>
+              ))}
+            </Reveal>
+            <Reveal
+              as="p"
+              delay={120}
+              className={`max-w-[680px] font-normal text-gray-500 ${
                 press
                   ? 'text-[17px] leading-[26px] sm:text-[18px] sm:leading-7'
                   : 'text-[17px] leading-[26px]'
               }`}
             >
               {subhead.text}
-            </p>
+            </Reveal>
           </div>
 
           {/* Social proof */}
-          {(hasAvatars || hasProofText) &&
-            (socialProof.orientation === 'vertical' ? (
-              <div className="flex flex-col items-center gap-2.5">
-                {avatars}
-                {proofText}
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                {avatars}
-                {proofText}
-              </div>
-            ))}
+          {(hasAvatars || hasProofText) && (
+            <Reveal
+              delay={200}
+              className={
+                socialProof.orientation === 'vertical'
+                  ? 'flex flex-col items-center gap-2.5'
+                  : 'flex items-center gap-3'
+              }
+            >
+              {avatars}
+              {proofText}
+            </Reveal>
+          )}
 
           {/* Form */}
-          <WaitlistForm
-            variant={form.variant}
-            placeholder={form.placeholder}
-            width={form.width}
-            source={config.source}
-          />
+          <Reveal delay={280} className="flex w-full justify-center">
+            <WaitlistForm
+              variant={form.variant}
+              placeholder={form.placeholder}
+              width={form.width}
+              source={config.source}
+            />
+          </Reveal>
 
           {/* Enterprise / Government Officials: socials */}
           {!press && (
-            <div className="flex flex-col items-center gap-4">
+            <Reveal delay={360} className="flex flex-col items-center gap-4">
               <h3 className="text-[14px] font-semibold leading-[17px] text-[#181D27]">
                 Connect with us
               </h3>
@@ -201,12 +219,12 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
                   </a>
                 ))}
               </div>
-            </div>
+            </Reveal>
           )}
 
           {/* News Outlets: trust note + value props */}
           {press && (
-            <div className="flex flex-col items-center gap-6">
+            <Reveal delay={360} className="flex flex-col items-center gap-6">
               {config.trustNote ? (
                 <div className="flex items-center gap-1.5 text-gray-400">
                   <Shield size={13} strokeWidth={2} />
@@ -228,7 +246,7 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
                   ))}
                 </div>
               ) : null}
-            </div>
+            </Reveal>
           )}
         </div>
 

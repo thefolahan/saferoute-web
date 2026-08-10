@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { Reveal } from '../reveal';
+
 type Card = {
   avatar?: string;
   quote: string;
@@ -160,7 +162,7 @@ export function Testimonials() {
   return (
     <section className="flex min-h-screen flex-col justify-center bg-gray-50 py-24">
       <div className="w-full">
-        <header className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 px-6 sm:px-10 lg:px-20">
+        <Reveal as="header" className="mx-auto flex w-full max-w-[1280px] flex-col gap-4 px-6 sm:px-10 lg:px-20">
           <p className="text-[11px] font-bold leading-[13px] tracking-[0.08em] text-[#475569]">
             TESTIMONIALS
           </p>
@@ -172,9 +174,9 @@ export function Testimonials() {
               See why people choose SafeRoute for every journey.
             </p>
           </div>
-        </header>
+        </Reveal>
 
-        <div className="marquee relative mt-14 overflow-hidden pb-4 [-webkit-mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)]">
+        <Reveal delay={160} y={0} duration={900} className="marquee relative mt-14 overflow-hidden pb-4 [-webkit-mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)]">
           <div
             className="marquee-track flex w-max"
             style={
@@ -186,7 +188,7 @@ export function Testimonials() {
             <Deck />
             <Deck duplicate />
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

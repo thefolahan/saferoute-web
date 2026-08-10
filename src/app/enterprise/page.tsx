@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const enterpriseConfig: WaitlistConfig = {
   variant: 'enterprise',
   source: 'enterprise',
-  heading: { text: 'Protect your workforce. Optimize their transit.' },
+  heading: { lines: ['Protect your workforce.', 'Optimize their transit.'] },
   subhead: {
     text: 'Get early access to real-time safety routing and secure your spot on the enterprise waitlist.'
   },

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Reveal } from './reveal';
 import { WaitlistForm } from './waitlist/waitlist-form';
 
 export function ComingSoon({
@@ -53,16 +54,25 @@ export function ComingSoon({
 
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-10 px-4 pb-16 text-center sm:px-10">
           <div className="flex max-w-[600px] flex-col items-center gap-4">
-            <h1 className="text-[36px] font-bold leading-tight tracking-[-0.02em] text-[#0A0D12] sm:text-[58px] sm:leading-[68px]">
+            <Reveal
+              as="h1"
+              className="text-[36px] font-bold leading-tight tracking-[-0.02em] text-[#0A0D12] sm:text-[58px] sm:leading-[68px]"
+            >
               {heading}
-            </h1>
-            <p className="max-w-[440px] text-[15px] font-normal leading-[24px] text-[#4E545F] sm:text-[17px] sm:leading-[28px]">
+            </Reveal>
+            <Reveal
+              as="p"
+              delay={120}
+              className="max-w-[440px] text-[15px] font-normal leading-[24px] text-[#4E545F] sm:text-[17px] sm:leading-[28px]"
+            >
               {subtitle}
-            </p>
+            </Reveal>
           </div>
 
           {waitlist && (
-            <WaitlistForm variant="card" placeholder="Enter your email..." width={460} />
+            <Reveal delay={240} className="flex w-full justify-center">
+              <WaitlistForm variant="card" placeholder="Enter your email..." width={460} />
+            </Reveal>
           )}
         </div>
       </div>

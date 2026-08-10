@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SOCIALS } from './social-icons';
 import { ScrollButton } from './scroll-button';
+import { Reveal } from './reveal';
 
 const COLUMNS = [
   {
@@ -52,7 +53,7 @@ export function SiteFooter() {
     <footer className="bg-[#111112]">
       <div className="mx-auto max-w-[1280px] px-6 pb-8 pt-16 sm:px-10 md:px-20 md:pt-20">
         <div className="flex flex-col justify-between gap-12 lg:flex-row">
-          <div className="flex w-full max-w-[440px] flex-col gap-8">
+          <Reveal className="flex w-full max-w-[440px] flex-col gap-8">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <Image
@@ -82,11 +83,11 @@ export function SiteFooter() {
               </p>
               <div className="mt-1 flex gap-3">{BADGES}</div>
             </div>
-          </div>
+          </Reveal>
 
           <div className="flex flex-wrap gap-12 sm:gap-16">
-            {COLUMNS.map((col) => (
-              <div key={col.title} className="flex flex-col gap-5">
+            {COLUMNS.map((col, i) => (
+              <Reveal key={col.title} delay={100 + i * 90} className="flex flex-col gap-5">
                 <h3 className={COLUMN_HEADING}>{col.title}</h3>
                 <ul className="flex flex-col gap-4">
                   {col.links.map((link) => (
@@ -100,10 +101,10 @@ export function SiteFooter() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Reveal>
             ))}
 
-            <div className="flex flex-col gap-5">
+            <Reveal delay={280} className="flex flex-col gap-5">
               <h3 className={COLUMN_HEADING}>Connect with us</h3>
               <div className="flex flex-wrap items-center gap-2.5">
                 {SOCIALS.map((s) => (
@@ -119,11 +120,11 @@ export function SiteFooter() {
                   </a>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
 
-        <div className="mt-14 flex items-center justify-between md:mt-16">
+        <Reveal delay={340} className="mt-14 flex items-center justify-between md:mt-16">
           <p className="text-[14px] font-normal leading-5 text-white/30">
             © {new Date().getFullYear()} SafeRoute Africa. All rights reserved.
           </p>
@@ -142,7 +143,7 @@ export function SiteFooter() {
               />
             </svg>
           </ScrollButton>
-        </div>
+        </Reveal>
       </div>
     </footer>
   );

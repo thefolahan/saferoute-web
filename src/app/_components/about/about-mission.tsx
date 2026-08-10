@@ -1,3 +1,5 @@
+import { Reveal } from '../reveal';
+
 /**
  * Mission / Vision — light gray-25 section holding a single dark gray-950 card
  * (~544px tall) split into two columns by a hairline. Each column: an asterisk
@@ -37,8 +39,9 @@ export function AboutMission() {
       <div className="mx-auto max-w-[1280px] px-6 py-16 sm:px-10 md:px-20 md:py-24">
         <div className="grid grid-cols-1 gap-y-12 rounded-[32px] bg-[#0A0D12] px-8 py-14 sm:px-12 md:grid-cols-2 md:gap-x-16 md:px-14">
           {ITEMS.map((item, i) => (
-            <div
+            <Reveal
               key={item.label}
+              delay={i * 140}
               className={`flex flex-col ${
                 i === 1 ? 'md:border-l md:border-white/10 md:pl-16' : ''
               }`}
@@ -53,7 +56,7 @@ export function AboutMission() {
               <p className="mt-5 max-w-full text-[16px] font-normal leading-7 text-gray-400 sm:max-w-[420px]">
                 {item.support}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
