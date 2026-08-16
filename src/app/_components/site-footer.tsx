@@ -12,6 +12,11 @@ const COLUMNS = [
       { label: 'Careers', href: '/careers' }
     ]
   },
+  /**
+   * Every legal page is linked from here on purpose. A page no other page links
+   * to is one a crawler has no route to, so an orphaned policy stays out of the
+   * index no matter what the sitemap claims.
+   */
   {
     title: 'Support',
     links: [

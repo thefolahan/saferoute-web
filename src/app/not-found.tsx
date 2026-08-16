@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { ComingSoon } from './_components/coming-soon';
 
 export const metadata: Metadata = {
-  title: 'Page not found'
+  title: 'Page not found',
+  robots: { index: false, follow: true }
 };
 
 // 404 — same layout/style as the Coming Soon page, with a not-found message.

@@ -8,7 +8,8 @@ import { SiteFooter } from '../_components/site-footer';
 export const metadata: Metadata = {
   title: 'About us',
   description:
-    "Why we built SafeRoute, what we stand for, and how community reports become road intelligence you can act on before you set out."
+    "Why we built SafeRoute, what we stand for, and how community reports become road intelligence you can act on before you set out.",
+  alternates: { canonical: '/about' }
 };
 
 export default function AboutPage() {

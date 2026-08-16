@@ -5,7 +5,10 @@ import Link from 'next/link';
 import { Reveal } from '../_components/reveal';
 
 export const metadata: Metadata = {
-  title: 'Careers'
+  title: 'Careers',
+  description:
+    'Open roles at SafeRoute Africa. We are building community safety intelligence for Nigeria — see what we are hiring for.',
+  alternates: { canonical: '/careers' }
 };
 
 /**

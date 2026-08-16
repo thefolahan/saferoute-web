@@ -4,7 +4,8 @@ import { WaitlistPage, type WaitlistConfig } from '../_components/waitlist/waitl
 export const metadata: Metadata = {
   title: 'Enterprise',
   description:
-    'Get early access to real-time safety routing and secure your spot on the enterprise waitlist.'
+    'Get early access to real-time safety routing and secure your spot on the enterprise waitlist.',
+  alternates: { canonical: '/enterprise' }
 };
 
 const enterpriseConfig: WaitlistConfig = {

@@ -6,7 +6,10 @@ import { Faq } from '../_components/home/faq';
 import { Reveal } from '../_components/reveal';
 
 export const metadata: Metadata = {
-  title: 'Help Center'
+  title: 'Help Center',
+  description:
+    'Answers to common questions about SafeRoute Africa: safer routes, real-time alerts, offline maps, Safety Circle, and reporting an incident.',
+  alternates: { canonical: '/help-center' }
 };
 
 export default function HelpCenterPage() {

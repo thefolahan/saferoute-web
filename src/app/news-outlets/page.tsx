@@ -4,7 +4,8 @@ import { WaitlistPage, type WaitlistConfig } from '../_components/waitlist/waitl
 export const metadata: Metadata = {
   title: 'News Outlets',
   description:
-    'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.'
+    'Gain direct access to verified citizen broadcasts, safety logs, and emergency briefings on transit developments.',
+  alternates: { canonical: '/news-outlets' }
 };
 
 const newsOutletsConfig: WaitlistConfig = {

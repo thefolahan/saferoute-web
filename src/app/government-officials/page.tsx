@@ -4,7 +4,8 @@ import { WaitlistPage, type WaitlistConfig } from '../_components/waitlist/waitl
 export const metadata: Metadata = {
   title: 'Government Officials',
   description:
-    'Get early access to real-time incident intelligence and secure your spot on the government waitlist.'
+    'Get early access to real-time incident intelligence and secure your spot on the government waitlist.',
+  alternates: { canonical: '/government-officials' }
 };
 
 /**

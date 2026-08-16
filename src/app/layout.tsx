@@ -15,23 +15,42 @@ const siteFont = Inter({
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.saferoutehq.com';
 
+/**
+ * The brand name carries "Africa" in the title and the description, and the
+ * description names Nigeria. That is not padding: "SafeRoute" alone is shared
+ * with several unrelated products, so the unqualified name is a word this site
+ * cannot realistically own, while "SafeRoute Africa" is one nothing else is
+ * competing for. Ranking for the qualified name is the achievable goal, and it
+ * only works if the qualified name actually appears in the indexed text.
+ */
 const description =
-  'Stay safe and informed with SafeRoute. Receive instant alerts and live updates on reported crimes and incidents happening near you.';
+  'SafeRoute Africa is a community safety platform for Nigeria. Get real-time alerts on incidents near you, plan safer routes, and travel with confidence.';
+
+const title = 'SafeRoute Africa: Know Before You Go';
 
 export const metadata: Metadata = {
   // Chat and social crawlers only follow absolute URLs, so the preview image
   // resolves against this rather than the deploy's own hostname.
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'SafeRoute: Know Before You Go',
-    template: '%s | SafeRoute'
+    default: title,
+    template: '%s | SafeRoute Africa'
   },
   description,
   applicationName: 'SafeRoute',
+  /**
+   * Google Search Console's HTML-tag verification method. Set
+   * NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in the Vercel project to the token
+   * Search Console hands you; left unset, no tag is emitted and the DNS or
+   * file verification methods still work.
+   */
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
-    title: 'SafeRoute: Know Before You Go',
+    title,
     description,
-    siteName: 'SafeRoute',
+    siteName: 'SafeRoute Africa',
     url: '/',
     type: 'website',
     // The logo is white on transparency, which vanishes against the white card
@@ -49,13 +68,25 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SafeRoute: Know Before You Go',
+    title,
     description,
     images: ['/images/og-cover.png']
   },
+  /**
+   * `googleBot` repeats index/follow on purpose and lifts the snippet caps:
+   * without max-snippet/max-image-preview, Google applies conservative
+   * defaults and may show a truncated snippet or no preview image.
+   */
   robots: {
     index: true,
-    follow: true
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1
+    }
   },
   // Same problem, same fix: these carry the dark background rather than relying
   // on transparency. (The old /images/logo.svg was also a 1.9MB favicon.)

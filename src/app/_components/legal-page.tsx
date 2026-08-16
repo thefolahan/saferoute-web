@@ -4,25 +4,14 @@ import { SiteFooter } from './site-footer';
 import { SiteNav } from './site-nav';
 
 /**
- * Legal pages (Terms of Use / Privacy Policy / Community Guidelines / Cookies)
- * — not in the Figma landing design, so kept intentionally plain: the shared
- * light nav, a readable prose column, and the shared footer. Footer links
- * point here.
+ * Legal pages (Terms of Use / Privacy Policy / Community Guidelines) — not in
+ * the Figma landing design, so kept intentionally plain: the shared light nav,
+ * a readable prose column, and the shared footer. Footer links point here.
  *
  * `body` carries the light markup described in _lib/legal-policy-text.ts:
  * `## ` section, `### ` sub-section, `- ` bullet, anything else a paragraph.
- * The Cookies copy predates that markup, so it passes `format="plain"` and is
- * rendered as pre-wrapped text instead.
  */
-export function LegalPage({
-  title,
-  body,
-  format = 'structured',
-}: {
-  title: string;
-  body: string;
-  format?: 'structured' | 'plain';
-}) {
+export function LegalPage({ title, body }: { title: string; body: string }) {
   return (
     <main id="top">
       <div className="relative bg-white pb-24 pt-32">
@@ -36,12 +25,8 @@ export function LegalPage({
           </Reveal>
           {/* One block, not one per paragraph: legal copy is a single wall of
               prose and staggering it would be a distraction, not a flourish. */}
-          <Reveal delay={110} className="mt-8 max-w-[820px] text-[16px] leading-7 text-gray-600">
-            {format === 'structured' ? (
-              renderBlocks(body)
-            ) : (
-              <div className="whitespace-pre-wrap">{body}</div>
-            )}
+          <Reveal delay={110} className="mt-8 text-[16px] leading-7 text-gray-600">
+            {renderBlocks(body)}
           </Reveal>
         </div>
       </div>

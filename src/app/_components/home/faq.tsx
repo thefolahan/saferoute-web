@@ -5,33 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { Reveal } from '../reveal';
-
-const FAQS = [
-  {
-    q: 'Is SafeRoute free to use?',
-    a: 'Yes, SafeRoute offers a free plan with core navigation and safety alerts. For advanced features like real-time crime data, offline maps, and family tracking, upgrade to SafeRoute Pro.',
-  },
-  {
-    q: 'How does SafeRoute determine safe routes?',
-    a: 'SafeRoute analyzes verified community reports, historical incident data, and real-time alerts to score each route and recommend the safest path to your destination.',
-  },
-  {
-    q: 'Does SafeRoute work offline?',
-    a: "Core navigation and previously downloaded maps work offline. Real-time alerts and community reports require a connection and sync automatically once you're back online.",
-  },
-  {
-    q: 'Can I share my live location with family?',
-    a: 'Yes. Add trusted contacts to your Safety Circle to share your live journey, ETA, and location so the people who matter most stay informed.',
-  },
-  {
-    q: 'Which cities does SafeRoute support?',
-    a: 'SafeRoute currently supports major cities across Nigeria, with new regions being added regularly based on community demand.',
-  },
-  {
-    q: 'How do I report an unsafe area?',
-    a: 'Tap the report button, choose the incident type, and add a photo, video, or quick note. Your report is shared with nearby users and verified by the community.',
-  },
-];
+import { FAQS } from '../../_lib/faq';
 
 const AVATAR_LEFT = '/images/landing/346-10252.png';
 const AVATAR_RIGHT = '/images/landing/346-10253.png';
@@ -100,13 +74,26 @@ export function Faq({
                   aria-expanded={open}
                   className="flex w-full items-start gap-4 text-left"
                 >
-                  <span className="flex flex-1 flex-col gap-1">
+                  <span className="flex flex-1 flex-col">
                     <span className="text-[16px] font-semibold leading-[24px] text-gray-900">
                       {item.q}
                     </span>
-                    {open && (
-                      <span className="text-[16px] leading-[24px] text-gray-600">{item.a}</span>
-                    )}
+                    {/* The answer stays mounted and is collapsed with CSS rather
+                        than removed from the tree. Unmounting it left five of the
+                        six answers out of the HTML entirely, so a crawler reading
+                        the page — and the FAQPage structured data that claims
+                        these answers are on it — saw only the first one. */}
+                    <span
+                      className={`grid transition-[grid-template-rows] duration-200 ${
+                        open ? 'grid-rows-[1fr] pt-1' : 'grid-rows-[0fr]'
+                      }`}
+                    >
+                      <span className="overflow-hidden">
+                        <span className="block text-[16px] leading-[24px] text-gray-600">
+                          {item.a}
+                        </span>
+                      </span>
+                    </span>
                   </span>
                   <Icon open={open} />
                 </button>
