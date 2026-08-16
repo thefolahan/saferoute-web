@@ -38,7 +38,7 @@ export type WaitlistConfig = {
   form: { variant: 'card' | 'row'; placeholder: string; width: number };
   trustNote?: { text: string };
   valueProps?: { label: string; dot: string }[];
-  footer?: { copyright: string; links: string[] };
+  footer?: { copyright: string; links: { label: string; href: string }[] };
   pageBg?: string;
   header?: unknown;
   badge?: unknown;
@@ -259,11 +259,11 @@ export function WaitlistPage({ config }: { config: WaitlistConfig }) {
             <div className="flex items-center gap-5">
               {config.footer.links.map((link) => (
                 <Link
-                  key={link}
-                  href={link.toLowerCase().includes('privacy') ? '/privacy' : '/terms'}
+                  key={link.href}
+                  href={link.href}
                   className="text-[12px] leading-[15px] text-gray-400 transition-colors hover:text-gray-600"
                 >
-                  {link}
+                  {link.label}
                 </Link>
               ))}
             </div>

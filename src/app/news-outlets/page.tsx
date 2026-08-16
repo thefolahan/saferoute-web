@@ -31,7 +31,11 @@ const newsOutletsConfig: WaitlistConfig = {
   trustNote: { text: 'Trusted by reporters at leading outlets. No spam, ever.' },
   footer: {
     copyright: 'SafeRoute Africa. All rights reserved.',
-    links: ['Privacy Policy', 'Terms of Service']
+    links: [
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Use', href: '/terms-of-use' },
+      { label: 'Community Guidelines', href: '/community-guidelines' }
+    ]
   }
 };
 

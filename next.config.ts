@@ -18,12 +18,16 @@ const nextConfig: NextConfig = {
     unoptimized: isDev
   },
   /**
-   * /journalist became /news-outlets. Permanent so the old path stops being
-   * indexed, and so anything already linking to it — a pitch deck, an email,
-   * a social bio — still lands on the page instead of a 404.
+   * Renamed pages. Permanent so the old paths stop being indexed, and so
+   * anything already linking to one — a pitch deck, an email, a social bio,
+   * an app-store listing — still lands on the page instead of a 404.
    */
   async redirects() {
-    return [{ source: '/journalist', destination: '/news-outlets', permanent: true }];
+    return [
+      { source: '/journalist', destination: '/news-outlets', permanent: true },
+      { source: '/terms', destination: '/terms-of-use', permanent: true },
+      { source: '/privacy', destination: '/privacy-policy', permanent: true }
+    ];
   }
 };
 

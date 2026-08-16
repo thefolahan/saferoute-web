@@ -36,7 +36,11 @@ const governmentConfig: WaitlistConfig = {
   form: { variant: 'card', placeholder: 'Enter your official email...', width: 460 },
   footer: {
     copyright: 'SafeRoute Africa. All rights reserved.',
-    links: ['Privacy Policy', 'Terms of Service']
+    links: [
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Use', href: '/terms-of-use' },
+      { label: 'Community Guidelines', href: '/community-guidelines' }
+    ]
   }
 };
 
