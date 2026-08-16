@@ -59,7 +59,13 @@ export function SiteFooter() {
     <footer className="bg-[#111112]">
       <div className="mx-auto max-w-[1280px] px-6 pb-8 pt-16 sm:px-10 md:px-20 md:pt-20">
         <div className="flex flex-col justify-between gap-12 lg:flex-row">
-          <Reveal className="flex w-full max-w-[440px] flex-col gap-8">
+          {/* 400px, not the original 440px: "Community Guidelines" is a much
+              wider label than the "Terms"/"Privacy" this column used to hold,
+              and at 440px the link columns no longer left room for the socials
+              on the same row — they wrapped underneath. The outer row is
+              justify-between and the tagline only needs 317px, so trimming this
+              box moves nothing on the left and hands the 40px back to the right. */}
+          <Reveal className="flex w-full max-w-[400px] flex-col gap-8">
             <div className="flex flex-col gap-4">
               <Link href="/" className="flex items-center gap-3">
                 <Image
