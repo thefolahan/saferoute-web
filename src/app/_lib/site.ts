@@ -19,22 +19,50 @@ export const SITE_NAME = 'SafeRoute Africa';
  * ignores; they are kept because other crawlers (Bing among them) still read
  * them, and they cost nothing. What actually matters in a sitemap is that the
  * URL list is complete and every entry returns 200.
+ *
+ * `lastModified` is the one field Google does act on, and it is a hand-kept
+ * date rather than a build timestamp on purpose. Deriving it from the build
+ * clock made all ten routes claim to have changed on every single deploy —
+ * the legal pages included, which had not been edited in months — and
+ * Google's documented response to lastmod values it judges unreliable is to
+ * stop trusting the field at all. So the one signal a sitemap contributes
+ * that Google respects was the one we were training it to ignore.
+ *
+ * Bump a route's date only when that route's content actually changes. A date
+ * that is stale but true is worth more than a fresh one that is a lie.
+ *
+ * Git commit dates are no substitute: this repo's history is bulk commits
+ * that touch every page at once, so they come out exactly as uniform as the
+ * build clock did. Whoever edits a page updates its date here, or the field
+ * carries no information.
  */
 export const ROUTES = [
-  { path: '/', priority: 1, changeFrequency: 'weekly' },
-  { path: '/about', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/enterprise', priority: 0.8, changeFrequency: 'monthly' },
-  { path: '/government-officials', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/news-outlets', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/help-center', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/careers', priority: 0.6, changeFrequency: 'monthly' },
-  { path: '/terms-of-use', priority: 0.4, changeFrequency: 'yearly' },
-  { path: '/privacy-policy', priority: 0.4, changeFrequency: 'yearly' },
-  { path: '/community-guidelines', priority: 0.4, changeFrequency: 'yearly' }
+  { path: '/', priority: 1, changeFrequency: 'weekly', lastModified: '2026-08-16' },
+  { path: '/about', priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-08-16' },
+  { path: '/enterprise', priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-08-16' },
+  {
+    path: '/government-officials',
+    priority: 0.7,
+    changeFrequency: 'monthly',
+    lastModified: '2026-08-16'
+  },
+  { path: '/news-outlets', priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-08-16' },
+  { path: '/help-center', priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-08-16' },
+  { path: '/careers', priority: 0.6, changeFrequency: 'monthly', lastModified: '2026-08-16' },
+  { path: '/terms-of-use', priority: 0.4, changeFrequency: 'yearly', lastModified: '2026-08-16' },
+  { path: '/privacy-policy', priority: 0.4, changeFrequency: 'yearly', lastModified: '2026-08-16' },
+  {
+    path: '/community-guidelines',
+    priority: 0.4,
+    changeFrequency: 'yearly',
+    lastModified: '2026-08-16'
+  }
 ] as const satisfies readonly {
   path: string;
   priority: number;
   changeFrequency: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+  /** W3C date, `YYYY-MM-DD`. See the note above before changing one. */
+  lastModified: string;
 }[];
 
 /**
