@@ -95,7 +95,7 @@ async function ogCover() {
 
 /** Square app icon on the brand background. `rounded` for the favicon only —
  *  iOS applies its own mask, so the Apple icon stays full-bleed. */
-async function icon(size, file, { rounded, dir = IMAGES }) {
+async function iconPng(size, { rounded }) {
   const inner = await mark(Math.round(size * 0.62));
   const meta = await sharp(inner).metadata();
   let img = sharp({ create: { width: size, height: size, channels: 4, background: BG } }).composite([
@@ -114,17 +114,78 @@ async function icon(size, file, { rounded, dir = IMAGES }) {
     ]);
   }
 
-  const png = await img.png({ compressionLevel: 9 }).toBuffer();
+  return img.png({ compressionLevel: 9 }).toBuffer();
+}
+
+async function icon(size, file, { rounded, dir = IMAGES }) {
+  const png = await iconPng(size, { rounded });
   writeFileSync(join(dir, file), png);
   return [file, png.length];
 }
 
+/**
+ * Multi-size .ico for the site root.
+ *
+ * Google's favicon crawler fetches /favicon.ico by path in addition to
+ * following <link rel="icon">, and that path used to 404 here — which is how a
+ * retired logo stayed pinned in the search results long after the site had
+ * moved on. The sizes are Google's documented ones (square, a multiple of
+ * 48px); 512 is not a multiple of 48, so the PNG the page linked never met the
+ * stated spec either.
+ *
+ * The container embeds whole PNGs rather than BMP bitmaps — legal since Vista
+ * and understood by every current browser and crawler, and it keeps the file
+ * small enough not to matter.
+ *
+ * It lands in public/, not app/: app/favicon.ico is Next's file convention and
+ * emits its own <link> with a hashed query string on top of the one
+ * metadata.icons declares, so the head ends up with two rel="icon" tags
+ * pointing at the same bytes by different URLs. public/ serves the identical
+ * /favicon.ico path with one declaration and no hash.
+ */
+async function faviconIco(sizes, dir) {
+  const pngs = await Promise.all(sizes.map((s) => iconPng(s, { rounded: true })));
+
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // 1 = icon
+  header.writeUInt16LE(pngs.length, 4);
+
+  // Directory entries are fixed-width, so every image offset is known up front.
+  let offset = header.length + pngs.length * 16;
+  const entries = pngs.map((png, i) => {
+    const e = Buffer.alloc(16);
+    e.writeUInt8(sizes[i] >= 256 ? 0 : sizes[i], 0); // 0 encodes 256
+    e.writeUInt8(sizes[i] >= 256 ? 0 : sizes[i], 1);
+    e.writeUInt8(0, 2); // palette size — 0 for truecolour
+    e.writeUInt8(0, 3); // reserved
+    e.writeUInt16LE(1, 4); // colour planes
+    e.writeUInt16LE(32, 6); // bits per pixel
+    e.writeUInt32LE(png.length, 8);
+    e.writeUInt32LE(offset, 12);
+    offset += png.length;
+    return e;
+  });
+
+  const ico = Buffer.concat([header, ...entries, ...pngs]);
+  writeFileSync(join(dir, 'favicon.ico'), ico);
+  return ['favicon.ico', ico.length];
+}
+
+const APP = join(WEB, 'src', 'app');
+
 const results = [
   await ogCover(),
+  // Served from the site root — the path Google's favicon crawler probes.
+  await faviconIco([48, 96, 144], join(WEB, 'public')),
+  // Google wants a square that is a multiple of 48px; 96 and 192 satisfy that,
+  // 512 stays for PWA installs and high-DPI browser tabs.
+  await icon(96, 'icon-96.png', { rounded: true }),
+  await icon(192, 'icon-192.png', { rounded: true }),
   await icon(512, 'icon-512.png', { rounded: true }),
   await icon(180, 'apple-touch-icon.png', { rounded: false }),
   // app/icon.png is Next's file convention. metadata.icons currently shadows it,
   // but it is still served at /icon.png, so keep it in sync.
-  await icon(512, 'icon.png', { rounded: true, dir: join(WEB, 'src', 'app') })
+  await icon(512, 'icon.png', { rounded: true, dir: APP })
 ];
 for (const [file, bytes] of results) console.log(`${file}  ${(bytes / 1024).toFixed(0)}KB`);

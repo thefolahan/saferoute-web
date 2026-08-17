@@ -88,11 +88,27 @@ export const metadata: Metadata = {
       'max-video-preview': -1
     }
   },
-  // Same problem, same fix: these carry the dark background rather than relying
-  // on transparency. (The old /images/logo.svg was also a 1.9MB favicon.)
+  /**
+   * Same problem, same fix: these carry the dark background rather than relying
+   * on transparency. (The old /images/logo.svg was also a 1.9MB favicon.)
+   *
+   * /favicon.ico leads because Google's favicon crawler probes that path
+   * directly, on top of reading these tags — and it previously 404'd here,
+   * which left a retired logo pinned in the search results. The PNG sizes are
+   * Google's documented ones (square, a multiple of 48px); 512 is not a
+   * multiple of 48 and stays only for PWA installs and high-DPI tabs.
+   *
+   * All of these are emitted by scripts/generate-brand-assets.mjs — regenerate
+   * rather than hand-editing when the mark changes.
+   */
   icons: {
-    icon: [{ url: '/images/icon-512.png', type: 'image/png', sizes: '512x512' }],
-    shortcut: [{ url: '/images/icon-512.png', type: 'image/png' }],
+    icon: [
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: '48x48 96x96 144x144' },
+      { url: '/images/icon-96.png', type: 'image/png', sizes: '96x96' },
+      { url: '/images/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/images/icon-512.png', type: 'image/png', sizes: '512x512' }
+    ],
+    shortcut: [{ url: '/favicon.ico', type: 'image/x-icon' }],
     apple: [{ url: '/images/apple-touch-icon.png', type: 'image/png', sizes: '180x180' }]
   }
 };
