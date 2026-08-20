@@ -120,7 +120,19 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    /**
+     * `suppressHydrationWarning` covers exactly one attribute: `data-reveal`,
+     * which revealGate sets on this element before React ever runs. That is the
+     * whole point of that script — the attribute cannot be in the server HTML
+     * without the flash-of-hidden-content the gate exists to prevent — so the
+     * mismatch is by design and React should stop reporting it. It applies only
+     * to this element's own attributes; mismatches anywhere below still warn.
+     *
+     * `data-scroll-behavior` tells Next the smooth scrolling in globals.css is
+     * deliberate, so it stops warning and turns it off for route transitions
+     * (where smooth means the new page visibly slides to the top).
+     */
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={extensionNoiseGuard} />
         {/* Must run before first paint — see reveal-gate.ts. */}

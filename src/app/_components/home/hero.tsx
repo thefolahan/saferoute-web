@@ -50,7 +50,7 @@ export function Hero() {
 
           <Reveal delay={280} className="mt-10 flex items-center gap-3">
             <Link
-              href="/coming-soon"
+              href="/download"
               className={`${CTA} border-transparent bg-gray-25 text-gray-950`}
             >
               Download App

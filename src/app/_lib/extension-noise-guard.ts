@@ -11,8 +11,17 @@
  * rejections still reach the Next dev overlay, and Next 16 forwards the
  * console lines to the dev server terminal.
  *
- * This drops both, and only when the frame actually blames extension code:
- * anything thrown by our own bundles keeps surfacing exactly as before.
+ * Two wallet extensions installed side by side add a third line, when the
+ * second one to load tries to claim `window.ethereum` after the first has
+ * already defined it non-configurably:
+ *
+ *   Uncaught TypeError: Cannot redefine property: ethereum
+ *
+ * That one is a plain uncaught error rather than a rejection, so it needs its
+ * own listener.
+ *
+ * This drops all three, and only when the frame actually blames extension
+ * code: anything thrown by our own bundles keeps surfacing exactly as before.
  *
  * It ships as an inline script in <head> rather than a component effect for
  * two reasons: it has to be listening before the extension gets around to
@@ -30,6 +39,14 @@ const source = `(function () {
 
   addEventListener('unhandledrejection', function (event) {
     if (!fromExtension(event.reason)) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  });
+
+  addEventListener('error', function (event) {
+    // filename is the script the throw came from; the stack is the fallback
+    // for the browsers that leave filename empty on cross-origin scripts.
+    if (!fromExtension(event.filename) && !fromExtension(event.error)) return;
     event.preventDefault();
     event.stopImmediatePropagation();
   });

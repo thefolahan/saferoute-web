@@ -40,6 +40,9 @@ export const ROUTES = [
   { path: '/', priority: 1, changeFrequency: 'weekly', lastModified: '2026-08-16' },
   { path: '/about', priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-08-16' },
   { path: '/enterprise', priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-08-16' },
+  // Every "Download App" and store badge on the site lands here, so it is the
+  // most linked-to page after the home page.
+  { path: '/download', priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-08-20' },
   {
     path: '/government-officials',
     priority: 0.7,

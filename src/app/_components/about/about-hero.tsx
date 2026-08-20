@@ -25,7 +25,7 @@ export function AboutHero() {
           <Reveal
             as="a"
             delay={270}
-            href="/coming-soon"
+            href="/download"
             className="mt-8 inline-flex items-center justify-center rounded-full bg-[#181D27] px-8 py-3.5 text-[16px] font-semibold leading-6 text-white shadow-[0_1px_2px_0_rgba(10,13,18,0.05)] transition-opacity hover:opacity-90"
           >
             Get the App

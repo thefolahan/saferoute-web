@@ -96,7 +96,7 @@ export function SiteNav({
 
         {/* Download App — desktop */}
         <Link
-          href="/coming-soon"
+          href="/download"
           className="hidden items-center justify-center rounded-full bg-gray-25 px-[18px] py-3 text-[16px] font-semibold leading-6 text-gray-950 shadow-[0_1px_2px_rgba(10,13,18,0.05)] ring-1 ring-inset ring-black/[0.08] xl:flex"
         >
           Get the App

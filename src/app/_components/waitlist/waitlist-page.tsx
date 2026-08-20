@@ -13,7 +13,7 @@ export type WaitlistConfig = {
    */
   variant: 'enterprise' | 'news-outlets';
   /** Which page a signup came from, so the segments stay separable. */
-  source: 'enterprise' | 'news-outlets' | 'government-officials';
+  source: 'enterprise' | 'news-outlets' | 'government-officials' | 'download';
   /**
    * The headline, one entry per line. The designer's line breaks are part of
    * the layout, so they are set here rather than left to wherever the text

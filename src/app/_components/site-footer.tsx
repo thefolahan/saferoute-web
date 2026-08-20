@@ -33,7 +33,7 @@ const COLUMN_HEADING =
 
 const BADGES = (
   <>
-    <a href="/coming-soon" aria-label="Get it on Google Play">
+    <a href="/download" aria-label="Get it on Google Play">
       <Image
         src="/images/landing/badge-google-play.png"
         alt="Get it on Google Play"
@@ -42,7 +42,7 @@ const BADGES = (
         className="h-10 w-auto"
       />
     </a>
-    <a href="/coming-soon" aria-label="Download on the App Store">
+    <a href="/download" aria-label="Download on the App Store">
       <Image
         src="/images/landing/badge-app-store.png"
         alt="Download on the App Store"
