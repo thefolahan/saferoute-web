@@ -1,16 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Reveal } from './reveal';
-import { WaitlistForm } from './waitlist/waitlist-form';
 
-export function ComingSoon({
-  heading = 'Coming Soon!',
-  subtitle = "The SafeRoute app is almost here. Drop your email and we will let you know the moment it goes live.",
-  waitlist = true
+/**
+ * The 404 screen.
+ *
+ * This was `ComingSoon`, shared by /coming-soon and the 404. /coming-soon is
+ * gone — /download is where "the app is almost here, leave your email" lives
+ * now — so the only thing left rendering this is not-found.tsx, and the
+ * waitlist form and the "Coming Soon!" defaults went with the route.
+ */
+export function NotFoundScreen({
+  heading = 'Page Not Found!',
+  subtitle = "The page you're looking for doesn't exist or may have moved."
 }: {
   heading?: string;
   subtitle?: string;
-  waitlist?: boolean;
 }) {
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-[#FAFAFA]">
@@ -69,11 +74,6 @@ export function ComingSoon({
             </Reveal>
           </div>
 
-          {waitlist && (
-            <Reveal delay={240} className="flex w-full justify-center">
-              <WaitlistForm variant="card" placeholder="Enter your email..." width={460} />
-            </Reveal>
-          )}
         </div>
       </div>
     </main>

@@ -69,8 +69,7 @@ export const ROUTES = [
 }[];
 
 /**
- * Routes deliberately kept out of the index. /coming-soon and the 404 are the
- * same placeholder screen — letting either into the index risks Google showing
- * "Coming soon" as the answer to a search for the brand.
+ * There is no separate noindex list any more. /coming-soon was the only entry
+ * and it is gone — the 404 is the one screen kept out of the index, and it
+ * carries its own `robots` metadata in not-found.tsx.
  */
-export const NOINDEX_ROUTES = ['/coming-soon'];

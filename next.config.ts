@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: '/journalist', destination: '/news-outlets', permanent: true },
+      // /coming-soon was where the download buttons pointed; /download does
+      // that job now, and the old path was already indexable.
+      { source: '/coming-soon', destination: '/download', permanent: true },
       { source: '/terms', destination: '/terms-of-use', permanent: true },
       { source: '/privacy', destination: '/privacy-policy', permanent: true }
     ];

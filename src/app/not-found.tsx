@@ -1,18 +1,11 @@
 import type { Metadata } from 'next';
-import { ComingSoon } from './_components/coming-soon';
+import { NotFoundScreen } from './_components/not-found-screen';
 
 export const metadata: Metadata = {
   title: 'Page not found',
   robots: { index: false, follow: true }
 };
 
-// 404 — same layout/style as the Coming Soon page, with a not-found message.
 export default function NotFound() {
-  return (
-    <ComingSoon
-      heading="Page Not Found!"
-      subtitle="The page you're looking for doesn't exist or may have moved."
-      waitlist={false}
-    />
-  );
+  return <NotFoundScreen />;
 }
