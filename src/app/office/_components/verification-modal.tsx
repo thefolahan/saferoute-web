@@ -29,7 +29,7 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
         role="dialog"
         aria-modal="true"
         aria-label="Verification Center"
-        className="flex max-h-full w-[782px] flex-col overflow-auto rounded-md bg-white"
+        className="flex max-h-full w-full max-w-[782px] flex-col overflow-auto rounded-md bg-white"
       >
         <div className="edge flex shrink-0 items-center gap-[7px] px-5 py-[7px]">
           <div className="flex flex-1 items-center py-2">
@@ -48,7 +48,7 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
         </div>
 
         {/* Applicant */}
-        <div className="flex items-center gap-[19px] px-5 py-[10px]">
+        <div className="flex flex-col gap-[19px] px-5 py-[10px] sm:flex-row sm:items-center">
           <div className="flex h-[141px] w-[149px] shrink-0 items-center justify-center rounded-md p-2 shadow-[inset_0_0_0_1px_rgba(238,238,238,0.52)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={AVATAR.user} alt="" className="h-full w-full rounded object-cover" />
@@ -170,7 +170,7 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
             <div className="flex w-full items-center py-[5px]">
               <h3 className="text-base font-semibold leading-6 text-gray-900">Document Upload</h3>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex flex-wrap items-center gap-5">
               {[0, 1].map((i) => (
                 <div
                   key={i}
@@ -195,7 +195,7 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between border-t border-rule px-5 pb-[26px] pt-5">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-rule px-5 pb-[26px] pt-5">
           <button
             type="button"
             className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"

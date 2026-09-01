@@ -14,7 +14,7 @@ export function FilterField({
 }) {
   return (
     <div
-      className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px]"
+      className="edge-gray200 flex h-11 shrink-0 items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px]"
       style={{ width }}
     >
       {search ? <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-500" /> : null}
@@ -27,5 +27,9 @@ export function FilterField({
 }
 
 export function FilterBar({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center gap-[10px] px-8 py-[15px]">{children}</div>;
+  return (
+    <div className="flex items-center gap-[10px] overflow-x-auto px-4 py-[15px] sm:px-6 lg:px-8">
+      {children}
+    </div>
+  );
 }

@@ -16,7 +16,7 @@ export function ContentModal({ open, onClose }: { open: boolean; onClose: () => 
         role="dialog"
         aria-modal="true"
         aria-label="Incident Detail"
-        className="flex max-h-full w-[723px] flex-col overflow-auto rounded-md bg-white"
+        className="flex max-h-full w-full max-w-[723px] flex-col overflow-auto rounded-md bg-white"
       >
         <div className="edge flex shrink-0 items-center gap-[7px] px-5 py-[30px]">
           <div className="flex flex-1 items-center py-2">

@@ -40,10 +40,10 @@ export function UserDetail({
 
   return (
     <Shell title="User details">
-      <div className="flex pl-8">
-        <div className="flex flex-1 flex-col gap-[34px] pr-[39px] pt-[17px]">
+      <div className="flex px-4 sm:px-6 lg:pl-8 lg:pr-0">
+        <div className="flex min-w-0 flex-1 flex-col gap-[34px] pt-[17px] lg:pr-[39px]">
           <div className="flex flex-col gap-[25px]">
-            <nav className="flex items-center gap-2 text-base leading-6">
+            <nav className="flex flex-wrap items-center gap-2 text-base leading-6">
               {subject.breadcrumb.map((crumb, i) => (
                 <span key={i} className="flex items-center gap-2">
                   {i > 0 ? <ArrowRightIcon className="h-4 w-4 text-gray-400" /> : null}
@@ -62,7 +62,7 @@ export function UserDetail({
 
             <div className="flex flex-col gap-[10px]">
               {/* Hero card */}
-              <div className="edge flex items-center gap-[23px] rounded-[15px] p-[10px]">
+              <div className="edge flex flex-col items-center gap-[23px] rounded-[15px] p-[10px] xl:flex-row">
                 <div className="flex h-[178px] w-[188px] shrink-0 items-center justify-center rounded-lg p-[10px] shadow-[inset_0_0_0_1px_rgba(238,238,238,0.65)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -76,7 +76,7 @@ export function UserDetail({
                   />
                 </div>
 
-                <div className="flex w-[577px] shrink-0 flex-col justify-center gap-[25px]">
+                <div className="flex w-full flex-col justify-center gap-[25px] xl:w-[577px] xl:shrink-0">
                   <div className="flex flex-col justify-center gap-[9px]">
                     <span className="text-sm font-medium leading-[17px] text-gray-500">
                       {subject.idLabel}
@@ -84,7 +84,7 @@ export function UserDetail({
                     <h2 className="text-2xl font-semibold leading-[29px] text-black">
                       {subject.name}
                     </h2>
-                    <div className="flex items-center gap-[9px]">
+                    <div className="flex flex-wrap items-center gap-[9px]">
                       {subject.official ? (
                         <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-[17px] text-gray-500">
                           {subject.kind}
@@ -111,7 +111,7 @@ export function UserDetail({
                     </div>
                   </div>
 
-                  <div className="flex gap-[13px]">
+                  <div className="flex flex-wrap gap-[13px]">
                     <button
                       type="button"
                       onClick={() => setMessageOpen(true)}
@@ -154,11 +154,11 @@ export function UserDetail({
               </div>
 
               {/* Stat row */}
-              <div className="flex gap-3 py-[11px]">
+              <div className="grid grid-cols-2 gap-3 py-[11px] md:grid-cols-3 xl:grid-cols-6">
                 {subject.stats.map((s) => (
                   <div
                     key={s.label}
-                    className="edge flex flex-1 flex-col items-center justify-center gap-1 rounded-[10px] bg-[#FCFCFD] px-4 py-[14px]"
+                    className="edge flex flex-col items-center justify-center gap-1 rounded-[10px] bg-[#FCFCFD] px-4 py-[14px]"
                   >
                     <span className="text-2xl font-bold leading-[29px] text-gray-900">
                       {s.value}
@@ -173,13 +173,13 @@ export function UserDetail({
           </div>
 
           <div className="flex flex-col gap-[18px] pb-10">
-            <div className="edge-bottom flex items-center">
+            <div className="edge-bottom flex max-w-full items-center overflow-x-auto">
               {subject.tabs.map((t) => (
                 <button
                   key={t.id}
                   type="button"
                   onClick={() => setTab(t.id)}
-                  className={`flex h-[49px] items-center justify-center px-[22px] text-base font-semibold leading-[19px] ${
+                  className={`flex h-[49px] shrink-0 items-center justify-center px-[22px] text-base font-semibold leading-[19px] ${
                     t.id === tab
                       ? 'text-black shadow-[inset_0_-3px_0_0_#000000]'
                       : 'text-gray-600'
@@ -297,12 +297,12 @@ export function InfoPanel({
   rows: { label: string; value: string; reveal?: boolean }[];
 }) {
   return (
-    <div className="flex w-[504px] flex-col gap-5">
+    <div className="flex w-full max-w-[504px] flex-col gap-5">
       <h3 className="text-lg font-semibold leading-[22px] text-black">{title}</h3>
       <div className="flex flex-col gap-5 py-[10px]">
         {rows.map((r) => (
-          <div key={r.label} className="flex items-center gap-[85px]">
-            <span className="w-[175px] shrink-0 text-base font-normal leading-[19px] text-black/50">
+          <div key={r.label} className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-[85px]">
+            <span className="w-full text-base sm:w-[175px] sm:shrink-0 font-normal leading-[19px] text-black/50">
               {r.label}
             </span>
             <span className="flex items-center gap-3 text-base font-normal leading-[19px] text-black">
@@ -346,7 +346,7 @@ export type ReportItem = {
 export function ReportsPanel({ count, items }: { count: string; items: ReportItem[] }) {
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <h3 className="text-lg font-semibold leading-[22px] text-black">Reports</h3>
         <span className="text-sm font-semibold leading-5 text-[#0BA5EC]">{count}</span>
       </div>
@@ -359,7 +359,7 @@ export function ReportsPanel({ count, items }: { count: string; items: ReportIte
         ) : null}
         {items.map((r, i) => (
           <div key={i} className="edge flex flex-col gap-2 rounded-[10px] px-5 py-4">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <span className="text-[15px] font-semibold leading-5 text-gray-900">{r.title}</span>
               <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700">
                 Active
@@ -437,12 +437,12 @@ export function SubscriptionPanel({
   ];
 
   return (
-    <div className="flex w-[504px] flex-col gap-5">
+    <div className="flex w-full max-w-[504px] flex-col gap-5">
       <h3 className="text-lg font-semibold leading-[27px] text-[#232323]">Subscription Status</h3>
       <div className="flex flex-col gap-5 py-[10px]">
         {rows.map((r) => (
-          <div key={r.label} className="flex items-center gap-[85px]">
-            <span className="w-[175px] shrink-0 text-sm font-normal leading-[17px] text-[#64748B]">
+          <div key={r.label} className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-[85px]">
+            <span className="w-full text-sm sm:w-[175px] sm:shrink-0 font-normal leading-[17px] text-[#64748B]">
               {r.label}
             </span>
             {r.badge ? (
@@ -467,9 +467,9 @@ export function LocationPanel({
   lastActiveAt: string | null;
 }) {
   return (
-    <div className="flex w-[504px] flex-col gap-5">
+    <div className="flex w-full max-w-[504px] flex-col gap-5">
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <h3 className="text-base font-medium leading-[19px] text-black">Last Known location</h3>
           <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700">
             Active
@@ -503,7 +503,7 @@ export function ActivityPanel({
   groups: { day: string; items: { title: string; body: string; time: string }[] }[];
 }) {
   return (
-    <div className="flex w-[700px] flex-col gap-5">
+    <div className="flex w-full max-w-[700px] flex-col gap-5">
       <h3 className="text-lg font-semibold leading-[22px] text-black">Activity</h3>
       {groups.length === 0 ? (
         <p className="text-sm leading-6 text-gray-500">
@@ -544,7 +544,7 @@ export function ContactsPanel({
           This account has not added an emergency contact.
         </p>
       ) : null}
-      <div className="grid max-w-[900px] grid-cols-2 gap-4">
+      <div className="grid max-w-[900px] grid-cols-1 gap-4 md:grid-cols-2">
         {contacts.map((c, i) => (
           <div key={i} className="edge flex items-center gap-3 rounded-[10px] px-5 py-4">
             <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-gray-100 text-2xl font-semibold leading-[34px] text-[#2F3037]">

@@ -85,8 +85,8 @@ export function MapView({
 
           {/* Control bar — 929x74, pad 16/30, #000 @ radius 39 */}
           <div
-            className="absolute flex h-[74px] w-[929px] items-center justify-between gap-[30px] rounded-[39px] bg-black px-[30px] py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]"
-            style={{ left: 190, top: 23, boxShadow: 'inset 0 0 0 1px #414141' }}
+            className="absolute left-4 flex h-[74px] w-[calc(100%-32px)] max-w-[929px] items-center justify-between gap-4 overflow-hidden rounded-[39px] bg-black px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] lg:gap-[30px] lg:px-[30px]"
+            style={{ top: 23, boxShadow: 'inset 0 0 0 1px #414141' }}
           >
             <button type="button" className="flex items-center gap-[6px]">
               <MapPinIcon className="h-[18px] w-[18px] text-[#999999]" />
@@ -95,7 +95,7 @@ export function MapView({
             </button>
 
             <div
-              className="flex h-[42px] w-[384px] items-center gap-2 rounded-lg bg-black px-[13px] py-[9px]"
+              className="hidden h-[42px] w-[384px] items-center gap-2 rounded-lg bg-black px-[13px] py-[9px] md:flex"
               style={{ boxShadow: 'inset 0 0 0 1px #535862' }}
             >
               <SearchLgIcon className="h-[19px] w-[19px] shrink-0 text-gray-400" />
@@ -104,7 +104,7 @@ export function MapView({
               </span>
             </div>
 
-            <div className="flex items-center gap-[30px]">
+            <div className="hidden items-center gap-[30px] lg:flex">
               <button type="button" className="text-sm font-bold leading-5 text-[#999999]">
                 Heat map
               </button>
@@ -117,8 +117,8 @@ export function MapView({
 
           {/* Card rail — 372x137 modals, gap 11 */}
           <div
-            className="no-scrollbar absolute flex gap-[11px] overflow-x-auto py-[11px] pr-[19px]"
-            style={{ left: 2, top: 655, width: 1365 }}
+            className="no-scrollbar absolute left-1 right-0 flex gap-[11px] overflow-x-auto py-[11px] pr-[19px]"
+            style={{ top: 655 }}
           >
             {cards.map((card) => {
               const Icon = IcCarBadge;

@@ -29,10 +29,10 @@ export function BroadcastView({
 
   return (
     <Shell title="Broadcast message" filters>
-      <div className="flex flex-col gap-[15px] px-8 py-[19px]">
-        <div className="flex items-center justify-between gap-[15px]">
+      <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">
           <div className="flex flex-col justify-center gap-[10px]">
-            <h2 className="text-[32px] font-medium leading-[39px] text-gray-500">
+            <h2 className="text-2xl font-medium leading-tight text-gray-500 sm:text-[32px] sm:leading-[39px]">
               Welcome back, <span className="text-gray-900">{adminName}</span> 👋
             </h2>
             <p className="text-base font-normal leading-[19px] text-gray-500">
@@ -51,8 +51,8 @@ export function BroadcastView({
           </Link>
         </div>
 
-        <div className="flex items-center justify-between gap-[10px] py-[15px]">
-          <div className="flex h-11 w-[302px] items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]">
+        <div className="flex flex-col gap-3 py-[15px] sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex h-11 w-full items-center gap-2 sm:w-[302px] rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]">
             <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-400" />
             <span className="flex-1 text-base font-medium leading-6 text-gray-400">
               Search Broadcast

@@ -16,11 +16,13 @@ import {
 import { AVATAR } from '../_lib/assets';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { useAdmin } from './admin-context';
+import { useNav } from './nav-state';
 
 /* Figma 907:17300 "Frame 33602" (with region/state filters) and its sibling
    "Frame 33603" (without). 1190x72, pad 8/32, 1px bottom hairline. */
 export function Topbar({ title, filters = false }: { title: string; filters?: boolean }) {
   const admin = useAdmin();
+  const { toggle } = useNav();
   const [menuOpen, setMenuOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -34,15 +36,35 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-20 flex h-[72px] shrink-0 items-center justify-between gap-10 edge-bottom bg-white px-8 py-2">
-      <h1 className="text-2xl font-bold leading-[29px] text-navy">{title}</h1>
+    <header className="sticky top-0 z-30 flex h-[72px] shrink-0 items-center justify-between gap-4 edge-bottom bg-white px-4 py-2 sm:px-6 lg:gap-10 lg:px-8">
+      <div className="flex min-w-0 items-center gap-3">
+        {/* Drawer toggle — the sidebar is off-canvas below lg. */}
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label="Open menu"
+          className="-ml-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-navy lg:hidden"
+        >
+          <svg width={22} height={22} viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path
+              d="M4 7h16M4 12h16M4 17h16"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+        <h1 className="truncate text-lg font-bold leading-[29px] text-navy sm:text-2xl">
+          {title}
+        </h1>
+      </div>
 
       <div className="flex items-center justify-center gap-5">
         {filters ? (
-          <>
+          <div className="hidden items-center gap-5 xl:flex">
             <FilterSelect label="All Region" />
             <FilterSelect label="All State" />
-          </>
+          </div>
         ) : null}
 
         <div className="flex items-center gap-5">

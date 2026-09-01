@@ -33,9 +33,9 @@ export function ConfigurationView({ profile }: { profile: AdminProfile }) {
 
   return (
     <Shell title="Configuration">
-      <div className="flex gap-[25px] px-8 py-[19px]">
+      <div className="flex flex-col gap-[25px] px-4 py-[19px] sm:px-6 lg:flex-row lg:px-8">
         {/* Section list — Figma 907:18868, 271 wide */}
-        <div className="edge flex w-[271px] shrink-0 flex-col gap-2 self-start rounded-[15px] px-[19px] py-[23px]">
+        <div className="edge flex w-full flex-col gap-2 self-stretch rounded-[15px] px-[19px] py-[23px] lg:w-[271px] lg:shrink-0 lg:self-start">
           {SECTIONS.map((s) => (
             <button
               key={s}
@@ -50,7 +50,7 @@ export function ConfigurationView({ profile }: { profile: AdminProfile }) {
           ))}
         </div>
 
-        <div className="edge flex flex-1 flex-col gap-5 self-start rounded-[15px] px-[19px] py-[23px]">
+        <div className="edge flex min-w-0 flex-1 flex-col gap-5 rounded-[15px] px-[19px] py-[23px] lg:self-start">
           {section === 'Profile information' ? <ProfilePanel profile={profile} /> : null}
           {section === 'Security & Privacy' ? <SecurityPanel profile={profile} /> : null}
           {section === 'Notification' ? <NotificationPanel /> : null}
@@ -74,7 +74,7 @@ function PanelHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex flex-wrap items-center gap-5">
       <div className="flex flex-1 flex-col justify-center gap-[10px] py-[10px]">
         <h2 className="text-xl font-bold leading-6 text-navy">{title}</h2>
         <p className="text-[15px] font-normal leading-[18px] text-navy">{subtitle}</p>
@@ -98,11 +98,11 @@ function SaveButton() {
 /** Label + 370px input, 60px gutter (Figma 907:18905). */
 function FormRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex gap-[60px]">
+    <div className="flex flex-col gap-2 sm:flex-row sm:gap-[60px]">
       <span className="w-[180px] shrink-0 self-center text-base font-normal leading-[19px] tracking-[0.16px] text-black/50">
         {label}
       </span>
-      <span className="flex h-11 w-[370px] items-center rounded-lg bg-white px-[14px] py-[10px] text-base font-normal leading-6 text-gray-800 shadow-[inset_0_0_0_1px_#D5D7DA]">
+      <span className="flex h-11 w-full max-w-[370px] items-center rounded-lg bg-white px-[14px] py-[10px] text-base font-normal leading-6 text-gray-800 shadow-[inset_0_0_0_1px_#D5D7DA]">
         {value}
       </span>
     </div>
@@ -119,7 +119,7 @@ function ProfilePanel({ profile }: { profile: AdminProfile }) {
       />
 
       <div className="flex flex-col gap-5 py-5">
-        <div className="flex items-center gap-5">
+        <div className="flex flex-wrap items-center gap-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={profile.avatarUrl ?? AVATAR.admin}
@@ -142,7 +142,7 @@ function ProfilePanel({ profile }: { profile: AdminProfile }) {
           </button>
         </div>
 
-        <div className="flex w-[610px] flex-col gap-5 py-[17px]">
+        <div className="flex w-full max-w-[610px] flex-col gap-5 py-[17px]">
           <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
             Personal Information
           </span>
@@ -168,7 +168,7 @@ function SecurityPanel({ profile }: { profile: AdminProfile }) {
       />
 
       <div className="flex flex-col gap-5 py-5">
-        <div className="flex w-[610px] flex-col gap-5 py-[17px]">
+        <div className="flex w-full max-w-[610px] flex-col gap-5 py-[17px]">
           <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
             Change password
           </span>
@@ -179,7 +179,7 @@ function SecurityPanel({ profile }: { profile: AdminProfile }) {
           </div>
         </div>
 
-        <div className="flex w-[610px] flex-col gap-5 py-[17px]">
+        <div className="flex w-full max-w-[610px] flex-col gap-5 py-[17px]">
           <div className="flex flex-col gap-1">
             <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
               Two-Factor Authentication
@@ -217,7 +217,7 @@ function StatusRow({
   tone: 'success' | 'plain';
 }) {
   return (
-    <div className="flex w-[380px] items-center justify-between gap-[60px]">
+    <div className="flex w-full max-w-[380px] items-center justify-between gap-6">
       <span className="text-base font-normal leading-[19px] tracking-[0.16px] text-black">
         {label}
       </span>
@@ -243,7 +243,7 @@ function ToggleGroup({
   items: string[];
 }) {
   return (
-    <div className="edge-bottom flex flex-col gap-5 py-5 pr-[180px]">
+    <div className="edge-bottom flex flex-col gap-5 py-5 xl:pr-[180px]">
       <div className="flex items-center justify-between gap-5">
         <div className="flex flex-col justify-center gap-1">
           <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
@@ -256,7 +256,7 @@ function ToggleGroup({
         </span>
       </div>
 
-      <div className="flex w-[380px] flex-col gap-5 py-[10px]">
+      <div className="flex w-full max-w-[380px] flex-col gap-5 py-[10px]">
         {items.map((item) => (
           <div key={item} className="flex items-center justify-between gap-[60px]">
             <span className="text-base font-normal leading-[19px] tracking-[0.16px] text-black">
@@ -305,7 +305,7 @@ function PreferencePanel() {
     <>
       <PanelHeader title="Preference" subtitle="Customize your SafeRoute dashboard experience." />
 
-      <div className="edge-bottom flex flex-col gap-5 py-5 pr-[180px]">
+      <div className="edge-bottom flex flex-col gap-5 py-5 xl:pr-[180px]">
         <div className="flex flex-col justify-center gap-1">
           <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
             Theme
@@ -314,7 +314,7 @@ function PreferencePanel() {
             Choose your preferred dashboard theme.
           </span>
         </div>
-        <div className="flex w-[380px] flex-col gap-5 py-[10px]">
+        <div className="flex w-full max-w-[380px] flex-col gap-5 py-[10px]">
           {['Light mode', 'Dark mode', 'System mode'].map((t) => (
             <span
               key={t}
@@ -326,21 +326,21 @@ function PreferencePanel() {
         </div>
       </div>
 
-      <div className="edge-bottom flex flex-col gap-5 py-5 pr-[180px]">
+      <div className="edge-bottom flex flex-col gap-5 py-5 xl:pr-[180px]">
         <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
           Language &amp; Region
         </span>
-        <div className="flex w-[380px] flex-col gap-5 py-[10px]">
+        <div className="flex w-full max-w-[380px] flex-col gap-5 py-[10px]">
           <StatusRow label="Language" value="English" tone="plain" />
           <StatusRow label="Timezone" value="West Africa Time (WAT)" tone="plain" />
         </div>
       </div>
 
-      <div className="flex flex-col gap-5 py-5 pr-[180px]">
+      <div className="flex flex-col gap-5 py-5 xl:pr-[180px]">
         <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
           Date &amp; Time
         </span>
-        <div className="flex w-[380px] flex-col gap-5 py-[10px]">
+        <div className="flex w-full max-w-[380px] flex-col gap-5 py-[10px]">
           <StatusRow label="Date format" value="DD/MM/YYYY" tone="plain" />
           <StatusRow label="Time format" value="24-hour" tone="plain" />
         </div>

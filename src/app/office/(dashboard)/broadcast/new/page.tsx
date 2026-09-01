@@ -35,10 +35,10 @@ export default function CreateBroadcastPage() {
 
   return (
     <Shell title="Broadcast message" filters>
-      <div className="flex pl-8">
-        <div className="flex flex-1 flex-col gap-[34px] pr-[39px] pt-[17px]">
+      <div className="flex px-4 sm:px-6 lg:pl-8 lg:pr-0">
+        <div className="flex min-w-0 flex-1 flex-col gap-[34px] pt-[17px] lg:pr-[39px]">
           <div className="flex flex-col gap-[25px]">
-            <nav className="flex items-center gap-2 text-base leading-6">
+            <nav className="flex flex-wrap items-center gap-2 text-base leading-6">
               {['Dashboard', 'Broadcast message', '...', 'Create broadcast'].map((c, i) => (
                 <span key={i} className="flex items-center gap-2">
                   {i > 0 ? <ChevronRightIcon className="h-4 w-4 text-gray-400" /> : null}
@@ -50,7 +50,7 @@ export default function CreateBroadcastPage() {
             </nav>
 
             {/* Stepper — 30px dots, #0084FF when reached, 50px connector */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {STEPS.map((s, i) => (
                 <span key={s.id} className="flex items-center gap-2">
                   {i > 0 ? <span className="h-[2px] w-[50px] bg-[#AFAFAF]" /> : null}
@@ -75,7 +75,7 @@ export default function CreateBroadcastPage() {
             </div>
           </div>
 
-          <div className="edge flex w-[1018px] flex-col justify-center gap-5 rounded-[15px] px-[19px] py-[23px]">
+          <div className="edge flex w-full max-w-[1018px] flex-col justify-center gap-5 rounded-[15px] px-[19px] py-[23px]">
             <div className="flex flex-col justify-center gap-[10px] py-[10px]">
               <h2 className="text-xl font-bold leading-6 text-navy">
                 {step === 'preview' ? 'Preview' : 'Create broadcast'}
@@ -115,7 +115,7 @@ function SectionTitle({ children }: { children: ReactNode }) {
 
 function FieldLabel({ label, hint }: { label: string; hint?: string }) {
   return (
-    <div className="flex w-[180px] shrink-0 flex-col justify-center gap-[5px]">
+    <div className="flex w-full flex-col justify-center gap-[5px] lg:w-[180px] lg:shrink-0">
       <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
         {label}
       </span>
@@ -150,14 +150,14 @@ function DetailsStep() {
 
       <div className="flex flex-col gap-5 py-[17px]">
         <div className="flex flex-col gap-10">
-          <div className="flex items-center gap-[37px]">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-[37px]">
             <FieldLabel label="Broadcast title" hint="Keep the title clear and actionable." />
             <div className="flex flex-1 flex-col justify-center gap-[7px] pb-[15px] shadow-[inset_0_-1px_0_0_#D5D7DA]">
               <span className="text-[32px] font-bold leading-[39px] text-navy">|Title.....</span>
             </div>
           </div>
 
-          <div className="flex gap-[60px]">
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-[60px]">
             <FieldLabel label="Message" />
             <div className="edge-gray300 flex h-[174px] flex-1 items-end justify-end rounded-lg bg-[#F9F9F9] px-[14px] py-[10px]">
               <span className="text-xs font-normal leading-6 text-gray-500">0/250</span>
@@ -165,14 +165,14 @@ function DetailsStep() {
           </div>
 
           <div className="flex flex-col gap-10 py-5">
-            <div className="flex items-center gap-[105px] py-5 shadow-[inset_0_1px_0_0_#EEEEEE,inset_0_-1px_0_0_#EEEEEE]">
-              <span className="flex w-[180px] shrink-0 items-center gap-[10px]">
+            <div className="flex flex-col gap-6 py-5 lg:flex-row lg:items-center lg:gap-[105px] shadow-[inset_0_1px_0_0_#EEEEEE,inset_0_-1px_0_0_#EEEEEE]">
+              <span className="flex w-full items-center gap-[10px] lg:w-[180px] lg:shrink-0">
                 <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
                   Severity level
                 </span>
                 <InfoIcon className="h-5 w-5 text-gray-400" />
               </span>
-              <div className="flex items-center gap-[7px]">
+              <div className="flex flex-wrap items-center gap-[7px]">
                 {SEVERITIES.map((s) => (
                   <Radio key={s.label} label={s.label} hint={s.hint} />
                 ))}
@@ -204,7 +204,7 @@ function AudienceStep() {
           </button>
         </div>
 
-        <div className="flex gap-[60px]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:gap-[60px]">
           <FieldLabel label="Delivery channel" />
           <div className="flex flex-1 flex-wrap gap-x-[72px] gap-y-[35px]">
             {CHANNELS.map((c) => (
@@ -223,7 +223,7 @@ function ScheduleStep() {
       <SectionTitle>Preview</SectionTitle>
 
       <div className="flex flex-col gap-[35px] py-[17px]">
-        <div className="flex gap-[72px]">
+        <div className="flex flex-wrap gap-[72px]">
           <Radio label="Send now" hint="Send the broadcast immediately." />
           <Radio label="Schedule for later" hint="Choose a date and time." />
         </div>
@@ -252,7 +252,7 @@ function ScheduleStep() {
 
 function PreviewStep() {
   return (
-    <div className="flex flex-col gap-[30px] py-[17px] pl-[231px]">
+    <div className="flex flex-col gap-[30px] py-[17px] xl:pl-[231px]">
       <PreviewRow label="Title:">
         <span className="text-xl font-semibold leading-5 tracking-[-0.4px] text-gray-900">
           Important safety update
@@ -291,7 +291,7 @@ function PreviewStep() {
 
 function PreviewRow({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="flex gap-[80px]">
+    <div className="flex flex-col gap-2 sm:flex-row sm:gap-[80px]">
       <span className="w-[70px] shrink-0 text-sm font-medium leading-[17px] tracking-[0.14px] text-gray-700">
         {label}
       </span>

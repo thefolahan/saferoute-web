@@ -70,17 +70,17 @@ export function SupportView({
 
   return (
     <Shell title="Support">
-      <div className="flex flex-1">
+      <div className="flex flex-1 flex-col lg:flex-row">
         {/* Ticket list — 471 wide */}
-        <div className="flex w-[471px] shrink-0 flex-col bg-white">
-          <div className="flex flex-col gap-[15px] px-8 py-[19px]">
-            <div className="flex items-center justify-between gap-[15px]">
+        <div className="flex w-full flex-col bg-white lg:w-[471px] lg:shrink-0">
+          <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-center justify-between gap-[15px]">
               <Tabs tabs={tabs} active={tab} onChange={setTab} />
               <Select label="Today" weight="semibold" className="w-[97px] shrink-0" />
             </div>
           </div>
 
-          <div className="flex items-center border-b border-[#EAECF0] bg-[#FCFCFD] px-8 py-3">
+          <div className="flex items-center border-b border-[#EAECF0] bg-[#FCFCFD] px-4 py-3 sm:px-6 lg:px-8">
             <div className="edge-gray200 flex h-11 flex-1 items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px]">
               <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-500" />
               <span className="flex-1 text-sm font-normal leading-6 text-gray-700">
@@ -102,7 +102,7 @@ export function SupportView({
                 key={t.id}
                 type="button"
                 onClick={() => setSelected(t.id)}
-                className={`flex h-[124px] items-center border-b border-[#EAECF0] px-8 py-5 text-left ${
+                className={`flex min-h-[124px] items-center border-b border-[#EAECF0] px-4 py-5 text-left sm:px-6 lg:px-8 ${
                   isSelected ? 'bg-error-50' : 'bg-white'
                 }`}
               >
@@ -159,7 +159,7 @@ export function SupportView({
           <div className="flex w-full flex-col gap-[15px]">
             <div className="flex flex-col gap-[15px]">
               <div className="flex flex-col gap-[15px]">
-                <div className="flex items-center gap-6">
+                <div className="flex flex-wrap items-center gap-6">
                   <Field
                     label="Ticket ID"
                     value={detail.reference}
@@ -174,7 +174,7 @@ export function SupportView({
                     {label(detail.status)}
                   </span>
                 </div>
-                <div className="flex gap-6">
+                <div className="flex flex-wrap gap-6">
                   <Field
                     label="Submitted"
                     value={detail.submitted}
@@ -227,7 +227,7 @@ export function SupportView({
               </div>
             </div>
 
-            <div className="flex gap-[15px]">
+            <div className="flex flex-wrap gap-[15px]">
               <ActionButton className="bg-black text-[#F7F7F7]" onClick={() => setReplyOpen(true)}>
                 Reply
               </ActionButton>

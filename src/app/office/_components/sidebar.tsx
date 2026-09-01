@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { NAV } from '../_lib/nav';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Logo, PanelIcon } from './icons';
+import { useNav } from './nav-state';
 
 /* Figma 907:17157 "Navigation" — 250x1024, fill #171817.
    Header 72h pad 16. Body pad 5/16. Groups gap 15, label→items gap 8,
@@ -12,9 +13,27 @@ import { Logo, PanelIcon } from './icons';
 export function Sidebar() {
   const pathname = usePathname();
   const base = useOfficeBase();
+  const { open, close } = useNav();
 
   return (
-    <aside className="w-[250px] shrink-0 bg-sidebar">
+    <>
+      {/* Scrim: only exists while the drawer is open, and only below lg. */}
+      {open ? (
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={close}
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+        />
+      ) : null}
+
+      <aside
+        className={`bg-sidebar transition-transform lg:w-[250px] lg:shrink-0 lg:translate-x-0 ${
+          open
+            ? 'fixed inset-y-0 left-0 z-50 w-[250px] translate-x-0'
+            : 'fixed inset-y-0 left-0 z-50 w-[250px] -translate-x-full lg:static'
+        }`}
+      >
       <div className="sticky top-0 flex h-screen flex-col">
       <div className="flex h-[72px] shrink-0 items-center justify-between p-4">
         <Logo className="h-[25px] w-[121px] text-white" />
@@ -45,6 +64,7 @@ export function Sidebar() {
                     <Link
                       key={item.route}
                       href={href}
+                      onClick={close}
                       className={`flex items-center gap-2 rounded-lg py-2 pl-3 pr-2 transition-colors ${
                         active ? 'bg-error-500' : 'hover:bg-white/5'
                       }`}
@@ -84,6 +104,7 @@ export function Sidebar() {
         </div>
       </nav>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

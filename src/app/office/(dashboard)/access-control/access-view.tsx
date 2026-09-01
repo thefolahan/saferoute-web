@@ -52,8 +52,8 @@ export function AccessControlView({
 
   return (
     <Shell title="Access control">
-      <div className="flex flex-col gap-[15px] px-8 py-[19px]">
-        <div className="flex items-center justify-between gap-[15px]">
+      <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">
           <Tabs tabs={tabs} active={tab} onChange={setTab} />
           <button
             type="button"
@@ -123,15 +123,15 @@ export function AccessControlView({
           <Pagination label={pageLabel} />
         </div>
       ) : (
-        <div className="flex flex-col gap-5 px-8 py-3">
+        <div className="flex flex-col gap-5 px-4 py-3 sm:px-6 lg:px-8">
           {roleCards.map((card) => (
             <div
               key={card.title}
               className="edge flex flex-col gap-[23px] rounded-[15px] bg-[#F7F7F7] px-[19px] py-5"
             >
               <div className="flex flex-col gap-5 py-5">
-                <div className="flex justify-between gap-5">
-                  <div className="flex w-[509px] flex-col justify-center gap-1">
+                <div className="flex flex-col justify-between gap-5 sm:flex-row">
+                  <div className="flex w-full max-w-[509px] flex-col justify-center gap-1">
                     <span className="whitespace-pre text-base font-semibold leading-[19px] tracking-[0.16px] text-gray-700">
                       {card.title}
                     </span>
@@ -149,13 +149,13 @@ export function AccessControlView({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-[73px]">
+                <div className="grid grid-cols-1 gap-x-[73px] lg:grid-cols-2">
                   {card.permissions.map((p, i) => (
                     <div
                       key={p.title}
                       className={`flex flex-col gap-5 py-[11px] ${i < 2 ? 'edge-bottom' : ''}`}
                     >
-                      <div className="flex w-[328px] flex-col gap-5 py-[10px]">
+                      <div className="flex w-full max-w-[328px] flex-col gap-5 py-[10px]">
                         <Toggle />
                         <div className="flex flex-col gap-1">
                           <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-gray-700">

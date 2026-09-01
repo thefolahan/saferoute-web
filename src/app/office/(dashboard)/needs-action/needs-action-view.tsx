@@ -24,11 +24,11 @@ export function NeedsActionView({
 
   return (
     <Shell title="Dashboard" filters>
-      <div className="flex flex-col gap-5 px-8 py-5">
+      <div className="flex flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
         <GoBack />
 
         <Card>
-          <div className="edge-bottom flex items-center justify-between gap-7 px-5 py-[18px]">
+          <div className="edge-bottom flex flex-col gap-4 px-5 py-[18px] lg:flex-row lg:items-center lg:justify-between lg:gap-7">
             <Tabs tabs={tabs} active={active} onChange={onSelect} />
             <Select label="All types" weight="semibold" className="w-[126px] shrink-0" />
           </div>

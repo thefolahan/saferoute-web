@@ -78,15 +78,15 @@ export function IncidentsView({
 
   return (
     <Shell title="Incidents">
-      <div className="flex flex-1 shadow-[inset_0_1px_0_0_#EEEEEE]">
+      <div className="flex flex-1 flex-col shadow-[inset_0_1px_0_0_#EEEEEE] lg:flex-row">
         {/* List column — 592 when the panel is open, otherwise the full 1190 */}
         <div
           className={`flex flex-col ${
-            selected ? 'w-[592px] shrink-0 border-r border-rule' : 'flex-1'
+            selected ? 'lg:w-[592px] lg:shrink-0 lg:border-r lg:border-rule' : 'flex-1'
           } border-b border-rule`}
         >
-          <div className="flex flex-col gap-[30px] px-8 py-[25px]">
-            <div className="flex items-center gap-2 py-[10px]">
+          <div className="flex flex-col gap-[30px] px-4 py-[25px] sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-center gap-2 py-[10px]">
               {FILTERS.map((f) => {
                 const Icon = f.icon;
                 const isActive = f.id === filter;
@@ -128,7 +128,7 @@ export function IncidentsView({
                 key={inc.id}
                 type="button"
                 onClick={() => setSelected(isSelected ? null : inc.id)}
-                className={`flex h-[100px] w-full items-center px-8 py-[11px] text-left ${
+                className={`flex h-[100px] w-full items-center px-4 py-[11px] text-left sm:px-6 lg:px-8 ${
                   isSelected
                     ? 'bg-error-50 shadow-[inset_-8px_0_0_0_#F04438]'
                     : 'bg-white shadow-[0_0_0_1px_#E9EAEB]'

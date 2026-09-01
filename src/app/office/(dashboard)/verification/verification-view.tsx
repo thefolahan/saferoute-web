@@ -50,12 +50,12 @@ export function VerificationView({
 
   return (
     <Shell title="Verification center">
-      <div className="flex flex-col gap-[15px] px-8 py-[19px]">
-        <div className="flex gap-[10px] py-[25px]">
+      <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-[10px] py-[25px] sm:grid-cols-2 xl:grid-cols-4">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="edge flex flex-1 flex-col gap-[23px] rounded-[15px] px-[19px] py-[23px]"
+              className="edge flex flex-col gap-[23px] rounded-[15px] px-[19px] py-[23px]"
             >
               <span className="text-sm font-normal leading-[17px] text-gray-700">{s.label}</span>
               <div className="flex flex-col gap-[5px]">
@@ -66,7 +66,7 @@ export function VerificationView({
           ))}
         </div>
 
-        <div className="flex items-center justify-between gap-[15px]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-[15px]">
           <Tabs tabs={tabs} active={tab} onChange={setTab} />
           <Select label="Today" weight="semibold" className="w-[97px] shrink-0" />
         </div>

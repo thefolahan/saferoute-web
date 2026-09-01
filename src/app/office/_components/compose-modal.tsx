@@ -34,8 +34,8 @@ export function ComposeModal({
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="flex max-h-full flex-col overflow-auto rounded-[15px] bg-white"
-        style={{ width }}
+        className="flex max-h-full w-full flex-col overflow-auto rounded-[15px] bg-white"
+        style={{ maxWidth: width }}
       >
         <div className="edge flex shrink-0 items-center gap-[7px] px-5 py-[13px]">
           <div className="flex flex-1 flex-col py-2">
@@ -108,7 +108,7 @@ export function ComposeField({
   gutter?: number;
 }) {
   return (
-    <div className="flex" style={{ gap: gutter }}>
+    <div className="flex flex-col sm:flex-row" style={{ gap: gutter }}>
       <span
         className="shrink-0 text-sm font-medium leading-[17px] tracking-[0.14px] text-gray-700"
         style={{ width: labelWidth }}

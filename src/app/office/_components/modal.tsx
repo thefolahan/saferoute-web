@@ -30,8 +30,8 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="flex max-h-full flex-col overflow-auto rounded-[22px] bg-white"
-        style={{ width }}
+        className="flex max-h-full w-full flex-col overflow-auto rounded-[22px] bg-white"
+        style={{ maxWidth: width }}
       >
         <div className="edge flex shrink-0 items-center gap-[7px] px-5 py-[18px]">
           <div className="flex flex-1 items-center py-2">

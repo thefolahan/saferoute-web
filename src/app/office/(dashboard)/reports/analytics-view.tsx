@@ -40,9 +40,9 @@ export function AnalyticsView({
   return (
     <Shell title="Analytics">
       {/* Filters + KPI grid — Figma 907:17665 */}
-      <section className="flex flex-col gap-[15px] px-8 py-[19px]">
+      <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-[10px]">
+          <div className="flex flex-wrap items-center gap-[10px]">
             <FilledSelect width={319} icon>
               Last 30 days (may 12 - jun 10, 2026)
             </FilledSelect>
@@ -52,7 +52,7 @@ export function AnalyticsView({
           <Select label="Export" className="w-[97px] shrink-0" />
         </div>
 
-        <div className="grid grid-cols-5 gap-[15px] py-[25px]">
+        <div className="grid grid-cols-2 gap-[15px] py-[25px] md:grid-cols-3 xl:grid-cols-5">
           {kpis.map((kpi) => (
             <div
               key={kpi.label}
@@ -66,7 +66,7 @@ export function AnalyticsView({
       </section>
 
       {/* Emergency response + incident severity — Figma 907:17731 */}
-      <section className="flex gap-[15px] px-8 py-[19px]">
+      <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8 xl:flex-row">
         <Block title="Emergency response">
           <div className="flex flex-col gap-[7px]">
             {response.map((r) => (
@@ -141,7 +141,7 @@ export function AnalyticsView({
       </section>
 
       {/* Incident activity line chart — Figma 907:17803 */}
-      <section className="flex px-8 py-[19px]">
+      <section className="flex px-4 py-[19px] sm:px-6 lg:px-8">
         <Card className="flex-1 px-[19px] py-5">
           <div className="flex flex-col gap-7">
             <div className="flex items-center justify-between gap-1">
@@ -209,7 +209,7 @@ export function AnalyticsView({
       </section>
 
       {/* Community activity — Figma 907:17885 */}
-      <section className="flex px-8 py-[19px]">
+      <section className="flex px-4 py-[19px] sm:px-6 lg:px-8">
         <Card className="flex-1 px-[19px] py-5">
           <div className="flex flex-col gap-7">
             <div className="flex items-center justify-between gap-1">
@@ -219,8 +219,8 @@ export function AnalyticsView({
               <Select label="Last 6 months" className="w-[172px]" />
             </div>
 
-            <div className="flex gap-7">
-              <div className="edge flex w-[643px] shrink-0 flex-col gap-[2px] rounded-lg px-[14px] py-[23px]">
+            <div className="flex flex-col gap-7 xl:flex-row">
+              <div className="edge flex w-full flex-col gap-[2px] rounded-lg px-[14px] py-[23px] xl:w-[643px] xl:shrink-0">
                 <div className="relative h-[235px]">
                   <div className="flex h-full flex-col justify-between">
                     {['12k', '10k', '8k', '6k', '4k', '2k', '0'].map((tick) => (

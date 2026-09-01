@@ -31,10 +31,10 @@ export function DashboardView({
   return (
     <Shell title="Dashboard" filters>
       {/* Welcome + KPI grid — Figma 907:12646, pad 19/32 gap 15 */}
-      <section className="flex flex-col gap-[15px] px-8 py-[19px]">
-        <div className="flex items-center justify-between gap-[15px]">
+      <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">
           <div className="flex flex-col justify-center gap-[10px]">
-            <h2 className="text-[32px] font-medium leading-[39px] text-gray-500">
+            <h2 className="text-2xl font-medium leading-tight text-gray-500 sm:text-[32px] sm:leading-[39px]">
               Welcome back, <span className="text-gray-900">{adminName}</span> 👋
             </h2>
             <p className="text-base font-normal leading-[19px] text-gray-500">
@@ -44,7 +44,7 @@ export function DashboardView({
           <Select label="Today" weight="semibold" className="w-[126px] shrink-0" />
         </div>
 
-        <div className="grid grid-cols-5 gap-[15px] py-6">
+        <div className="grid grid-cols-1 gap-[15px] py-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {kpis.map((kpi) => (
             <div
               key={kpi.label}
@@ -61,7 +61,7 @@ export function DashboardView({
       </section>
 
       {/* Needs Action + charts — Figma 907:12724, pad 20/32 gap 32 */}
-      <section className="flex flex-col gap-8 px-8 py-5">
+      <section className="flex flex-col gap-8 px-4 py-5 sm:px-6 lg:px-8">
         <Card>
           <div className="edge-bottom flex items-center justify-between gap-7 px-5 py-[18px]">
             <h2 className="text-xl font-semibold leading-5 tracking-[-0.4px] text-gray-700">
@@ -79,9 +79,9 @@ export function DashboardView({
           <ActionRowList rows={actions} />
         </Card>
 
-        <div className="flex gap-[15px]">
+        <div className="flex flex-col gap-[15px] xl:flex-row">
           {/* User growth — Figma 907:12830, 651 wide */}
-          <Card className="w-[651px] shrink-0 px-[19px] py-5">
+          <Card className="w-full px-[19px] py-5 xl:w-[651px] xl:shrink-0">
             <div className="flex flex-col gap-7">
               <div className="flex items-center justify-between gap-1">
                 <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-900">

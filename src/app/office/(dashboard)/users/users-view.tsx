@@ -69,7 +69,7 @@ export function UsersView({
     <Shell title="User details">
       <div className="flex flex-col gap-[15px]">
         <div className="flex flex-col">
-          <div className="flex items-center gap-[10px] px-8 py-[15px]">
+          <div className="flex items-center gap-[10px] overflow-x-auto px-4 py-[15px] sm:px-6 lg:px-8">
             <Tabs
               tabs={TABS}
               active={tab}

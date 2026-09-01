@@ -19,7 +19,7 @@ export function Tabs({
   onChange: (id: string) => void;
 }) {
   return (
-    <div className="edge-bottom flex items-center">
+    <div className="edge-bottom flex max-w-full items-center overflow-x-auto">
       {tabs.map((tab) => {
         const isActive = tab.id === active;
         return (
@@ -27,7 +27,7 @@ export function Tabs({
             key={tab.id}
             type="button"
             onClick={() => onChange(tab.id)}
-            className={`flex h-[52px] items-center justify-center gap-[10px] px-[22px] ${
+            className={`flex h-[52px] shrink-0 items-center justify-center gap-[10px] px-[22px] ${
               isActive ? 'shadow-[inset_0_-3px_0_0_#000000]' : ''
             }`}
           >

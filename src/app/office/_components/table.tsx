@@ -26,7 +26,10 @@ export function DataTable<T>({
   rowKey: (row: T, i: number) => string;
 }) {
   return (
-    <table className="w-full table-fixed border-collapse">
+    /* Column widths come from Figma and are meaningful; below the design width
+       the table scrolls in its own container rather than compressing them. */
+    <div className="w-full overflow-x-auto">
+    <table className="w-full min-w-[1000px] table-fixed border-collapse">
       <colgroup>
         {columns.map((c) => (
           <col key={c.key} style={{ width: c.width }} />
@@ -69,6 +72,7 @@ export function DataTable<T>({
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
 
@@ -112,7 +116,7 @@ export function CellChip({ children }: { children: ReactNode }) {
 /** Pagination bar — Figma 907:14375, pad 12/32/16/32. */
 export function Pagination({ label }: { label: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 bg-white px-8 pb-4 pt-3">
+    <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 pb-4 pt-3 sm:px-6 lg:px-8">
       <span className="text-sm font-medium leading-5 text-gray-700">{label}</span>
       <div className="flex items-center gap-3">
         {['Previous', 'Next'].map((t) => (
