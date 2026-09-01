@@ -11,6 +11,8 @@ type Me = {
   avatarUrl: string | null;
   role: string;
   mfaEnabled: boolean;
+  passwordChangedAt: string | null;
+  preferences: AdminProfile['preferences'] | null;
 };
 
 export default async function ConfigurationPage() {
@@ -19,12 +21,24 @@ export default async function ConfigurationPage() {
   const profile: AdminProfile = {
     fullName: me?.fullName ?? me?.email.split('@')[0] ?? 'Administrator',
     email: me?.email ?? '—',
-    // Nullable on admin_users: bootstrap creates an admin from an email alone.
-    phone: me?.phone ?? '—',
-    department: me?.department ?? '—',
+    /**
+     * Empty, not an em dash: these feed editable inputs now, and "—" would be
+     * saved back as the admin's actual phone number the first time anyone
+     * touched the form.
+     */
+    phone: me?.phone ?? '',
+    department: me?.department ?? '',
     role: me?.role ?? 'admin',
     avatarUrl: me?.avatarUrl ?? null,
-    mfaEnabled: me?.mfaEnabled ?? false
+    mfaEnabled: me?.mfaEnabled ?? false,
+    passwordChangedAt: me?.passwordChangedAt
+      ? new Date(me.passwordChangedAt).toLocaleDateString('en', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        })
+      : null,
+    preferences: me?.preferences ?? {}
   };
 
   return <ConfigurationView profile={profile} />;

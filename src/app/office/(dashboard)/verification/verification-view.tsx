@@ -6,7 +6,10 @@ import { Tabs } from '../../_components/tabs';
 import { Select } from '../../_components/ui';
 import { DataTable, Pagination, type Column } from '../../_components/table';
 import { PHOTO } from '../../_lib/assets';
-import { VerificationModal } from '../../_components/verification-modal';
+import {
+  VerificationModal,
+  type VerificationSubject
+} from '../../_components/verification-modal';
 
 /* Figma 907:19228 "Verification center".
    Stat tiles 274 wide, then a tabbed table (778/119/127/166 = 1190). */
@@ -29,6 +32,9 @@ export type VerificationRow = {
   applicant: Applicant;
   status: string;
   submitted: string;
+  /** Which tab the row belongs to, so the tabs actually filter. */
+  group: 'community' | 'agencies' | 'news';
+  subject: VerificationSubject;
 };
 
 export type Stat = { label: string; value: string; note: string; color: string };
@@ -46,7 +52,11 @@ export function VerificationView({
   pageLabel: string;
 }) {
   const [tab, setTab] = useState('all');
-  const [reviewOpen, setReviewOpen] = useState(false);
+  const [reviewing, setReviewing] = useState<VerificationSubject | null>(null);
+
+  // Every request is already on the page, so the tabs filter here rather than
+  // making a round trip per tab.
+  const visible = tab === 'all' ? rows : rows.filter((row) => row.group === tab);
 
   return (
     <Shell title="Verification center">
@@ -75,15 +85,24 @@ export function VerificationView({
       <div className="flex flex-col">
         <DataTable
           columns={COLUMNS}
-          rows={rows}
+          rows={visible}
           rowKey={(r) => r.id}
           cell={(row, key) => {
             switch (key) {
               case 'applicant':
                 return row.applicant.kind === 'person' ? (
                   <span className="flex items-center gap-2">
-                    <span className="flex h-[35px] w-[35px] shrink-0 items-center justify-center rounded-[18px] bg-gray-100 text-base font-semibold leading-[22px] text-[#2F3037]">
-                      OJ
+                    <span className="flex h-[35px] w-[35px] shrink-0 items-center justify-center overflow-hidden rounded-[18px] bg-gray-100 text-base font-semibold leading-[22px] text-[#2F3037]">
+                      {row.subject.avatarUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={row.subject.avatarUrl}
+                          alt=""
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        initials(row.applicant.name)
+                      )}
                     </span>
                     <span className="flex flex-col justify-center gap-[2px]">
                       <span className="text-sm font-semibold leading-5 text-[#2F3037]">
@@ -100,7 +119,7 @@ export function VerificationView({
                   <span className="flex items-center gap-2">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={PHOTO.incident}
+                      src={row.subject.avatarUrl ?? PHOTO.incident}
                       alt=""
                       className="h-8 w-[35px] shrink-0 rounded-[47px] object-cover"
                     />
@@ -116,7 +135,13 @@ export function VerificationView({
                 );
               case 'status':
                 return (
-                  <span className="inline-flex items-center justify-center rounded-2xl bg-warning-50 px-3 py-1 text-xs font-medium leading-[18px] text-warning-700">
+                  <span
+                    className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-[18px] ${
+                      row.status === 'Rejected'
+                        ? 'bg-error-50 text-error-700'
+                        : 'bg-warning-50 text-warning-700'
+                    }`}
+                  >
                     {row.status}
                   </span>
                 );
@@ -130,7 +155,7 @@ export function VerificationView({
                 return (
                   <button
                     type="button"
-                    onClick={() => setReviewOpen(true)}
+                    onClick={() => setReviewing(row.subject)}
                     className="text-sm font-medium leading-5 text-gray-700"
                   >
                     Review
@@ -144,7 +169,21 @@ export function VerificationView({
         <Pagination label={pageLabel} />
       </div>
 
-      <VerificationModal open={reviewOpen} onClose={() => setReviewOpen(false)} />
+      <VerificationModal
+        open={reviewing !== null}
+        subject={reviewing}
+        onClose={() => setReviewing(null)}
+      />
     </Shell>
   );
+}
+
+/** Falls back to initials where an applicant has no photograph. */
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
 }

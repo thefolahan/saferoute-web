@@ -1,27 +1,56 @@
 'use client';
 
+import { useAction } from './use-action';
+import { decideVerification } from '../_lib/actions';
 import {
   CheckIcon,
-  CheckLineIcon,
   CloseIcon,
   MessageIcon,
   PendingIcon,
   UserGroupIcon,
   XMarkIcon
 } from './icons';
-import { AVATAR, PHOTO } from '../_lib/assets';
+import { AVATAR } from '../_lib/assets';
 
 /* Figma 907:19428 "Verification details popup" — 782x1049, radius 6.
    Header 58h, applicant strip 161h, then two sections separated by a 1px
    top hairline, and a sticky action bar. */
+
+/**
+ * The applicant under review. `documents` are signed URLs from the API; an
+ * applicant who uploaded nothing gets the empty state rather than the design's
+ * two placeholder cards.
+ */
+export type VerificationSubject = {
+  id: string;
+  reference: string;
+  name: string;
+  kind: string;
+  status: string;
+  submitted: string;
+  city: string | null;
+  documentType: string | null;
+  avatarUrl: string | null;
+  documents: string[];
+};
 
 const CHECKS = [
   ['Identity match', 'Document validity'],
   ['Government issued', 'Information match']
 ];
 
-export function VerificationModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  if (!open) return null;
+export function VerificationModal({
+  open,
+  subject,
+  onClose
+}: {
+  open: boolean;
+  subject: VerificationSubject | null;
+  onClose: () => void;
+}) {
+  const { pending, error, run } = useAction();
+
+  if (!open || !subject) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-6">
@@ -51,17 +80,21 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
         <div className="flex flex-col gap-[19px] px-5 py-[10px] sm:flex-row sm:items-center">
           <div className="flex h-[141px] w-[149px] shrink-0 items-center justify-center rounded-md p-2 shadow-[inset_0_0_0_1px_rgba(238,238,238,0.52)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={AVATAR.user} alt="" className="h-full w-full rounded object-cover" />
+            <img
+              src={subject.avatarUrl ?? AVATAR.user}
+              alt=""
+              className="h-full w-full rounded object-cover"
+            />
           </div>
 
           <div className="flex flex-1 flex-col justify-center gap-[25px]">
             <div className="flex flex-col justify-center gap-[11px]">
               <div className="flex flex-col gap-[9px]">
                 <span className="text-sm font-medium leading-[17px] text-gray-500">
-                  Application ID: VER-028491
+                  Application ID: {subject.reference}
                 </span>
                 <span className="text-xl font-semibold leading-6 text-black">
-                  Tomiwa Oyeledu Dolapo
+                  {subject.name}
                 </span>
               </div>
 
@@ -69,19 +102,20 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
                 <span className="inline-flex items-center justify-center gap-1 rounded-full bg-rule px-3 py-1">
                   <UserGroupIcon className="h-4 w-4 text-gray-500" />
                   <span className="text-sm font-medium leading-5 tracking-[-0.28px] text-gray-500">
-                    Community Member
+                    {subject.kind}
                   </span>
                 </span>
                 <span className="inline-flex items-center justify-center gap-1 rounded-2xl bg-warning-50 px-3 py-[10px]">
                   <PendingIcon className="h-6 w-6" />
                   <span className="text-sm font-medium leading-[18px] text-warning-700">
-                    Pending Review
+                    {subject.status}
                   </span>
                 </span>
               </div>
 
               <span className="text-sm font-medium leading-[17px] text-gray-500">
-                Submitted Aug 7, 2026 · 09:42 AM
+                Submitted {subject.submitted}
+                {subject.city ? ` · ${subject.city}` : ''}
               </span>
             </div>
           </div>
@@ -94,16 +128,16 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
           </button>
         </div>
 
-        {/* AI / System Check */}
+        {/* AI / System Check — Figma 907:19470 */}
         <div className="px-5">
           <div className="flex flex-col items-center gap-[10px] py-[14px] shadow-[inset_0_1px_0_0_#EEEEEE]">
             <div className="flex w-full items-center py-[5px]">
               <h3 className="text-base font-semibold leading-6 text-gray-900">AI / System Check</h3>
             </div>
 
-            <div className="flex w-full items-center gap-[34px]">
+            <div className="flex w-full flex-col items-center gap-[34px] lg:flex-row">
               <div
-                className="flex h-[154px] w-[291px] shrink-0 items-center gap-[9px] rounded-[13px] px-[18px] py-[15px]"
+                className="flex h-[154px] w-full shrink-0 items-center gap-[9px] rounded-[13px] px-[18px] py-[15px] lg:w-[291px]"
                 style={{ background: 'linear-gradient(180deg, #3DC47E 0%, rgba(237,162,23,0.22) 100%)' }}
               >
                 <div className="flex flex-1 flex-col gap-[30px]">
@@ -119,46 +153,30 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
                     </span>
                   </div>
                   <div className="flex items-center justify-between gap-[13px]">
+                    {/*
+                      No document-checking model runs against these uploads, so
+                      there is no score to show. Drawing the design's 60% would
+                      be inventing the one number a reviewer would trust most.
+                    */}
                     <span className="text-[40px] font-bold leading-[48px] text-success-950">
-                      60%
+                      —
                     </span>
-                    <button
-                      type="button"
-                      className="flex h-8 items-center justify-center rounded-lg bg-success-800 px-4 py-1 text-sm font-semibold leading-6 text-gray-25"
-                    >
-                      Recheck
-                    </button>
+                    <span className="text-xs font-medium leading-[15px] text-success-950">
+                      Automated checks
+                      <br />
+                      are not running yet
+                    </span>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-1 flex-col">
-                {CHECKS.map((row, i) => (
-                  <div key={i} className="flex gap-[7px] py-1">
-                    {row.map((c) => (
-                      <span
-                        key={c}
-                        className="inline-flex h-10 items-center justify-center gap-1 rounded-md bg-success-50 px-3 py-[10px]"
-                      >
-                        <CheckLineIcon className="h-5 w-5 text-success-600" />
-                        <span className="text-sm font-semibold leading-[18px] text-success-600">
-                          {c}
-                        </span>
-                      </span>
-                    ))}
-                  </div>
-                ))}
-                <div className="flex gap-[7px] py-1">
-                  <span className="inline-flex h-10 items-center justify-center gap-1 rounded-md bg-success-50 px-3 py-[10px]">
-                    <CheckLineIcon className="h-5 w-5 text-success-600" />
-                    <span className="text-sm font-semibold leading-[18px] text-success-600">
-                      Non duplicate account
-                    </span>
-                  </span>
-                  <span className="inline-flex h-[38px] items-center justify-center rounded-md bg-warning-50 px-3 py-[10px] text-sm font-semibold leading-[18px] text-warning-500">
-                    Risk level: Low
-                  </span>
-                </div>
+                <p className="max-w-[420px] text-sm font-normal leading-[20px] text-gray-500">
+                  {CHECKS.flat().join(', ')} and duplicate-account detection are
+                  the checks this panel is built for. Until they exist, the
+                  decision below rests entirely on the documents and the
+                  applicant&rsquo;s record.
+                </p>
               </div>
             </div>
           </div>
@@ -168,58 +186,98 @@ export function VerificationModal({ open, onClose }: { open: boolean; onClose: (
         <div className="px-5">
           <div className="flex flex-col justify-center gap-[10px] py-[14px] shadow-[inset_0_1px_0_0_#EEEEEE]">
             <div className="flex w-full items-center py-[5px]">
-              <h3 className="text-base font-semibold leading-6 text-gray-900">Document Upload</h3>
+              <h3 className="text-base font-semibold leading-6 text-gray-900">
+                Document Upload
+                {subject.documentType ? (
+                  <span className="ml-2 text-sm font-normal text-gray-500">
+                    {subject.documentType.replace(/_/g, ' ')}
+                  </span>
+                ) : null}
+              </h3>
             </div>
-            <div className="flex flex-wrap items-center gap-5">
-              {[0, 1].map((i) => (
-                <div
-                  key={i}
-                  className="relative flex h-[169px] w-[294px] items-center justify-center rounded-[10px] bg-[#EEF6F7]"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={PHOTO.mapWide}
-                    alt=""
-                    className="h-[145px] w-[227px] rounded-[9px] object-cover opacity-50"
-                  />
-                  <button
-                    type="button"
-                    className="absolute flex h-[30px] items-center justify-center rounded-[7px] bg-white px-[10px] py-[7px] text-sm font-semibold leading-[17px] text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA]"
+
+            {subject.documents.length === 0 ? (
+              <p className="py-8 text-sm leading-6 text-gray-500">
+                This applicant has not uploaded a document. Request one before
+                deciding.
+              </p>
+            ) : (
+              <div className="flex flex-wrap items-center gap-5">
+                {subject.documents.map((url) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative flex h-[169px] w-full max-w-[294px] items-center justify-center rounded-[10px] bg-[#EEF6F7]"
                   >
-                    Preview
-                  </button>
-                </div>
-              ))}
-            </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={url}
+                      alt="Identity document"
+                      className="h-[145px] w-[227px] rounded-[9px] object-cover opacity-50"
+                    />
+                    <span className="absolute flex h-[30px] items-center justify-center rounded-[7px] bg-white px-[10px] py-[7px] text-sm font-semibold leading-[17px] text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA]">
+                      Preview
+                    </span>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-rule px-5 pb-[26px] pt-5">
-          <button
-            type="button"
-            className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
-          >
-            <MessageIcon className="h-4 w-4 text-gray-700" />
-            Request info
-          </button>
+        <div className="flex flex-col gap-3 border-t border-rule px-5 pb-[26px] pt-5">
+          {error ? (
+            <p
+              role="alert"
+              className="rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700"
+            >
+              {error}
+            </p>
+          ) : null}
 
-          <div className="flex items-center gap-[10px]">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            {/*
+              "Request info" would message the applicant, and there is no
+              admin→user message endpoint. Rather than a button that silently
+              does nothing, it is disabled and says why on hover.
+            */}
             <button
               type="button"
-              className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25"
+              disabled
+              title="Messaging an applicant from the dashboard is not built yet."
+              className="edge-gray200 flex h-11 cursor-not-allowed items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-400"
             >
-              <CheckIcon className="h-5 w-5 text-gray-25" />
-              Approve
+              <MessageIcon className="h-4 w-4 text-gray-400" />
+              Request info
             </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-white"
-            >
-              <XMarkIcon className="h-5 w-5 text-white" />
-              Reject
-            </button>
+
+            <div className="flex items-center gap-[10px]">
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() =>
+                  run(() => decideVerification(subject.id, 'approved'), onClose)
+                }
+                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25 disabled:opacity-60"
+              >
+                <CheckIcon className="h-5 w-5 text-gray-25" />
+                {pending ? 'Working…' : 'Approve'}
+              </button>
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() =>
+                  run(() => decideVerification(subject.id, 'rejected'), onClose)
+                }
+                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-white disabled:opacity-60"
+              >
+                <XMarkIcon className="h-5 w-5 text-white" />
+                Reject
+              </button>
+            </div>
           </div>
         </div>
       </div>

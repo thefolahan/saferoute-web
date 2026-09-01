@@ -57,12 +57,19 @@ export function Modal({
 }
 
 /** Cancel — 113x44, pad 10/33, 1px inside hairline, Gray/600. */
-export function ModalCancel({ onClick }: { onClick: () => void }) {
+export function ModalCancel({
+  onClick,
+  disabled = false
+}: {
+  onClick: () => void;
+  disabled?: boolean;
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="edge flex h-11 items-center justify-center rounded-lg px-[33px] py-[10px] text-sm font-medium leading-6 text-gray-600"
+      disabled={disabled}
+      className="edge flex h-11 items-center justify-center rounded-lg px-[33px] py-[10px] text-sm font-medium leading-6 text-gray-600 disabled:opacity-50"
     >
       Cancel
     </button>
@@ -73,57 +80,113 @@ export function ModalCancel({ onClick }: { onClick: () => void }) {
 export function ModalAction({
   children,
   tone = 'dark',
-  onClick
+  onClick,
+  pending = false,
+  disabled = false
 }: {
   children: ReactNode;
   tone?: 'dark' | 'danger';
   onClick?: () => void;
+  pending?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex h-11 items-center justify-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-50 ${
+      disabled={pending || disabled}
+      className={`flex h-11 items-center justify-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-50 disabled:opacity-60 ${
         tone === 'danger' ? 'bg-error-500' : 'bg-black'
       }`}
     >
-      {children}
+      {pending ? 'Working…' : children}
     </button>
   );
 }
 
-/** Label + 54h field, radius 14, 1px inside #D5D7DA. */
+/** The dialog's failure line — Error/50 strip under the fields. */
+export function ModalError({ children }: { children: ReactNode }) {
+  return (
+    <p
+      role="alert"
+      className="rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700"
+    >
+      {children}
+    </p>
+  );
+}
+
+/**
+ * Label + 54h field, radius 14, 1px inside #D5D7DA.
+ *
+ * A real control, not the design's rendered placeholder: pass `options` for
+ * the chevron variant (a native select, so it keeps the platform's keyboard
+ * and screen-reader behaviour) and `multiline` for the 188h note box.
+ */
 export function ModalField({
   label,
   value,
-  placeholder = false,
-  chevron = false,
-  multiline = false
+  onChange,
+  placeholder,
+  multiline = false,
+  options,
+  type = 'text'
 }: {
   label: string;
   value: string;
-  placeholder?: boolean;
-  chevron?: boolean;
+  onChange?: (value: string) => void;
+  placeholder?: string;
   multiline?: boolean;
+  options?: { value: string; label: string }[];
+  type?: 'text' | 'email';
 }) {
+  const shell = `edge-gray300 flex items-center justify-between rounded-[14px] bg-white px-[14px] ${
+    multiline ? 'h-[188px] items-start py-[22px]' : 'h-[54px] py-[15px]'
+  }`;
+  const field =
+    'w-full flex-1 border-0 bg-transparent p-0 text-base font-normal leading-6 text-gray-900 outline-none placeholder:text-[#AFAFAF]';
+
   return (
-    <div className="flex flex-col gap-[6px]">
+    <label className="flex flex-col gap-[6px]">
       <span className="text-sm font-medium leading-5 text-gray-700">{label}</span>
-      <div
-        className={`edge-gray300 flex items-center justify-between rounded-[14px] bg-white px-[14px] ${
-          multiline ? 'h-[188px] items-start py-[22px]' : 'h-[54px] py-[15px]'
-        }`}
-      >
-        <span
-          className={`text-base font-normal leading-6 ${
-            placeholder ? 'text-[#AFAFAF]' : 'text-gray-900'
-          }`}
-        >
-          {value}
-        </span>
-        {chevron ? <ChevronGlyph /> : null}
+      <div className={shell}>
+        {options ? (
+          <>
+            <select
+              value={value}
+              onChange={(event) => onChange?.(event.target.value)}
+              className={`${field} appearance-none ${value ? '' : 'text-[#AFAFAF]'}`}
+            >
+              {placeholder ? (
+                <option value="">{placeholder}</option>
+              ) : null}
+              {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronGlyph />
+          </>
+        ) : multiline ? (
+          <textarea
+            value={value}
+            onChange={(event) => onChange?.(event.target.value)}
+            placeholder={placeholder}
+            className={`${field} h-full resize-none`}
+          />
+        ) : (
+          <input
+            type={type}
+            value={value}
+            onChange={(event) => onChange?.(event.target.value)}
+            placeholder={placeholder}
+            readOnly={!onChange}
+            className={field}
+          />
+        )}
       </div>
-    </div>
+    </label>
   );
 }
 

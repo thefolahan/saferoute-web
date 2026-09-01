@@ -20,7 +20,10 @@ type ApiRequest = {
   name: string;
   isOrganisation: boolean;
   accountType: string;
+  avatarUrl: string | null;
   city: string | null;
+  documentType: string | null;
+  documents: string[];
   status: 'pending' | 'rejected';
   submittedAt: string;
 };
@@ -83,25 +86,50 @@ export default async function VerificationPage() {
           count: String(rows.filter((r) => r.accountType === 'news_outlet').length)
         }
       ]}
-      rows={rows.map((request): VerificationRow => ({
-        id: request.id,
-        status: request.status === 'pending' ? 'Pending' : 'Rejected',
-        submitted: new Date(request.submittedAt).toLocaleDateString('en', {
+      rows={rows.map((request): VerificationRow => {
+        const status = request.status === 'pending' ? 'Pending' : 'Rejected';
+        const submitted = new Date(request.submittedAt).toLocaleDateString('en', {
           month: 'short',
           day: 'numeric',
           year: 'numeric'
-        }),
-        applicant: request.isOrganisation
-          ? { kind: 'org', name: request.name, role: roleLabel(request.accountType) }
-          : {
-              kind: 'person',
-              name: request.name,
-              role: roleLabel(request.accountType),
-              city: request.city ?? '—'
-            }
-      }))}
+        });
+
+        return {
+          id: request.id,
+          status,
+          submitted,
+          group: groupFor(request.accountType),
+          applicant: request.isOrganisation
+            ? { kind: 'org', name: request.name, role: roleLabel(request.accountType) }
+            : {
+                kind: 'person',
+                name: request.name,
+                role: roleLabel(request.accountType),
+                city: request.city ?? '—'
+              },
+          subject: {
+            id: request.id,
+            reference: request.reference,
+            name: request.name,
+            kind: roleLabel(request.accountType),
+            status: status === 'Pending' ? 'Pending Review' : 'Rejected',
+            submitted,
+            city: request.city,
+            documentType: request.documentType,
+            avatarUrl: request.avatarUrl,
+            documents: request.documents ?? []
+          }
+        };
+      })}
     />
   );
+}
+
+/** Which tab a request sits under — the tab ids the view filters on. */
+function groupFor(accountType: string): 'community' | 'agencies' | 'news' {
+  if (accountType === 'official') return 'agencies';
+  if (accountType === 'news_outlet') return 'news';
+  return 'community';
 }
 
 function roleLabel(accountType: string): string {

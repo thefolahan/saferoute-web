@@ -1,4 +1,5 @@
 import { officeFetch } from '../../_lib/session';
+import type { ContentDetail } from '../../_components/content-modal';
 import { ContentsView, type ContentRow, type Status } from './contents-view';
 
 export const dynamic = 'force-dynamic';
@@ -14,6 +15,23 @@ type ApiPost = {
 };
 
 type ApiPage = { page: number; pageSize: number; total: number; rows: ApiPost[] };
+
+type ApiDetail = {
+  id: string;
+  caption: string;
+  author: string;
+  city: string | null;
+  status: string;
+  createdAt: string;
+  incident: {
+    publicId: string;
+    title: string;
+    category: string;
+    city: string;
+    addressText: string | null;
+  } | null;
+  media: { id: string; type: string; url: string | null }[];
+};
 
 /**
  * A feed post's moderation state, in the vocabulary the design uses.
@@ -40,8 +58,38 @@ export default async function ContentsPage({
   const data = await officeFetch<ApiPage>(`/admin/contents?${query.toString()}`);
   const rows = data?.rows ?? [];
 
+  /**
+   * The sheet's media are signed URLs that expire in five minutes, so they are
+   * fetched when a row is opened rather than minted for all fifteen rows on
+   * every page render.
+   */
+  async function loadDetail(id: string): Promise<ContentDetail | null> {
+    'use server';
+
+    const post = await officeFetch<ApiDetail>(`/admin/contents/${id}`).catch(
+      () => null
+    );
+
+    if (!post) return null;
+
+    return {
+      id: post.id,
+      caption: post.caption,
+      author: post.author,
+      city: post.city,
+      status: post.status,
+      posted: new Date(post.createdAt).toLocaleString('en-GB', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }),
+      incident: post.incident,
+      media: post.media.map((item) => ({ id: item.id, url: item.url }))
+    };
+  }
+
   return (
     <ContentsView
+      loadDetail={loadDetail}
       pageLabel={pageLabel(data)}
       rows={rows.map((post): ContentRow => ({
         id: post.id,

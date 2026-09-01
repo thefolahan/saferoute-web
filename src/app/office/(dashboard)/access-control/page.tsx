@@ -2,7 +2,8 @@ import { officeFetch } from '../../_lib/session';
 import {
   AccessControlView,
   type MemberRow,
-  type RoleCard
+  type RoleCard,
+  type RoleOption
 } from './access-view';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +13,7 @@ type ApiTeam = {
     id: string;
     name: string;
     email: string;
+    roleId: string;
     role: string;
     status: string;
     mfaEnabled: boolean;
@@ -22,7 +24,7 @@ type ApiTeam = {
     name: string;
     description: string | null;
     memberCount: number;
-    permissions: { key: string; description: string | null }[];
+    permissions: { key: string; description: string | null; enabled: boolean }[];
   }[];
 };
 
@@ -42,10 +44,15 @@ export default async function AccessControlPage() {
         { id: 'members', label: 'Team members', count: String(members.length) },
         { id: 'roles', label: 'Roles & permissions' }
       ]}
+      roleOptions={roles.map((role): RoleOption => ({
+        value: role.name,
+        label: humanise(role.name)
+      }))}
       rows={members.map((member): MemberRow => ({
         id: member.id,
         name: member.name,
         email: member.email,
+        roleKey: member.role,
         role: humanise(member.role),
         status: member.status,
         login: member.lastLoginAt
@@ -56,12 +63,17 @@ export default async function AccessControlPage() {
           : 'Never'
       }))}
       roleCards={roles.map((role): RoleCard => ({
+        id: role.id,
         title: humanise(role.name),
         subtitle:
           role.description ?? `${role.memberCount} member${role.memberCount === 1 ? '' : 's'}`,
         permissions: role.permissions.map((permission) => ({
-          title: humanise(permission.key.split('.')[0] ?? permission.key),
-          hint: permission.description ?? permission.key
+          key: permission.key,
+          // `incidents.verify` reads as "Incidents Verify"; the description is
+          // the sentence underneath it.
+          title: humanise(permission.key),
+          hint: permission.description ?? permission.key,
+          enabled: permission.enabled
         }))
       }))}
     />

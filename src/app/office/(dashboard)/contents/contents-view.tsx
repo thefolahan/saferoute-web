@@ -5,7 +5,9 @@ import { Shell } from '../../_components/shell';
 import { FilterBar, FilterField } from '../../_components/filter-bar';
 import { DataTable, Pagination, type Column } from '../../_components/table';
 import { ImageIcon, LocationIcon, UserSolidIcon } from '../../_components/icons';
-import { ContentModal } from '../../_components/content-modal';
+import { ContentModal, type ContentDetail } from '../../_components/content-modal';
+import { useAction } from '../../_components/use-action';
+import { setContentStatus } from '../../_lib/actions';
 
 /* Figma 907:16950 "Contents". Columns 778 / 165 / 247 = 1190. */
 
@@ -36,12 +38,26 @@ const STATUS_TONE: Record<Status, string> = {
 
 export function ContentsView({
   rows,
-  pageLabel
+  pageLabel,
+  loadDetail
 }: {
   rows: ContentRow[];
   pageLabel: string;
+  /** Server action — the sheet's media are signed URLs fetched on demand. */
+  loadDetail: (id: string) => Promise<ContentDetail | null>;
 }) {
-  const [detailOpen, setDetailOpen] = useState(false);
+  const [detail, setDetail] = useState<ContentDetail | null>(null);
+  const [opening, setOpening] = useState<string | null>(null);
+  const { pending, error, run } = useAction();
+
+  async function open(id: string) {
+    setOpening(id);
+    try {
+      setDetail(await loadDetail(id));
+    } finally {
+      setOpening(null);
+    }
+  }
 
   return (
     <Shell title="Contents">
@@ -53,6 +69,15 @@ export function ContentsView({
           <FilterField placeholder="City" width={230} />
         </FilterBar>
 
+        {error ? (
+          <p
+            role="alert"
+            className="mx-4 rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700 sm:mx-6 lg:mx-8"
+          >
+            {error}
+          </p>
+        ) : null}
+
         <div className="flex flex-col">
           <DataTable
             columns={COLUMNS}
@@ -63,10 +88,10 @@ export function ContentsView({
                 case 'content':
                   return (
                     <span className="flex flex-col justify-center gap-[5px]">
-                      <span className="w-[437px] text-sm font-medium leading-5 text-[#2F3037]">
+                      <span className="line-clamp-2 max-w-[437px] text-sm font-medium leading-5 text-[#2F3037]">
                         {row.title}
                       </span>
-                      <span className="flex items-center gap-[18px] text-xs font-normal leading-5 text-gray-500">
+                      <span className="flex flex-wrap items-center gap-x-[18px] gap-y-1 text-xs font-normal leading-5 text-gray-500">
                         <span className="flex items-center gap-1">
                           <UserSolidIcon className="h-4 w-4 shrink-0 text-gray-500" />
                           {row.author}
@@ -93,13 +118,26 @@ export function ContentsView({
                   );
                 case 'actions':
                   return (
-                    <button
-                      type="button"
-                      onClick={() => setDetailOpen(true)}
-                      className="text-sm font-medium leading-5 text-gray-700"
-                    >
-                      View Details
-                    </button>
+                    <span className="flex items-center justify-end gap-[21px]">
+                      {row.status === 'Pending review' ? (
+                        <button
+                          type="button"
+                          disabled={pending}
+                          onClick={() => run(() => setContentStatus(row.id, 'published'))}
+                          className="text-sm font-medium leading-5 text-success-700 disabled:opacity-50"
+                        >
+                          Verify
+                        </button>
+                      ) : null}
+                      <button
+                        type="button"
+                        disabled={opening === row.id}
+                        onClick={() => open(row.id)}
+                        className="text-sm font-medium leading-5 text-gray-700 disabled:opacity-50"
+                      >
+                        {opening === row.id ? 'Opening…' : 'View Details'}
+                      </button>
+                    </span>
                   );
                 default:
                   return null;
@@ -110,7 +148,11 @@ export function ContentsView({
         </div>
       </div>
 
-      <ContentModal open={detailOpen} onClose={() => setDetailOpen(false)} />
+      <ContentModal
+        open={detail !== null}
+        detail={detail}
+        onClose={() => setDetail(null)}
+      />
     </Shell>
   );
 }
