@@ -362,3 +362,24 @@ body {
     color: inherit;
   }
 }
+
+/* Stop iOS zooming the page when a field takes focus.
+ *
+ * Safari on iPhone zooms in on any control whose text is under 16px, and then
+ * leaves the page zoomed — which is what made the sign-in fields jump. It is
+ * NOT fixed by `user-scalable=no`: Safari has ignored that since iOS 10,
+ * deliberately, because disabling pinch-zoom breaks the page for anyone who
+ * needs to magnify it. The font size is the actual fix.
+ *
+ * Only below the phone breakpoint, so the design's 13-15px fields are
+ * untouched on the desktop widths they were measured at. `max-width: 767px`
+ * rather than a Tailwind variant because it has to catch every control on the
+ * marketing site and the dashboard at once, including ones rendered by code
+ * that predates this. */
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: max(16px, 1em);
+  }
+}

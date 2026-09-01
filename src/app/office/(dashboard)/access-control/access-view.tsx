@@ -36,6 +36,7 @@ const COLUMNS: Column[] = [
 export type MemberRow = {
   id: string;
   name: string;
+  avatarUrl: string | null;
   email: string;
   /** The role's own name (`super_admin`), not the humanised label. */
   roleKey: string;
@@ -132,7 +133,13 @@ export function AccessControlView({
             cell={(row, key) => {
               switch (key) {
                 case 'name':
-                  return <CellUser name={row.name} sub={row.email} />;
+                  return (
+                    <CellUser
+                      name={row.name}
+                      sub={row.email}
+                      avatarUrl={row.avatarUrl}
+                    />
+                  );
                 case 'role':
                   return (
                     <span className="text-sm font-normal leading-5 text-gray-700">{row.role}</span>

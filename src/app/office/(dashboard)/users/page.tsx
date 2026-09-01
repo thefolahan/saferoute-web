@@ -6,6 +6,8 @@ export const dynamic = 'force-dynamic';
 type ApiUser = {
   id: string;
   name: string;
+  avatarUrl: string | null;
+  trustScore: number | null;
   reference: string;
   accountType: 'community' | 'official' | 'news_outlet';
   verificationStatus: string;
@@ -74,6 +76,7 @@ export default async function UsersPage({
       rows={rows.map((user): UserRow => ({
         id: user.id,
         name: user.name,
+        avatarUrl: user.avatarUrl,
         code: user.reference,
         type: verificationLabel(user.verificationStatus),
         kyc: KYC_LABEL[user.kycStatus] ?? 'Not required',

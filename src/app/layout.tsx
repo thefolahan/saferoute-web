@@ -113,9 +113,23 @@ export const metadata: Metadata = {
   }
 };
 
+/**
+ * `maximumScale` and `userScalable` are set because they were asked for, but
+ * they are not what stops the sign-in fields zooming: iOS Safari has ignored
+ * both since iOS 10, on purpose, since honouring them would leave anyone who
+ * needs to magnify a page unable to. The fix that works is the 16px minimum on
+ * form controls in globals.css — Safari only zooms fields whose text is
+ * smaller than that.
+ *
+ * These still bind on Android Chrome and older browsers, so the two together
+ * cover every case. Pinch-zoom stays available on iOS regardless, which is the
+ * accessible outcome.
+ */
 export const viewport: Viewport = {
   initialScale: 1,
-  width: 'device-width'
+  width: 'device-width',
+  maximumScale: 1,
+  userScalable: false
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

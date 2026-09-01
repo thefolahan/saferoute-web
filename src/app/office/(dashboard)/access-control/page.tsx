@@ -13,6 +13,7 @@ type ApiTeam = {
     id: string;
     name: string;
     email: string;
+    avatarUrl: string | null;
     roleId: string;
     role: string;
     status: string;
@@ -51,6 +52,7 @@ export default async function AccessControlPage() {
       rows={members.map((member): MemberRow => ({
         id: member.id,
         name: member.name,
+        avatarUrl: member.avatarUrl,
         email: member.email,
         roleKey: member.role,
         role: humanise(member.role),

@@ -20,7 +20,12 @@ type Analytics = {
     trafficReports: number;
     emergencyAlerts: number;
     revenueMinor: number | null;
+    revenueCurrency: string;
     avgResponseSeconds: number | null;
+    avgResolutionSeconds: number | null;
+    /** 0-1 share of SOS activations that reached a Safety Circle contact. */
+    sosReachRate: number | null;
+    appDownloads: number | null;
   };
   severity: { severity: string; count: number; share: number }[];
 };
@@ -51,20 +56,35 @@ export default async function AnalyticsPage() {
     { label: 'Active users', value: NUMBER.format(m?.activeUsers ?? 0) },
     { label: 'SOS request', value: NUMBER.format(m?.sosRequests ?? 0) },
     { label: 'Live incident count', value: NUMBER.format(m?.liveIncidents ?? 0) },
-    // No response-time aggregate exists yet.
-    { label: 'Avg Response Time', value: '—' },
+    { label: 'Avg Response Time', value: duration(m?.avgResponseSeconds) },
     { label: 'Crime reports', value: NUMBER.format(m?.crimeReports ?? 0) },
     { label: 'Traffic reports', value: NUMBER.format(m?.trafficReports ?? 0) },
-    // App installs are not something this database sees.
+    // App installs are not something this database sees — the stores are not
+    // connected, and counting sign-ups instead would be a different number.
     { label: 'App downloads', value: '—' },
     { label: 'Emergency alerts', value: NUMBER.format(m?.emergencyAlerts ?? 0) },
-    { label: 'Revenue', value: '—' }
+    { label: 'Revenue', value: money(m?.revenueMinor, m?.revenueCurrency) }
   ];
 
   const response: ResponseStat[] = [
-    { label: 'Average Response Time', value: '—', delta: null },
-    { label: 'Average Resolution Time', value: '—', delta: null },
-    { label: 'SOS Response Rate', value: '—', delta: null }
+    {
+      label: 'Average Response Time',
+      value: duration(m?.avgResponseSeconds),
+      delta: null
+    },
+    {
+      label: 'Average Resolution Time',
+      value: duration(m?.avgResolutionSeconds),
+      delta: null
+    },
+    {
+      label: 'SOS Response Rate',
+      value:
+        m?.sosReachRate === null || m?.sosReachRate === undefined
+          ? '—'
+          : `${Math.round(m.sosReachRate * 100)}%`,
+      delta: null
+    }
   ];
 
   const severityOrder = ['critical', 'high', 'medium', 'low'];
@@ -102,4 +122,23 @@ export default async function AnalyticsPage() {
       activity={(activity ?? []) as ActivityPoint[]}
     />
   );
+}
+
+/** Seconds as the largest sensible unit; an em dash when nothing was measured. */
+function duration(seconds: number | null | undefined): string {
+  if (seconds === null || seconds === undefined) return '—';
+  if (seconds < 60) return `${Math.round(seconds)}s`;
+  if (seconds < 3600) return `${Math.round(seconds / 60)}m`;
+  if (seconds < 86400) return `${(seconds / 3600).toFixed(1)}h`;
+  return `${(seconds / 86400).toFixed(1)}d`;
+}
+
+/** Monthly recurring revenue. `priceMinor` is kobo, so divide by 100. */
+function money(minor: number | null | undefined, currency = 'NGN'): string {
+  if (minor === null || minor === undefined) return '—';
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0
+  }).format(minor / 100);
 }

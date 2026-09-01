@@ -34,6 +34,7 @@ export type Kyc = 'Approved' | 'Pending' | 'Rejected' | 'Not required';
 export type UserRow = {
   id: string;
   name: string;
+  avatarUrl: string | null;
   code: string;
   type: string;
   kyc: Kyc;
@@ -127,7 +128,13 @@ export function UsersView({
             cell={(row, key) => {
               switch (key) {
                 case 'name':
-                  return <CellUser name={row.name} sub={row.code} />;
+                  return (
+                    <CellUser
+                      name={row.name}
+                      sub={row.code}
+                      avatarUrl={row.avatarUrl}
+                    />
+                  );
                 case 'type':
                   return <CellChip>{row.type}</CellChip>;
                 case 'kyc':

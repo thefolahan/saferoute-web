@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Sidebar } from '../../_components/sidebar';
+import { GoogleMap } from '../../_components/google-map';
 import { TileMap, type MapMarker } from '../../_components/tile-map';
 import {
   ArrowDownIcon,
@@ -37,8 +38,22 @@ const SEVERITY_COLOR: Record<string, string> = {
   low: '#3DC47E'
 };
 
-export function MapView({ cards }: { cards: MapCard[] }) {
+export function MapView({
+  cards,
+  mapsApiKey
+}: {
+  cards: MapCard[];
+  /** Google Maps browser key; falls back to OSM tiles when absent. */
+  mapsApiKey: string | null;
+}) {
   const [selected, setSelected] = useState(cards[0]?.id ?? '');
+  /**
+   * Set when Google Maps cannot load — a key still propagating, a referrer
+   * restriction, a quota. The screen drops to the OSM tile layer rather than
+   * showing an apology: a working map of the right places beats a message
+   * about why there is no map.
+   */
+  const [googleFailed, setGoogleFailed] = useState(false);
   const frame = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -77,7 +92,21 @@ export function MapView({ cards }: { cards: MapCard[] }) {
       <Sidebar />
 
       <div ref={frame} className="relative min-w-0 flex-1 overflow-hidden bg-[#E8E8E8]">
-        {size.width > 0 ? (
+        {/*
+          Google Maps where a key is configured, the OSM tile layer where it is
+          not — so the screen works in local development and on a preview
+          deploy without one, rather than showing a grey box and a console
+          error.
+        */}
+        {mapsApiKey && !googleFailed ? (
+          <GoogleMap
+            apiKey={mapsApiKey}
+            markers={markers}
+            onSelect={setSelected}
+            onFail={() => setGoogleFailed(true)}
+            className="absolute inset-0"
+          />
+        ) : size.width > 0 ? (
           <TileMap
             markers={markers}
             width={size.width}
@@ -87,14 +116,20 @@ export function MapView({ cards }: { cards: MapCard[] }) {
         ) : null}
 
         {cards.length === 0 ? (
-          <p className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm leading-6 text-gray-600">
+          <p className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center text-sm leading-6 text-gray-600">
             No incidents have been reported with a location yet.
           </p>
         ) : null}
 
         {/* Control bar — 929x74, pad 16/30, #000 @ radius 39 */}
+        {/*
+          Centred, as the design has it: Figma 907:17461 sits at x=440 in a
+          panel starting at x=250, i.e. inset from both edges rather than flush
+          left. It was pinned to `left-4`, which read as a bar shoved into the
+          corner.
+        */}
         <div
-          className="absolute left-4 flex h-[74px] w-[calc(100%-32px)] max-w-[929px] items-center justify-between gap-4 overflow-hidden rounded-[39px] bg-black px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] lg:gap-[30px] lg:px-[30px]"
+          className="absolute left-1/2 z-10 flex h-[74px] w-[calc(100%-32px)] max-w-[929px] -translate-x-1/2 items-center justify-between gap-4 overflow-hidden rounded-[39px] bg-black px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] lg:gap-[30px] lg:px-[30px]"
           style={{ top: 23, boxShadow: 'inset 0 0 0 1px #414141' }}
         >
           {/*
@@ -144,7 +179,7 @@ export function MapView({ cards }: { cards: MapCard[] }) {
         </div>
 
         {/* Card rail — 372x137 modals, gap 11 */}
-        <div className="no-scrollbar absolute bottom-6 left-1 right-0 flex gap-[11px] overflow-x-auto py-[11px] pr-[19px]">
+        <div className="no-scrollbar absolute bottom-6 left-1 right-0 z-10 flex gap-[11px] overflow-x-auto py-[11px] pr-[19px]">
           {cards.map((card) => {
             const isSelected = card.id === selected;
             return (

@@ -40,6 +40,7 @@ export default async function MapPage() {
 
   return (
     <MapView
+      mapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? null}
       cards={incidents.map((incident): MapCard => ({
         id: incident.id,
         title: incident.title || humanise(incident.category),

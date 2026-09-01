@@ -33,6 +33,9 @@ export type DetailSubject = {
   official: boolean;
   /** Gauge palette: Success/500 on a #ECFDF3 track, or #FFCD71 on #FFF7E8. */
   gauge: 'green' | 'amber';
+  /** The band the score falls in, and where they sit against everyone else. */
+  scoreBand: string | null;
+  scoreNote: string | null;
   stats: Stat[];
   tabs: { id: string; label: string }[];
 };
@@ -191,13 +194,29 @@ export function UserDetail({
                       {subject.score}
                     </span>
                   </div>
-                  <div className="flex flex-col items-center justify-center gap-[6px]">
-                    <span className="rounded-[20px] bg-[#E8F5E9] px-4 py-2 text-xs font-bold uppercase leading-[15px] text-[#4CAF50]">
-                      Excellent
-                    </span>
-                    <span className="text-xs font-normal leading-[15px] text-[#9CA3AF]">
-                      Top 5% of SafeRoute users
-                    </span>
+                  {/*
+                    The band and the percentile are this account's own —
+                    `users.trust_score` and TrustBreakdownService.topPercentile,
+                    both of which existed while this printed a fixed
+                    "Excellent / Top 5% of SafeRoute users" over an em dash.
+                  */}
+                  <div className="flex flex-col items-center justify-center gap-[6px] text-center">
+                    {subject.scoreBand ? (
+                      <span
+                        className={`rounded-[20px] px-4 py-2 text-xs font-bold uppercase leading-[15px] ${
+                          subject.gauge === 'green'
+                            ? 'bg-[#E8F5E9] text-[#4CAF50]'
+                            : 'bg-[#FFF7E8] text-[#B54708]'
+                        }`}
+                      >
+                        {subject.scoreBand}
+                      </span>
+                    ) : null}
+                    {subject.scoreNote ? (
+                      <span className="text-xs font-normal leading-[15px] text-[#9CA3AF]">
+                        {subject.scoreNote}
+                      </span>
+                    ) : null}
                   </div>
                 </div>
               </div>

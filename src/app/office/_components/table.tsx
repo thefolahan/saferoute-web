@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Avatar } from './avatar';
 
 /* Figma builds these tables as columns (907:14132 …). Header cell 44h
    pad 12/x, bg #FCFCFD; body cell 75h pad 20/x; every cell carries a 1px
@@ -138,35 +139,20 @@ export function CellText({ children }: { children: ReactNode }) {
   return <span className="text-sm font-normal leading-5 text-gray-700">{children}</span>;
 }
 
-/** Two letters from a display name, for a table's avatar circle. */
-export function initialsOf(name: string): string {
-  const letters = name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0] ?? '');
-
-  return (letters.join('') || '?').toUpperCase();
-}
-
-/** Avatar-initials + name + id (Figma 907:14137). */
+/** Photograph (or initials) + name + id (Figma 907:14137). */
 export function CellUser({
-  initials,
   name,
-  sub
+  sub,
+  avatarUrl
 }: {
-  /** Defaults to the name's own initials. */
-  initials?: string;
   name: string;
   sub: string;
+  /** The account's own photograph; initials when there is none. */
+  avatarUrl?: string | null;
 }) {
-  const letters = initials ?? initialsOf(name);
   return (
     <span className="flex items-center gap-2">
-      <span className="flex h-[35px] w-[35px] shrink-0 items-center justify-center rounded-[18px] bg-gray-100 text-base font-semibold leading-[22px] text-[#2F3037]">
-        {letters}
-      </span>
+      <Avatar src={avatarUrl} name={name} size={35} />
       <span className="flex flex-col justify-center">
         <span className="text-sm font-medium leading-5 text-[#2F3037]">{name}</span>
         <span className="text-xs font-normal leading-5 text-[#767B8C]">{sub}</span>

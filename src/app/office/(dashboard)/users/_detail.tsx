@@ -18,6 +18,10 @@ import { officeFetch } from '../../_lib/session';
  */
 export type ApiUserDetail = {
   id: string;
+  /** 0-1 confidence, or null on an account with no history to score. */
+  trustScore: number | null;
+  /** Percentage of active accounts at or above this one, or null. */
+  trustPercentile: number | null;
   name: string;
   reference: string;
   username: string | null;
@@ -116,11 +120,21 @@ export async function renderUserDetail({
       ? [user.organizationUnit, user.organizationState].filter(Boolean).join(' · ') ||
         'Official'
       : 'Community Member',
-    // No trust score exists in the schema; the gauge label says so.
-    score: '—',
+    /**
+     * The gauge, from this account's own record. `users.trust_score` is a
+     * 0-1 confidence, so it reads as a percentage; the band and the percentile
+     * line replace what used to be a fixed "Excellent / Top 5%".
+     */
+    score: user.trustScore === null ? '—' : `${Math.round(user.trustScore * 100)}`,
+    scoreBand: trustBand(user.trustScore),
+    scoreNote:
+      user.trustPercentile === null
+        ? 'Not enough accounts to rank against'
+        : `Top ${user.trustPercentile}% of SafeRoute users`,
     avatar: isAgency ? 'agency' : 'person',
     official: isAgency,
-    gauge: isAgency ? 'green' : 'amber',
+    gauge:
+      user.trustScore !== null && user.trustScore >= 0.6 ? 'green' : 'amber',
     stats: [
       { value: format(user.stats.followers), label: 'Followers' },
       { value: format(user.stats.impressions), label: 'Impressions' },
@@ -248,4 +262,17 @@ function dateTime(iso: string | null): string {
 
 function capitalise(value: string): string {
   return value.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+}
+
+/**
+ * The word beside the gauge. Bands rather than a raw number because that is
+ * what the design shows, and because a percentage on its own does not say
+ * whether it is good.
+ */
+function trustBand(score: number | null): string | null {
+  if (score === null) return null;
+  if (score >= 0.8) return 'Excellent';
+  if (score >= 0.6) return 'Good';
+  if (score >= 0.4) return 'Fair';
+  return 'Needs review';
 }
