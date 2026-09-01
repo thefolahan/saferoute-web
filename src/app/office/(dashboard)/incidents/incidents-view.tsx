@@ -45,19 +45,36 @@ const FILTERS = [
   { id: 'news', label: 'News Outlets', icon: NewspaperIcon, color: '#AF52DE' }
 ];
 
-const INCIDENTS: { id: string; name: string; severity: string; source: Source }[] = [
-  { id: 'i1', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'Community' },
-  { id: 'i2', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'Live' },
-  { id: 'i3', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'Live' },
-  { id: 'i4', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'Officials' },
-  { id: 'i5', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'News Outlet' },
-  { id: 'i6', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'Live' },
-  { id: 'i7', name: 'DR. Jesuloba VJ', severity: 'Critical', source: 'News Outlet' }
-];
+export type IncidentRow = {
+  id: string;
+  name: string;
+  severity: string;
+  source: Source;
+};
 
-export default function IncidentsPage() {
+export type IncidentDetail = {
+  id: string;
+  title: string;
+  description: string;
+  severity: string;
+  status: string;
+  place: string;
+  reportedAt: string;
+  confirmations: number;
+  reportCount: number;
+};
+
+export function IncidentsView({
+  incidents,
+  detail,
+  total
+}: {
+  incidents: IncidentRow[];
+  detail: IncidentDetail | null;
+  total: number;
+}) {
   const [filter, setFilter] = useState('all');
-  const [selected, setSelected] = useState<string | null>('i1');
+  const [selected, setSelected] = useState<string | null>(detail?.id ?? null);
 
   return (
     <Shell title="Incidents">
@@ -99,11 +116,11 @@ export default function IncidentsPage() {
             </div>
 
             <p className="text-[15px] font-semibold leading-[18px] text-[#1A1A1A]">
-              20 incident reported
+              {total} incident{total === 1 ? '' : 's'} reported
             </p>
           </div>
 
-          {INCIDENTS.map((inc) => {
+          {incidents.map((inc) => {
             const Icon = SOURCE_ICON[inc.source];
             const isSelected = inc.id === selected;
             return (
@@ -157,14 +174,14 @@ export default function IncidentsPage() {
           })}
         </div>
 
-        {selected ? <IncidentDetail /> : null}
+        {selected && detail ? <IncidentDetailPanel detail={detail} /> : null}
       </div>
     </Shell>
   );
 }
 
 /* Figma 907:16432 — the 598-wide detail panel. */
-function IncidentDetail() {
+function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
   return (
     <div className="flex min-w-0 flex-1 flex-col border-b border-l border-rule bg-white pb-[26px]">
       <div className="flex items-center justify-between gap-[10px] px-5 py-[14px]">
