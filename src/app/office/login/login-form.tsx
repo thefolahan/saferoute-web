@@ -5,15 +5,18 @@ import { useState, type FormEvent, type ReactNode } from 'react';
 import { Eye, EyeOff, KeyRound, Lock, Mail } from 'lucide-react';
 
 /**
- * Three steps, because the API enforces TOTP on every admin account and will
- * not mint a session from a password alone:
+ * How many steps there are depends on the API's `ADMIN_MFA_REQUIRED`:
  *
+ *   credentials                    (flag off — a session comes straight back)
  *   credentials -> code            (account already enrolled)
  *   credentials -> enrol -> code   (first login; the API returns a QR)
  *
- * A successful first login also returns one-time recovery codes. Those are the
- * only secret this page is allowed to display, and it blocks on an explicit
- * acknowledgement before continuing — they cannot be retrieved later.
+ * The page does not read the flag; it reacts to what the credentials call
+ * answers with, so turning TOTP back on needs no change here.
+ *
+ * A successful first enrolment also returns one-time recovery codes. Those are
+ * the only secret this page is allowed to display, and it blocks on an
+ * explicit acknowledgement before continuing — they cannot be retrieved later.
  */
 type Step =
   | { name: 'credentials' }
@@ -57,9 +60,18 @@ export function LoginForm({ base }: { base: string }) {
       }
 
       setCode('');
-      // Not kept around once it has been exchanged for a challenge.
+      // Not kept around once it has been exchanged.
       setPassword('');
       setShowPassword(false);
+
+      // Second factor is off for this deployment — the route handler has
+      // already set the session cookie, so there is no code to ask for.
+      if (data.status === 'authenticated') {
+        router.replace(base);
+        router.refresh();
+        return;
+      }
+
       setStep({
         name: 'code',
         challengeToken: data.challengeToken,

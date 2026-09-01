@@ -32,7 +32,12 @@ export async function POST(request: Request) {
     cache: 'no-store'
   });
 
-  const payload = await upstream.json().catch(() => ({}));
+  const payload = (await upstream.json().catch(() => ({}))) as {
+    status?: string;
+    sessionToken?: string;
+    expiresAt?: string;
+    admin?: { email: string; role: string };
+  };
 
   if (!upstream.ok) {
     // Never echo the API's reason back — it distinguishes "no such admin" from
@@ -41,6 +46,29 @@ export async function POST(request: Request) {
       { message: 'Those credentials did not match an admin account.' },
       { status: 401 }
     );
+  }
+
+  /**
+   * With ADMIN_MFA_REQUIRED=false the API answers a correct password with a
+   * session rather than a challenge, so the cookie is set here as well as in
+   * ./mfa. The token still never reaches the page: it goes straight into an
+   * httpOnly cookie and what comes back says only that it worked.
+   */
+  if (payload.status === 'authenticated' && payload.sessionToken) {
+    const response = NextResponse.json({
+      status: 'authenticated',
+      admin: payload.admin ?? null
+    });
+
+    response.cookies.set(OFFICE_SESSION_COOKIE, payload.sessionToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      expires: payload.expiresAt ? new Date(payload.expiresAt) : undefined
+    });
+
+    return response;
   }
 
   return NextResponse.json(payload);
