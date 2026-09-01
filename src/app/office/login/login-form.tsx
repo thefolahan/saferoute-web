@@ -156,7 +156,7 @@ export function LoginForm({ base }: { base: string }) {
             </FieldRow>
           </div>
 
-          <Action busy={busy} label="Continue →" busyLabel="Checking…" />
+          <Action busy={busy} label="Proceed →" busyLabel="Checking…" />
         </form>
       ) : null}
 
