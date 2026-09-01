@@ -40,7 +40,17 @@ export function proxy(request: NextRequest) {
 
   const url = request.nextUrl.clone();
   url.pathname = `/office${tail}`;
-  return NextResponse.rewrite(url);
+
+  /**
+   * Server components see the rewritten `/office/...` and have no way to learn
+   * the code, so any redirect they issue (the auth guard's, mainly) would land
+   * on a path the proxy 404s. Passing the external prefix through as a request
+   * header is what lets them build a URL that actually resolves.
+   */
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-office-base', `/office-${code}`);
+
+  return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
 }
 
 export const config = {

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
@@ -81,6 +82,20 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
    shadow 0 8 32 rgba(0,0,0,.24). */
 function ProfileMenu({ onClose }: { onClose: () => void }) {
   const base = useOfficeBase();
+  const router = useRouter();
+  const [signingOut, setSigningOut] = useState(false);
+
+  async function signOut() {
+    setSigningOut(true);
+    // Revokes the session server-side and clears the httpOnly cookie; the
+    // refresh is what makes the guard bounce us to the login page.
+    await fetch('/api/office/session', { method: 'DELETE' }).catch(
+      () => undefined
+    );
+    onClose();
+    router.replace(`${base}/login`);
+    router.refresh();
+  }
   const items = [
     { label: 'My Profile', href: officeHref(base, 'configuration'), Icon: UserOutlineIcon, active: true },
     { label: 'Settings', href: officeHref(base, 'configuration'), Icon: SettingsIcon, active: false },
@@ -130,11 +145,14 @@ function ProfileMenu({ onClose }: { onClose: () => void }) {
 
           <button
             type="button"
-            onClick={onClose}
-            className="flex items-center gap-[10px] px-[10px] py-[10px]"
+            onClick={signOut}
+            disabled={signingOut}
+            className="flex items-center gap-[10px] px-[10px] py-[10px] disabled:opacity-60"
           >
             <LogOutIcon className="h-6 w-6 text-error-500" />
-            <span className="text-sm font-semibold leading-5 text-error-500">Log Out</span>
+            <span className="text-sm font-semibold leading-5 text-error-500">
+              {signingOut ? 'Signing out…' : 'Log Out'}
+            </span>
           </button>
         </div>
       </div>
