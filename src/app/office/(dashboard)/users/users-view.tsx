@@ -18,7 +18,15 @@ import {
 /* Figma 907:14078 "Users" / 907:14388 (Officials & Agency tab).
    Column widths 300/142/129/136/133/153/197 sum to the 1190 content area. */
 
-const COLUMNS: Column[] = [
+/**
+ * The two tabs are two different tables in the design, not one table filtered.
+ *
+ * Regular users (907:14078) is about the person — type, KYC, city. Officials
+ * (907:14388) is about the organisation — its jurisdiction and how many
+ * officials are registered under it. Both column sets sum to the 1190 content
+ * area, which is what keeps them aligned with the rest of the dashboard.
+ */
+const REGULAR_COLUMNS: Column[] = [
   { key: 'name', label: 'NAME', width: 300, pad: 32 },
   { key: 'type', label: 'TYPE', width: 142 },
   { key: 'kyc', label: 'KYC STATUS', width: 129 },
@@ -26,6 +34,16 @@ const COLUMNS: Column[] = [
   { key: 'active', label: 'LAST ACTIVE', width: 133 },
   { key: 'credit', label: 'CREDIT USUAGE', width: 153 },
   { key: 'actions', label: '', width: 197, pad: 32, align: 'right' }
+];
+
+const OFFICIAL_COLUMNS: Column[] = [
+  { key: 'name', label: 'OFFICIALS/ AGENCY', width: 313, pad: 32 },
+  { key: 'type', label: 'VERIFICATION', width: 138 },
+  { key: 'registered', label: 'REGISTERED OFFICIALS', width: 186, align: 'right' },
+  { key: 'jurisdiction', label: 'JURISDICTION', width: 147 },
+  { key: 'status', label: 'STATUS', width: 128 },
+  { key: 'active', label: 'LAST ACTIVE', width: 133 },
+  { key: 'actions', label: '', width: 145, pad: 32, align: 'right' }
 ];
 
 /** `Not required` is the state the design has no chip for — most accounts. */
@@ -36,6 +54,9 @@ export type UserRow = {
   name: string;
   avatarUrl: string | null;
   code: string;
+  /** Officials tab only. */
+  jurisdiction: string;
+  status: string;
   type: string;
   kyc: Kyc;
   city: string;
@@ -121,7 +142,7 @@ export function UsersView({
 
         <div className="flex flex-col">
           <DataTable
-            columns={COLUMNS}
+            columns={tab === 'officials' ? OFFICIAL_COLUMNS : REGULAR_COLUMNS}
             rows={rows}
             rowKey={(r) => r.id}
             empty="No accounts match these filters."
@@ -147,6 +168,28 @@ export function UsersView({
                   );
                 case 'city':
                   return <CellText>{row.city}</CellText>;
+                case 'jurisdiction':
+                  return <CellText>{row.jurisdiction}</CellText>;
+                case 'status':
+                  return (
+                    <span
+                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium capitalize leading-[18px] ${
+                        row.status === 'active'
+                          ? 'bg-success-50 text-success-700'
+                          : 'bg-rule text-gray-600'
+                      }`}
+                    >
+                      {row.status}
+                    </span>
+                  );
+                case 'registered':
+                  /*
+                    The design counts officials registered under an agency.
+                    Nothing links a person to an organisation in the schema —
+                    `organization_name` is a free-text field on the account
+                    itself — so there is no count to make.
+                  */
+                  return <CellText>—</CellText>;
                 case 'active':
                   return <CellText>{row.active}</CellText>;
                 case 'credit':

@@ -61,7 +61,7 @@ export default async function NeedsActionPage({
         label: tab.label,
         count: String(byTab[tab.id].length)
       }))}
-      rows={byTab[active].map((row) => toActionRow(row, base))}
+      rows={byTab[active].map((row) => toActionRow(row, base, active))}
     />
   );
 }
@@ -71,7 +71,11 @@ export default async function NeedsActionPage({
  * screen with its panel already showing; a pending account opens on the user's
  * own detail screen, which is where the decision about it is taken.
  */
-function toActionRow(row: Row, base: string): ActionRowData {
+function toActionRow(
+  row: Row,
+  base: string,
+  tab: 'pending' | 'verified' | 'rejected'
+): ActionRowData {
   const badges: ActionRowData['badges'] =
     row.kind === 'user'
       ? [{ text: 'Pending', tone: 'warning' }]
@@ -82,6 +86,12 @@ function toActionRow(row: Row, base: string): ActionRowData {
 
   return {
     id: row.id,
+    /**
+     * A verified report can be put back (Figma 907:13222 "Revoke action"),
+     * which the screen had no way to do — the row carried the same
+     * "Investigate" as a pending one.
+     */
+    revocable: tab === 'verified' && row.kind === 'incident',
     href:
       row.kind === 'user'
         ? `${base}/users/${row.accountType === 'community' ? 'community' : 'agency'}?id=${row.id}`

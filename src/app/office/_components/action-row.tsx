@@ -22,6 +22,8 @@ export type ActionRowData = {
   href?: string;
   /** Broadcast rows only — whether this one can still be pulled back. */
   cancellable?: boolean;
+  /** Verified reports — whether the verification can be taken back. */
+  revocable?: boolean;
 };
 
 const BADGE_CLASS: Record<ActionBadge['tone'], string> = {
@@ -35,12 +37,15 @@ export function ActionRow({
   row,
   rail = true,
   onAction,
+  onRevoke,
   pending = false
 }: {
   row: ActionRowData;
   rail?: boolean;
   /** Overrides the link, for rows whose button is a mutation. */
   onAction?: (row: ActionRowData) => void;
+  /** Takes a verification back, on the Verified tab. */
+  onRevoke?: (row: ActionRowData) => void;
   pending?: boolean;
 }) {
   return (
@@ -73,7 +78,19 @@ export function ActionRow({
           </div>
         </div>
 
-        <ActionControl row={row} onAction={onAction} pending={pending} />
+        <span className="flex shrink-0 items-center gap-[10px] self-end sm:self-auto">
+          {row.revocable && onRevoke ? (
+            <GhostButton
+              size="md"
+              disabled={pending}
+              onClick={() => onRevoke(row)}
+              className="gap-[5px] text-error-500"
+            >
+              Revoke action
+            </GhostButton>
+          ) : null}
+          <ActionControl row={row} onAction={onAction} pending={pending} />
+        </span>
       </div>
     </div>
   );
@@ -136,11 +153,13 @@ export function ActionRowList({
   rows,
   rail = true,
   onAction,
+  onRevoke,
   pending = false
 }: {
   rows: ActionRowData[];
   rail?: boolean;
   onAction?: (row: ActionRowData) => void;
+  onRevoke?: (row: ActionRowData) => void;
   pending?: boolean;
 }) {
   return (
@@ -151,6 +170,7 @@ export function ActionRowList({
           row={row}
           rail={rail}
           onAction={onAction}
+          onRevoke={onRevoke}
           pending={pending}
         />
       ))}

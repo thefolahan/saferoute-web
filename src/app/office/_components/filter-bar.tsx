@@ -20,7 +20,8 @@ export function FilterField({
   width,
   param,
   options,
-  search = false
+  search = false,
+  unavailable
 }: {
   placeholder: string;
   width: number;
@@ -29,6 +30,12 @@ export function FilterField({
   /** Omit for a free-text field; pass values for the chevron variant. */
   options?: { value: string; label: string }[];
   search?: boolean;
+  /**
+   * Why this filter cannot filter. Set it and the field is drawn as the design
+   * has it but disabled, with the reason on hover — better than a dropdown
+   * that opens onto nothing.
+   */
+  unavailable?: string;
 }) {
   const router = useRouter();
   const params = useSearchParams();
@@ -42,6 +49,21 @@ export function FilterField({
 
     const text = query.toString();
     router.replace(text ? `?${text}` : '?', { scroll: false });
+  }
+
+  if (unavailable) {
+    return (
+      <div
+        title={unavailable}
+        className="edge-gray200 flex h-11 w-full shrink-0 cursor-not-allowed items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px] opacity-60 sm:w-auto"
+        style={{ maxWidth: width }}
+      >
+        <span className="flex-1 truncate text-base font-normal leading-6 text-gray-700">
+          {placeholder}
+        </span>
+        <ChevronDownIcon className="h-4 w-4 shrink-0 text-gray-900" />
+      </div>
+    );
   }
 
   return (

@@ -1,7 +1,8 @@
 'use client';
 
-
 import { Shell } from '../../_components/shell';
+import { useAction } from '../../_components/use-action';
+import { revokeVerification } from '../../_lib/actions';
 import { ActionRowList, type ActionRowData } from '../../_components/action-row';
 import { GoBack, Tabs } from '../../_components/tabs';
 import { Card, Select } from '../../_components/ui';
@@ -21,6 +22,7 @@ export function NeedsActionView({
   active: string;
   onSelect: (id: string) => void;
 }) {
+  const { pending, error, run } = useAction();
 
   return (
     <Shell title="Dashboard" filters>
@@ -38,8 +40,21 @@ export function NeedsActionView({
             />
           </div>
 
+          {error ? (
+            <p
+              role="alert"
+              className="bg-surface-muted px-[19px] pt-[14px] text-sm font-medium leading-5 text-error-700"
+            >
+              {error}
+            </p>
+          ) : null}
+
           {rows.length ? (
-            <ActionRowList rows={rows} />
+            <ActionRowList
+              rows={rows}
+              pending={pending}
+              onRevoke={(row) => run(() => revokeVerification(row.id))}
+            />
           ) : (
             <div className="flex items-center justify-center bg-surface-muted px-[19px] py-20 text-sm text-gray-500">
               No rejected reports.

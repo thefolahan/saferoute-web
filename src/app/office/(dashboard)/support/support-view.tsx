@@ -124,7 +124,9 @@ export function SupportView({
         {/* Ticket list — 471 wide */}
         <div className="flex w-full flex-col bg-white xl:w-[471px] xl:shrink-0">
           <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
-            <div className="flex flex-wrap items-center justify-between gap-[15px]">
+            {/* 907:18000 puts the tabs and the picker on one row. Wrapping
+                added a band of whitespace and pushed the search down. */}
+            <div className="flex items-center justify-between gap-[15px]">
               <Tabs
                 tabs={tabs}
                 active={tab}
@@ -214,7 +216,9 @@ export function SupportView({
         </div>
 
         {/* Conversation panel — Grey/Grey 25 field, pad 25/24, gap 36 */}
-        <div className="flex min-w-0 flex-1 flex-col items-center gap-9 self-start bg-[#F8FAFB] px-6 py-[25px]">
+        {/* `self-start` collapsed the panel to its content; the design's grey
+            column runs the height of the screen. */}
+        <div className="flex min-w-0 flex-1 flex-col items-center gap-9 self-stretch bg-[#F8FAFB] px-6 py-[25px]">
           {!detail ? (
             <p className="py-24 text-center text-sm leading-6 text-gray-500">
               Select a ticket to read the conversation.

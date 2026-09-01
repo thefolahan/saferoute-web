@@ -12,6 +12,8 @@ type Stats = {
   approved: number;
   rejected: number;
   notRequired: number;
+  newToday: number;
+  waiting: number;
 };
 
 type ApiRequest = {
@@ -40,20 +42,26 @@ export default async function VerificationPage() {
     {
       label: 'Pending Review',
       value: String(stats?.pending ?? 0),
-      note: `${stats?.pending ?? 0} awaiting a decision`,
+      note: `${stats?.newToday ?? 0} new today`,
       color: 'text-navy'
     },
     {
+      /*
+        The design reads "+142 this month". Nothing records WHEN a decision was
+        taken — `id_verification_status` has no companion timestamp — so the
+        month cannot be counted, and the running total is what is true.
+      */
       label: 'Verified',
       value: String(stats?.approved ?? 0),
       note: 'Approved to date',
       color: 'text-success-500'
     },
     {
-      // No "needs attention" state exists in the schema; the tile stays honest.
+      // The design's number has no definition. This is the one that earns the
+      // name: still pending after a week.
       label: 'Needs Attention',
-      value: '—',
-      note: 'Not tracked yet',
+      value: String(stats?.waiting ?? 0),
+      note: 'Requires action',
       color: 'text-[#FF8D28]'
     },
     {

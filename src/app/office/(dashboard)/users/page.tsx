@@ -8,6 +8,9 @@ type ApiUser = {
   name: string;
   avatarUrl: string | null;
   trustScore: number | null;
+  organizationName: string | null;
+  organizationState: string | null;
+  organizationUnit: string | null;
   reference: string;
   accountType: 'community' | 'official' | 'news_outlet';
   verificationStatus: string;
@@ -75,9 +78,13 @@ export default async function UsersPage({
       pageLabel={pageLabel(data)}
       rows={rows.map((user): UserRow => ({
         id: user.id,
-        name: user.name,
+        // The officials table is headed by the organisation, not the person.
+        name:
+          tab === 'officials' ? user.organizationName ?? user.name : user.name,
         avatarUrl: user.avatarUrl,
         code: user.reference,
+        jurisdiction: user.organizationState ?? user.organizationUnit ?? '—',
+        status: user.status,
         type: verificationLabel(user.verificationStatus),
         kyc: KYC_LABEL[user.kycStatus] ?? 'Not required',
         city: user.city ?? '—',

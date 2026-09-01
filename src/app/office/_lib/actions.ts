@@ -62,6 +62,25 @@ export async function decideIncident(
   );
 }
 
+/**
+ * Take a verification back (Figma 907:13222 "Revoke action").
+ *
+ * The report returns to moderation rather than being rejected — revoking says
+ * "this should not have been passed", not "this is false", and those are
+ * different decisions with different consequences for the reporter.
+ */
+export async function revokeVerification(
+  id: string,
+  reason?: string
+): Promise<ActionResult> {
+  return toResult(
+    await officeSend(`/admin/incidents/${id}/status`, 'PATCH', {
+      status: 'pending_moderation',
+      reason: reason?.trim() || 'Verification revoked from the dashboard.'
+    })
+  );
+}
+
 /** The Needs Action queue's own decisions, which resolve a queue item. */
 export async function resolveModerationItem(
   id: string,

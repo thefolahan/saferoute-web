@@ -72,6 +72,18 @@ export function ContentsView({
         {/* Bound to the same parameters /admin/contents reads. */}
         <FilterBar>
           <FilterField placeholder="Search captions" param="q" width={406} search />
+          {/*
+            The design's Type filter. A feed post has no type in the schema —
+            the only axis is moderation status, which is the next filter along
+            — so this is present as drawn and says so rather than offering a
+            list with nothing behind it.
+          */}
+          <FilterField
+            placeholder="Type"
+            param="type"
+            width={230}
+            unavailable="Posts have no type to filter by; the Status filter is the one that applies."
+          />
           <FilterField
             placeholder="Status"
             param="status"

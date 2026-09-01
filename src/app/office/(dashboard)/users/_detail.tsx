@@ -27,6 +27,8 @@ export type ApiUserDetail = {
   username: string | null;
   email: string | null;
   phoneNumber: string | null;
+  /** What they chose at onboarding; the design's "Gender" row. */
+  gender: string | null;
   avatarUrl: string | null;
   accountType: 'community' | 'official' | 'news_outlet';
   organizationName: string | null;
@@ -175,6 +177,8 @@ export async function renderUserDetail({
     : [
         { label: 'Full name', value: user.name },
         { label: 'Username', value: user.username ? `@${user.username}` : '—' },
+        // 907:15289 carries this row; `onboarding_gender` is where it lives.
+        { label: 'Gender', value: capitalise(user.gender ?? '—') },
         { label: 'Phone', value: mask(user.phoneNumber), reveal: !!user.phoneNumber },
         { label: 'Email', value: mask(user.email), reveal: !!user.email },
         { label: 'Date joined', value: dateTime(user.createdAt) },
