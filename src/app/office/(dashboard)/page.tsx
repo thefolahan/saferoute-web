@@ -37,10 +37,11 @@ type GrowthPoint = { label: string; count: number };
 const NUMBER = new Intl.NumberFormat('en-NG');
 
 export default async function DashboardPage() {
-  const [overview, needsAction, growth] = await Promise.all([
+  const [overview, needsAction, growth, me] = await Promise.all([
     officeFetch<Overview>('/admin/overview?range=today'),
     officeFetch<{ rows: NeedsActionRow[] }>('/admin/needs-action?status=pending'),
-    officeFetch<GrowthPoint[]>('/admin/user-growth?months=7')
+    officeFetch<GrowthPoint[]>('/admin/user-growth?months=7'),
+    officeFetch<{ fullName: string | null; email: string }>('/admin/auth/me')
   ]);
 
   const m = overview?.metrics;
@@ -64,6 +65,7 @@ export default async function DashboardPage() {
 
   return (
     <DashboardView
+      adminName={me?.fullName ?? me?.email.split('@')[0] ?? 'there'}
       kpis={kpis}
       actions={(needsAction?.rows ?? []).slice(0, 4).map(toActionRow)}
       growth={toGrowthBars(growth ?? [])}

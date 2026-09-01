@@ -15,10 +15,12 @@ import {
 } from './icons';
 import { AVATAR } from '../_lib/assets';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
+import { useAdmin } from './admin-context';
 
 /* Figma 907:17300 "Frame 33602" (with region/state filters) and its sibling
    "Frame 33603" (without). 1190x72, pad 8/32, 1px bottom hairline. */
 export function Topbar({ title, filters = false }: { title: string; filters?: boolean }) {
+  const admin = useAdmin();
   const [menuOpen, setMenuOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -62,7 +64,7 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={AVATAR.admin}
-                alt="Tobi Olusegun"
+                alt={admin?.name ?? "Signed-in admin"}
                 className="h-10 w-10 rounded-3xl object-cover"
               />
               <span className="flex h-6 w-6 items-center justify-center">
@@ -81,6 +83,7 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
 /* Figma 907:19189 "Profile pop up" — 308x330, pad 20/15, radius 12,
    shadow 0 8 32 rgba(0,0,0,.24). */
 function ProfileMenu({ onClose }: { onClose: () => void }) {
+  const admin = useAdmin();
   const base = useOfficeBase();
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
@@ -115,10 +118,10 @@ function ProfileMenu({ onClose }: { onClose: () => void }) {
             />
             <span className="flex flex-col justify-center gap-[7px]">
               <span className="text-base font-semibold leading-[18px] text-[#1F2937]">
-                Tobi Olusegun
+                {admin?.name ?? 'Administrator'}
               </span>
               <span className="text-xs leading-4 text-[#6B7280]">
-                Tobiolusegun35@saferoute.com
+                {admin?.email ?? ''}
               </span>
             </span>
           </div>

@@ -47,6 +47,7 @@ export function AccessControlView({
 }) {
   const [tab, setTab] = useState('members');
   const [dialog, setDialog] = useState<'edit' | 'remove' | 'invite' | null>(null);
+  const [target, setTarget] = useState<MemberRow | null>(null);
   const close = () => setDialog(null);
 
   return (
@@ -94,14 +95,20 @@ export function AccessControlView({
                     <span className="flex items-center justify-end gap-[21px]">
                       <button
                         type="button"
-                        onClick={() => setDialog('remove')}
+                        onClick={() => {
+                          setTarget(row);
+                          setDialog('remove');
+                        }}
                         className="text-sm font-medium leading-5 text-error-400"
                       >
                         Remove
                       </button>
                       <button
                         type="button"
-                        onClick={() => setDialog('edit')}
+                        onClick={() => {
+                          setTarget(row);
+                          setDialog('edit');
+                        }}
                         className="text-sm font-medium leading-5 text-gray-700"
                       >
                         Edit
@@ -180,9 +187,9 @@ export function AccessControlView({
           </>
         }
       >
-        <ModalField label="Full Name" value="Sarah Anderson" />
-        <ModalField label="Email address" value="Sarah3728@example.com" />
-        <ModalField label="Role" value="Operation Admin" chevron />
+        <ModalField label="Full Name" value={target?.name ?? ''} />
+        <ModalField label="Email address" value={target?.email ?? ''} />
+        <ModalField label="Role" value={target?.role ?? ''} chevron />
       </Modal>
 
       <Modal
@@ -201,7 +208,7 @@ export function AccessControlView({
       >
         <div className="flex flex-col justify-center gap-[19px] py-[18px]">
           <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-gray-700">
-            Are you sure you want to remove Tobi Olusegun?{' '}
+            Are you sure you want to remove {target?.name ?? 'this member'}?{' '}
           </span>
           <span className="text-sm font-normal leading-[22px] text-gray-600">
             They will immediately lose access to the SafeRoute admin dashboard.

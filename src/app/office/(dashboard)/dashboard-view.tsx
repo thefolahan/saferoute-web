@@ -18,11 +18,13 @@ export type GrowthBar = { label: string; pad: number };
 export function DashboardView({
   kpis,
   actions,
-  growth
+  growth,
+  adminName
 }: {
   kpis: Kpi[];
   actions: ActionRowData[];
   growth: GrowthBar[];
+  adminName: string;
 }) {
   const base = useOfficeBase();
 
@@ -33,7 +35,7 @@ export function DashboardView({
         <div className="flex items-center justify-between gap-[15px]">
           <div className="flex flex-col justify-center gap-[10px]">
             <h2 className="text-[32px] font-medium leading-[39px] text-gray-500">
-              Welcome back, <span className="text-gray-900">Tobi Olusegun</span> 👋
+              Welcome back, <span className="text-gray-900">{adminName}</span> 👋
             </h2>
             <p className="text-base font-normal leading-[19px] text-gray-500">
               Here&apos;s what&apos;s happening across SafeRoute today.

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
+import { AdminProvider } from '../_components/admin-context';
 import { getSessionToken, officeBase, officeFetch } from '../_lib/session';
 
 /**
@@ -22,11 +23,24 @@ export default async function DashboardGroupLayout({
 
   if (!token) redirect(`${base}/login`);
 
-  const me = await officeFetch<{ id: string }>('/admin/auth/me').catch(
-    () => null
-  );
+  const me = await officeFetch<{
+    id: string;
+    email: string;
+    fullName: string | null;
+    avatarUrl: string | null;
+  }>('/admin/auth/me').catch(() => null);
 
   if (!me) redirect(`${base}/login`);
 
-  return <>{children}</>;
+  return (
+    <AdminProvider
+      admin={{
+        name: me.fullName ?? me.email.split('@')[0] ?? 'Administrator',
+        email: me.email,
+        avatarUrl: me.avatarUrl
+      }}
+    >
+      {children}
+    </AdminProvider>
+  );
 }

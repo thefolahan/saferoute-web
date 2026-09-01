@@ -352,6 +352,11 @@ export function ReportsPanel({ count, items }: { count: string; items: ReportIte
       </div>
 
       <div className="flex max-w-[900px] flex-col gap-3">
+        {items.length === 0 ? (
+          <p className="text-sm leading-6 text-gray-500">
+            This account has not submitted a report.
+          </p>
+        ) : null}
         {items.map((r, i) => (
           <div key={i} className="edge flex flex-col gap-2 rounded-[10px] px-5 py-4">
             <div className="flex items-center gap-3">
@@ -381,16 +386,54 @@ export function ReportsPanel({ count, items }: { count: string; items: ReportIte
   );
 }
 
-export function SubscriptionPanel() {
+export type SubscriptionData = {
+  planId: string;
+  status: string;
+  priceMinor: number;
+  currency: string;
+  startedAt: string;
+  currentPeriodEnd: string;
+  provider: string;
+} | null;
+
+export function SubscriptionPanel({
+  subscription
+}: {
+  subscription: SubscriptionData;
+}) {
+  if (!subscription) {
+    return (
+      <div className="flex w-[504px] max-w-full flex-col gap-5">
+        <h3 className="text-lg font-semibold leading-[27px] text-[#232323]">
+          Subscription Status
+        </h3>
+        <p className="text-sm leading-6 text-gray-500">
+          This account is on the free tier — no subscription on record.
+        </p>
+      </div>
+    );
+  }
+
+  const money = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: subscription.currency,
+    maximumFractionDigits: 0
+  }).format(subscription.priceMinor / 100);
+
+  const day = (iso: string) =>
+    new Date(iso).toLocaleDateString('en', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
   const rows: { label: string; value: string; badge?: boolean }[] = [
-    { label: 'Plan Name:', value: 'Premium Plan' },
-    { label: 'Status:', value: 'Active', badge: true },
-    { label: 'Monthly Cost: ', value: 'NGN 30,000' },
-    { label: 'Payment method: ', value: ' Mastercard*****25256' },
-    { label: 'Renewal Type: ', value: 'Auto-renew' },
-    { label: 'Start date', value: 'June 12, 2025' },
-    { label: 'End date', value: 'June 12, 2025' },
-    { label: 'Next Billing Date:  ', value: 'June 20, 2025' }
+    { label: 'Plan Name:', value: subscription.planId },
+    { label: 'Status:', value: subscription.status, badge: true },
+    { label: 'Cost: ', value: money },
+    { label: 'Payment method: ', value: subscription.provider },
+    { label: 'Start date', value: day(subscription.startedAt) },
+    { label: 'Next Billing Date:  ', value: day(subscription.currentPeriodEnd) }
   ];
 
   return (
@@ -416,7 +459,13 @@ export function SubscriptionPanel() {
   );
 }
 
-export function LocationPanel() {
+export function LocationPanel({
+  city,
+  lastActiveAt
+}: {
+  city: string | null;
+  lastActiveAt: string | null;
+}) {
   return (
     <div className="flex w-[504px] flex-col gap-5">
       <div className="flex flex-col gap-2">
@@ -427,10 +476,15 @@ export function LocationPanel() {
           </span>
         </div>
         <span className="text-sm font-normal leading-[17px] text-[#64748B]">
-          Lekki phase 1, lagos Nigeria
+          {city ?? 'No location on record'}
         </span>
         <span className="text-sm font-normal leading-[17px] text-[#64748B]">
-          Updated 8 mins ago
+          {lastActiveAt
+            ? `Updated ${new Date(lastActiveAt).toLocaleString('en', {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+              })}`
+            : 'Never seen'}
         </span>
       </div>
       <button
@@ -451,6 +505,12 @@ export function ActivityPanel({
   return (
     <div className="flex w-[700px] flex-col gap-5">
       <h3 className="text-lg font-semibold leading-[22px] text-black">Activity</h3>
+      {groups.length === 0 ? (
+        <p className="text-sm leading-6 text-gray-500">
+          No activity feed yet — this needs an activity log the API does not
+          keep.
+        </p>
+      ) : null}
       {groups.map((g) => (
         <div key={g.day} className="flex flex-col gap-5 py-[10px]">
           <span className="text-sm font-medium leading-[17px] text-gray-600">{g.day}</span>
@@ -479,6 +539,11 @@ export function ContactsPanel({
   return (
     <div className="flex flex-col gap-5">
       <h3 className="text-lg font-semibold leading-[22px] text-black">Emergency contacts</h3>
+      {contacts.length === 0 ? (
+        <p className="text-sm leading-6 text-gray-500">
+          This account has not added an emergency contact.
+        </p>
+      ) : null}
       <div className="grid max-w-[900px] grid-cols-2 gap-4">
         {contacts.map((c, i) => (
           <div key={i} className="edge flex items-center gap-3 rounded-[10px] px-5 py-4">

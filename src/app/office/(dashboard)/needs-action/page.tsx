@@ -1,51 +1,103 @@
-'use client';
+import { redirect } from 'next/navigation';
+import type { ActionRowData } from '../../_components/action-row';
+import { officeBase, officeFetch } from '../../_lib/session';
+import { NeedsActionView } from './needs-action-view';
 
-import { useState } from 'react';
-import { Shell } from '../../_components/shell';
-import { ActionRowList } from '../../_components/action-row';
-import { GoBack, Tabs } from '../../_components/tabs';
-import { Card, Select } from '../../_components/ui';
-import { PENDING_ACTIONS, REJECTED_ACTIONS, VERIFIED_ACTIONS } from '../../_lib/needs-action';
+export const dynamic = 'force-dynamic';
 
-/* Figma 907:12969 (Pendings action) and 907:13222 (Verified reports) — one
-   screen, two tab states. Body: pad 20/32, gap 20. */
+type Row = {
+  id: string;
+  kind: 'incident' | 'user';
+  publicId: string | null;
+  category: string | null;
+  status: string;
+  reporter: string;
+  title: string;
+  city: string | null;
+  reportCount: number | null;
+  accountType?: string;
+};
 
 const TABS = [
-  { id: 'pending', label: 'Pendings action', count: '10' },
-  { id: 'verified', label: 'Verified reports', count: '6' },
-  { id: 'rejected', label: 'Rejected reports', count: '0' }
-];
+  { id: 'pending', label: 'Pendings action' },
+  { id: 'verified', label: 'Verified reports' },
+  { id: 'rejected', label: 'Rejected reports' }
+] as const;
 
-const ROWS = {
-  pending: PENDING_ACTIONS,
-  verified: VERIFIED_ACTIONS,
-  rejected: REJECTED_ACTIONS
-} as const;
+export default async function NeedsActionPage({
+  searchParams
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const params = await searchParams;
+  const active =
+    TABS.find((tab) => tab.id === params.status)?.id ?? 'pending';
+  const base = await officeBase();
 
-export default function NeedsActionPage() {
-  const [active, setActive] = useState<keyof typeof ROWS>('pending');
-  const rows = ROWS[active];
+  // Counts come from one call per tab so the badges are real, not guesses.
+  const [pending, verified, rejected] = await Promise.all([
+    officeFetch<{ rows: Row[] }>('/admin/needs-action?status=pending'),
+    officeFetch<{ rows: Row[] }>('/admin/needs-action?status=verified'),
+    officeFetch<{ rows: Row[] }>('/admin/needs-action?status=rejected')
+  ]);
+
+  const byTab = {
+    pending: pending?.rows ?? [],
+    verified: verified?.rows ?? [],
+    rejected: rejected?.rows ?? []
+  };
+
+  async function select(id: string) {
+    'use server';
+    redirect(`${base}/needs-action?status=${id}`);
+  }
 
   return (
-    <Shell title="Dashboard" filters>
-      <div className="flex flex-col gap-5 px-8 py-5">
-        <GoBack />
-
-        <Card>
-          <div className="edge-bottom flex items-center justify-between gap-7 px-5 py-[18px]">
-            <Tabs tabs={TABS} active={active} onChange={(id) => setActive(id as keyof typeof ROWS)} />
-            <Select label="All types" weight="semibold" className="w-[126px] shrink-0" />
-          </div>
-
-          {rows.length ? (
-            <ActionRowList rows={rows} />
-          ) : (
-            <div className="flex items-center justify-center bg-surface-muted px-[19px] py-20 text-sm text-gray-500">
-              No rejected reports.
-            </div>
-          )}
-        </Card>
-      </div>
-    </Shell>
+    <NeedsActionView
+      active={active}
+      onSelect={select}
+      tabs={TABS.map((tab) => ({
+        id: tab.id,
+        label: tab.label,
+        count: String(byTab[tab.id].length)
+      }))}
+      rows={byTab[active].map(toActionRow)}
+    />
   );
+}
+
+function toActionRow(row: Row): ActionRowData {
+  const badges: ActionRowData['badges'] =
+    row.kind === 'user'
+      ? [{ text: 'Pending', tone: 'warning' }]
+      : [
+          { text: label(row.category ?? 'report'), tone: 'error' },
+          { text: label(row.status), tone: 'gray' }
+        ];
+
+  return {
+    id: row.id,
+    badges,
+    lead:
+      row.kind === 'user' ? row.title : `Incident reported by ${row.reporter} -`,
+    rest: row.kind === 'user' ? undefined : ` ${row.title}`,
+    meta:
+      row.kind === 'user'
+        ? [accountTypeLabel(row.accountType), row.city ?? 'Unknown']
+        : [
+            row.publicId ?? '—',
+            row.city ?? 'Unknown',
+            `${row.reportCount ?? 0} ${row.reportCount === 1 ? 'report' : 'reports'}`
+          ]
+  };
+}
+
+function label(value: string): string {
+  return value.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
+}
+
+function accountTypeLabel(accountType?: string): string {
+  if (accountType === 'official') return 'Official';
+  if (accountType === 'news_outlet') return 'News Outlet';
+  return 'Community Member';
 }

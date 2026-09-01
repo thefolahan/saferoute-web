@@ -186,15 +186,15 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
     <div className="flex min-w-0 flex-1 flex-col border-b border-l border-rule bg-white pb-[26px]">
       <div className="flex items-center justify-between gap-[10px] px-5 py-[14px]">
         <div className="flex gap-[10px]">
-          <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-semibold leading-[18px] text-error-700">
-            Critical
+          <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-semibold leading-[18px] text-error-700 capitalize">
+            {detail.severity}
           </span>
           <span className="inline-flex items-center justify-center rounded-2xl bg-warning-50 px-3 py-1 text-xs font-semibold leading-[18px] text-warning-700">
-            Needs evidence
+            {detail.status.replace(/_/g, ' ')}
           </span>
         </div>
         <span className="text-sm font-normal leading-[18px] tracking-[-0.42px] text-gray-500">
-          4 mins
+          {detail.reportedAt}
         </span>
       </div>
 
@@ -222,9 +222,11 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
               <CarIcon className="h-[35px] w-[43px]" />
             </div>
             <div className="flex flex-1 flex-col gap-2">
-              <h3 className="text-base font-semibold leading-7 text-gray-900">Road Accident</h3>
+              <h3 className="text-base font-semibold leading-7 text-gray-900">
+                {detail.title}
+              </h3>
               <p className="text-[15px] font-normal leading-5 tracking-[-0.3px] text-gray-500">
-                2 vehicles involved in collision near Admiralty Way, Lekki. Road partially blocked.
+                {detail.description}
               </p>
             </div>
           </div>
@@ -232,11 +234,13 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
           <div className="flex items-center justify-center gap-5 px-[47px] py-[5px]">
             <span className="flex items-center justify-center gap-1 py-1">
               <MapPinIcon className="h-4 w-4 shrink-0 text-gray-400" />
-              <span className="text-sm font-normal leading-5 text-gray-400">Lekki Express way</span>
+              <span className="text-sm font-normal leading-5 text-gray-400">{detail.place}</span>
             </span>
             <span className="flex items-center justify-center gap-1 py-1">
               <DistanceIcon className="h-4 w-4 shrink-0 text-gray-400" />
-              <span className="text-sm font-normal leading-5 text-gray-400">50km away</span>
+              <span className="text-sm font-normal leading-5 text-gray-400">
+                {detail.reportCount} report{detail.reportCount === 1 ? '' : 's'}
+              </span>
             </span>
           </div>
 
@@ -257,7 +261,7 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
                 </span>
               </div>
               <span className="ml-2 text-xs font-normal leading-[18px] text-gray-500">
-                18 signal
+                {detail.confirmations} signal{detail.confirmations === 1 ? '' : 's'}
               </span>
             </div>
             {/* Figma 907:16496 — a 24px Gray/200 rule between the two halves */}
