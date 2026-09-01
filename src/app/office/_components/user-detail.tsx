@@ -6,6 +6,8 @@ import { MessageIcon, ShieldOutlineIcon, UserGroupIcon } from './icons';
 import { ArrowRightIcon } from './ui';
 import { AVATAR, PHOTO } from '../_lib/assets';
 import { ComposeField, ComposeModal } from './compose-modal';
+import { useAction } from './use-action';
+import { notifyUser, setUserStatus } from '../_lib/actions';
 
 /* Figma 907:14716 (agency) and 907:15289 (community member) — one detail
    screen with two subject types and a tab strip whose set differs per type.
@@ -14,9 +16,14 @@ import { ComposeField, ComposeModal } from './compose-modal';
 export type Stat = { value: string; label: string };
 
 export type DetailSubject = {
+  id: string;
   breadcrumb: string[];
   idLabel: string;
   name: string;
+  email: string | null;
+  avatarUrl: string | null;
+  /** `active`, `suspended` or `deleted`, straight from the account. */
+  status: string;
   kind: string;
   score: string;
   avatar: 'agency' | 'person';
@@ -36,7 +43,20 @@ export function UserDetail({
   panels: Record<string, ReactNode>;
 }) {
   const [tab, setTab] = useState(subject.tabs[0]!.id);
-  const [messageOpen, setMessageOpen] = useState(false);
+  const { pending, error, run } = useAction();
+
+  /** One sheet, two purposes — the design draws the same form for both. */
+  const [compose, setCompose] = useState<'message' | 'warning' | null>(null);
+  const [subjectLine, setSubjectLine] = useState('');
+  const [body, setBody] = useState('');
+
+  const suspended = subject.status === 'suspended';
+
+  function openCompose(kind: 'message' | 'warning') {
+    setSubjectLine(kind === 'warning' ? 'A warning about your SafeRoute account' : '');
+    setBody('');
+    setCompose(kind);
+  }
 
   return (
     <Shell title="User details">
@@ -66,7 +86,10 @@ export function UserDetail({
                 <div className="flex h-[178px] w-[188px] shrink-0 items-center justify-center rounded-lg p-[10px] shadow-[inset_0_0_0_1px_rgba(238,238,238,0.65)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={subject.avatar === 'agency' ? PHOTO.agencyLogo : PHOTO.incidentAlt}
+                    src={
+                      subject.avatarUrl ??
+                      (subject.avatar === 'agency' ? PHOTO.agencyLogo : PHOTO.incidentAlt)
+                    }
                     alt=""
                     className={
                       subject.avatar === 'agency'
@@ -105,33 +128,64 @@ export function UserDetail({
                           </span>
                         </span>
                       ) : null}
-                      <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700">
-                        Active
+                      <span
+                        className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold capitalize leading-[18px] ${
+                          subject.status === 'active'
+                            ? 'bg-success-50 text-success-700'
+                            : 'bg-error-50 text-error-700'
+                        }`}
+                      >
+                        {subject.status}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-[13px]">
-                    <button
-                      type="button"
-                      onClick={() => setMessageOpen(true)}
-                      className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
-                    >
-                      <MessageIcon className="h-4 w-4 text-gray-700" />
-                      Send Message
-                    </button>
-                    <button
-                      type="button"
-                      className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
-                    >
-                      Send a warning
-                    </button>
-                    <button
-                      type="button"
-                      className="flex h-11 items-center rounded-lg bg-error-400 px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-50"
-                    >
-                      Suspend User
-                    </button>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap gap-[13px]">
+                      <button
+                        type="button"
+                        onClick={() => openCompose('message')}
+                        className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                      >
+                        <MessageIcon className="h-4 w-4 text-gray-700" />
+                        Send Message
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openCompose('warning')}
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                      >
+                        Send a warning
+                      </button>
+                      <button
+                        type="button"
+                        disabled={pending || subject.status === 'deleted'}
+                        onClick={() =>
+                          run(() =>
+                            setUserStatus(
+                              subject.id,
+                              suspended ? 'active' : 'suspended'
+                            )
+                          )
+                        }
+                        className={`flex h-11 items-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-6 disabled:opacity-50 ${
+                          suspended
+                            ? 'bg-success-800 text-gray-25'
+                            : 'bg-error-400 text-gray-50'
+                        }`}
+                      >
+                        {suspended ? 'Restore access' : 'Suspend User'}
+                      </button>
+                    </div>
+
+                    {error ? (
+                      <p
+                        role="alert"
+                        className="rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700"
+                      >
+                        {error}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
 
@@ -195,29 +249,51 @@ export function UserDetail({
         </div>
       </div>
 
-      {/* Figma 907:16106 "Send message" */}
+      {/* Figma 907:16106 "Send message", reused for the warning */}
       <ComposeModal
-        open={messageOpen}
-        onClose={() => setMessageOpen(false)}
-        title="Send message"
-        subtitle="Send a quick message to SafeRoute users."
+        open={compose !== null}
+        onClose={() => setCompose(null)}
+        title={compose === 'warning' ? 'Send a warning' : 'Send message'}
+        subtitle={
+          compose === 'warning'
+            ? 'A formal warning, recorded against this account.'
+            : 'Send a quick message to SafeRoute users.'
+        }
         width={587}
         gradient
-        cta="Send message"
+        cta={compose === 'warning' ? 'Send warning' : 'Send message'}
+        pending={pending}
+        error={error}
+        disabled={!subjectLine.trim() || !body.trim()}
+        onSubmit={() =>
+          run(
+            () =>
+              notifyUser(subject.id, {
+                title: subjectLine,
+                body,
+                kind: compose ?? 'message'
+              }),
+            () => setCompose(null)
+          )
+        }
       >
-        <div className="flex gap-[77px]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-[77px]">
           <span className="w-[57px] shrink-0 text-sm font-medium leading-[17px] tracking-[0.14px] text-gray-700">
             Send to:
           </span>
           <div className="flex items-center gap-[7px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={AVATAR.user} alt="" className="h-[76px] w-[76px] rounded-full object-cover" />
+            <img
+              src={subject.avatarUrl ?? AVATAR.user}
+              alt=""
+              className="h-[76px] w-[76px] rounded-full object-cover"
+            />
             <span className="flex flex-col gap-[3px]">
               <span className="text-base font-semibold leading-[19px] text-gray-900">
                 {subject.name}
               </span>
               <span className="text-sm font-normal leading-[17px] text-gray-600">
-                tobi.olusegun@email.com          │{' '}
+                {subject.email ?? 'No email on this account'}
               </span>
             </span>
           </div>
@@ -229,6 +305,8 @@ export function UserDetail({
           height={52}
           labelWidth={52}
           gutter={79}
+          value={subjectLine}
+          onChange={setSubjectLine}
         />
         <ComposeField
           label="Message"
@@ -236,7 +314,19 @@ export function UserDetail({
           height={165}
           labelWidth={62}
           gutter={71}
+          value={body}
+          onChange={setBody}
         />
+
+        {/*
+          It arrives as a notification, not a chat message — an admin has no
+          user account to send a direct message from. Said here so nobody
+          expects a reply thread.
+        */}
+        <p className="text-xs font-normal leading-[15px] text-gray-500">
+          Delivered to their SafeRoute notifications, and pushed to their phone
+          where push is available. They cannot reply to it.
+        </p>
       </ComposeModal>
     </Shell>
   );

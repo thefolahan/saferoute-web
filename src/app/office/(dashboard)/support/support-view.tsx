@@ -1,7 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Shell } from '../../_components/shell';
+import { useAction } from '../../_components/use-action';
+import { replyToTicket, setTicketStatus } from '../../_lib/actions';
+import { officeHref, useOfficeBase } from '../../_lib/office-path';
 import { Tabs } from '../../_components/tabs';
 import { Select } from '../../_components/ui';
 import { CustomerServiceIcon, SearchLgIcon, UserSolidIcon } from '../../_components/icons';
@@ -64,9 +68,55 @@ export function SupportView({
   detail: TicketDetail | null;
   tabs: { id: string; label: string; count: string }[];
 }) {
-  const [tab, setTab] = useState('pending');
-  const [selected, setSelected] = useState<string | null>(detail?.id ?? null);
+  const router = useRouter();
+  const params = useSearchParams();
+  const base = useOfficeBase();
+  const { pending, error, run } = useAction();
+
+  /**
+   * The queue and the open ticket live in the URL.
+   *
+   * Both are server-fetched — the tab decides which queue the API returns, and
+   * the conversation panel is a second call keyed on `?id` — so holding either
+   * in local state meant the list and the panel could disagree. They did:
+   * clicking any ticket showed the first one's conversation, and switching to
+   * Resolved re-rendered the same pending rows.
+   */
+  const tab = params.get('status') === 'resolved' ? 'resolved' : 'pending';
+  const selected = detail?.id ?? null;
+
   const [replyOpen, setReplyOpen] = useState(false);
+  const [replyBody, setReplyBody] = useState('');
+  const [query, setQuery] = useState('');
+
+  // The tickets endpoint takes no search term, and the queue is capped at 50
+  // rows, so the box filters what is already on the page.
+  const needle = query.trim().toLowerCase();
+  const visible = needle
+    ? tickets.filter((ticket) =>
+        [ticket.reference, ticket.subject, ticket.reporter]
+          .join(' ')
+          .toLowerCase()
+          .includes(needle)
+      )
+    : tickets;
+
+  function navigate(next: { status?: string; id?: string }) {
+    const query = new URLSearchParams();
+    const status = next.status ?? tab;
+    if (status === 'resolved') query.set('status', 'resolved');
+
+    // A ticket id from one queue is meaningless in the other, so switching
+    // tabs drops it and the page opens the top of the new queue.
+    const id = next.status ? undefined : (next.id ?? selected ?? undefined);
+    if (id) query.set('id', id);
+
+    const search = query.toString();
+    router.replace(
+      `${officeHref(base, 'support')}${search ? `?${search}` : ''}`,
+      { scroll: false }
+    );
+  }
 
   return (
     <Shell title="Support">
@@ -75,7 +125,11 @@ export function SupportView({
         <div className="flex w-full flex-col bg-white xl:w-[471px] xl:shrink-0">
           <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-center justify-between gap-[15px]">
-              <Tabs tabs={tabs} active={tab} onChange={setTab} />
+              <Tabs
+                tabs={tabs}
+                active={tab}
+                onChange={(id) => navigate({ status: id })}
+              />
               <Select label="Today" weight="semibold" className="w-[97px] shrink-0" />
             </div>
           </div>
@@ -83,25 +137,32 @@ export function SupportView({
           <div className="flex items-center border-b border-[#EAECF0] bg-[#FCFCFD] px-4 py-3 sm:px-6 lg:px-8">
             <div className="edge-gray200 flex h-11 flex-1 items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px]">
               <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-500" />
-              <span className="flex-1 text-sm font-normal leading-6 text-gray-700">
-                Search tickets, ID, user
-              </span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search tickets, ID, user"
+                aria-label="Search tickets"
+                className="w-full flex-1 border-0 bg-transparent p-0 text-sm font-normal leading-6 text-gray-900 outline-none placeholder:text-gray-700"
+              />
             </div>
           </div>
 
-          {tickets.length === 0 ? (
+          {visible.length === 0 ? (
             <p className="px-8 py-16 text-center text-sm leading-6 text-gray-500">
-              No tickets in this queue. Reports filed from the app land here.
+              {needle
+                ? `Nothing in this queue matches “${query.trim()}”.`
+                : 'No tickets in this queue. Reports filed from the app land here.'}
             </p>
           ) : null}
 
-          {tickets.map((t) => {
+          {visible.map((t) => {
             const isSelected = t.id === selected;
             return (
               <button
                 key={t.id}
                 type="button"
-                onClick={() => setSelected(t.id)}
+                onClick={() => navigate({ id: t.id })}
                 className={`flex min-h-[124px] items-center border-b border-[#EAECF0] px-4 py-5 text-left sm:px-6 lg:px-8 ${
                   isSelected ? 'bg-error-50' : 'bg-white'
                 }`}
@@ -227,12 +288,36 @@ export function SupportView({
               </div>
             </div>
 
+            {error ? (
+              <p
+                role="alert"
+                className="rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700"
+              >
+                {error}
+              </p>
+            ) : null}
+
             <div className="flex flex-wrap gap-[15px]">
-              <ActionButton className="bg-black text-[#F7F7F7]" onClick={() => setReplyOpen(true)}>
+              <ActionButton
+                className="bg-black text-[#F7F7F7]"
+                onClick={() => setReplyOpen(true)}
+              >
                 Reply
               </ActionButton>
-              <ActionButton className="bg-[#EAEEF4] text-[#061B2E]">Mark as resolved</ActionButton>
-              <ActionButton className="bg-[#EAEEF4] text-[#061B2E]">Escalate</ActionButton>
+              <ActionButton
+                className="bg-[#EAEEF4] text-[#061B2E]"
+                disabled={pending || detail.status === 'resolved'}
+                onClick={() => run(() => setTicketStatus(detail.id, 'resolved'))}
+              >
+                {detail.status === 'resolved' ? 'Resolved' : 'Mark as resolved'}
+              </ActionButton>
+              <ActionButton
+                className="bg-[#EAEEF4] text-[#061B2E]"
+                disabled={pending || detail.status === 'escalated'}
+                onClick={() => run(() => setTicketStatus(detail.id, 'escalated'))}
+              >
+                {detail.status === 'escalated' ? 'Escalated' : 'Escalate'}
+              </ActionButton>
             </div>
           </div>
           ) : null}
@@ -242,13 +327,33 @@ export function SupportView({
       {/* Figma 907:18217 "Reply" */}
       <ComposeModal
         open={replyOpen}
-        onClose={() => setReplyOpen(false)}
-        title={detail ? `Reply to ${detail.reporter.name}` : "Reply"}
+        onClose={() => {
+          setReplyOpen(false);
+          setReplyBody('');
+        }}
+        title={detail ? `Reply to ${detail.reporter.name}` : 'Reply'}
         width={741}
         cta="Send reply"
+        pending={pending}
+        error={error}
+        disabled={!replyBody.trim()}
+        onSubmit={() =>
+          run(() => replyToTicket(detail!.id, replyBody), () => {
+            setReplyOpen(false);
+            setReplyBody('');
+          })
+        }
       >
         <div className="flex flex-col gap-3">
-          <ComposeField label="" placeholder="Write your response...." height={165} labelWidth={0} gutter={0} />
+          <ComposeField
+            label=""
+            placeholder="Write your response...."
+            height={165}
+            labelWidth={0}
+            gutter={0}
+            value={replyBody}
+            onChange={setReplyBody}
+          />
           <AttachButton />
         </div>
       </ComposeModal>
@@ -295,17 +400,20 @@ function Note({ children }: { children: React.ReactNode }) {
 function ActionButton({
   children,
   className = '',
-  onClick
+  onClick,
+  disabled = false
 }: {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`edge-grey50 flex h-[50px] items-center justify-center gap-4 rounded-lg px-6 py-[10px] text-sm font-bold leading-[30px] ${className}`}
+      disabled={disabled}
+      className={`edge-grey50 flex h-[50px] items-center justify-center gap-4 rounded-lg px-6 py-[10px] text-sm font-bold leading-[30px] disabled:opacity-50 ${className}`}
     >
       {children}
     </button>

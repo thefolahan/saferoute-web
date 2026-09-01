@@ -1,31 +1,58 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Shell } from '../../_components/shell';
 import { officeHref, useOfficeBase } from '../../_lib/office-path';
 import { Tabs } from '../../_components/tabs';
 import { ActionRowList, type ActionRowData } from '../../_components/action-row';
 import { Card } from '../../_components/ui';
-import { CalendarIcon, ChevronDownIcon, PencilIcon, PlusIcon, SearchLgIcon } from '../../_components/icons';
+import {
+  CalendarIcon,
+  ChevronDownIcon,
+  PlusIcon,
+  SearchLgIcon,
+  XMarkIcon
+} from '../../_components/icons';
+import { useAction } from '../../_components/use-action';
+import { cancelBroadcast } from '../../_lib/actions';
 
 /* Figma 907:13337 "Broadcast message". Same page shell as the Dashboard's
    welcome block, then a tabbed card of broadcast rows (no red rail). */
 
 
-const EDIT = { label: 'Edit', icon: <PencilIcon className="h-4 w-4 text-gray-700" /> };
+const CANCEL = {
+  label: 'Cancel',
+  icon: <XMarkIcon className="h-4 w-4 text-gray-700" />
+};
 
 export function BroadcastView({
   rows,
   tabs,
+  active,
   adminName
 }: {
   rows: ActionRowData[];
   tabs: { id: string; label: string; count: string }[];
+  active: string;
   adminName: string;
 }) {
-  const [tab, setTab] = useState('active');
   const base = useOfficeBase();
+  const router = useRouter();
+  const { pending, error, run } = useAction();
+  const [query, setQuery] = useState('');
+
+  // The broadcast list takes no search term and is capped at 50 rows, so the
+  // box filters what is already here.
+  const needle = query.trim().toLowerCase();
+  const visible = needle
+    ? rows.filter((row) =>
+        `${row.lead} ${row.rest ?? ''} ${row.meta.join(' ')}`
+          .toLowerCase()
+          .includes(needle)
+      )
+    : rows;
 
   return (
     <Shell title="Broadcast message" filters>
@@ -52,11 +79,16 @@ export function BroadcastView({
         </div>
 
         <div className="flex flex-col gap-3 py-[15px] sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex h-11 w-full items-center gap-2 sm:w-[302px] rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]">
+          <div className="flex h-11 w-full items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px] sm:w-[302px]">
             <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-400" />
-            <span className="flex-1 text-base font-medium leading-6 text-gray-400">
-              Search Broadcast
-            </span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search Broadcast"
+              aria-label="Search broadcasts"
+              className="w-full flex-1 border-0 bg-transparent p-0 text-base font-medium leading-6 text-gray-900 outline-none placeholder:text-gray-400"
+            />
           </div>
 
           <div className="edge-gray200 flex h-11 w-[193px] items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]">
@@ -68,15 +100,46 @@ export function BroadcastView({
           </div>
         </div>
 
+        {error ? (
+          <p
+            role="alert"
+            className="rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700"
+          >
+            {error}
+          </p>
+        ) : null}
+
         <Card>
           <div className="edge-bottom flex items-center px-5 py-[18px]">
-            <Tabs tabs={tabs} active={tab} onChange={setTab} />
+            <Tabs
+              tabs={tabs}
+              active={active}
+              onChange={(id) =>
+                router.replace(`${officeHref(base, 'broadcast')}?tab=${id}`, {
+                  scroll: false
+                })
+              }
+            />
           </div>
-          {rows.length ? (
-            <ActionRowList rows={rows.map((row) => ({ ...row, action: EDIT }))} rail={false} />
+          {visible.length ? (
+            <ActionRowList
+              rail={false}
+              pending={pending}
+              /*
+                A sent broadcast cannot be edited — it is already on people's
+                phones — so the trailing control cancels the ones that can
+                still be pulled back and is absent on the rest.
+              */
+              onAction={(row) => run(() => cancelBroadcast(row.id))}
+              rows={visible.map((row) =>
+                row.cancellable ? { ...row, action: CANCEL } : row
+              )}
+            />
           ) : (
             <p className="bg-surface-muted px-[19px] py-16 text-center text-sm text-gray-500">
-              No broadcasts in this state yet.
+              {needle
+                ? `No broadcast here matches “${query.trim()}”.`
+                : 'No broadcasts in this state yet.'}
             </p>
           )}
         </Card>

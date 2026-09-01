@@ -61,12 +61,17 @@ export default async function NeedsActionPage({
         label: tab.label,
         count: String(byTab[tab.id].length)
       }))}
-      rows={byTab[active].map(toActionRow)}
+      rows={byTab[active].map((row) => toActionRow(row, base))}
     />
   );
 }
 
-function toActionRow(row: Row): ActionRowData {
+/**
+ * "Investigate" needs somewhere to go. An incident opens on the Incidents
+ * screen with its panel already showing; a pending account opens on the user's
+ * own detail screen, which is where the decision about it is taken.
+ */
+function toActionRow(row: Row, base: string): ActionRowData {
   const badges: ActionRowData['badges'] =
     row.kind === 'user'
       ? [{ text: 'Pending', tone: 'warning' }]
@@ -77,6 +82,10 @@ function toActionRow(row: Row): ActionRowData {
 
   return {
     id: row.id,
+    href:
+      row.kind === 'user'
+        ? `${base}/users/${row.accountType === 'community' ? 'community' : 'agency'}?id=${row.id}`
+        : `${base}/incidents?id=${row.id}`,
     badges,
     lead:
       row.kind === 'user' ? row.title : `Incident reported by ${row.reporter} -`,

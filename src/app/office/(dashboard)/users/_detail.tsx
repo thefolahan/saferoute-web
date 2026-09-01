@@ -100,6 +100,10 @@ export async function renderUserDetail({
   const isAgency = user.accountType !== 'community';
 
   const subject: DetailSubject = {
+    id: user.id,
+    email: user.email,
+    avatarUrl: user.avatarUrl,
+    status: user.status,
     breadcrumb: [
       'Dashboard',
       isAgency ? 'Officials & Agency' : 'Users',

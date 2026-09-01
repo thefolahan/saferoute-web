@@ -38,10 +38,17 @@ const STATUS_TONE: Record<Status, string> = {
 
 export function ContentsView({
   rows,
+  cities,
+  page,
+  pageCount,
   pageLabel,
   loadDetail
 }: {
   rows: ContentRow[];
+  /** The cities that actually have posts, for the City filter. */
+  cities: string[];
+  page: number;
+  pageCount: number;
   pageLabel: string;
   /** Server action — the sheet's media are signed URLs fetched on demand. */
   loadDetail: (id: string) => Promise<ContentDetail | null>;
@@ -62,11 +69,26 @@ export function ContentsView({
   return (
     <Shell title="Contents">
       <div className="flex flex-col gap-[15px]">
+        {/* Bound to the same parameters /admin/contents reads. */}
         <FilterBar>
-          <FilterField placeholder="Search users" width={406} search />
-          <FilterField placeholder="Type" width={230} />
-          <FilterField placeholder="Status" width={230} />
-          <FilterField placeholder="City" width={230} />
+          <FilterField placeholder="Search captions" param="q" width={406} search />
+          <FilterField
+            placeholder="Status"
+            param="status"
+            width={230}
+            options={[
+              { value: 'pending_review', label: 'Pending review' },
+              { value: 'published', label: 'Verified' },
+              { value: 'rejected', label: 'Rejected' },
+              { value: 'removed', label: 'Taken down' }
+            ]}
+          />
+          <FilterField
+            placeholder="City"
+            param="city"
+            width={230}
+            options={cities.map((city) => ({ value: city, label: city }))}
+          />
         </FilterBar>
 
         {error ? (
@@ -144,7 +166,7 @@ export function ContentsView({
               }
             }}
           />
-          <Pagination label={pageLabel} />
+          <Pagination label={pageLabel} page={page} pageCount={pageCount} />
         </div>
       </div>
 

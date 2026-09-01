@@ -4,7 +4,12 @@ import { useState } from 'react';
 import { Shell } from '../../_components/shell';
 import { Tabs } from '../../_components/tabs';
 import { Select } from '../../_components/ui';
-import { DataTable, Pagination, type Column } from '../../_components/table';
+import {
+  DataTable,
+  Pagination,
+  initialsOf,
+  type Column
+} from '../../_components/table';
 import { PHOTO } from '../../_lib/assets';
 import {
   VerificationModal,
@@ -101,7 +106,7 @@ export function VerificationView({
                           className="h-full w-full object-cover"
                         />
                       ) : (
-                        initials(row.applicant.name)
+                        initialsOf(row.applicant.name)
                       )}
                     </span>
                     <span className="flex flex-col justify-center gap-[2px]">
@@ -166,7 +171,8 @@ export function VerificationView({
             }
           }}
         />
-        <Pagination label={pageLabel} />
+        {/* The queue endpoint returns its most recent 25 in one page. */}
+        <Pagination label={pageLabel} page={1} pageCount={1} />
       </div>
 
       <VerificationModal
@@ -178,12 +184,3 @@ export function VerificationView({
   );
 }
 
-/** Falls back to initials where an applicant has no photograph. */
-function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('');
-}

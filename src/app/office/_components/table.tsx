@@ -1,4 +1,7 @@
+'use client';
+
 import type { ReactNode } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 /* Figma builds these tables as columns (907:14132 …). Header cell 44h
    pad 12/x, bg #FCFCFD; body cell 75h pad 20/x; every cell carries a 1px
@@ -81,20 +84,34 @@ export function CellText({ children }: { children: ReactNode }) {
   return <span className="text-sm font-normal leading-5 text-gray-700">{children}</span>;
 }
 
+/** Two letters from a display name, for a table's avatar circle. */
+export function initialsOf(name: string): string {
+  const letters = name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0] ?? '');
+
+  return (letters.join('') || '?').toUpperCase();
+}
+
 /** Avatar-initials + name + id (Figma 907:14137). */
 export function CellUser({
   initials,
   name,
   sub
 }: {
-  initials: string;
+  /** Defaults to the name's own initials. */
+  initials?: string;
   name: string;
   sub: string;
 }) {
+  const letters = initials ?? initialsOf(name);
   return (
     <span className="flex items-center gap-2">
       <span className="flex h-[35px] w-[35px] shrink-0 items-center justify-center rounded-[18px] bg-gray-100 text-base font-semibold leading-[22px] text-[#2F3037]">
-        {initials}
+        {letters}
       </span>
       <span className="flex flex-col justify-center">
         <span className="text-sm font-medium leading-5 text-[#2F3037]">{name}</span>
@@ -113,22 +130,66 @@ export function CellChip({ children }: { children: ReactNode }) {
   );
 }
 
-/** Pagination bar — Figma 907:14375, pad 12/32/16/32. */
-export function Pagination({ label }: { label: string }) {
+/**
+ * Pagination bar — Figma 907:14375, pad 12/32/16/32.
+ *
+ * Pages through `?page=`, which is what the server pages read. The buttons
+ * disable at each end rather than requesting a page the API would answer with
+ * an empty table.
+ */
+export function Pagination({
+  label,
+  page,
+  pageCount
+}: {
+  label: string;
+  page: number;
+  pageCount: number;
+}) {
+  const router = useRouter();
+  const params = useSearchParams();
+
+  function go(next: number) {
+    const query = new URLSearchParams(params.toString());
+    if (next <= 1) query.delete('page');
+    else query.set('page', String(next));
+
+    const text = query.toString();
+    router.replace(text ? `?${text}` : '?', { scroll: false });
+  }
+
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 pb-4 pt-3 sm:px-6 lg:px-8">
       <span className="text-sm font-medium leading-5 text-gray-700">{label}</span>
       <div className="flex items-center gap-3">
-        {['Previous', 'Next'].map((t) => (
-          <button
-            key={t}
-            type="button"
-            className="flex h-9 items-center justify-center rounded-lg bg-white px-3 py-2 text-sm font-medium leading-5 text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA]"
-          >
-            <span className="px-[2px]">{t}</span>
-          </button>
-        ))}
+        <PageButton disabled={page <= 1} onClick={() => go(page - 1)}>
+          Previous
+        </PageButton>
+        <PageButton disabled={page >= pageCount} onClick={() => go(page + 1)}>
+          Next
+        </PageButton>
       </div>
     </div>
+  );
+}
+
+function PageButton({
+  children,
+  disabled,
+  onClick
+}: {
+  children: ReactNode;
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className="flex h-9 items-center justify-center rounded-lg bg-white px-3 py-2 text-sm font-medium leading-5 text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA] disabled:cursor-not-allowed disabled:text-gray-400"
+    >
+      <span className="px-[2px]">{children}</span>
+    </button>
   );
 }

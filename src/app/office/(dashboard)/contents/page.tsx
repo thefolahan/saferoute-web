@@ -14,7 +14,14 @@ type ApiPost = {
   createdAt: string;
 };
 
-type ApiPage = { page: number; pageSize: number; total: number; rows: ApiPost[] };
+type ApiPage = {
+  page: number;
+  pageSize: number;
+  total: number;
+  /** Every city with a post in it, for the City filter's options. */
+  cities: string[];
+  rows: ApiPost[];
+};
 
 type ApiDetail = {
   id: string;
@@ -47,13 +54,21 @@ const STATUS_LABEL: Record<ApiPost['status'], Status> = {
 export default async function ContentsPage({
   searchParams
 }: {
-  searchParams: Promise<{ page?: string; q?: string }>;
+  searchParams: Promise<{
+    page?: string;
+    q?: string;
+    status?: string;
+    city?: string;
+  }>;
 }) {
   const params = await searchParams;
   const page = Number.parseInt(params.page ?? '1', 10) || 1;
 
   const query = new URLSearchParams({ page: String(page) });
-  if (params.q) query.set('q', params.q);
+  for (const key of ['q', 'status', 'city'] as const) {
+    const value = params[key];
+    if (value) query.set(key, value);
+  }
 
   const data = await officeFetch<ApiPage>(`/admin/contents?${query.toString()}`);
   const rows = data?.rows ?? [];
@@ -90,6 +105,9 @@ export default async function ContentsPage({
   return (
     <ContentsView
       loadDetail={loadDetail}
+      cities={data?.cities ?? []}
+      page={data?.page ?? 1}
+      pageCount={pageCount(data)}
       pageLabel={pageLabel(data)}
       rows={rows.map((post): ContentRow => ({
         id: post.id,
@@ -107,6 +125,11 @@ export default async function ContentsPage({
       }))}
     />
   );
+}
+
+function pageCount(data: ApiPage | null): number {
+  if (!data || data.total === 0) return 1;
+  return Math.max(1, Math.ceil(data.total / data.pageSize));
 }
 
 function pageLabel(data: ApiPage | null): string {

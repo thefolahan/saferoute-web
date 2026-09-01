@@ -1,5 +1,5 @@
 import type { ActionRowData } from '../_components/action-row';
-import { officeFetch } from '../_lib/session';
+import { officeBase, officeFetch } from '../_lib/session';
 import { DashboardView, type GrowthBar, type Kpi } from './dashboard-view';
 
 export const dynamic = 'force-dynamic';
@@ -37,6 +37,7 @@ type GrowthPoint = { label: string; count: number };
 const NUMBER = new Intl.NumberFormat('en-NG');
 
 export default async function DashboardPage() {
+  const base = await officeBase();
   const [overview, needsAction, growth, me] = await Promise.all([
     officeFetch<Overview>('/admin/overview?range=today'),
     officeFetch<{ rows: NeedsActionRow[] }>('/admin/needs-action?status=pending'),
@@ -67,14 +68,17 @@ export default async function DashboardPage() {
     <DashboardView
       adminName={me?.fullName ?? me?.email.split('@')[0] ?? 'there'}
       kpis={kpis}
-      actions={(needsAction?.rows ?? []).slice(0, 4).map(toActionRow)}
+      actions={(needsAction?.rows ?? [])
+        .slice(0, 4)
+        .map((row) => toActionRow(row, base))}
       growth={toGrowthBars(growth ?? [])}
     />
   );
 }
 
 /** Map an API row onto the Needs-Action row the design draws. */
-function toActionRow(row: NeedsActionRow): ActionRowData {
+/** "Investigate" opens the incident, or the account, that needs the decision. */
+function toActionRow(row: NeedsActionRow, base: string): ActionRowData {
   const badges: ActionRowData['badges'] =
     row.kind === 'user'
       ? [{ text: 'Pending', tone: 'warning' }]
@@ -94,6 +98,10 @@ function toActionRow(row: NeedsActionRow): ActionRowData {
 
   return {
     id: row.id,
+    href:
+      row.kind === 'user'
+        ? `${base}/users/${row.accountType === 'community' ? 'community' : 'agency'}?id=${row.id}`
+        : `${base}/incidents?id=${row.id}`,
     badges,
     lead:
       row.kind === 'user'

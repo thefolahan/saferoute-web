@@ -1,7 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Shell } from '../../_components/shell';
+import { useAction } from '../../_components/use-action';
+import { decideIncident } from '../../_lib/actions';
 import {
   AdjustmentsIcon,
   CarIcon,
@@ -15,7 +19,8 @@ import {
   VerifiedBadgeIcon,
   XMarkIcon
 } from '../../_components/icons';
-import { AVATAR, PHOTO } from '../../_lib/assets';
+import { AVATAR } from '../../_lib/assets';
+import { officeHref, useOfficeBase } from '../../_lib/office-path';
 
 /* Figma 907:16154 (list) and 907:16293 / 907:16520 / 907:16747 (list + detail).
    Split view: 592 list column + 598 detail panel inside the 1190 content area. */
@@ -50,6 +55,8 @@ export type IncidentRow = {
   name: string;
   severity: string;
   source: Source;
+  avatarUrl: string | null;
+  verified: boolean;
 };
 
 export type IncidentDetail = {
@@ -62,6 +69,12 @@ export type IncidentDetail = {
   reportedAt: string;
   confirmations: number;
   reportCount: number;
+  /** Signed URLs from the API; empty when the report carried no photographs. */
+  media: string[];
+  reporterId: string | null;
+  /** For the "Navigate map" button. */
+  latitude: number;
+  longitude: number;
 };
 
 export function IncidentsView({
@@ -73,8 +86,40 @@ export function IncidentsView({
   detail: IncidentDetail | null;
   total: number;
 }) {
-  const [filter, setFilter] = useState('all');
-  const [selected, setSelected] = useState<string | null>(detail?.id ?? null);
+  const router = useRouter();
+  const params = useSearchParams();
+  const base = useOfficeBase();
+  const filter = params.get('source') ?? 'all';
+  const selected = detail?.id ?? null;
+
+  /**
+   * Both the source filter and the open report live in the URL, not in state.
+   *
+   * The detail panel is rendered from a server fetch keyed on `?id`, so a
+   * local `selected` could point at one report while the panel showed
+   * another — which is exactly what it did: clicking the second row opened the
+   * first one's detail. Same for the filter, whose chips set state that
+   * nothing read, so every chip showed the same unfiltered list.
+   */
+  function navigate(next: { source?: string; id?: string | null }) {
+    const query = new URLSearchParams(params.toString());
+
+    if (next.source !== undefined) {
+      if (next.source === 'all') query.delete('source');
+      else query.set('source', next.source);
+    }
+
+    if (next.id !== undefined) {
+      if (next.id === null) query.delete('id');
+      else query.set('id', next.id);
+    }
+
+    const search = query.toString();
+    router.replace(
+      `${officeHref(base, 'incidents')}${search ? `?${search}` : ''}`,
+      { scroll: false }
+    );
+  }
 
   return (
     <Shell title="Incidents">
@@ -94,7 +139,7 @@ export function IncidentsView({
                   <button
                     key={f.id}
                     type="button"
-                    onClick={() => setFilter(f.id)}
+                    onClick={() => navigate({ source: f.id, id: null })}
                     className={`flex h-9 items-center justify-center gap-1 rounded-full px-3 py-2 ${
                       isActive ? 'bg-gray-950' : 'bg-gray-100'
                     }`}
@@ -127,7 +172,7 @@ export function IncidentsView({
               <button
                 key={inc.id}
                 type="button"
-                onClick={() => setSelected(isSelected ? null : inc.id)}
+                onClick={() => navigate({ id: isSelected ? null : inc.id })}
                 className={`flex h-[100px] w-full items-center px-4 py-[11px] text-left sm:px-6 lg:px-8 ${
                   isSelected
                     ? 'bg-error-50 shadow-[inset_-8px_0_0_0_#F04438]'
@@ -138,7 +183,7 @@ export function IncidentsView({
                   <div className="flex items-center gap-[17px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={AVATAR.user}
+                      src={inc.avatarUrl ?? AVATAR.user}
                       alt=""
                       className="h-[54px] w-[54px] shrink-0 rounded-full bg-[#E0E0E0] object-cover"
                     />
@@ -147,7 +192,9 @@ export function IncidentsView({
                         <span className="line-clamp-2 text-sm font-semibold leading-[14px] text-gray-900">
                           {inc.name}
                         </span>
-                        <VerifiedBadgeIcon className="h-3 w-3 shrink-0" />
+                        {inc.verified ? (
+                          <VerifiedBadgeIcon className="h-3 w-3 shrink-0" />
+                        ) : null}
                       </div>
                       <span className="inline-flex w-fit items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-medium leading-[18px] text-error-700">
                         {inc.severity}
@@ -174,14 +221,25 @@ export function IncidentsView({
           })}
         </div>
 
-        {selected && detail ? <IncidentDetailPanel detail={detail} /> : null}
+        {selected && detail ? (
+          <IncidentDetailPanel detail={detail} base={base} />
+        ) : null}
       </div>
     </Shell>
   );
 }
 
 /* Figma 907:16432 — the 598-wide detail panel. */
-function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
+function IncidentDetailPanel({
+  detail,
+  base
+}: {
+  detail: IncidentDetail;
+  base: string;
+}) {
+  const { pending, error, run } = useAction();
+  const decided = detail.status === 'verified' || detail.status === 'rejected';
+
   return (
     <div className="flex min-w-0 flex-1 flex-col border-b border-rule bg-white pb-[26px] xl:border-l">
       <div className="flex items-center justify-between gap-[10px] px-5 py-[14px]">
@@ -198,18 +256,24 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
         </span>
       </div>
 
-      {/* Media strip — 3 shots at 358x274, clipped by the panel */}
-      <div className="no-scrollbar flex h-[298px] gap-[10px] overflow-x-auto bg-[#EFEFEF] px-5 py-3">
-        {[0, 1, 2].map((i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={i}
-            src={PHOTO.map}
-            alt=""
-            className="h-[274px] w-[358px] shrink-0 rounded object-cover"
-          />
-        ))}
-      </div>
+      {/* Media strip — 358x274 shots, clipped by the panel */}
+      {detail.media.length === 0 ? (
+        <div className="flex h-[120px] items-center justify-center bg-[#EFEFEF] px-5 text-sm leading-6 text-gray-500">
+          No photographs were filed with this report.
+        </div>
+      ) : (
+        <div className="no-scrollbar flex h-[298px] gap-[10px] overflow-x-auto bg-[#EFEFEF] px-5 py-3">
+          {detail.media.map((url) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={url}
+              src={url}
+              alt=""
+              className="h-[274px] w-[358px] shrink-0 rounded object-cover"
+            />
+          ))}
+        </div>
+      )}
 
       <div className="flex flex-col items-center px-5 pt-[14px] shadow-[inset_0_1px_0_0_#EEEEEE]">
         <div className="flex w-full items-center gap-[18px] py-[5px]">
@@ -246,21 +310,13 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
 
           <div className="flex items-center justify-between gap-3 border-t border-gray-200 py-2">
             <div className="flex items-center gap-1 py-1">
-              <div className="flex -space-x-1">
-                {[AVATAR.d, AVATAR.e, AVATAR.f].map((src) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    key={src}
-                    src={src}
-                    alt=""
-                    className="h-6 w-6 rounded-full object-cover ring-[0.5px] ring-black/[0.08]"
-                  />
-                ))}
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-500 ring-[0.5px] ring-gray-200">
-                  +5
-                </span>
-              </div>
-              <span className="ml-2 text-xs font-normal leading-[18px] text-gray-500">
+              {/*
+                The design stacks avatars of who confirmed. The count is real;
+                which accounts they belong to is not exposed by the API, and
+                drawing three stock faces plus a fixed "+5" over a live number
+                said five people had confirmed a report that one had.
+              */}
+              <span className="text-xs font-normal leading-[18px] text-gray-500">
                 {detail.confirmations} signal{detail.confirmations === 1 ? '' : 's'}
               </span>
             </div>
@@ -268,47 +324,62 @@ function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
             <span className="h-6 w-px shrink-0 bg-gray-200" />
             <span className="flex flex-1 items-center justify-end gap-1">
               <span className="text-xs font-normal leading-[18px] tracking-[-0.36px] text-gray-500">
-                Travel Impact
+                Severity
               </span>
-              <span className="text-xs font-medium leading-[18px] tracking-[-0.24px] text-warning-500">
-                Significant
+              <span className="text-xs font-medium capitalize leading-[18px] tracking-[-0.24px] text-warning-500">
+                {detail.severity}
               </span>
             </span>
           </div>
         </div>
 
+        {error ? (
+          <p
+            role="alert"
+            className="mx-5 w-full rounded-lg bg-error-50 px-[14px] py-[10px] text-sm font-medium leading-5 text-error-700"
+          >
+            {error}
+          </p>
+        ) : null}
+
         <div className="flex w-full items-center justify-center gap-[10px] px-5 py-3 shadow-[inset_0_-1px_0_0_#EEEEEE]">
-          <div className="flex flex-1 items-center justify-center gap-[10px] py-[6px]">
+          <div className="flex flex-1 flex-wrap items-center justify-center gap-[10px] py-[6px]">
+            {detail.reporterId ? (
+              <Link
+                href={`${officeHref(base, 'users/community')}?id=${detail.reporterId}`}
+                className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-black px-4 py-1 text-sm font-semibold leading-6 text-gray-25"
+              >
+                View profile
+              </Link>
+            ) : null}
             <button
               type="button"
-              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-black px-4 py-1 text-sm font-semibold leading-6 text-gray-25"
-            >
-              View profile
-            </button>
-            <button
-              type="button"
-              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-1 pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25"
+              disabled={pending || decided}
+              onClick={() => run(() => decideIncident(detail.id, 'approve'))}
+              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-1 pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25 disabled:opacity-50"
             >
               <CheckIcon className="h-5 w-5 text-gray-25" />
-              Approve
+              {detail.status === 'verified' ? 'Approved' : 'Approve'}
             </button>
             <button
               type="button"
-              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-1 pl-[6px] pr-4 text-sm font-semibold leading-6 text-white"
+              disabled={pending || decided}
+              onClick={() => run(() => decideIncident(detail.id, 'reject'))}
+              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-1 pl-[6px] pr-4 text-sm font-semibold leading-6 text-white disabled:opacity-50"
             >
               <XMarkIcon className="h-5 w-5 text-white" />
-              Reject
+              {detail.status === 'rejected' ? 'Rejected' : 'Reject'}
             </button>
           </div>
         </div>
 
-        <div className="flex w-full items-center justify-center px-[186px] py-[18px]">
-          <button
-            type="button"
+        <div className="flex w-full items-center justify-center px-5 py-[18px] xl:px-[186px]">
+          <Link
+            href={`${officeHref(base, 'map')}?lat=${detail.latitude}&lng=${detail.longitude}&id=${detail.id}`}
             className="edge flex h-[54px] w-full items-center justify-center rounded-lg px-8 py-[15px] text-base font-semibold leading-6 text-black shadow-[0_1px_9px_rgba(0,0,0,0.13)]"
           >
             Navigate map
-          </button>
+          </Link>
         </div>
       </div>
     </div>

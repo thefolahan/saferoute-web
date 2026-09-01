@@ -131,7 +131,7 @@ export function AccessControlView({
             cell={(row, key) => {
               switch (key) {
                 case 'name':
-                  return <CellUser initials="OJ" name={row.name} sub={row.email} />;
+                  return <CellUser name={row.name} sub={row.email} />;
                 case 'role':
                   return (
                     <span className="text-sm font-normal leading-5 text-gray-700">{row.role}</span>
@@ -176,7 +176,8 @@ export function AccessControlView({
               }
             }}
           />
-          <Pagination label={pageLabel} />
+          {/* /admin/team returns the whole team, so there is nothing to page. */}
+          <Pagination label={pageLabel} page={1} pageCount={1} />
         </div>
       ) : (
         <div className="flex flex-col gap-5 px-4 py-3 sm:px-6 lg:px-8">

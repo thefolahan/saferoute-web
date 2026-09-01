@@ -1,4 +1,7 @@
+'use client';
+
 import type { ReactNode } from 'react';
+import Link from 'next/link';
 import { ArrowRightIcon, GhostButton } from './ui';
 
 /* Figma 907:12740 — the Needs Action row, shared by the Dashboard and the
@@ -15,6 +18,10 @@ export type ActionRowData = {
   meta: string[];
   /** Trailing button; defaults to "Investigate →". */
   action?: { label: string; icon?: ReactNode };
+  /** Where the trailing button goes. Without one it is not a control. */
+  href?: string;
+  /** Broadcast rows only — whether this one can still be pulled back. */
+  cancellable?: boolean;
 };
 
 const BADGE_CLASS: Record<ActionBadge['tone'], string> = {
@@ -24,7 +31,18 @@ const BADGE_CLASS: Record<ActionBadge['tone'], string> = {
   success: 'bg-success-50 text-success-700'
 };
 
-export function ActionRow({ row, rail = true }: { row: ActionRowData; rail?: boolean }) {
+export function ActionRow({
+  row,
+  rail = true,
+  onAction,
+  pending = false
+}: {
+  row: ActionRowData;
+  rail?: boolean;
+  /** Overrides the link, for rows whose button is a mutation. */
+  onAction?: (row: ActionRowData) => void;
+  pending?: boolean;
+}) {
   return (
     <div className={`rounded-md bg-white ${rail ? 'edge-left-error' : ''}`}>
       <div className="edge flex flex-col items-start gap-3 rounded-[7px] px-5 py-[7px] sm:flex-row sm:items-center sm:gap-5">
@@ -55,22 +73,86 @@ export function ActionRow({ row, rail = true }: { row: ActionRowData; rail?: boo
           </div>
         </div>
 
-        <GhostButton size={row.action ? 'sm' : 'md'} className="shrink-0 gap-[5px] self-end sm:self-auto">
-          {row.action?.icon ?? null}
-          {row.action?.label ?? 'Investigate'}
-          {row.action ? null : <ArrowRightIcon className="h-4 w-4 text-gray-900" />}
-        </GhostButton>
+        <ActionControl row={row} onAction={onAction} pending={pending} />
       </div>
     </div>
   );
 }
 
+/**
+ * The row's trailing control.
+ *
+ * A button, a link or plain text depending on what the row can actually do —
+ * it used to be a `<button>` with no handler on every row, so "Investigate"
+ * and "Edit" both looked like controls and neither was one.
+ */
+function ActionControl({
+  row,
+  onAction,
+  pending
+}: {
+  row: ActionRowData;
+  onAction?: (row: ActionRowData) => void;
+  pending: boolean;
+}) {
+  const content = (
+    <>
+      {row.action?.icon ?? null}
+      {row.action?.label ?? 'Investigate'}
+      {row.action ? null : <ArrowRightIcon className="h-4 w-4 text-gray-900" />}
+    </>
+  );
+  const size = row.action ? 'sm' : 'md';
+  const className = 'shrink-0 gap-[5px] self-end sm:self-auto';
+
+  // A mutation button only where the row actually carries one; otherwise a
+  // link, otherwise nothing at all rather than a control that does nothing.
+  if (onAction && row.action) {
+    return (
+      <GhostButton
+        size={size}
+        className={className}
+        disabled={pending}
+        onClick={() => onAction(row)}
+      >
+        {content}
+      </GhostButton>
+    );
+  }
+
+  if (row.href) {
+    return (
+      <GhostButton as={Link} href={row.href} size={size} className={className}>
+        {content}
+      </GhostButton>
+    );
+  }
+
+  return null;
+}
+
 /** The #F4F4F4 well the rows sit in — pad 14/19, gap 14. */
-export function ActionRowList({ rows, rail = true }: { rows: ActionRowData[]; rail?: boolean }) {
+export function ActionRowList({
+  rows,
+  rail = true,
+  onAction,
+  pending = false
+}: {
+  rows: ActionRowData[];
+  rail?: boolean;
+  onAction?: (row: ActionRowData) => void;
+  pending?: boolean;
+}) {
   return (
     <div className="flex flex-col gap-[14px] bg-surface-muted px-[19px] py-[14px]">
       {rows.map((row) => (
-        <ActionRow key={row.id} row={row} rail={rail} />
+        <ActionRow
+          key={row.id}
+          row={row}
+          rail={rail}
+          onAction={onAction}
+          pending={pending}
+        />
       ))}
     </div>
   );

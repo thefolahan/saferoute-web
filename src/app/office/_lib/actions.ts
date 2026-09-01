@@ -222,6 +222,29 @@ export async function setUserStatus(
   );
 }
 
+/**
+ * Message or formally warn one citizen.
+ *
+ * Lands as a notification, not a direct message: an admin has no `User` row to
+ * send one from, and a moderator writing into a peer thread would read as
+ * another citizen rather than SafeRoute.
+ */
+export async function notifyUser(
+  id: string,
+  input: { title: string; body: string; kind: 'message' | 'warning' }
+): Promise<ActionResult> {
+  if (!input.title.trim()) return { ok: false, error: 'Give the message a subject.' };
+  if (!input.body.trim()) return { ok: false, error: 'Write the message.' };
+
+  return toResult(
+    await officeSend(`/admin/users/${id}/notify`, 'POST', {
+      title: input.title.trim(),
+      body: input.body.trim(),
+      kind: input.kind
+    })
+  );
+}
+
 /* ---------------------------------------------------------- configuration */
 
 export async function updateProfile(input: {

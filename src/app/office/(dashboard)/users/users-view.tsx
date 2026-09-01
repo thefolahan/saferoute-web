@@ -56,10 +56,17 @@ const TABS = [
 export function UsersView({
   rows,
   tab,
+  cities,
+  page,
+  pageCount,
   pageLabel
 }: {
   rows: UserRow[];
   tab: string;
+  /** The cities that actually have users, for the City filter. */
+  cities: string[];
+  page: number;
+  pageCount: number;
   pageLabel: string;
 }) {
   const base = useOfficeBase();
@@ -77,11 +84,35 @@ export function UsersView({
             />
           </div>
 
+          {/* Bound to the same parameters /admin/users reads. */}
           <FilterBar>
-            <FilterField placeholder="Search users" width={406} search />
-            <FilterField placeholder="Type" width={230} />
-            <FilterField placeholder="Status" width={230} />
-            <FilterField placeholder="City" width={230} />
+            <FilterField placeholder="Search users" param="q" width={406} search />
+            <FilterField
+              placeholder="Type"
+              param="type"
+              width={230}
+              options={[
+                { value: 'community', label: 'Community' },
+                { value: 'official', label: 'Official' },
+                { value: 'news_outlet', label: 'News Outlet' }
+              ]}
+            />
+            <FilterField
+              placeholder="Status"
+              param="status"
+              width={230}
+              options={[
+                { value: 'active', label: 'Active' },
+                { value: 'suspended', label: 'Suspended' },
+                { value: 'deleted', label: 'Deleted' }
+              ]}
+            />
+            <FilterField
+              placeholder="City"
+              param="city"
+              width={230}
+              options={cities.map((city) => ({ value: city, label: city }))}
+            />
           </FilterBar>
         </div>
 
@@ -93,7 +124,7 @@ export function UsersView({
             cell={(row, key) => {
               switch (key) {
                 case 'name':
-                  return <CellUser initials={initials(row.name)} name={row.name} sub={row.code} />;
+                  return <CellUser name={row.name} sub={row.code} />;
                 case 'type':
                   return <CellChip>{row.type}</CellChip>;
                 case 'kyc':
@@ -124,16 +155,9 @@ export function UsersView({
               }
             }}
           />
-          <Pagination label={pageLabel} />
+          <Pagination label={pageLabel} page={page} pageCount={pageCount} />
         </div>
       </div>
     </Shell>
   );
-}
-
-/** Two letters from a display name, for the table's avatar circle. */
-function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  const letters = parts.slice(0, 2).map((part) => part[0] ?? '');
-  return (letters.join('') || '?').toUpperCase();
 }

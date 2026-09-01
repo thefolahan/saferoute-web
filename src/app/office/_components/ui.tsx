@@ -1,4 +1,9 @@
-import type { ReactNode, SVGProps } from 'react';
+import type {
+  ComponentPropsWithoutRef,
+  ElementType,
+  ReactNode,
+  SVGProps
+} from 'react';
 
 /* ---------------------------------------------------------------------------
    Primitives shared by every O-Dashboard screen. Sizes/colours come straight
@@ -180,24 +185,33 @@ export function CardHeader({
 }
 
 /** The bordered pill button used for "Investigate" (40h, 15/24) and "Edit"
-    (36h, 14/20). Both are pad 8/18 with a 1px inside hairline. */
-export function GhostButton({
+    (36h, 14/20). Both are pad 8/18 with a 1px inside hairline.
+
+    `as` lets a row render it as a Link where the control is navigation rather
+    than a mutation; the styling is identical either way. */
+export function GhostButton<T extends ElementType = 'button'>({
   children,
   size = 'md',
-  className = ''
+  className = '',
+  as,
+  ...rest
 }: {
   children: ReactNode;
   size?: 'md' | 'sm';
   className?: string;
-}) {
+  as?: T;
+} & Omit<ComponentPropsWithoutRef<T>, 'children' | 'className' | 'size' | 'as'>) {
+  const Component = (as ?? 'button') as ElementType;
   const type = size === 'md' ? 'text-[15px] leading-6' : 'text-[14px] leading-5';
+
   return (
-    <button
-      type="button"
-      className={`edge flex items-center gap-2 rounded-lg px-[18px] py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50 ${type} ${className}`}
+    <Component
+      {...(as ? {} : { type: 'button' })}
+      {...rest}
+      className={`edge flex items-center gap-2 rounded-lg px-[18px] py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 ${type} ${className}`}
     >
       {children}
-    </button>
+    </Component>
   );
 }
 

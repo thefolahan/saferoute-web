@@ -19,6 +19,8 @@ type ApiPage = {
   page: number;
   pageSize: number;
   total: number;
+  /** Every city with a user in it, for the City filter's options. */
+  cities: string[];
   rows: ApiUser[];
 };
 
@@ -39,7 +41,14 @@ const TYPE_LABEL: Record<ApiUser['accountType'], string> = {
 export default async function UsersPage({
   searchParams
 }: {
-  searchParams: Promise<{ tab?: string; page?: string; q?: string }>;
+  searchParams: Promise<{
+    tab?: string;
+    page?: string;
+    q?: string;
+    type?: string;
+    status?: string;
+    city?: string;
+  }>;
 }) {
   const params = await searchParams;
   const tab = params.tab === 'officials' ? 'officials' : 'regular';
@@ -47,7 +56,10 @@ export default async function UsersPage({
   const base = await officeBase();
 
   const query = new URLSearchParams({ tab, page: String(page) });
-  if (params.q) query.set('q', params.q);
+  for (const key of ['q', 'type', 'status', 'city'] as const) {
+    const value = params[key];
+    if (value) query.set(key, value);
+  }
 
   const data = await officeFetch<ApiPage>(`/admin/users?${query.toString()}`);
   const rows = data?.rows ?? [];
@@ -55,6 +67,9 @@ export default async function UsersPage({
   return (
     <UsersView
       tab={tab}
+      cities={data?.cities ?? []}
+      page={data?.page ?? 1}
+      pageCount={pageCount(data)}
       pageLabel={pageLabel(data)}
       rows={rows.map((user): UserRow => ({
         id: user.id,
@@ -70,6 +85,11 @@ export default async function UsersPage({
       }))}
     />
   );
+}
+
+function pageCount(data: ApiPage | null): number {
+  if (!data || data.total === 0) return 1;
+  return Math.max(1, Math.ceil(data.total / data.pageSize));
 }
 
 function pageLabel(data: ApiPage | null): string {
