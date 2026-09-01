@@ -35,6 +35,63 @@
   --color-slate: #475467;
   --color-muted: #717680;
   --color-hairline: #e9eaeb;
+
+  /* ---------------------------------------------------------------------
+     Admin dashboard (/admin) — Figma page 907:2 "O-Dashboard".
+     Additive only: the ramp above is already the same file's gray scale, so
+     these are the names the dashboard needs that the site does not have.
+     `navy` and `rule` are deliberately NOT called ink/hairline — the site
+     already owns both of those names at different values.
+     --------------------------------------------------------------------- */
+
+  /* Error / success / warning as full scales (the site keeps its flat names) */
+  --color-error-25: #fffbfa;
+  --color-error-50: #fef3f2;
+  --color-error-400: #f97066;
+  --color-error-500: #f04438;
+  --color-error-600: #d92d20;
+  --color-error-700: #b42318;
+
+  --color-success-50: #ecfdf3;
+  --color-success-100: #dcfae6;
+  --color-success-400: #47cd89;
+  --color-success-500: #17b26a;
+  --color-success-600: #079455;
+  --color-success-700: #067647;
+  --color-success-800: #085d3a;
+  --color-success-950: #053321;
+
+  --color-warning-50: #fffaeb;
+  --color-warning-300: #fec84b;
+  --color-warning-400: #fdb022;
+  --color-warning-500: #f79009;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+
+  --color-bluelight-50: #f0f9ff;
+  --color-bluelight-500: #0ba5ec;
+  --color-bluelight-700: #026aa2;
+  --color-bluelight-800: #065986;
+
+  --color-brand-600: #7f56d9;
+  --color-secondary: #2563eb;
+
+  /* Figma "Primary/One" — the navy every dashboard heading and metric uses. */
+  --color-navy: #083a50;
+
+  /* Sidebar */
+  --color-sidebar: #171817;
+  --color-sidebar-label: #a9ada5;
+  --color-sidebar-item: #f3f3f3;
+  --color-admin-tag: #ffcd71;
+
+  /* The dashboard's own hairline, drawn off-system as #EEEEEE. */
+  --color-rule: #eeeeee;
+  --color-surface-muted: #f4f4f4;
+
+  /* Sparkline greens/reds on the KPI tiles */
+  --color-spark: #3dc47e;
+  --color-spark-down: #ff383c;
 }
 
 :root {
@@ -221,4 +278,87 @@ body {
    72px hero and 48px section headings both sit at ~-0.02em. */
 .tracking-tightest {
   letter-spacing: -0.02em;
+}
+
+/* ---------------------------------------------------------------------------
+   Admin dashboard utilities (/admin only). See apps/web/src/app/admin.
+   --------------------------------------------------------------------------- */
+
+/* Hide the scrollbar on the sidebar / inner scroll regions without losing the
+   scroll itself — the design shows no track anywhere. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Chart grid rules: Figma LINE nodes carry strokeDashes [4,4] at 1px. */
+.plot-line {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    #d2d5da 0,
+    #d2d5da 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* Figma strokes on canvas 907:2 are INSIDE strokes (`@1.0INS` in the spec
+   dump): drawn within the node's box, they do NOT grow it. A CSS `border` does
+   grow an auto-height box by 2px, and that compounds down a page — so every
+   inside stroke is an inset box-shadow instead. */
+.edge {
+  box-shadow: inset 0 0 0 1px var(--edge-color, #eeeeee);
+}
+.edge-gray200 {
+  box-shadow: inset 0 0 0 1px #e9eaeb;
+}
+.edge-gray300 {
+  box-shadow: inset 0 0 0 1px #d5d7da;
+}
+.edge-grey50 {
+  box-shadow: inset 0 0 0 1px #eaeef4;
+}
+.edge-bottom {
+  box-shadow: inset 0 -1px 0 0 #eeeeee;
+}
+/* `stroke=Error/600@T0/R0/B0/L4INS` — the 4px red rail on a Needs-Action row. */
+.edge-left-error {
+  box-shadow: inset 4px 0 0 0 #d92d20;
+}
+
+/* The dashboard is its own product surface inside the site: white ground, the
+   navy body colour, and no inherited link/button styling from the marketing
+   pages. Scoped to the /admin layout so nothing here reaches the site.
+
+   These MUST stay in @layer base. Unlayered, `.admin-root button` has
+   specificity (0,1,1) and silently beats every `text-*` utility on a button —
+   which is how the action buttons ended up navy instead of Gray/700. */
+@layer base {
+  .admin-root {
+  /* See admin/layout.tsx — the dashboard is measured against variable Inter. */
+    font-family: var(--font-admin), Inter, ui-sans-serif, system-ui, -apple-system,
+      "Segoe UI", sans-serif;
+    background: #ffffff;
+    color: var(--color-navy);
+    -webkit-font-smoothing: antialiased;
+  }
+  .admin-root a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .admin-root button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .admin-root input,
+  .admin-root select,
+  .admin-root textarea {
+    font: inherit;
+    color: inherit;
+  }
 }
