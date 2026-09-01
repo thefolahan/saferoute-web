@@ -4,13 +4,8 @@ import { useState } from 'react';
 import { Shell } from '../../_components/shell';
 import { Tabs } from '../../_components/tabs';
 import { Select } from '../../_components/ui';
-import {
-  DataTable,
-  Pagination,
-  initialsOf,
-  type Column
-} from '../../_components/table';
-import { PHOTO } from '../../_lib/assets';
+import { DataTable, Pagination, type Column } from '../../_components/table';
+import { Avatar } from '../../_components/avatar';
 import {
   VerificationModal,
   type VerificationSubject
@@ -103,18 +98,11 @@ export function VerificationView({
               case 'applicant':
                 return row.applicant.kind === 'person' ? (
                   <span className="flex items-center gap-2">
-                    <span className="flex h-[35px] w-[35px] shrink-0 items-center justify-center overflow-hidden rounded-[18px] bg-gray-100 text-base font-semibold leading-[22px] text-[#2F3037]">
-                      {row.subject.avatarUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={row.subject.avatarUrl}
-                          alt=""
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        initialsOf(row.applicant.name)
-                      )}
-                    </span>
+                    <Avatar
+                      src={row.subject.avatarUrl}
+                      name={row.applicant.name}
+                      size={35}
+                    />
                     <span className="flex flex-col justify-center gap-[2px]">
                       <span className="text-sm font-semibold leading-5 text-[#2F3037]">
                         {row.applicant.name}
@@ -128,11 +116,12 @@ export function VerificationView({
                   </span>
                 ) : (
                   <span className="flex items-center gap-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={row.subject.avatarUrl ?? PHOTO.incident}
-                      alt=""
-                      className="h-8 w-[35px] shrink-0 rounded-[47px] object-cover"
+                    {/* An organisation gets a rounded square, not a circle. */}
+                    <Avatar
+                      src={row.subject.avatarUrl}
+                      name={row.applicant.name}
+                      size={35}
+                      rounded="8px"
                     />
                     <span className="flex flex-col justify-center gap-1">
                       <span className="text-sm font-semibold leading-[17px] text-gray-900">

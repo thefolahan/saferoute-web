@@ -13,8 +13,8 @@ import {
   SettingsIcon,
   UserOutlineIcon
 } from './icons';
-import { AVATAR } from '../_lib/assets';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
+import { Avatar } from './avatar';
 import { useAdmin } from './admin-context';
 import { useNav } from './nav-state';
 
@@ -90,11 +90,10 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
               aria-expanded={menuOpen}
               className="flex items-center gap-2"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={AVATAR.admin}
-                alt={admin?.name ?? "Signed-in admin"}
-                className="h-10 w-10 rounded-3xl object-cover"
+              <Avatar
+                src={admin?.avatarUrl}
+                name={admin?.name ?? 'Signed-in admin'}
+                size={40}
               />
               <span className="flex h-6 w-6 items-center justify-center">
                 <ArrowDownIcon className="h-[7px] w-3 text-navy" />
@@ -139,11 +138,10 @@ function ProfileMenu({ onClose }: { onClose: () => void }) {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-[9px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={AVATAR.admin}
-              alt=""
-              className="h-[70px] w-[70px] rounded-[41px] object-cover"
+            <Avatar
+              src={admin?.avatarUrl}
+              name={admin?.name ?? 'Administrator'}
+              size={70}
             />
             <span className="flex flex-col justify-center gap-[7px]">
               <span className="text-base font-semibold leading-[18px] text-[#1F2937]">

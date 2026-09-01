@@ -1,6 +1,7 @@
 import { Shell } from '../../_components/shell';
+import { LineChart, axisTicks, niceCeiling } from '../../_components/line-chart';
 import { Card, ChevronDown, Select } from '../../_components/ui';
-import { ActivityChart, CalendarOutlineIcon, ClockIcon } from '../../_components/icons';
+import { CalendarOutlineIcon, ClockIcon } from '../../_components/icons';
 
 /* Figma 907:17661 "Analytics" — KPI grid, response/severity blocks, the
    incident-activity line chart and the community-activity stack. */
@@ -42,7 +43,14 @@ export function AnalyticsView({
   activity: ActivityPoint[];
   communityStats: Stat[];
 }) {
-  const peak = Math.max(1, ...activity.map((a) => a.reported));
+
+  // The activity chart's own numbers: axis top, and each series' share.
+  const activityTop = niceCeiling(
+    Math.max(1, ...activity.flatMap((point) => [point.reported, point.resolved]))
+  );
+  const reportedTotal = activity.reduce((sum, point) => sum + point.reported, 0);
+  const resolvedTotal = activity.reduce((sum, point) => sum + point.resolved, 0);
+  const activityTotal = reportedTotal + resolvedTotal;
 
   return (
     <Shell title="Analytics">
@@ -119,46 +127,35 @@ export function AnalyticsView({
             </span>
           </div>
 
-          {/* Label 66 + bars 240 + percentages 75 + gaps is wider than a
-              390px phone, so the row scrolls inside itself rather than
-              stretching the page. `min-w-max` is what makes the children keep
-              their widths instead of being squeezed by the scroll box. */}
-          <div className="flex min-w-0 flex-1 items-center overflow-x-auto">
-            <div className="flex min-w-max flex-1 items-center gap-4">
-            <div className="flex h-full w-[66px] shrink-0 flex-col justify-between text-right">
-              {severity.map((s) => (
-                <span
-                  key={s.label}
-                  className="flex flex-1 items-center justify-end text-sm font-semibold leading-5 text-black/40"
-                >
+          {/*
+            One row per severity, so the label, its bar and its percentage
+            cannot drift apart. Three parallel columns (the design's own
+            structure) only line up while every row is the same height, and
+            they stopped being so once the label column had to wrap.
+
+            The row scrolls inside itself below ~400px rather than stretching
+            the page: 66 + 240 + 75 plus gaps does not fit a phone.
+          */}
+          <div className="flex min-w-0 flex-1 flex-col justify-center gap-[34px] overflow-x-auto py-2">
+            {severity.map((s) => (
+              <div key={s.label} className="flex min-w-max items-center gap-4">
+                <span className="w-[66px] shrink-0 text-right text-sm font-semibold leading-5 text-black/40">
                   {s.label}
                 </span>
-              ))}
-            </div>
 
-            <div className="flex min-w-[240px] flex-1 flex-col justify-center gap-[34px]">
-              {severity.map((s) => (
-                <div key={s.label} className="flex items-center">
+                <span className="flex min-w-[240px] flex-1 items-center">
                   <span
                     className={`h-7 shrink-0 rounded-lg ${s.color}`}
                     style={{ width: s.width }}
                   />
                   <span className="h-px flex-1 bg-gray-200" />
-                </div>
-              ))}
-            </div>
+                </span>
 
-            <div className="flex h-[203px] w-[75px] shrink-0 flex-col justify-center gap-[41px] text-right">
-              {severity.map((s, i) => (
-                <span
-                  key={i}
-                  className="text-sm font-semibold leading-5 text-black/40"
-                >
+                <span className="w-[75px] shrink-0 text-right text-sm font-semibold leading-5 text-black/40">
                   {s.pct}
                 </span>
-              ))}
-            </div>
-            </div>
+              </div>
+            ))}
           </div>
         </Block>
       </section>
@@ -190,23 +187,32 @@ export function AnalyticsView({
             <div className="flex min-w-0 flex-col gap-[2px] overflow-x-auto">
               <div className="relative h-[159px] min-w-[560px]">
                 <div className="flex h-full flex-col justify-between">
-                  {['80K', '60K', '40K', '20K', '0'].map((tick) => (
-                    <div key={tick} className="flex items-center gap-1">
-                      <span className="w-5 shrink-0 text-[10px] leading-[7px] text-[#6D7280]">
+                  {axisTicks(activityTop).map((tick, i) => (
+                    <div key={i} className="flex items-center gap-1">
+                      <span className="w-8 shrink-0 text-right text-[10px] leading-[7px] text-[#6D7280]">
                         {tick}
                       </span>
                       <span className="plot-line flex-1" />
                     </div>
                   ))}
                 </div>
-                {/* The export carries width={1010}. An SVG is a replaced element,
-                    so `w-auto` plus left/right does NOT stretch it — the intrinsic
-                    width wins and it escapes the scroll container. An explicit CSS
-                    width is what actually constrains it. */}
-                <ActivityChart
-                  preserveAspectRatio="none"
-                  className="pointer-events-none absolute left-[82px] top-[14px] h-[142px] w-[calc(100%-82px)]"
-                />
+                <div className="pointer-events-none absolute left-[42px] right-0 top-[14px] h-[142px]">
+                  <LineChart
+                    height={142}
+                    series={[
+                      {
+                        label: 'Reported',
+                        color: '#F04438',
+                        values: activity.map((point) => point.reported)
+                      },
+                      {
+                        label: 'Resolved',
+                        color: '#3DC47E',
+                        values: activity.map((point) => point.resolved)
+                      }
+                    ]}
+                  />
+                </div>
               </div>
 
               <div className="min-w-[560px] py-[3px]">
@@ -214,7 +220,7 @@ export function AnalyticsView({
                   {activity.map((point, i) => (
                     <span
                       key={i}
-                      className="flex w-[59px] items-center justify-center px-[13px] py-[3px] text-[10px] leading-[7px] text-[#6D7280]"
+                      className="flex flex-1 items-center justify-center whitespace-nowrap py-[3px] text-[10px] leading-[12px] text-[#6D7280]"
                     >
                       {point.label}
                     </span>
@@ -223,16 +229,31 @@ export function AnalyticsView({
               </div>
             </div>
 
-            <div className="flex gap-[65px]">
-              {['Resolved', 'Reported'].map((l) => (
-                <span key={l} className="flex items-center gap-3">
+            {/*
+              The design prints "00%" beside each legend dot and tints both
+              dots the same red. Each is now that series' share of the window's
+              total, in its own colour.
+            */}
+            <div className="flex flex-wrap gap-[65px]">
+              {[
+                { label: 'Resolved', color: '#3DC47E', total: resolvedTotal },
+                { label: 'Reported', color: '#F04438', total: reportedTotal }
+              ].map((entry) => (
+                <span key={entry.label} className="flex items-center gap-3">
                   <span className="flex items-center gap-[5px]">
-                    <span className="h-[10px] w-[10px] rounded-full bg-error-500" />
+                    <span
+                      className="h-[10px] w-[10px] rounded-full"
+                      style={{ backgroundColor: entry.color }}
+                    />
                     <span className="text-xs font-medium leading-5 tracking-[-0.24px] text-[#4B5563]">
-                      {l}
+                      {entry.label}
                     </span>
                   </span>
-                  <span className="text-sm font-medium leading-5 text-black">00%</span>
+                  <span className="text-sm font-medium leading-5 text-black">
+                    {activityTotal
+                      ? `${Math.round((entry.total / activityTotal) * 100)}%`
+                      : '—'}
+                  </span>
                 </span>
               ))}
             </div>
@@ -255,9 +276,10 @@ export function AnalyticsView({
               <div className="edge flex w-full min-w-0 flex-col gap-[2px] overflow-x-auto rounded-lg px-[14px] py-[23px] xl:w-[643px] xl:shrink-0">
                 <div className="relative h-[235px] min-w-[560px]">
                   <div className="flex h-full flex-col justify-between">
-                    {['12k', '10k', '8k', '6k', '4k', '2k', '0'].map((tick) => (
-                      <div key={tick} className="flex items-center gap-1">
-                        <span className="w-5 shrink-0 text-[10px] leading-[7px] text-[#6D7280]">
+                    {/* Seven rows, the design's count, from the real total. */}
+                    {axisTicks(activityTop, 7).map((tick, i) => (
+                      <div key={i} className="flex items-center gap-1">
+                        <span className="w-7 shrink-0 text-right text-[10px] leading-[7px] text-[#6D7280]">
                           {tick}
                         </span>
                         <span className="plot-line flex-1" />
@@ -270,13 +292,15 @@ export function AnalyticsView({
                       <div key={i} className="flex w-7 flex-col">
                         <span
                           className="bg-success-400"
-                          style={{ height: Math.round((bar.resolved / peak) * 191) }}
+                          style={{ height: Math.round((bar.resolved / activityTop) * 191) }}
                         />
                         <span
                           className="bg-warning-400"
                           style={{
                             height: Math.round(
-                              ((bar.reported - bar.resolved) / peak) * 191
+                              (Math.max(0, bar.reported - bar.resolved) /
+                                activityTop) *
+                                191
                             )
                           }}
                         />

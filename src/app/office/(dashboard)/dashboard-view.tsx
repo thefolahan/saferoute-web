@@ -4,26 +4,38 @@ import Link from 'next/link';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Shell } from '../_components/shell';
 import { ArrowRightIcon, Card, Select, Sparkline } from '../_components/ui';
-import { WorldHeatMap } from '../_components/world-heat-map';
+import { IncidentMiniMap, type MapPlace } from '../_components/incident-mini-map';
+import { axisTicks } from '../_components/line-chart';
 import { ActionRowList } from '../_components/action-row';
 import type { ActionRowData } from '../_components/action-row';
 
 /* Figma 907:12642 "Dashboard" — presentation only; the data is fetched by
    page.tsx on the server and passed in. */
 
-export type Kpi = { label: string; value: string; down?: boolean };
-export type GrowthBar = { label: string; pad: number };
+export type Kpi = {
+  label: string;
+  value: string;
+  /** This metric's own last few days, oldest first, for its sparkline. */
+  trend: number[];
+};
+export type GrowthBar = { label: string; count: number; pad: number };
 
 
 export function DashboardView({
+  places,
   kpis,
   actions,
   growth,
+  growthTop,
   adminName
 }: {
+  /** Incidents that carry a coordinate, for the map card. */
+  places: MapPlace[];
   kpis: Kpi[];
   actions: ActionRowData[];
   growth: GrowthBar[];
+  /** The growth chart's axis top, so the ticks match the bars. */
+  growthTop: number;
   adminName: string;
 }) {
   const base = useOfficeBase();
@@ -65,7 +77,7 @@ export function DashboardView({
               <span className="text-sm font-normal leading-[17px] text-gray-700">{kpi.label}</span>
               <div className="flex items-end justify-between gap-[23px]">
                 <span className="text-2xl font-bold leading-[29px] text-navy">{kpi.value}</span>
-                <Sparkline id={kpi.label} down={kpi.down} />
+                <Sparkline id={kpi.label} points={kpi.trend} />
               </div>
             </div>
           ))}
@@ -116,9 +128,9 @@ export function DashboardView({
                 <div className="relative h-[243px] min-w-[560px]">
                   {/* Grid lines: 5 plots, 52px apart, label + rule */}
                   <div className="flex h-full flex-col justify-between">
-                    {['80k', '60k', '40k', '20k', '00'].map((tick) => (
-                      <div key={tick} className="flex items-center gap-1">
-                        <span className="w-[19px] shrink-0 text-[10px] leading-[7px] text-[#6D7280]">
+                    {axisTicks(growthTop).map((tick, i) => (
+                      <div key={i} className="flex items-center gap-1">
+                        <span className="w-7 shrink-0 text-right text-[10px] leading-[7px] text-[#6D7280]">
                           {tick}
                         </span>
                         <span className="plot-line flex-1" />
@@ -131,6 +143,7 @@ export function DashboardView({
                     {growth.map((bar) => (
                       <div
                         key={bar.label}
+                        title={`${bar.label}: ${bar.count}`}
                         className="flex h-[132px] w-[59px] flex-col bg-[#F3F4F6]"
                         style={{ paddingTop: bar.pad }}
                       >
@@ -156,20 +169,34 @@ export function DashboardView({
             </div>
           </Card>
 
-          {/* Heat map — Figma 907:12884 */}
+          {/*
+            Heat map — Figma 907:12884.
+
+            The design's world SVG carried the designer's own per-country
+            fills, so it showed the same tinted continents whatever had been
+            reported; and the app records incidents in one country, which makes
+            a world choropleth the wrong picture even when it is real. This is
+            where the incidents actually are, on the same tile layer the Map
+            screen uses, plus the real counts beside it.
+          */}
           <Card className="flex min-w-0 flex-1 flex-col px-[19px] py-5">
-            <div className="flex flex-1 flex-col items-center gap-[50px]">
+            <div className="flex flex-1 flex-col gap-5">
               <div className="flex w-full items-center justify-between gap-1">
                 <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">
-                  Heat map of incidents
+                  Where incidents are
                 </h2>
-                <Select
-                  label="Today"
-                  className="w-[101px]"
-                  unavailable="The heat map counts every incident on record; there is no date filter for it yet."
-                />
+                <span className="text-xs font-normal leading-[15px] text-gray-500">
+                  {places.length} located
+                </span>
               </div>
-              <WorldHeatMap className="h-auto w-[378px] max-w-full" />
+
+              {places.length ? (
+                <IncidentMiniMap places={places} />
+              ) : (
+                <p className="py-16 text-center text-sm leading-6 text-gray-500">
+                  No incident on record carries a location yet.
+                </p>
+              )}
             </div>
           </Card>
         </div>

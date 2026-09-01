@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Avatar } from './avatar';
 import { useAction } from './use-action';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { decideVerification } from '../_lib/actions';
@@ -12,7 +13,6 @@ import {
   UserGroupIcon,
   XMarkIcon
 } from './icons';
-import { AVATAR } from '../_lib/assets';
 
 /* Figma 907:19428 "Verification details popup" — 782x1049, radius 6.
    Header 58h, applicant strip 161h, then two sections separated by a 1px
@@ -82,11 +82,12 @@ export function VerificationModal({
         {/* Applicant */}
         <div className="flex flex-col gap-[19px] px-5 py-[10px] sm:flex-row sm:items-center">
           <div className="flex h-[141px] w-[149px] shrink-0 items-center justify-center rounded-md p-2 shadow-[inset_0_0_0_1px_rgba(238,238,238,0.52)]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={subject.avatarUrl ?? AVATAR.user}
-              alt=""
-              className="h-full w-full rounded object-cover"
+            <Avatar
+              src={subject.avatarUrl}
+              name={subject.name}
+              size={125}
+              rounded="4px"
+              className="h-full w-full"
             />
           </div>
 

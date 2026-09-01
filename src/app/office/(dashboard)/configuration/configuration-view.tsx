@@ -3,9 +3,9 @@
 import { useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { Shell } from '../../_components/shell';
+import { Avatar } from '../../_components/avatar';
 import { useAction } from '../../_components/use-action';
 import { changePassword, updateProfile } from '../../_lib/actions';
-import { AVATAR } from '../../_lib/assets';
 import { useOfficeBase } from '../../_lib/office-path';
 
 /* Figma 907:18863 (Profile information), 907:18933 (Security and privacy),
@@ -244,11 +244,10 @@ function ProfilePanel({ profile }: { profile: AdminProfile }) {
 
       <div className="flex flex-col gap-5 py-5">
         <div className="flex flex-wrap items-center gap-5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={profile.avatarUrl ?? AVATAR.admin}
-            alt={profile.fullName}
-            className="h-[100px] w-[100px] shrink-0 rounded-full object-cover"
+          <Avatar
+            src={profile.avatarUrl}
+            name={fullName || profile.email}
+            size={100}
           />
           <div className="flex w-full max-w-[348px] flex-col justify-center gap-1">
             <span className="text-xl font-medium leading-6 tracking-[0.2px] text-black">

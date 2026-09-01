@@ -4,10 +4,10 @@ import { useState, type ReactNode } from 'react';
 import { Shell } from './shell';
 import { MessageIcon, ShieldOutlineIcon, UserGroupIcon } from './icons';
 import { ArrowRightIcon } from './ui';
-import { AVATAR, PHOTO } from '../_lib/assets';
 import Link from 'next/link';
 import { ComposeField, ComposeModal } from './compose-modal';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
+import { Avatar } from './avatar';
 import { useAction } from './use-action';
 import { notifyUser, setUserStatus } from '../_lib/actions';
 
@@ -86,18 +86,11 @@ export function UserDetail({
               {/* Hero card */}
               <div className="edge flex flex-col items-center gap-[23px] rounded-[15px] p-[10px] xl:flex-row">
                 <div className="flex h-[178px] w-[188px] shrink-0 items-center justify-center rounded-lg p-[10px] shadow-[inset_0_0_0_1px_rgba(238,238,238,0.65)]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={
-                      subject.avatarUrl ??
-                      (subject.avatar === 'agency' ? PHOTO.agencyLogo : PHOTO.incidentAlt)
-                    }
-                    alt=""
-                    className={
-                      subject.avatar === 'agency'
-                        ? 'max-h-full max-w-full object-contain'
-                        : 'h-[159px] w-[168px] rounded-[5px] object-cover'
-                    }
+                  <Avatar
+                    src={subject.avatarUrl}
+                    name={subject.name}
+                    size={158}
+                    rounded={subject.avatar === 'agency' ? '8px' : '50%'}
                   />
                 </div>
 
@@ -284,12 +277,7 @@ export function UserDetail({
             Send to:
           </span>
           <div className="flex items-center gap-[7px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={subject.avatarUrl ?? AVATAR.user}
-              alt=""
-              className="h-[76px] w-[76px] rounded-full object-cover"
-            />
+            <Avatar src={subject.avatarUrl} name={subject.name} size={76} />
             <span className="flex flex-col gap-[3px]">
               <span className="text-base font-semibold leading-[19px] text-gray-900">
                 {subject.name}

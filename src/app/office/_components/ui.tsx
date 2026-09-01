@@ -27,29 +27,71 @@ export function ArrowRightIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-/** The 72x28 KPI sparkline (Figma 907:12658 / 907:12707). */
-export function Sparkline({ down = false, id }: { down?: boolean; id: string }) {
+/**
+ * The 72x28 KPI sparkline (Figma 907:12658 / 907:12707), drawn from a real
+ * series.
+ *
+ * It used to be one exported path repeated on all ten tiles, tinted red on
+ * whichever the design tinted red — the same imaginary curve whatever the
+ * number above it did. `points` is the metric's own last few days, and the
+ * colour follows its actual direction rather than a hardcoded flag.
+ *
+ * A flat or empty series draws a flat line, which is the honest picture of a
+ * metric that has not moved, rather than no chart at all.
+ */
+export function Sparkline({ points, id }: { points: number[]; id: string }) {
+  const width = 72;
+  const height = 29;
+  const pad = 2;
+
+  const series = points.length >= 2 ? points : [0, 0];
+  const min = Math.min(...series);
+  const max = Math.max(...series);
+  // A flat series has no range to scale by; centre it instead of dividing by 0.
+  const span = max - min || 1;
+  const flat = max === min;
+
+  const step = (width - pad * 2) / (series.length - 1);
+  const coords = series.map((value, index) => {
+    const x = pad + index * step;
+    const y = flat
+      ? height / 2
+      : height - pad - ((value - min) / span) * (height - pad * 2);
+    return [x, y] as const;
+  });
+
+  const line = coords
+    .map(([x, y], index) => `${index === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`)
+    .join(' ');
+
+  const area = `${line} L${coords[coords.length - 1]![0].toFixed(1)} ${height} L${coords[0]![0].toFixed(1)} ${height} Z`;
+
+  // Down only when it actually ended lower than it started.
+  const down = series[series.length - 1]! < series[0]!;
   const stroke = down ? '#FF383C' : '#3DC47E';
-  const gid = `spark-${id}`;
+  const gid = `spark-${id.replace(/[^a-zA-Z0-9]/g, '')}`;
+
   return (
-    <svg width={72} height={29} viewBox="0 0 72 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path d={area} fill={`url(#${gid})`} />
       <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M6 22.75L11 18.75L16 23.75L21 15.75L26 19.75H31L36 10.75L41 7.75L46 10.75L51 0.75L56 10.75L61 8.75L66 3.75L72 7.75V28.75H0V20.75L6 22.75Z"
-        fill={`url(#${gid})`}
-      />
-      <path
-        d="M1 20.75L6 22.75L11 18.75L16 22.75L21 15.75L26 19.75H31L36 10.75L41 7.75L46 10.75L51 0.75L56 10.75L61 8.75L66 3.75L71 7.75"
+        d={line}
         stroke={stroke}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <defs>
-        <linearGradient id={gid} x1="-15" y1="-10.9167" x2="-15" y2="28.75" gradientUnits="userSpaceOnUse">
-          <stop stopColor={stroke} />
-          <stop offset="1" stopColor="white" stopOpacity="0.01" />
+        <linearGradient id={gid} x1="0" y1="0" x2="0" y2={height} gradientUnits="userSpaceOnUse">
+          <stop stopColor={stroke} stopOpacity="0.35" />
+          <stop offset="1" stopColor={stroke} stopOpacity="0.01" />
         </linearGradient>
       </defs>
     </svg>

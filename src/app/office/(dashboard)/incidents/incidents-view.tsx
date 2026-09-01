@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Shell } from '../../_components/shell';
+import { Avatar } from '../../_components/avatar';
 import { useAction } from '../../_components/use-action';
 import { decideIncident } from '../../_lib/actions';
 import {
@@ -19,7 +20,6 @@ import {
   VerifiedBadgeIcon,
   XMarkIcon
 } from '../../_components/icons';
-import { AVATAR } from '../../_lib/assets';
 import { officeHref, useOfficeBase } from '../../_lib/office-path';
 
 /* Figma 907:16154 (list) and 907:16293 / 907:16520 / 907:16747 (list + detail).
@@ -181,12 +181,7 @@ export function IncidentsView({
               >
                 <div className="flex flex-1 items-center justify-between gap-[10px] py-[6px]">
                   <div className="flex items-center gap-[17px]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={inc.avatarUrl ?? AVATAR.user}
-                      alt=""
-                      className="h-[54px] w-[54px] shrink-0 rounded-full bg-[#E0E0E0] object-cover"
-                    />
+                    <Avatar src={inc.avatarUrl} name={inc.name} size={54} />
                     <div className="flex flex-col justify-center gap-[7px]">
                       <div className="flex items-center gap-1">
                         <span className="line-clamp-2 text-sm font-semibold leading-[14px] text-gray-900">
