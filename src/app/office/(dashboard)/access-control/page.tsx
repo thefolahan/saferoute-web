@@ -57,10 +57,13 @@ export default async function AccessControlPage() {
         roleKey: member.role,
         role: humanise(member.role),
         status: member.status,
+        // `toLocaleString` with both styles produces "2026-09-01, 1:21 p.m.",
+        // which wraps in a 173px column and makes the row two lines tall.
         login: member.lastLoginAt
-          ? new Date(member.lastLoginAt).toLocaleString('en-CA', {
-              dateStyle: 'short',
-              timeStyle: 'short'
+          ? new Date(member.lastLoginAt).toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric'
             })
           : 'Never'
       }))}

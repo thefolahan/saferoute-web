@@ -119,6 +119,32 @@ export function GoogleMap({
         });
 
         setReady(true);
+
+        /**
+         * Maps can initialise and then draw nothing — the container gets its
+         * `.gm-style` scaffolding and no imagery ever arrives, with no error
+         * thrown and nothing on the console. A key that is still propagating
+         * does exactly this, and so does a quota or a service that is enabled
+         * but not yet serving.
+         *
+         * `tilesloaded` is the API's own "I have drawn something" signal, so
+         * not hearing it inside a few seconds is the honest test for a map
+         * that is never going to appear. The caller then falls back to a map
+         * that works rather than leaving a grey rectangle.
+         */
+        const drewSomething = { yes: false };
+        map.current.addListener('tilesloaded', () => {
+          drewSomething.yes = true;
+        });
+
+        window.setTimeout(() => {
+          if (!cancelled && !drewSomething.yes) {
+            const reason = 'Google Maps drew no tiles';
+            console.error(`[office/map] ${reason}`);
+            setFailed(reason);
+            onFail?.(reason);
+          }
+        }, 5000);
       })
       .catch((error: unknown) => {
         // Carry the reason rather than swallowing it: "could not be loaded"
