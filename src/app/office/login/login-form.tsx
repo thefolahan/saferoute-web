@@ -123,7 +123,7 @@ export function LoginForm({ base }: { base: string }) {
                 autoComplete="username"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="Enter your email..."
+                placeholder="Enter official email..."
                 className="h-12 w-full bg-transparent text-[15px] leading-[18px] text-gray-900 placeholder:text-[#9CA3AF] focus:outline-none"
               />
             </FieldRow>
@@ -137,7 +137,7 @@ export function LoginForm({ base }: { base: string }) {
                 autoComplete="current-password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                placeholder="Enter your password..."
+                placeholder="Enter official password..."
                 className="h-12 w-full bg-transparent text-[15px] leading-[18px] text-gray-900 placeholder:text-[#9CA3AF] focus:outline-none"
               />
               <button
