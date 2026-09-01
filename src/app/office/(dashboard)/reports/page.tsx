@@ -76,7 +76,8 @@ export default async function AnalyticsPage() {
       // The design's track is 334px wide.
       width: Math.max(8, Math.round(share * 334)),
       color: SEVERITY_COLOR[key] ?? 'bg-gray-300',
-      pct: row ? `${row.count} (${Math.round(share * 100)}%)` : '0 (0%)'
+      pct: row ? `${row.count} (${Math.round(share * 100)}%)` : '0 (0%)',
+      count: row?.count ?? 0
     };
   });
 

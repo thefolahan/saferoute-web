@@ -92,6 +92,7 @@ export function VerificationView({
           columns={COLUMNS}
           rows={visible}
           rowKey={(r) => r.id}
+          empty="Nothing is waiting on a verification decision."
           cell={(row, key) => {
             switch (key) {
               case 'applicant':

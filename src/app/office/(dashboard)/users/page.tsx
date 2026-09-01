@@ -76,8 +76,7 @@ export default async function UsersPage({
         name: user.name,
         code: user.reference,
         type: verificationLabel(user.verificationStatus),
-        // The design has no "not asked" state; an em dash is honest.
-        kyc: KYC_LABEL[user.kycStatus] ?? ('—' as Kyc),
+        kyc: KYC_LABEL[user.kycStatus] ?? 'Not required',
         city: user.city ?? '—',
         active: relativeTime(user.lastActiveAt),
         credit: TYPE_LABEL[user.accountType],

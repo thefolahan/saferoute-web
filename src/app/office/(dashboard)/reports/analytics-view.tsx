@@ -7,7 +7,14 @@ import { ActivityChart, CalendarOutlineIcon, ClockIcon } from '../../_components
 
 export type Kpi = { label: string; value: string };
 export type ResponseStat = { label: string; value: string; delta: string | null };
-export type SeverityBar = { label: string; width: number; color: string; pct: string };
+export type SeverityBar = {
+  label: string;
+  width: number;
+  color: string;
+  pct: string;
+  /** How many incidents this bar stands for — the panel's total is their sum. */
+  count: number;
+};
 export type ActivityPoint = { label: string; reported: number; resolved: number };
 export type Stat = { label: string; value: string };
 
@@ -97,12 +104,23 @@ export function AnalyticsView({
         </Block>
 
         <Block title="incident severity">
+          {/* The design prints 12,456 here. It has to be the sum of the bars
+              underneath it, or the panel contradicts itself. */}
           <div className="flex items-center justify-between gap-[10px] rounded-lg bg-gray-700 px-[30px] py-[11px]">
             <span className="text-sm font-normal leading-[17px] text-gray-200">Total incidents</span>
-            <span className="text-xl font-semibold leading-6 text-gray-200">12,456</span>
+            <span className="text-xl font-semibold leading-6 text-gray-200">
+              {new Intl.NumberFormat('en-NG').format(
+                severity.reduce((total, bar) => total + bar.count, 0)
+              )}
+            </span>
           </div>
 
-          <div className="flex min-w-0 flex-1 items-center gap-4 overflow-x-auto">
+          {/* Label 66 + bars 240 + percentages 75 + gaps is wider than a
+              390px phone, so the row scrolls inside itself rather than
+              stretching the page. `min-w-max` is what makes the children keep
+              their widths instead of being squeezed by the scroll box. */}
+          <div className="flex min-w-0 flex-1 items-center overflow-x-auto">
+            <div className="flex min-w-max flex-1 items-center gap-4">
             <div className="flex h-full w-[66px] shrink-0 flex-col justify-between text-right">
               {severity.map((s) => (
                 <span
@@ -136,6 +154,7 @@ export function AnalyticsView({
                 </span>
               ))}
             </div>
+            </div>
           </div>
         </Block>
       </section>
@@ -162,8 +181,10 @@ export function AnalyticsView({
               </div>
             </div>
 
-            <div className="flex flex-col gap-[2px]">
-              <div className="relative h-[159px]">
+            {/* Nine date labels at 59px each is 531px before padding, so this
+                chart scrolls in its own box the way the other two do. */}
+            <div className="flex min-w-0 flex-col gap-[2px] overflow-x-auto">
+              <div className="relative h-[159px] min-w-[560px]">
                 <div className="flex h-full flex-col justify-between">
                   {['80K', '60K', '40K', '20K', '0'].map((tick) => (
                     <div key={tick} className="flex items-center gap-1">
@@ -184,7 +205,7 @@ export function AnalyticsView({
                 />
               </div>
 
-              <div className="py-[3px]">
+              <div className="min-w-[560px] py-[3px]">
                 <div className="flex justify-between px-5 py-[9px]">
                   {activity.map((point, i) => (
                     <span
@@ -289,7 +310,7 @@ export function AnalyticsView({
                   ))}
                 </div>
 
-                <div className="flex gap-[21px]">
+                <div className="flex flex-wrap gap-[21px]">
                   {LEGEND.map((l) => (
                     <span key={l.label} className="flex items-center gap-[10px]">
                       <span
@@ -333,8 +354,11 @@ function FilledSelect({
   return (
     <button
       type="button"
-      className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]"
-      style={{ width }}
+      /* The design's width is a maximum, not a floor: the date range is 319px
+         wide, which is more than a 390px phone has once the page padding is
+         taken off. */
+      className="edge-gray200 flex h-11 w-full items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]"
+      style={{ maxWidth: width }}
     >
       {icon ? <CalendarOutlineIcon className="h-4 w-4 shrink-0 text-gray-700" /> : null}
       <span className="flex-1 whitespace-nowrap text-left text-sm font-medium leading-6 text-gray-700">

@@ -28,7 +28,8 @@ const COLUMNS: Column[] = [
   { key: 'actions', label: '', width: 197, pad: 32, align: 'right' }
 ];
 
-export type Kyc = 'Approved' | 'Pending' | 'Rejected';
+/** `Not required` is the state the design has no chip for — most accounts. */
+export type Kyc = 'Approved' | 'Pending' | 'Rejected' | 'Not required';
 
 export type UserRow = {
   id: string;
@@ -45,7 +46,8 @@ export type UserRow = {
 const KYC_TONE: Record<Kyc, string> = {
   Approved: 'bg-success-50 text-success-700',
   Pending: 'bg-warning-50 text-warning-700',
-  Rejected: 'bg-error-50 text-error-700'
+  Rejected: 'bg-error-50 text-error-700',
+  'Not required': 'bg-rule text-gray-600'
 };
 
 const TABS = [
@@ -121,6 +123,7 @@ export function UsersView({
             columns={COLUMNS}
             rows={rows}
             rowKey={(r) => r.id}
+            empty="No accounts match these filters."
             cell={(row, key) => {
               switch (key) {
                 case 'name':

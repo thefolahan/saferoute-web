@@ -128,6 +128,7 @@ export function AccessControlView({
             columns={COLUMNS}
             rows={rows}
             rowKey={(r) => r.id}
+            empty="No admins on the team yet."
             cell={(row, key) => {
               switch (key) {
                 case 'name':

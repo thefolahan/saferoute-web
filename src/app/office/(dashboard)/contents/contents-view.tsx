@@ -105,6 +105,7 @@ export function ContentsView({
             columns={COLUMNS}
             rows={rows}
             rowKey={(r) => r.id}
+            empty="No posts match these filters. Posts from the app land here for review."
             cell={(row, key) => {
               switch (key) {
                 case 'content':

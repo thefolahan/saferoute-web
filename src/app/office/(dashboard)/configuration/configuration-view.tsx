@@ -186,7 +186,9 @@ function FormRow({
 }) {
   return (
     <label className="flex flex-col gap-2 sm:flex-row sm:gap-[60px]">
-      <span className="w-[180px] shrink-0 self-center text-base font-normal leading-[19px] tracking-[0.16px] text-black/50">
+      {/* `self-center` centres the label horizontally once the row stacks,
+          so it only applies from the breakpoint where the row is a row. */}
+      <span className="w-full text-base font-normal leading-[19px] tracking-[0.16px] text-black/50 sm:w-[180px] sm:shrink-0 sm:self-center">
         {label}
       </span>
       <span className="flex w-full max-w-[370px] flex-col gap-1">
