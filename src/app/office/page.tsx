@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { officeHref, useOfficeBase } from './_lib/office-path';
 import { Shell } from './_components/shell';
 import { ArrowRightIcon, Card, Select, Sparkline } from './_components/ui';
 import { WorldHeatMap } from './_components/world-heat-map';
@@ -33,6 +36,8 @@ const USER_GROWTH = [
 ];
 
 export default function DashboardPage() {
+  const base = useOfficeBase();
+
   return (
     <Shell title="Dashboard" filters>
       {/* Welcome + KPI grid — Figma 907:12646, pad 19/32 gap 15 */}
@@ -73,7 +78,7 @@ export default function DashboardPage() {
               Needs Action
             </h2>
             <Link
-              href="/admin/needs-action"
+              href={officeHref(base, 'needs-action')}
               className="edge-gray200 flex items-center gap-2 rounded-lg px-[14px] py-[10px] text-sm font-semibold leading-6 text-gray-700 transition-colors hover:bg-gray-50"
             >
               See all

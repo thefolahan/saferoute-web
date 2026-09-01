@@ -13,6 +13,7 @@ import {
   UserOutlineIcon
 } from './icons';
 import { AVATAR } from '../_lib/assets';
+import { officeHref, useOfficeBase } from '../_lib/office-path';
 
 /* Figma 907:17300 "Frame 33602" (with region/state filters) and its sibling
    "Frame 33603" (without). 1190x72, pad 8/32, 1px bottom hairline. */
@@ -79,10 +80,11 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
 /* Figma 907:19189 "Profile pop up" — 308x330, pad 20/15, radius 12,
    shadow 0 8 32 rgba(0,0,0,.24). */
 function ProfileMenu({ onClose }: { onClose: () => void }) {
+  const base = useOfficeBase();
   const items = [
-    { label: 'My Profile', href: '/admin/configuration', Icon: UserOutlineIcon, active: true },
-    { label: 'Settings', href: '/admin/configuration', Icon: SettingsIcon, active: false },
-    { label: 'Invite a member', href: '/admin/access-control', Icon: InviteIcon, active: false }
+    { label: 'My Profile', href: officeHref(base, 'configuration'), Icon: UserOutlineIcon, active: true },
+    { label: 'Settings', href: officeHref(base, 'configuration'), Icon: SettingsIcon, active: false },
+    { label: 'Invite a member', href: officeHref(base, 'access-control'), Icon: InviteIcon, active: false }
   ];
 
   return (

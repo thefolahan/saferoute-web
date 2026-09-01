@@ -1,6 +1,6 @@
 /* Image fills exported from the Figma file by their imageRef.
-   Re-download: python3 scripts/figma.py images apps/admin/public/img <ref,...> */
-const img = (ref: string) => `/admin/${ref}.png`;
+   Re-download: python3 scripts/figma.py images apps/web/public/office <ref,...> */
+const img = (ref: string) => `/office/${ref}.png`;
 
 export const AVATAR = {
   admin: img('1bfac056a5e2d81fdba7c3952411444c90b8323d'),
@@ -25,9 +25,9 @@ export const PHOTO = {
   mapWide: img('6a04e2063a7dd0a1bf006e585dc1984ecd7a6b0a'),
   asset: img('1b0dcbbb227447e757e2e84a6c1fb54078897235'),
   /* Figma 907:17338 — the Map screen's base layer (parks/water/roads), 2x. */
-  mapBase: '/admin/map-base.png',
+  mapBase: '/office/map-base.png',
   /* Figma 907:14741 — the Federal Road Safety Corps mark on the agency card. */
-  agencyLogo: '/admin/agency-logo.png'
+  agencyLogo: '/office/agency-logo.png'
 } as const;
 
 export const AVATARS = [

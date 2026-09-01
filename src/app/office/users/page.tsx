@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Shell } from '../_components/shell';
 import { Tabs } from '../_components/tabs';
 import { FilterBar, FilterField } from '../_components/filter-bar';
@@ -76,6 +77,7 @@ const TABS = [
 
 export default function UsersPage() {
   const [tab, setTab] = useState('regular');
+  const base = useOfficeBase();
 
   return (
     <Shell title="User details">
@@ -121,7 +123,7 @@ export default function UsersPage() {
                 case 'actions':
                   return (
                     <Link
-                      href={tab === 'officials' ? '/admin/users/agency' : '/admin/users/community'}
+                      href={officeHref(base, tab === 'officials' ? 'users/agency' : 'users/community')}
                       className="text-sm font-medium leading-5 text-gray-700"
                     >
                       View Details

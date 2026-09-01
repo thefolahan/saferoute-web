@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { NAV } from '../_lib/nav';
+import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Logo, PanelIcon } from './icons';
 
 /* Figma 907:17157 "Navigation" — 250x1024, fill #171817.
@@ -10,6 +11,7 @@ import { Logo, PanelIcon } from './icons';
    items gap 4. Item pad 8/8/8/12 gap 8 radius 8; active fill Error/500. */
 export function Sidebar() {
   const pathname = usePathname();
+  const base = useOfficeBase();
 
   return (
     <aside className="w-[250px] shrink-0 bg-sidebar">
@@ -33,14 +35,16 @@ export function Sidebar() {
 
               <div className="flex flex-col gap-1">
                 {group.items.map((item) => {
-                  const active =
-                    item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href);
+                  const href = officeHref(base, item.route);
+                  const active = item.route
+                    ? pathname.startsWith(href)
+                    : pathname === base;
                   const Icon = item.icon;
 
                   return (
                     <Link
-                      key={item.href}
-                      href={item.href}
+                      key={item.route}
+                      href={href}
                       className={`flex items-center gap-2 rounded-lg py-2 pl-3 pr-2 transition-colors ${
                         active ? 'bg-error-500' : 'hover:bg-white/5'
                       }`}

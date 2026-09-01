@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Shell } from '../_components/shell';
+import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Tabs } from '../_components/tabs';
 import { ActionRowList, type ActionRowData } from '../_components/action-row';
 import { Card } from '../_components/ui';
@@ -49,6 +50,7 @@ const ROWS: ActionRowData[] = [
 
 export default function BroadcastPage() {
   const [tab, setTab] = useState('active');
+  const base = useOfficeBase();
 
   return (
     <Shell title="Broadcast message" filters>
@@ -64,7 +66,7 @@ export default function BroadcastPage() {
           </div>
 
           <Link
-            href="/admin/broadcast/new"
+            href={officeHref(base, 'broadcast/new')}
             className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-black px-[14px] py-[10px]"
           >
             <PlusIcon className="h-4 w-4 text-gray-50" />

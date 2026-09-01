@@ -1,4 +1,32 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import type { NextConfig } from 'next';
+
+/**
+ * The monorepo keeps one .env at its root (apps/api reads it the same way), but
+ * Next only auto-loads .env from its own directory. Without this, server-only
+ * values like ADMIN_OFFICE_CODE — which src/proxy.ts needs to route the
+ * dashboard at all — are simply undefined here.
+ *
+ * Anything already in the environment wins, so a real deployment sets these as
+ * platform env vars and this file is a local-development convenience.
+ */
+function loadRootEnv(): void {
+  try {
+    const raw = readFileSync(resolve(process.cwd(), '../../.env'), 'utf8');
+    for (const line of raw.split('\n')) {
+      const match = /^\s*([A-Z0-9_]+)\s*=\s*(.*)$/.exec(line);
+      if (!match) continue;
+      const [, key, rawValue] = match as unknown as [string, string, string];
+      if (process.env[key] !== undefined) continue;
+      process.env[key] = rawValue.trim().replace(/^["'](.*)["']$/, '$1');
+    }
+  } catch {
+    // No root .env (CI, or a deploy that injects real env vars) — fine.
+  }
+}
+
+loadRootEnv();
 
 const isDev = process.env.NODE_ENV === 'development';
 
