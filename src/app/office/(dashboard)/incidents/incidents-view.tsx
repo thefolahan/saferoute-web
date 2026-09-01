@@ -144,7 +144,7 @@ export function IncidentsView({
                     />
                     <div className="flex flex-col justify-center gap-[7px]">
                       <div className="flex items-center gap-1">
-                        <span className="text-sm font-semibold leading-[10px] text-gray-900">
+                        <span className="line-clamp-2 text-sm font-semibold leading-[14px] text-gray-900">
                           {inc.name}
                         </span>
                         <VerifiedBadgeIcon className="h-3 w-3 shrink-0" />

@@ -1,6 +1,8 @@
 /* Image fills exported from the Figma file by their imageRef.
-   Re-download: python3 scripts/figma.py images apps/web/public/office <ref,...> */
-const img = (ref: string) => `/office/${ref}.png`;
+   NOT under /office: src/proxy.ts 404s that prefix, which would take every one
+   of these static files with it.
+   Re-download: python3 scripts/figma.py images apps/web/public/dashboard <ref,...> */
+const img = (ref: string) => `/dashboard/${ref}.png`;
 
 export const AVATAR = {
   admin: img('1bfac056a5e2d81fdba7c3952411444c90b8323d'),
@@ -25,9 +27,9 @@ export const PHOTO = {
   mapWide: img('6a04e2063a7dd0a1bf006e585dc1984ecd7a6b0a'),
   asset: img('1b0dcbbb227447e757e2e84a6c1fb54078897235'),
   /* Figma 907:17338 — the Map screen's base layer (parks/water/roads), 2x. */
-  mapBase: '/office/map-base.png',
+  mapBase: '/dashboard/map-base.png',
   /* Figma 907:14741 — the Federal Road Safety Corps mark on the agency card. */
-  agencyLogo: '/office/agency-logo.png'
+  agencyLogo: '/dashboard/agency-logo.png'
 } as const;
 
 export const AVATARS = [

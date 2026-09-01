@@ -20,6 +20,10 @@ const OFFICE_CODE = process.env.ADMIN_OFFICE_CODE?.trim();
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // A request for a file (anything with an extension) is never a dashboard
+  // route. Without this, moving an asset under /office silently 404s it.
+  if (/\.[a-z0-9]+$/i.test(pathname)) return NextResponse.next();
+
   // Rule 2 — the internal path is never reachable from outside.
   if (pathname === '/office' || pathname.startsWith('/office/')) {
     return new NextResponse(null, { status: 404 });
