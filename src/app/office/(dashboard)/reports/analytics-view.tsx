@@ -41,7 +41,7 @@ export function AnalyticsView({
     <Shell title="Analytics">
       {/* Filters + KPI grid — Figma 907:17665 */}
       <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-[10px]">
             <FilledSelect width={319} icon>
               Last 30 days (may 12 - jun 10, 2026)
@@ -102,7 +102,7 @@ export function AnalyticsView({
             <span className="text-xl font-semibold leading-6 text-gray-200">12,456</span>
           </div>
 
-          <div className="flex flex-1 items-center gap-4">
+          <div className="flex min-w-0 flex-1 items-center gap-4 overflow-x-auto">
             <div className="flex h-full w-[66px] shrink-0 flex-col justify-between text-right">
               {severity.map((s) => (
                 <span
@@ -114,7 +114,7 @@ export function AnalyticsView({
               ))}
             </div>
 
-            <div className="flex flex-1 flex-col justify-center gap-[34px]">
+            <div className="flex min-w-[240px] flex-1 flex-col justify-center gap-[34px]">
               {severity.map((s) => (
                 <div key={s.label} className="flex items-center">
                   <span
@@ -142,13 +142,13 @@ export function AnalyticsView({
 
       {/* Incident activity line chart — Figma 907:17803 */}
       <section className="flex px-4 py-[19px] sm:px-6 lg:px-8">
-        <Card className="flex-1 px-[19px] py-5">
+        <Card className="min-w-0 flex-1 px-[19px] py-5">
           <div className="flex flex-col gap-7">
-            <div className="flex items-center justify-between gap-1">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase leading-5 tracking-[0.5px] text-gray-700">
                 IncIDENT activity
               </h2>
-              <div className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px]">
+              <div className="edge-gray200 flex h-11 shrink-0 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px]">
                 {['7D', '30D', '3M', '1Y'].map((r) => (
                   <span
                     key={r}
@@ -174,7 +174,14 @@ export function AnalyticsView({
                     </div>
                   ))}
                 </div>
-                <ActivityChart className="pointer-events-none absolute left-[82px] top-[14px] h-[142px] w-[1007px] max-w-none" />
+                {/* The export carries width={1010}. An SVG is a replaced element,
+                    so `w-auto` plus left/right does NOT stretch it — the intrinsic
+                    width wins and it escapes the scroll container. An explicit CSS
+                    width is what actually constrains it. */}
+                <ActivityChart
+                  preserveAspectRatio="none"
+                  className="pointer-events-none absolute left-[82px] top-[14px] h-[142px] w-[calc(100%-82px)]"
+                />
               </div>
 
               <div className="py-[3px]">
@@ -210,9 +217,9 @@ export function AnalyticsView({
 
       {/* Community activity — Figma 907:17885 */}
       <section className="flex px-4 py-[19px] sm:px-6 lg:px-8">
-        <Card className="flex-1 px-[19px] py-5">
+        <Card className="min-w-0 flex-1 px-[19px] py-5">
           <div className="flex flex-col gap-7">
-            <div className="flex items-center justify-between gap-1">
+            <div className="flex flex-wrap items-center justify-between gap-3">
               <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">
                 Community activity
               </h2>
@@ -220,8 +227,8 @@ export function AnalyticsView({
             </div>
 
             <div className="flex flex-col gap-7 xl:flex-row">
-              <div className="edge flex w-full flex-col gap-[2px] rounded-lg px-[14px] py-[23px] xl:w-[643px] xl:shrink-0">
-                <div className="relative h-[235px]">
+              <div className="edge flex w-full min-w-0 flex-col gap-[2px] overflow-x-auto rounded-lg px-[14px] py-[23px] xl:w-[643px] xl:shrink-0">
+                <div className="relative h-[235px] min-w-[560px]">
                   <div className="flex h-full flex-col justify-between">
                     {['12k', '10k', '8k', '6k', '4k', '2k', '0'].map((tick) => (
                       <div key={tick} className="flex items-center gap-1">
@@ -253,7 +260,7 @@ export function AnalyticsView({
                   </div>
                 </div>
 
-                <div className="py-[3px]">
+                <div className="py-[3px] min-w-[560px]">
                   <div className="flex justify-between py-[9px]">
                     {activity.map((bar, i) => (
                       <span
@@ -307,7 +314,7 @@ export function AnalyticsView({
 /** The #F9F9FA analytics block — pad 24, radius 20, 1px inside hairline. */
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="edge flex flex-1 flex-col gap-4 rounded-[20px] bg-[#F9F9FA] p-6">
+    <div className="edge flex min-w-0 flex-1 flex-col gap-4 rounded-[20px] bg-[#F9F9FA] p-6">
       <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">{title}</h2>
       {children}
     </div>

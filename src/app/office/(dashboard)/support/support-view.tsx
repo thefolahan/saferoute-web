@@ -70,9 +70,9 @@ export function SupportView({
 
   return (
     <Shell title="Support">
-      <div className="flex flex-1 flex-col lg:flex-row">
+      <div className="flex flex-1 flex-col xl:flex-row">
         {/* Ticket list — 471 wide */}
-        <div className="flex w-full flex-col bg-white lg:w-[471px] lg:shrink-0">
+        <div className="flex w-full flex-col bg-white xl:w-[471px] xl:shrink-0">
           <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-center justify-between gap-[15px]">
               <Tabs tabs={tabs} active={tab} onChange={setTab} />

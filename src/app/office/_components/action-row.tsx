@@ -27,9 +27,9 @@ const BADGE_CLASS: Record<ActionBadge['tone'], string> = {
 export function ActionRow({ row, rail = true }: { row: ActionRowData; rail?: boolean }) {
   return (
     <div className={`rounded-md bg-white ${rail ? 'edge-left-error' : ''}`}>
-      <div className="edge flex items-center gap-5 rounded-[7px] px-5 py-[7px]">
+      <div className="edge flex flex-col items-start gap-3 rounded-[7px] px-5 py-[7px] sm:flex-row sm:items-center sm:gap-5">
         <div className="flex flex-1 flex-col gap-[9px] py-2">
-          <div className="flex gap-[9px]">
+          <div className="flex flex-wrap gap-[9px]">
             {row.badges.map((b) => (
               <span
                 key={b.text}
@@ -45,7 +45,7 @@ export function ActionRow({ row, rail = true }: { row: ActionRowData; rail?: boo
             {row.rest ? <span className="font-medium text-gray-600">{row.rest}</span> : null}
           </p>
 
-          <div className="flex gap-[5px] text-xs font-normal leading-5 tracking-[-0.24px] text-gray-500">
+          <div className="flex flex-wrap gap-[5px] text-xs font-normal leading-5 tracking-[-0.24px] text-gray-500">
             {row.meta.map((m, i) => (
               <span key={m} className="flex gap-[5px]">
                 {i > 0 ? <span aria-hidden>•</span> : null}
@@ -55,7 +55,7 @@ export function ActionRow({ row, rail = true }: { row: ActionRowData; rail?: boo
           </div>
         </div>
 
-        <GhostButton size={row.action ? 'sm' : 'md'} className="shrink-0 gap-[5px]">
+        <GhostButton size={row.action ? 'sm' : 'md'} className="shrink-0 gap-[5px] self-end sm:self-auto">
           {row.action?.icon ?? null}
           {row.action?.label ?? 'Investigate'}
           {row.action ? null : <ArrowRightIcon className="h-4 w-4 text-gray-900" />}

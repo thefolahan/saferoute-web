@@ -78,11 +78,11 @@ export function IncidentsView({
 
   return (
     <Shell title="Incidents">
-      <div className="flex flex-1 flex-col shadow-[inset_0_1px_0_0_#EEEEEE] lg:flex-row">
+      <div className="flex flex-1 flex-col shadow-[inset_0_1px_0_0_#EEEEEE] xl:flex-row">
         {/* List column — 592 when the panel is open, otherwise the full 1190 */}
         <div
           className={`flex flex-col ${
-            selected ? 'lg:w-[592px] lg:shrink-0 lg:border-r lg:border-rule' : 'flex-1'
+            selected ? 'xl:w-[592px] xl:shrink-0 xl:border-r xl:border-rule' : 'flex-1'
           } border-b border-rule`}
         >
           <div className="flex flex-col gap-[30px] px-4 py-[25px] sm:px-6 lg:px-8">
@@ -183,7 +183,7 @@ export function IncidentsView({
 /* Figma 907:16432 — the 598-wide detail panel. */
 function IncidentDetailPanel({ detail }: { detail: IncidentDetail }) {
   return (
-    <div className="flex min-w-0 flex-1 flex-col border-b border-l border-rule bg-white pb-[26px]">
+    <div className="flex min-w-0 flex-1 flex-col border-b border-rule bg-white pb-[26px] xl:border-l">
       <div className="flex items-center justify-between gap-[10px] px-5 py-[14px]">
         <div className="flex gap-[10px]">
           <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-semibold leading-[18px] text-error-700 capitalize">

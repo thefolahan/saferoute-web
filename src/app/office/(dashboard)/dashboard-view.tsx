@@ -83,15 +83,15 @@ export function DashboardView({
           {/* User growth — Figma 907:12830, 651 wide */}
           <Card className="w-full px-[19px] py-5 xl:w-[651px] xl:shrink-0">
             <div className="flex flex-col gap-7">
-              <div className="flex items-center justify-between gap-1">
+              <div className="flex flex-wrap items-center justify-between gap-3">
                 <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-900">
                   User growth
                 </h2>
                 <Select label="Last 6 months" className="w-[172px]" />
               </div>
 
-              <div className="flex flex-col gap-[2px]">
-                <div className="relative h-[243px]">
+              <div className="flex min-w-0 flex-col gap-[2px] overflow-x-auto">
+                <div className="relative h-[243px] min-w-[560px]">
                   {/* Grid lines: 5 plots, 52px apart, label + rule */}
                   <div className="flex h-full flex-col justify-between">
                     {['80k', '60k', '40k', '20k', '00'].map((tick) => (
@@ -118,7 +118,7 @@ export function DashboardView({
                   </div>
                 </div>
 
-                <div className="py-[3px]">
+                <div className="py-[3px] min-w-[560px]">
                   <div className="flex justify-between px-[50px] py-[9px]">
                     {growth.map((bar) => (
                       <span
@@ -135,7 +135,7 @@ export function DashboardView({
           </Card>
 
           {/* Heat map — Figma 907:12884 */}
-          <Card className="flex flex-1 flex-col px-[19px] py-5">
+          <Card className="flex min-w-0 flex-1 flex-col px-[19px] py-5">
             <div className="flex flex-1 flex-col items-center gap-[50px]">
               <div className="flex w-full items-center justify-between gap-1">
                 <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">

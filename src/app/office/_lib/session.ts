@@ -43,19 +43,96 @@ export async function officeFetch<T>(
   const token = await getSessionToken();
   if (!token) return null;
 
-  const response = await fetch(`${apiBaseUrl()}${path}`, {
-    ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(init.headers ?? {}),
-      Authorization: `Bearer ${token}`
-    },
-    cache: 'no-store'
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(`${apiBaseUrl()}${path}`, {
+      ...init,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(init.headers ?? {}),
+        Authorization: `Bearer ${token}`
+      },
+      cache: 'no-store'
+    });
+  } catch (error) {
+    /**
+     * The API being unreachable should degrade a panel to its empty state, not
+     * take the whole dashboard down with an error boundary — a moderator with
+     * eight working panels and one empty is better off than one staring at a
+     * stack trace.
+     */
+    console.error(`[office] ${path} unreachable`, error);
+    return null;
+  }
 
   if (response.status === 401) return null;
+
   if (!response.ok) {
-    throw new Error(`API ${path} failed: ${response.status}`);
+    console.error(`[office] ${path} failed: ${response.status}`);
+    return null;
   }
-  return (await response.json()) as T;
+
+  try {
+    return (await response.json()) as T;
+  } catch (error) {
+    console.error(`[office] ${path} returned invalid JSON`, error);
+    return null;
+  }
+}
+
+/**
+ * The write half of `officeFetch`.
+ *
+ * Mutations are called from server actions, whose caller is a form or a button
+ * in a client component — so a thrown error there is an unhandled rejection in
+ * the browser, not something the screen can show. This returns the failure
+ * instead, and the API's own message with it where there is one worth reading.
+ */
+export type OfficeResult<T = unknown> =
+  | { ok: true; data: T }
+  | { ok: false; error: string };
+
+export async function officeSend<T = unknown>(
+  path: string,
+  method: 'POST' | 'PATCH' | 'PUT' | 'DELETE',
+  body?: unknown
+): Promise<OfficeResult<T>> {
+  const token = await getSessionToken();
+  if (!token) return { ok: false, error: 'Your session has expired. Sign in again.' };
+
+  let response: Response;
+
+  try {
+    response = await fetch(`${apiBaseUrl()}${path}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: body === undefined ? undefined : JSON.stringify(body),
+      cache: 'no-store'
+    });
+  } catch {
+    return { ok: false, error: 'Could not reach the API. Try again.' };
+  }
+
+  if (response.status === 401) {
+    return { ok: false, error: 'Your session has expired. Sign in again.' };
+  }
+
+  const payload = (await response.json().catch(() => null)) as
+    | { message?: string | string[] }
+    | null;
+
+  if (!response.ok) {
+    // Nest's validation pipe returns `message` as an array of field errors.
+    const message = Array.isArray(payload?.message)
+      ? payload.message.join('. ')
+      : payload?.message;
+
+    return { ok: false, error: message || `That did not work (${response.status}).` };
+  }
+
+  return { ok: true, data: payload as T };
 }
