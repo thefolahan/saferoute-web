@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 
 /* Figma 907:12983 — the underlined tab bar.
    Track: 52h, 1px inside hairline along the bottom.
@@ -51,10 +52,20 @@ export function Tabs({
 }
 
 /** "Go back" — Figma 907:12975, pad 10/14 gap 8 radius 8, 14/24 w700. */
-export function GoBack({ children = 'Go back' }: { children?: ReactNode }) {
+export function GoBack({
+  children = 'Go back',
+  href
+}: {
+  children?: ReactNode;
+  /** Where back is. Without one it walks the browser's own history. */
+  href?: string;
+}) {
+  const router = useRouter();
+
   return (
     <button
       type="button"
+      onClick={() => (href ? router.push(href) : router.back())}
       className="flex w-fit items-center gap-2 rounded-lg px-[14px] py-[10px] text-sm font-bold leading-6 text-gray-700 transition-colors hover:bg-gray-50"
     >
       <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 rotate-180 text-gray-900">

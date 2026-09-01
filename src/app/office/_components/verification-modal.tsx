@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useAction } from './use-action';
+import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { decideVerification } from '../_lib/actions';
 import {
   CheckIcon,
@@ -49,6 +51,7 @@ export function VerificationModal({
   onClose: () => void;
 }) {
   const { pending, error, run } = useAction();
+  const base = useOfficeBase();
 
   if (!open || !subject) return null;
 
@@ -120,12 +123,12 @@ export function VerificationModal({
             </div>
           </div>
 
-          <button
-            type="button"
+          <Link
+            href={`${officeHref(base, profileRoute(subject.kind))}?id=${subject.id}`}
             className="shrink-0 self-center text-base font-semibold leading-6 text-black underline"
           >
             View profile
-          </button>
+          </Link>
         </div>
 
         {/* AI / System Check — Figma 907:19470 */}
@@ -283,4 +286,9 @@ export function VerificationModal({
       </div>
     </div>
   );
+}
+
+/** An agency's detail screen is a different route from a person's. */
+function profileRoute(kind: string): string {
+  return kind === 'Individual' ? 'users/community' : 'users/agency';
 }

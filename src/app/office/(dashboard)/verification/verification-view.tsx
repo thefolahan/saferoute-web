@@ -83,7 +83,12 @@ export function VerificationView({
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-[15px]">
           <Tabs tabs={tabs} active={tab} onChange={setTab} />
-          <Select label="Today" weight="semibold" className="w-[97px] shrink-0" />
+          <Select
+            label="Today"
+            weight="semibold"
+            className="w-[97px] shrink-0"
+            unavailable="The queue endpoint returns its most recent 25 and takes no date range."
+          />
         </div>
       </div>
 

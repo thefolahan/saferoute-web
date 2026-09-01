@@ -68,10 +68,17 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
         ) : null}
 
         <div className="flex items-center gap-5">
+          {/*
+            There is no admin notification feed — `notification_logs` are a
+            citizen's, and nothing writes one for an admin. Disabled with the
+            reason rather than a bell that opens nothing.
+          */}
           <button
             type="button"
+            disabled
             aria-label="Notifications"
-            className="flex h-10 w-[42px] items-center justify-center rounded-full bg-rule px-[9px]"
+            title="An admin notification feed has not been built yet."
+            className="flex h-10 w-[42px] cursor-not-allowed items-center justify-center rounded-full bg-rule px-[9px] opacity-50"
           >
             <BellIcon className="h-6 w-6 text-navy" />
           </button>
@@ -185,11 +192,21 @@ function ProfileMenu({ onClose }: { onClose: () => void }) {
   );
 }
 
+/**
+ * The topbar's region and state pickers.
+ *
+ * Every screen behind them queries by city, not by region or state, and no
+ * endpoint takes either — filtering here would have to reach into eleven
+ * different queries to mean anything. Left visible because the design has
+ * them on nine screens, disabled because they would filter nothing.
+ */
 function FilterSelect({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="flex h-11 w-[172px] items-center gap-2 rounded-lg bg-rule px-[14px] py-[10px]"
+      disabled
+      title="Region and state filters are not wired to the data yet; use the City filter on each screen."
+      className="flex h-11 w-[172px] cursor-not-allowed items-center gap-2 rounded-lg bg-rule px-[14px] py-[10px] opacity-60"
     >
       <span className="flex-1 text-left text-sm font-normal leading-6 text-gray-700">{label}</span>
       <ChevronDownIcon className="h-4 w-4 shrink-0 text-gray-900" />

@@ -56,7 +56,11 @@ export function AnalyticsView({
             <FilledSelect width={127}>All Regions</FilledSelect>
             <FilledSelect width={109}>All State</FilledSelect>
           </div>
-          <Select label="Export" className="w-[97px] shrink-0" />
+          <Select
+            label="Export"
+            className="w-[97px] shrink-0"
+            unavailable="Exporting analytics is not built yet."
+          />
         </div>
 
         <div className="grid grid-cols-2 gap-[15px] py-[25px] md:grid-cols-3 xl:grid-cols-5">

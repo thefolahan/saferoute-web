@@ -173,11 +173,18 @@ export function ComposeField({
   );
 }
 
+/**
+ * Attaching a file needs the media pipeline's presigned-upload handshake, and
+ * a support reply has no media relation to hang the result on. Disabled with
+ * the reason rather than a picker whose file goes nowhere.
+ */
 export function AttachButton() {
   return (
     <button
       type="button"
-      className="edge-grey50 flex h-[50px] w-fit items-center justify-center gap-1 rounded-lg bg-white px-6 py-[10px] text-sm font-bold leading-[30px] text-[#061B2E]"
+      disabled
+      title="Attachments on a reply are not built yet."
+      className="edge-grey50 flex h-[50px] w-fit cursor-not-allowed items-center justify-center gap-1 rounded-lg bg-white px-6 py-[10px] text-sm font-bold leading-[30px] text-gray-400"
     >
       <AttachIcon className="h-[23px] w-[23px]" />
       Attach files

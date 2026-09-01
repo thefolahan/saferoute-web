@@ -30,7 +30,12 @@ export function NeedsActionView({
         <Card>
           <div className="edge-bottom flex flex-col gap-4 px-5 py-[18px] lg:flex-row lg:items-center lg:justify-between lg:gap-7">
             <Tabs tabs={tabs} active={active} onChange={onSelect} />
-            <Select label="All types" weight="semibold" className="w-[126px] shrink-0" />
+            <Select
+              label="All types"
+              weight="semibold"
+              className="w-[126px] shrink-0"
+              unavailable="The queue is not filtered by type yet; the tabs above are its only split."
+            />
           </div>
 
           {rows.length ? (

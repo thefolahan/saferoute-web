@@ -5,7 +5,9 @@ import { Shell } from './shell';
 import { MessageIcon, ShieldOutlineIcon, UserGroupIcon } from './icons';
 import { ArrowRightIcon } from './ui';
 import { AVATAR, PHOTO } from '../_lib/assets';
+import Link from 'next/link';
 import { ComposeField, ComposeModal } from './compose-modal';
+import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { useAction } from './use-action';
 import { notifyUser, setUserStatus } from '../_lib/actions';
 
@@ -397,17 +399,14 @@ export function InfoPanel({
             </span>
             <span className="flex items-center gap-3 text-base font-normal leading-[19px] text-black">
               {r.value}
-              {r.reveal ? (
-                <>
-                  <LockGlyph />
-                  <button
-                    type="button"
-                    className="text-sm font-medium leading-[17px] text-secondary underline"
-                  >
-                    Reveal
-                  </button>
-                </>
-              ) : null}
+              {/*
+                The design pairs a lock with a "Reveal" link, implying the
+                value is masked until asked for. It is not — the API returns
+                it and it is printed right there — so a Reveal button would do
+                nothing. The lock alone marks the field as sensitive, which is
+                what it actually is.
+              */}
+              {r.reveal ? <LockGlyph /> : null}
             </span>
           </div>
         ))}
@@ -426,6 +425,8 @@ function LockGlyph() {
 }
 
 export type ReportItem = {
+  /** The incident this report is about, so the row can open it. */
+  id: string;
   title: string;
   place: string;
   when: string;
@@ -434,6 +435,8 @@ export type ReportItem = {
 };
 
 export function ReportsPanel({ count, items }: { count: string; items: ReportItem[] }) {
+  const base = useOfficeBase();
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
@@ -462,12 +465,12 @@ export function ReportsPanel({ count, items }: { count: string; items: ReportIte
               <span className="text-xs font-medium leading-[18px] text-gray-500">
                 {r.verifications}
               </span>
-              <button
-                type="button"
+              <Link
+                href={`${officeHref(base, 'incidents')}?id=${r.id}`}
                 className="text-[13px] font-semibold leading-[18px] text-secondary"
               >
                 View Details
-              </button>
+              </Link>
             </div>
           </div>
         ))}
@@ -551,11 +554,17 @@ export function SubscriptionPanel({
 
 export function LocationPanel({
   city,
-  lastActiveAt
+  lastActiveAt,
+  latitude = null,
+  longitude = null
 }: {
   city: string | null;
   lastActiveAt: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
 }) {
+  const base = useOfficeBase();
+
   return (
     <div className="flex w-full max-w-[504px] flex-col gap-5">
       <div className="flex flex-col gap-2">
@@ -577,12 +586,20 @@ export function LocationPanel({
             : 'Never seen'}
         </span>
       </div>
-      <button
-        type="button"
-        className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
-      >
-        View on map
-      </button>
+      {latitude !== null && longitude !== null ? (
+        <Link
+          href={`${officeHref(base, 'map')}?lat=${latitude}&lng=${longitude}`}
+          className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+        >
+          View on map
+        </Link>
+      ) : (
+        // Nothing on the account carries a coordinate, so there is no point to
+        // open. Said rather than offering a button that goes nowhere.
+        <span className="text-sm font-normal leading-6 text-gray-500">
+          No location recorded for this account.
+        </span>
+      )}
     </div>
   );
 }

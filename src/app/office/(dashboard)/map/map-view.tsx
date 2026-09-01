@@ -88,30 +88,47 @@ export function MapView({
             className="absolute left-4 flex h-[74px] w-[calc(100%-32px)] max-w-[929px] items-center justify-between gap-4 overflow-hidden rounded-[39px] bg-black px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] lg:gap-[30px] lg:px-[30px]"
             style={{ top: 23, boxShadow: 'inset 0 0 0 1px #414141' }}
           >
-            <button type="button" className="flex items-center gap-[6px]">
+            {/*
+              The control bar's four controls — state picker, search, heat map
+              and basemap mode — have nothing behind them: /admin/map/incidents
+              takes no parameters and the map is a static basemap image, not a
+              tile layer with modes. They stay because the design's bar is the
+              screen's whole chrome, and say so on hover rather than looking
+              live.
+            */}
+            <span className="flex items-center gap-[6px]" title="The map shows every incident; there is no state filter yet.">
               <MapPinIcon className="h-[18px] w-[18px] text-[#999999]" />
-              <span className="text-sm font-bold leading-5 text-[#999999]">Lagos state</span>
-              <ArrowDownIcon className="h-[7px] w-3 text-[#999999]" />
-            </button>
+              <span className="text-sm font-bold leading-5 text-[#999999]">All states</span>
+              <ArrowDownIcon className="h-[7px] w-3 text-[#999999] opacity-50" />
+            </span>
 
             <div
               className="hidden h-[42px] w-[384px] items-center gap-2 rounded-lg bg-black px-[13px] py-[9px] md:flex"
               style={{ boxShadow: 'inset 0 0 0 1px #535862' }}
             >
               <SearchLgIcon className="h-[19px] w-[19px] shrink-0 text-gray-400" />
-              <span className="flex-1 text-[15px] font-normal leading-[23px] text-gray-400">
+              <span
+                className="flex-1 text-[15px] font-normal leading-[23px] text-gray-400 opacity-60"
+                title="Searching the map is not built; the Incidents and Users screens have working search."
+              >
                 Search users, incidents
               </span>
             </div>
 
             <div className="hidden items-center gap-[30px] lg:flex">
-              <button type="button" className="text-sm font-bold leading-5 text-[#999999]">
+              <span
+                className="text-sm font-bold leading-5 text-[#999999] opacity-60"
+                title="A heat map layer has not been built; the pins are the incidents."
+              >
                 Heat map
-              </button>
-              <button type="button" className="flex items-center gap-[19px]">
+              </span>
+              <span
+                className="flex items-center gap-[19px] opacity-60"
+                title="The basemap is a single static image, so there are no modes to switch between."
+              >
                 <span className="text-sm font-bold leading-5 text-[#999999]">Standard mode</span>
                 <ChevronDownIcon className="h-4 w-4 text-[#999999]" />
-              </button>
+              </span>
             </div>
           </div>
 

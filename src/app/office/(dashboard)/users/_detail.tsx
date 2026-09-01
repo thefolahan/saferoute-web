@@ -182,6 +182,7 @@ export async function renderUserDetail({
           <ReportsPanel
             count={String(user.reports.length)}
             items={user.reports.map((report) => ({
+              id: report.id,
               title: capitalise(report.category.replace(/_/g, ' ')),
               place: report.place,
               when: date(report.reportedAt),

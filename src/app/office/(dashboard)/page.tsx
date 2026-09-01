@@ -36,12 +36,27 @@ type GrowthPoint = { label: string; count: number };
 
 const NUMBER = new Intl.NumberFormat('en-NG');
 
-export default async function DashboardPage() {
+const RANGES = ['today', 'week', 'month', 'all'] as const;
+
+export default async function DashboardPage({
+  searchParams
+}: {
+  searchParams: Promise<{ range?: string; months?: string }>;
+}) {
+  const params = await searchParams;
   const base = await officeBase();
+
+  // Both pickers on this screen map onto real query parameters, so they are
+  // read here rather than being fixed at today/7.
+  const range = RANGES.find((value) => value === params.range) ?? 'today';
+  const months = ['3', '7', '12'].includes(params.months ?? '')
+    ? params.months
+    : '7';
+
   const [overview, needsAction, growth, me] = await Promise.all([
-    officeFetch<Overview>('/admin/overview?range=today'),
+    officeFetch<Overview>(`/admin/overview?range=${range}`),
     officeFetch<{ rows: NeedsActionRow[] }>('/admin/needs-action?status=pending'),
-    officeFetch<GrowthPoint[]>('/admin/user-growth?months=7'),
+    officeFetch<GrowthPoint[]>(`/admin/user-growth?months=${months}`),
     officeFetch<{ fullName: string | null; email: string }>('/admin/auth/me')
   ]);
 

@@ -1,3 +1,6 @@
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 import type {
   ComponentPropsWithoutRef,
   ElementType,
@@ -92,32 +95,94 @@ export function Badge({
   );
 }
 
-/** Input/select shell — 44h, pad 10/14, radius 8, gap 8.
-    `filled` is the topbar's #EEEEEE variant; `outline` is white + Gray/200. */
+/**
+ * Input/select shell — 44h, pad 10/14, radius 8, gap 8.
+ * `filled` is the topbar's #EEEEEE variant; `outline` is white + Gray/200.
+ *
+ * With `options` it is a real select bound to a search parameter; without
+ * them it is the design's static chip, disabled and saying why on hover, so a
+ * picker that cannot filter anything does not look like one that can.
+ */
 export function Select({
   label,
   variant = 'outline',
   weight = 'medium',
-  className = ''
+  className = '',
+  param,
+  options,
+  unavailable
 }: {
   label: string;
   variant?: 'filled' | 'outline';
   weight?: 'normal' | 'medium' | 'semibold';
   className?: string;
+  /** The search parameter this picker writes to. */
+  param?: string;
+  options?: { value: string; label: string }[];
+  /** Why this picker does nothing, when it does nothing. */
+  unavailable?: string;
 }) {
   const weights = { normal: 'font-normal', medium: 'font-medium', semibold: 'font-semibold' };
+  const shell = `flex h-11 items-center gap-2 rounded-lg px-[14px] py-[10px] ${
+    variant === 'filled' ? 'bg-rule' : 'edge-gray200 bg-white'
+  } ${className}`;
+  const text = `flex-1 text-left text-sm leading-6 text-gray-700 ${weights[weight]}`;
+
+  if (options && param) {
+    return <BoundSelect className={shell} textClassName={text} param={param} options={options} />;
+  }
+
   return (
     <button
       type="button"
-      className={`flex h-11 items-center gap-2 rounded-lg px-[14px] py-[10px] ${
-        variant === 'filled' ? 'bg-rule' : 'edge-gray200 bg-white'
-      } ${className}`}
+      disabled
+      title={unavailable ?? 'This filter is not wired to the data yet.'}
+      className={`${shell} cursor-not-allowed opacity-60`}
     >
-      <span className={`flex-1 text-left text-sm leading-6 text-gray-700 ${weights[weight]}`}>
-        {label}
-      </span>
+      <span className={text}>{label}</span>
       <ChevronDown className="h-4 w-4 shrink-0 text-gray-900" />
     </button>
+  );
+}
+
+/** The working half of `Select`: writes its value to the URL and reloads. */
+function BoundSelect({
+  className,
+  textClassName,
+  param,
+  options
+}: {
+  className: string;
+  textClassName: string;
+  param: string;
+  options: { value: string; label: string }[];
+}) {
+  const router = useRouter();
+  const params = useSearchParams();
+  const value = params.get(param) ?? options[0]?.value ?? '';
+
+  return (
+    <span className={className}>
+      <select
+        value={value}
+        onChange={(event) => {
+          const query = new URLSearchParams(params.toString());
+          if (event.target.value === options[0]?.value) query.delete(param);
+          else query.set(param, event.target.value);
+          query.delete('page');
+          const text = query.toString();
+          router.replace(text ? `?${text}` : '?', { scroll: false });
+        }}
+        className={`${textClassName} appearance-none border-0 bg-transparent p-0 outline-none`}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className="h-4 w-4 shrink-0 text-gray-900" />
+    </span>
   );
 }
 
@@ -212,24 +277,6 @@ export function GhostButton<T extends ElementType = 'button'>({
     >
       {children}
     </Component>
-  );
-}
-
-/** Solid red primary action (Error/500). */
-export function PrimaryButton({
-  children,
-  className = ''
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <button
-      type="button"
-      className={`flex items-center justify-center gap-2 rounded-lg bg-error-500 px-[18px] py-[10px] text-sm font-semibold leading-6 text-white transition-colors hover:bg-error-600 ${className}`}
-    >
-      {children}
-    </button>
   );
 }
 

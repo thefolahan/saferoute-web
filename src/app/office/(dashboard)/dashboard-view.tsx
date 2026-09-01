@@ -41,7 +41,19 @@ export function DashboardView({
               Here&apos;s what&apos;s happening across SafeRoute today.
             </p>
           </div>
-          <Select label="Today" weight="semibold" className="w-[126px] shrink-0" />
+          {/* /admin/overview takes this range, so it is a real filter. */}
+          <Select
+            label="Today"
+            weight="semibold"
+            className="w-[126px] shrink-0"
+            param="range"
+            options={[
+              { value: 'today', label: 'Today' },
+              { value: 'week', label: 'This week' },
+              { value: 'month', label: 'This month' },
+              { value: 'all', label: 'All time' }
+            ]}
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-[15px] py-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
@@ -87,7 +99,17 @@ export function DashboardView({
                 <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-900">
                   User growth
                 </h2>
-                <Select label="Last 6 months" className="w-[172px]" />
+                {/* /admin/user-growth takes a month count. */}
+                <Select
+                  label="Last 6 months"
+                  className="w-[172px]"
+                  param="months"
+                  options={[
+                    { value: '7', label: 'Last 7 months' },
+                    { value: '12', label: 'Last 12 months' },
+                    { value: '3', label: 'Last 3 months' }
+                  ]}
+                />
               </div>
 
               <div className="flex min-w-0 flex-col gap-[2px] overflow-x-auto">
@@ -141,7 +163,11 @@ export function DashboardView({
                 <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">
                   Heat map of incidents
                 </h2>
-                <Select label="Today" className="w-[101px]" />
+                <Select
+                  label="Today"
+                  className="w-[101px]"
+                  unavailable="The heat map counts every incident on record; there is no date filter for it yet."
+                />
               </div>
               <WorldHeatMap className="h-auto w-[378px] max-w-full" />
             </div>

@@ -130,7 +130,12 @@ export function SupportView({
                 active={tab}
                 onChange={(id) => navigate({ status: id })}
               />
-              <Select label="Today" weight="semibold" className="w-[97px] shrink-0" />
+              <Select
+                label="Today"
+                weight="semibold"
+                className="w-[97px] shrink-0"
+                unavailable="The ticket queue takes no date range; use the search box."
+              />
             </div>
           </div>
 
