@@ -51,29 +51,15 @@ export default async function OfficeLoginPage() {
           as="h1"
           className="text-[34px] font-bold leading-[42px] tracking-[-0.02em] text-[#0A0D12] sm:text-[60px] sm:leading-[68px]"
         >
-          <span className="lg:block">Know before you go. </span>
-          <span className="lg:block">Sign in to the office.</span>
-        </Reveal>
-        <Reveal
-          as="p"
-          delay={120}
-          className="max-w-[680px] text-[17px] font-normal leading-[26px] text-gray-500"
-        >
-          Incidents, broadcasts, verification and support for SafeRoute — in one
-          place.
+          Sign in to the office.
         </Reveal>
       </div>
 
       {/* Where the waitlist pages put their social proof */}
       <Reveal delay={200} className="flex flex-col items-center gap-2.5">
-        <div className="flex flex-col items-center gap-0.5 text-center">
-          <span className="text-[14px] font-semibold leading-[17px] text-[#0A0D12]">
-            SafeRoute operations dashboard
-          </span>
-          <span className="text-[13px] font-normal leading-4 text-gray-400 sm:text-[14px]">
-            Authorised staff only. Every account uses two-factor authentication.
-          </span>
-        </div>
+        <span className="text-[13px] font-normal leading-4 text-gray-400 sm:text-[14px]">
+          Authorised staff only.
+        </span>
       </Reveal>
 
       {/* Form */}
@@ -81,11 +67,8 @@ export default async function OfficeLoginPage() {
         <LoginForm base={base} />
       </Reveal>
 
-      {/* Socials */}
+      {/* Socials — icons only; the heading the waitlist pages carry is gone. */}
       <Reveal delay={360} className="flex flex-col items-center gap-4">
-        <h3 className="text-[14px] font-semibold leading-[17px] text-[#181D27]">
-          Connect with us
-        </h3>
         <div className="flex flex-wrap items-center justify-center gap-3">
           {SOCIALS.map((s) => (
             <a
