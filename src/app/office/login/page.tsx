@@ -25,14 +25,7 @@ export default async function OfficeLoginPage() {
   return (
     <PageShell
       className="font-sans"
-      footer={{
-        copyright: 'SafeRoute Africa. All rights reserved.',
-        links: [
-          { label: 'Privacy Policy', href: '/privacy-policy' },
-          { label: 'Terms of Use', href: '/terms-of-use' },
-          { label: 'Community Guidelines', href: '/community-guidelines' }
-        ]
-      }}
+      footer={{ copyright: 'SafeRoute Africa. All rights reserved.' }}
     >
       <div className="flex w-full max-w-[680px] flex-col items-center gap-4 lg:max-w-[940px]">
         <Reveal

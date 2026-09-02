@@ -13,7 +13,8 @@ import type { ReactNode } from 'react';
 
 export type ShellFooter = {
   copyright: string;
-  links: { label: string; href: string }[];
+  /** Omitted on the admin sign-in page, which carries the copyright alone. */
+  links?: { label: string; href: string }[];
 };
 
 export function Orbs() {
@@ -102,7 +103,7 @@ export function PageShell({
               © {new Date().getFullYear()} {footer.copyright}
             </span>
             <div className="flex items-center gap-5">
-              {footer.links.map((link) => (
+              {(footer.links ?? []).map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
