@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { TileMap, type MapMarker } from './tile-map';
+import { SOURCE_COLOR, SOURCE_LABEL } from '../_lib/map-sources';
 
 /**
  * Every coordinate one account has produced, on the same OSM tile layer the
@@ -17,26 +18,6 @@ export type MapPoint = {
   longitude: number;
   label: string;
   source: string;
-};
-
-export const SOURCE_COLOR: Record<string, string> = {
-  sos: '#B42318',
-  incident: '#F04438',
-  live_broadcast: '#DD2590',
-  live_share: '#7A5AF8',
-  device: '#0BA5EC',
-  watched_place: '#3DC47E',
-  search: '#98A2B3'
-};
-
-export const SOURCE_LABEL: Record<string, string> = {
-  sos: 'SOS activation',
-  incident: 'Report',
-  live_broadcast: 'Live broadcast',
-  live_share: 'Live location',
-  device: 'Device position',
-  watched_place: 'Saved place',
-  search: 'Place search'
 };
 
 export function PointMap({

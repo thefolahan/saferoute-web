@@ -24,7 +24,8 @@ import {
   words,
   type PersonCard
 } from '../../_components/detail-panels';
-import { PointMap, SOURCE_LABEL } from '../../_components/point-map';
+import { PointMap } from '../../_components/point-map';
+import { SOURCE_LABEL } from '../../_lib/map-sources';
 import { officeBase, officeFetch } from '../../_lib/session';
 
 /**

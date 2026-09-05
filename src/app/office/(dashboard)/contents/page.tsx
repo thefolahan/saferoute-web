@@ -59,13 +59,20 @@ export default async function ContentsPage({
     q?: string;
     status?: string;
     city?: string;
+    type?: string;
   }>;
 }) {
   const params = await searchParams;
   const page = Number.parseInt(params.page ?? '1', 10) || 1;
 
   const query = new URLSearchParams({ page: String(page) });
-  for (const key of ['q', 'status', 'city'] as const) {
+  /*
+    `type` was missing here: the picker wrote it to the URL and the page never
+    forwarded it, so choosing "With photos or video" changed the address bar
+    and nothing else. The endpoint had supported it all along — the gap was one
+    line in this list.
+  */
+  for (const key of ['q', 'status', 'city', 'type'] as const) {
     const value = params[key];
     if (value) query.set(key, value);
   }
