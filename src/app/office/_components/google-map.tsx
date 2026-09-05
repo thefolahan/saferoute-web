@@ -45,7 +45,7 @@ function loadMaps(key: string): Promise<void> {
 
   window.__srMapsPromise = new Promise<void>((resolve, reject) => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&libraries=marker&v=weekly`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&libraries=marker,visualization&v=weekly`;
     script.async = true;
     script.onerror = () => reject(new Error('Google Maps script failed to load'));
     script.onload = () => {
@@ -57,6 +57,41 @@ function loadMaps(key: string): Promise<void> {
 
   return window.__srMapsPromise;
 }
+
+/**
+ * The country this dashboard is for.
+ *
+ * The map opened on Lagos at street zoom and then fitted itself to whatever
+ * markers had loaded, so a national picture only appeared by accident of where
+ * the reports happened to be. Incidents are spread across all 37 states; the
+ * default view should be the country, and zooming is what a filter is for.
+ */
+export const NIGERIA = {
+  center: { lat: 9.082, lng: 8.6753 },
+  zoom: 6,
+  bounds: { south: 4.0, west: 2.6, north: 13.95, east: 14.7 }
+};
+
+/** The basemap styles the control bar can switch between. */
+export type BasemapMode = 'roadmap' | 'satellite' | 'hybrid' | 'terrain';
+
+/**
+ * What the visualization library actually provides at runtime.
+ *
+ * `@types/google.maps` ships `HeatmapLayer` as a bare stub — a constructor
+ * taking no arguments, with no methods on the instance — because Google has
+ * the layer marked legacy. The real constructor takes options and the instance
+ * does have `setMap`. Describing that here beats an `any` at three call sites,
+ * and it fails loudly if the runtime shape ever changes.
+ */
+type HeatPoint = { location: google.maps.LatLng; weight: number };
+type HeatLayer = { setMap: (map: google.maps.Map | null) => void };
+type HeatLayerCtor = new (options: {
+  map?: google.maps.Map;
+  data: HeatPoint[];
+  radius?: number;
+  opacity?: number;
+}) => HeatLayer;
 
 /** A severity-tinted pin, as an inline SVG data URI. */
 function pinIcon(color: string, selected: boolean): string {
@@ -71,7 +106,17 @@ export function GoogleMap({
   onSelect,
   onFail,
   showLabels = true,
-  className = ''
+  className = '',
+  mode = 'roadmap',
+  heatmap = false,
+  /**
+   * Whether to zoom to the markers.
+   *
+   * Off by default so the map opens on the country. The Map screen turns it on
+   * once a filter or a search has narrowed the set, because at that point
+   * "show me what I asked for" beats "show me Nigeria".
+   */
+  fitToMarkers = false
 }: {
   apiKey: string;
   markers: MapMarker[];
@@ -80,10 +125,14 @@ export function GoogleMap({
   onFail?: (reason: string) => void;
   showLabels?: boolean;
   className?: string;
+  mode?: BasemapMode;
+  heatmap?: boolean;
+  fitToMarkers?: boolean;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
   const drawn = useRef<google.maps.Marker[]>([]);
+  const heat = useRef<HeatLayer | null>(null);
   const [failed, setFailed] = useState<string | null>(null);
   /**
    * Flips once the Map instance exists. The marker effect below runs on first
@@ -102,9 +151,9 @@ export function GoogleMap({
         if (cancelled || !container.current || !window.google?.maps) return;
 
         map.current ??= new window.google.maps.Map(container.current, {
-          // Lagos, so an empty map is not the middle of the Atlantic.
-          center: { lat: 6.5244, lng: 3.3792 },
-          zoom: 11,
+          // The whole country — see NIGERIA above for why not Lagos.
+          center: NIGERIA.center,
+          zoom: NIGERIA.zoom,
           disableDefaultUI: true,
           zoomControl: true,
           clickableIcons: false,
@@ -204,13 +253,74 @@ export function GoogleMap({
       drawn.current.push(pin);
     }
 
+    if (!fitToMarkers) return;
+
     if (markers.length === 1) {
       instance.setCenter(bounds.getCenter());
       instance.setZoom(14);
     } else {
       instance.fitBounds(bounds, 64);
     }
-  }, [markers, onSelect, showLabels, ready]);
+  }, [markers, onSelect, showLabels, ready, fitToMarkers]);
+
+  /** Basemap style. Google owns satellite imagery; this is a one-line switch. */
+  useEffect(() => {
+    if (!ready || !map.current) return;
+    map.current.setMapTypeId(mode);
+  }, [mode, ready]);
+
+  /**
+   * The heat layer.
+   *
+   * Weighted by severity rather than one point per report: twenty low-severity
+   * reports and twenty critical ones are not the same picture, and a heat map
+   * that says they are is worse than none. Built and destroyed with the toggle
+   * so an unused layer is not left recomputing on every pan.
+   */
+  useEffect(() => {
+    if (!ready || !map.current || !window.google?.maps?.visualization) return;
+
+    heat.current?.setMap(null);
+    heat.current = null;
+
+    if (!heatmap || markers.length === 0) return;
+
+    const weight: Record<string, number> = {
+      '#B42318': 4,
+      '#F04438': 3,
+      '#F79009': 2,
+      '#3DC47E': 1
+    };
+
+    const HeatmapLayer = (
+      window.google.maps.visualization as unknown as {
+        HeatmapLayer: HeatLayerCtor;
+      }
+    ).HeatmapLayer;
+
+    heat.current = new HeatmapLayer({
+      map: map.current,
+      radius: 28,
+      opacity: 0.75,
+      data: markers.map((marker) => ({
+        location: new window.google!.maps.LatLng(marker.latitude, marker.longitude),
+        weight: weight[marker.color] ?? 2
+      }))
+    });
+
+    return () => {
+      heat.current?.setMap(null);
+      heat.current = null;
+    };
+  }, [heatmap, markers, ready]);
+
+  /**
+   * Pins are hidden while the heat layer is on — drawing both puts a marker on
+   * top of every hotspot and the density it is meant to show disappears.
+   */
+  useEffect(() => {
+    for (const pin of drawn.current) pin.setVisible(!heatmap);
+  }, [heatmap, markers]);
 
   if (failed) {
     return (

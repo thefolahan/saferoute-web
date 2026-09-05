@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Sidebar } from '../../_components/sidebar';
-import { GoogleMap } from '../../_components/google-map';
+import { GoogleMap, type BasemapMode } from '../../_components/google-map';
 import { TileMap, type MapMarker } from '../../_components/tile-map';
 import {
   ArrowDownIcon,
@@ -30,6 +31,32 @@ export type MapCard = {
   severity: string;
 };
 
+/** One row in the bar's dark dropdowns. */
+function MenuItem({
+  label,
+  meta,
+  active,
+  onClick
+}: {
+  label: string;
+  meta?: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm leading-5 ${
+        active ? 'bg-white/10 font-semibold text-white' : 'text-gray-300'
+      }`}
+    >
+      <span className="truncate">{label}</span>
+      {meta ? <span className="shrink-0 text-xs text-gray-500">{meta}</span> : null}
+    </button>
+  );
+}
+
 /** The severity ramp the rest of the dashboard uses. */
 const SEVERITY_COLOR: Record<string, string> = {
   critical: '#B42318',
@@ -38,15 +65,52 @@ const SEVERITY_COLOR: Record<string, string> = {
   low: '#3DC47E'
 };
 
+/**
+ * The basemap styles on offer.
+ *
+ * Google draws all four. The OSM fallback has no terrain or hybrid source
+ * worth a dependency, so when it is in use the list is trimmed rather than
+ * offering a mode that would draw an empty grid.
+ */
+const MODES: { id: BasemapMode; label: string; osm: boolean }[] = [
+  { id: 'roadmap', label: 'Standard mode', osm: true },
+  { id: 'satellite', label: 'Satellite', osm: true },
+  { id: 'hybrid', label: 'Hybrid', osm: false },
+  { id: 'terrain', label: 'Terrain', osm: false }
+];
+
 export function MapView({
   cards,
-  mapsApiKey
+  mapsApiKey,
+  states,
+  activeState,
+  total,
+  truncated
 }: {
   cards: MapCard[];
   /** Google Maps browser key; falls back to OSM tiles when absent. */
   mapsApiKey: string | null;
+  /** Every state with an incident, and how many — the picker's options. */
+  states: { name: string; count: number }[];
+  activeState: string;
+  total: number;
+  truncated: boolean;
 }) {
+  const router = useRouter();
+  const params = useSearchParams();
   const [selected, setSelected] = useState(cards[0]?.id ?? '');
+
+  /**
+   * Basemap style and the heat layer are view settings, not filters — they
+   * change how the same incidents are drawn, so they stay in component state.
+   * The state picker is the opposite: it decides which incidents are fetched
+   * at all, so it lives in the URL and the server reads it.
+   */
+  const [mode, setMode] = useState<BasemapMode>('roadmap');
+  const [heat, setHeat] = useState(false);
+  const [modeOpen, setModeOpen] = useState(false);
+  const [stateOpen, setStateOpen] = useState(false);
+  const [term, setTerm] = useState('');
   /**
    * Set when Google Maps cannot load — a key still propagating, a referrer
    * restriction, a quota. The screen drops to the OSM tile layer rather than
@@ -78,7 +142,24 @@ export function MapView({
     return () => observer.disconnect();
   }, []);
 
-  const markers: MapMarker[] = cards.map((card) => ({
+  /**
+   * Search narrows what is already loaded rather than refetching.
+   *
+   * The state filter has already decided the set; typing should mark pins as
+   * you type, not wait for a round trip per keystroke. A state with more
+   * incidents than the cap says so on the bar, which is the honest limit.
+   */
+  const visible = useMemo(() => {
+    const q = term.trim().toLowerCase();
+    if (!q) return cards;
+    return cards.filter(
+      (card) =>
+        card.title.toLowerCase().includes(q) ||
+        card.place.toLowerCase().includes(q)
+    );
+  }, [cards, term]);
+
+  const markers: MapMarker[] = visible.map((card) => ({
     id: card.id,
     latitude: card.latitude,
     longitude: card.longitude,
@@ -86,6 +167,48 @@ export function MapView({
     color: SEVERITY_COLOR[card.severity] ?? SEVERITY_COLOR.medium!,
     selected: card.id === selected
   }));
+
+  /** Narrowing means "show me what I asked for"; otherwise, show the country. */
+  const narrowed = Boolean(activeState) || term.trim().length > 0;
+
+  function setState(next: string) {
+    const query = new URLSearchParams(params.toString());
+    if (next) query.set('state', next);
+    else query.delete('state');
+    const text = query.toString();
+    router.push(text ? `?${text}` : '?', { scroll: false });
+    setStateOpen(false);
+  }
+
+  const availableModes = MODES.filter(
+    (m) => (mapsApiKey && !googleFailed) || m.osm
+  );
+
+  /**
+   * A menu left open behind a click elsewhere feels stuck, so an outside click
+   * closes it — but "outside" has to mean outside, tested by containment.
+   *
+   * The first version closed on any document mousedown and relied on the menu
+   * items calling `stopPropagation`. That closed the menu before the click
+   * landed, so choosing a mode did nothing at all: the row was already
+   * unmounted by the time the click event resolved. This is the same
+   * ref-containment pattern the topbar and the global search already use.
+   */
+  const stateMenu = useRef<HTMLDivElement>(null);
+  const modeMenu = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!stateOpen && !modeOpen) return;
+
+    const onDown = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (stateOpen && !stateMenu.current?.contains(target)) setStateOpen(false);
+      if (modeOpen && !modeMenu.current?.contains(target)) setModeOpen(false);
+    };
+
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [stateOpen, modeOpen]);
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -104,6 +227,9 @@ export function MapView({
             markers={markers}
             onSelect={setSelected}
             onFail={() => setGoogleFailed(true)}
+            mode={mode}
+            heatmap={heat}
+            fitToMarkers={narrowed}
             className="absolute inset-0"
           />
         ) : size.width > 0 ? (
@@ -112,12 +238,19 @@ export function MapView({
             width={size.width}
             height={size.height}
             onSelect={setSelected}
+            /* Only two of the four modes have a free tile source. */
+            mode={mode === 'satellite' ? 'satellite' : 'roadmap'}
+            fitToMarkers={narrowed}
           />
         ) : null}
 
-        {cards.length === 0 ? (
+        {visible.length === 0 ? (
           <p className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center text-sm leading-6 text-gray-600">
-            No incidents have been reported with a location yet.
+            {cards.length === 0
+              ? activeState
+                ? `No incidents on record in ${activeState}.`
+                : 'No incidents have been reported with a location yet.'
+              : `Nothing on this map matches “${term.trim()}”.`}
           </p>
         ) : null}
 
@@ -129,58 +262,152 @@ export function MapView({
           corner.
         */}
         <div
-          className="absolute left-1/2 z-10 flex h-[74px] w-[calc(100%-32px)] max-w-[929px] -translate-x-1/2 items-center justify-between gap-4 overflow-hidden rounded-[39px] bg-black px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] lg:gap-[30px] lg:px-[30px]"
+          /*
+            No `overflow-hidden` here. It was clipping the pill's corners
+            neatly and clipping both dropdowns out of existence with them —
+            a menu that opens below the bar has to be allowed to leave it.
+            The children are rounded or inset, so nothing spills without it.
+          */
+          className="absolute left-1/2 z-10 flex h-[74px] w-[calc(100%-32px)] max-w-[929px] -translate-x-1/2 items-center justify-between gap-4 rounded-[39px] bg-black px-5 py-4 shadow-[0_-4px_10px_rgba(0,0,0,0.05)] lg:gap-[30px] lg:px-[30px]"
           style={{ top: 23, boxShadow: 'inset 0 0 0 1px #414141' }}
         >
-          {/*
-            The bar's four controls still have nothing behind them:
-            /admin/map/incidents takes no parameters, and there is no heat-map
-            layer or second basemap style. They stay because the design's bar is
-            this screen's whole chrome, and say so on hover rather than looking
-            live. The map itself is real; these are not.
-          */}
-          <span
-            className="flex items-center gap-[6px]"
-            title="The map shows every incident with a location; there is no state filter yet."
-          >
-            <MapPinIcon className="h-[18px] w-[18px] text-[#999999]" />
-            <span className="text-sm font-bold leading-5 text-[#999999]">All states</span>
-            <ArrowDownIcon className="h-[7px] w-3 text-[#999999] opacity-50" />
-          </span>
+          {/* State picker — drives the query, so it lives in the URL. */}
+          <div ref={stateMenu} className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setStateOpen((v) => !v);
+                setModeOpen(false);
+              }}
+              aria-expanded={stateOpen}
+              className="flex items-center gap-[6px]"
+            >
+              <MapPinIcon className="h-[18px] w-[18px] text-white" />
+              <span className="whitespace-nowrap text-sm font-bold leading-5 text-white">
+                {activeState || 'All states'}
+              </span>
+              <ArrowDownIcon className="h-[7px] w-3 text-white" />
+            </button>
 
+            {stateOpen ? (
+              <div className="absolute left-0 top-[34px] z-30 max-h-[60vh] w-[260px] overflow-y-auto rounded-xl bg-[#161616] p-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+                <MenuItem
+                  active={!activeState}
+                  onClick={() => setState('')}
+                  label="All states"
+                  meta={String(total)}
+                />
+                {states.map((entry) => (
+                  <MenuItem
+                    key={entry.name}
+                    active={entry.name === activeState}
+                    onClick={() => setState(entry.name)}
+                    label={entry.name}
+                    meta={String(entry.count)}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Search — narrows the loaded set as you type. */}
           <div
             className="hidden h-[42px] w-[384px] items-center gap-2 rounded-lg bg-black px-[13px] py-[9px] md:flex"
             style={{ boxShadow: 'inset 0 0 0 1px #535862' }}
           >
             <SearchLgIcon className="h-[19px] w-[19px] shrink-0 text-gray-400" />
-            <span
-              className="flex-1 text-[15px] font-normal leading-[23px] text-gray-400 opacity-60"
-              title="Searching the map is not built; the Incidents and Users screens have working search."
-            >
-              Search users, incidents
-            </span>
+            <input
+              value={term}
+              onChange={(event) => setTerm(event.target.value)}
+              placeholder="Search incidents on this map"
+              aria-label="Search incidents on this map"
+              className="w-full bg-transparent text-[15px] font-normal leading-[23px] text-white outline-none placeholder:text-gray-400"
+            />
+            {term ? (
+              <button
+                type="button"
+                onClick={() => setTerm('')}
+                aria-label="Clear search"
+                className="shrink-0 text-xs font-semibold text-gray-400"
+              >
+                Clear
+              </button>
+            ) : null}
           </div>
 
-          <div className="hidden items-center gap-[30px] lg:flex">
-            <span
-              className="text-sm font-bold leading-5 text-[#999999] opacity-60"
-              title="A heat-map layer has not been built; the markers are the incidents."
+          <div className="flex shrink-0 items-center gap-[22px] lg:gap-[30px]">
+            <button
+              type="button"
+              onClick={() => setHeat((v) => !v)}
+              aria-pressed={heat}
+              title={
+                mapsApiKey && !googleFailed
+                  ? 'Density of reports, weighted by severity'
+                  : 'The heat layer needs Google Maps; this map is the OpenStreetMap fallback.'
+              }
+              disabled={!mapsApiKey || googleFailed}
+              className={`whitespace-nowrap text-sm font-bold leading-5 disabled:cursor-not-allowed disabled:text-[#666666] ${
+                heat ? 'text-[#FE646F]' : 'text-white'
+              }`}
             >
               Heat map
-            </span>
-            <span
-              className="flex items-center gap-[19px] opacity-60"
-              title="Only one basemap style is loaded, so there are no modes to switch between."
-            >
-              <span className="text-sm font-bold leading-5 text-[#999999]">Standard mode</span>
-              <ChevronDownIcon className="h-4 w-4 text-[#999999]" />
-            </span>
+            </button>
+
+            <div ref={modeMenu} className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setModeOpen((v) => !v);
+                  setStateOpen(false);
+                }}
+                aria-expanded={modeOpen}
+                className="flex items-center gap-[19px]"
+              >
+                <span className="whitespace-nowrap text-sm font-bold leading-5 text-white">
+                  {MODES.find((m) => m.id === mode)?.label ?? 'Standard mode'}
+                </span>
+                <ChevronDownIcon className="h-4 w-4 text-white" />
+              </button>
+
+              {modeOpen ? (
+                <div className="absolute right-0 top-[34px] z-30 w-[200px] rounded-xl bg-[#161616] p-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+                  {availableModes.map((option) => (
+                    <MenuItem
+                      key={option.id}
+                      active={option.id === mode}
+                      onClick={() => {
+                        setMode(option.id);
+                        setModeOpen(false);
+                      }}
+                      label={option.label}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
 
+        {/*
+          The cap is 800 rows; a filter that would return more says so rather
+          than letting a partial map read as the whole picture.
+        */}
+        {truncated ? (
+          <p className="absolute left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/80 px-4 py-1 text-xs font-medium text-white" style={{ top: 105 }}>
+            Showing the {cards.length} most recent of {total}. Pick a state to
+            narrow it.
+          </p>
+        ) : null}
+
         {/* Card rail — 372x137 modals, gap 11 */}
+        {/*
+          The rail lists what the map is showing, not what was fetched. It
+          rendered `cards` while the pins rendered the filtered set, so a
+          search left one marker above eight cards describing incidents that
+          were no longer on the map.
+        */}
         <div className="no-scrollbar absolute bottom-6 left-1 right-0 z-10 flex gap-[11px] overflow-x-auto py-[11px] pr-[19px]">
-          {cards.map((card) => {
+          {visible.map((card) => {
             const isSelected = card.id === selected;
             return (
               <button

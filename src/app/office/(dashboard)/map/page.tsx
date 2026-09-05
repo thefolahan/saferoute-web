@@ -13,8 +13,12 @@ type ApiMap = {
     longitude: number;
     addressText: string | null;
     city: string;
+    state: string | null;
     reportedAt: string;
   }[];
+  total: number;
+  truncated: boolean;
+  states: { name: string; count: number }[];
 };
 
 /**
@@ -27,8 +31,25 @@ type ApiMap = {
  * now, so the coordinates are what places the markers, and the cards below
  * describe the same incidents.
  */
-export default async function MapPage() {
-  const data = await officeFetch<ApiMap>('/admin/map/incidents');
+export default async function MapPage({
+  searchParams
+}: {
+  searchParams: Promise<{ state?: string }>;
+}) {
+  const { state } = await searchParams;
+
+  /**
+   * The state filter is a query parameter rather than client-side filtering,
+   * because it decides which rows are fetched: the endpoint caps at 800, so
+   * narrowing here is what makes a busy state's map complete rather than the
+   * 800 newest reports nationwide.
+   */
+  const query = new URLSearchParams();
+  if (state) query.set('state', state);
+
+  const data = await officeFetch<ApiMap>(
+    `/admin/map/incidents${query.toString() ? `?${query.toString()}` : ''}`
+  );
 
   // A row with no coordinates cannot be drawn; dropping it is better than
   // putting it at 0,0 in the Gulf of Guinea.
@@ -41,6 +62,10 @@ export default async function MapPage() {
   return (
     <MapView
       mapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? null}
+      states={data?.states ?? []}
+      activeState={state ?? ''}
+      total={data?.total ?? incidents.length}
+      truncated={data?.truncated ?? false}
       cards={incidents.map((incident): MapCard => ({
         id: incident.id,
         title: incident.title || humanise(incident.category),

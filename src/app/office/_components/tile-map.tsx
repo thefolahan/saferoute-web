@@ -22,6 +22,30 @@ import { useMemo, useState, type ReactNode } from 'react';
 
 const TILE = 256;
 
+/**
+ * Where tiles come from, per basemap mode.
+ *
+ * OpenStreetMap draws no imagery, so satellite is Esri's World Imagery — the
+ * same free service its own basemap gallery serves, attributed below as their
+ * terms require. `terrain` has no free equivalent worth the dependency, so it
+ * falls back to the standard map rather than showing an empty grid; the Map
+ * screen only offers the modes a given basemap can actually draw.
+ */
+const TILE_SOURCES = {
+  roadmap: {
+    url: (z: number, x: number, y: number) =>
+      `https://tile.openstreetmap.org/${z}/${x}/${y}.png`,
+    attribution: '© OpenStreetMap contributors'
+  },
+  satellite: {
+    url: (z: number, x: number, y: number) =>
+      `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,
+    attribution: 'Imagery © Esri, Maxar, Earthstar Geographics'
+  }
+} as const;
+
+export type TileMode = keyof typeof TILE_SOURCES;
+
 export type MapMarker = {
   id: string;
   latitude: number;
@@ -57,8 +81,8 @@ function fit(
   height: number
 ): { zoom: number; centre: { lat: number; lng: number } } {
   if (markers.length === 0) {
-    // Lagos, where the data is, rather than 0,0 in the Atlantic.
-    return { zoom: 11, centre: { lat: 6.5244, lng: 3.3792 } };
+    // The country, not a city — see NIGERIA in google-map.tsx for why.
+    return { zoom: 6, centre: { lat: 9.082, lng: 8.6753 } };
   }
 
   const lats = markers.map((m) => m.latitude);
@@ -90,12 +114,17 @@ export function TileMap({
   height,
   onSelect,
   showLabels = true,
+  mode = 'roadmap',
+  fitToMarkers = true,
   children
 }: {
   markers: MapMarker[];
   width: number;
   height: number;
   onSelect?: (id: string) => void;
+  mode?: TileMode;
+  /** Off on the Map screen, which opens on the country rather than the pins. */
+  fitToMarkers?: boolean;
   /**
    * Whether markers carry their title. Off on the Dashboard's card, where the
    * panel is a few hundred pixels wide and eight labels land on top of each
@@ -107,9 +136,11 @@ export function TileMap({
 }) {
   const [failed, setFailed] = useState(false);
   const { zoom, centre } = useMemo(
-    () => fit(markers, width, height),
-    [markers, width, height]
+    () => (fitToMarkers ? fit(markers, width, height) : fit([], width, height)),
+    [markers, width, height, fitToMarkers]
   );
+
+  const source = TILE_SOURCES[mode] ?? TILE_SOURCES.roadmap;
 
   // World pixels of the viewport's top-left corner.
   const originX = lngToX(centre.lng, zoom) - width / 2;
@@ -132,7 +163,7 @@ export function TileMap({
 
       tiles.push({
         key: `${zoom}/${x}/${y}`,
-        src: `https://tile.openstreetmap.org/${zoom}/${wrappedX}/${y}.png`,
+        src: source.url(zoom, wrappedX, y),
         left: x * TILE - originX,
         top: y * TILE - originY
       });
@@ -204,14 +235,23 @@ export function TileMap({
       })}
 
       {/* OSM asks for this, and it is the honest credit for the imagery. */}
+      {/*
+        Attribution names whoever actually drew these tiles. Both services
+        require it, and leaving OpenStreetMap's credit on Esri's imagery would
+        be crediting the wrong people.
+      */}
       {!failed ? (
         <a
-          href="https://www.openstreetmap.org/copyright"
+          href={
+            mode === 'satellite'
+              ? 'https://www.esri.com/en-us/legal/terms/full-master-agreement'
+              : 'https://www.openstreetmap.org/copyright'
+          }
           target="_blank"
           rel="noreferrer"
           className="absolute bottom-0 right-0 bg-white/75 px-1 text-[10px] leading-4 text-gray-700"
         >
-          © OpenStreetMap contributors
+          {source.attribution}
         </a>
       ) : null}
 
