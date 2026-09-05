@@ -1,4 +1,5 @@
 import { officeFetch } from '../../_lib/session';
+import { rangeToDates } from '../../_components/ui';
 import { SupportView, type Ticket, type TicketDetail } from './support-view';
 
 export const dynamic = 'force-dynamic';
@@ -36,13 +37,18 @@ type ApiDetail = {
 export default async function SupportPage({
   searchParams
 }: {
-  searchParams: Promise<{ status?: string; id?: string }>;
+  searchParams: Promise<{ status?: string; id?: string; range?: string }>;
 }) {
   const params = await searchParams;
   const status = params.status === 'resolved' ? 'resolved' : 'pending';
 
+  const dates = rangeToDates(params.range);
+  const query = new URLSearchParams({ status });
+  if (dates.from) query.set('from', dates.from);
+  if (dates.to) query.set('to', dates.to);
+
   const list = await officeFetch<ApiList>(
-    `/admin/support/tickets?status=${status}`
+    `/admin/support/tickets?${query.toString()}`
   );
   const rows = list?.rows ?? [];
 

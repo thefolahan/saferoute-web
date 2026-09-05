@@ -15,28 +15,45 @@ export function NeedsActionView({
   rows,
   tabs,
   active,
-  onSelect
+  onSelect,
+  categories,
+  states,
+  regions
 }: {
   rows: ActionRowData[];
   tabs: { id: string; label: string; count: string }[];
   active: string;
   onSelect: (id: string) => void;
+  /** The values present in the queue — the pickers offer only these. */
+  categories: string[];
+  states: string[];
+  regions: string[];
 }) {
   const { pending, error, run } = useAction();
 
   return (
-    <Shell title="Dashboard" filters>
+    <Shell title="Dashboard" filters={{ regions, states }}>
       <div className="flex flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
         <GoBack />
 
         <Card>
           <div className="edge-bottom flex flex-col gap-4 px-5 py-[18px] lg:flex-row lg:items-center lg:justify-between lg:gap-7">
             <Tabs tabs={tabs} active={active} onChange={onSelect} />
+            {/* "Type" here is the incident's category — what a moderator triages by. */}
             <Select
               label="All types"
               weight="semibold"
-              className="w-[126px] shrink-0"
-              unavailable="The queue is not filtered by type yet; the tabs above are its only split."
+              className="w-[176px] shrink-0"
+              param="category"
+              options={[
+                { value: '', label: 'All types' },
+                ...categories.map((category) => ({
+                  value: category,
+                  label: category
+                    .replace(/_/g, ' ')
+                    .replace(/^./, (c) => c.toUpperCase())
+                }))
+              ]}
             />
           </div>
 

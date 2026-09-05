@@ -41,7 +41,14 @@ export function DashboardView({
   const base = useOfficeBase();
 
   return (
-    <Shell title="Dashboard" filters>
+    /*
+      The Dashboard's tiles, charts and map each aggregate nationally from
+      their own endpoint, none of which takes a state — honouring a picker here
+      would mean threading one through eight separate queries. Removed rather
+      than left disabled; the Map and Needs-action screens both filter by state
+      and are one click away.
+    */
+    <Shell title="Dashboard">
       {/* Welcome + KPI grid — Figma 907:12646, pad 19/32 gap 15 */}
       <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">

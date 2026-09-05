@@ -117,7 +117,11 @@ export default function CreateBroadcastPage() {
   }
 
   return (
-    <Shell title="Broadcast message" filters>
+    /*
+      This is the compose wizard, not a list — there is nothing on it to
+      filter. The pickers were inherited from the screen's Shell.
+    */
+    <Shell title="Broadcast message">
       <div className="flex px-4 sm:px-6 lg:pl-8 lg:pr-0">
         <div className="flex min-w-0 flex-1 flex-col gap-[34px] pt-[17px] lg:pr-[39px]">
           <div className="flex flex-col gap-[25px]">

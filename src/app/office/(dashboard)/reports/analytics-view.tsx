@@ -1,3 +1,6 @@
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Shell } from '../../_components/shell';
 import { LineChart, axisTicks, niceCeiling } from '../../_components/line-chart';
 import { Card, ChevronDown, Select } from '../../_components/ui';
@@ -35,13 +38,16 @@ export function AnalyticsView({
   response,
   severity,
   activity,
-  communityStats
+  communityStats,
+  days
 }: {
   kpis: Kpi[];
   response: ResponseStat[];
   severity: SeverityBar[];
   activity: ActivityPoint[];
   communityStats: Stat[];
+  /** The window these figures cover; 0 is all time. */
+  days: number;
 }) {
 
   // The activity chart's own numbers: axis top, and each series' share.
@@ -58,17 +64,21 @@ export function AnalyticsView({
       <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-[10px]">
-            <FilledSelect width={319} icon>
-              Last 30 days (may 12 - jun 10, 2026)
-            </FilledSelect>
-            <FilledSelect width={127}>All Regions</FilledSelect>
-            <FilledSelect width={109}>All State</FilledSelect>
+            {/*
+              A real window now — everything on this screen has a timestamp.
+              The designer's Region and State chips are gone rather than
+              disabled: these figures come from incidents, accounts and SOS
+              activations, and only the first of the three carries a state, so
+              a state filter would quietly apply to one tile in three.
+            */}
+            <RangeSelect />
           </div>
-          <Select
-            label="Export"
-            className="w-[97px] shrink-0"
-            unavailable="Exporting analytics is not built yet."
-          />
+          <a
+            href={`/api/office/analytics/export${days ? `?days=${days}` : ''}`}
+            className="edge-gray200 flex h-11 w-fit shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+          >
+            Export
+          </a>
         </div>
 
         <div className="grid grid-cols-2 gap-[15px] py-[25px] md:grid-cols-3 xl:grid-cols-5">
@@ -370,29 +380,44 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-function FilledSelect({
-  children,
-  width,
-  icon = false
-}: {
-  children: React.ReactNode;
-  width: number;
-  icon?: boolean;
-}) {
+/** The analytics window, bound to `?days`. */
+function RangeSelect() {
+  const router = useRouter();
+  const params = useSearchParams();
+  const value = params.get('days') ?? '30';
+
+  const options: [string, string][] = [
+    ['7', 'Last 7 days'],
+    ['30', 'Last 30 days'],
+    ['90', 'Last 90 days'],
+    ['365', 'Last 12 months'],
+    ['0', 'All time']
+  ];
+
   return (
-    <button
-      type="button"
-      /* The design's width is a maximum, not a floor: the date range is 319px
-         wide, which is more than a 390px phone has once the page padding is
-         taken off. */
+    <span
       className="edge-gray200 flex h-11 w-full items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]"
-      style={{ maxWidth: width }}
+      style={{ maxWidth: 240 }}
     >
-      {icon ? <CalendarOutlineIcon className="h-4 w-4 shrink-0 text-gray-700" /> : null}
-      <span className="flex-1 whitespace-nowrap text-left text-sm font-medium leading-6 text-gray-700">
-        {children}
-      </span>
+      <CalendarOutlineIcon className="h-4 w-4 shrink-0 text-gray-700" />
+      <select
+        value={value}
+        aria-label="Reporting period"
+        onChange={(event) => {
+          const query = new URLSearchParams(params.toString());
+          query.set('days', event.target.value);
+          router.replace(`?${query.toString()}`, { scroll: false });
+        }}
+        className="flex-1 cursor-pointer appearance-none bg-transparent text-sm font-medium leading-6 text-gray-700 outline-none"
+      >
+        {options.map(([id, label]) => (
+          <option key={id} value={id}>
+            {label}
+          </option>
+        ))}
+      </select>
       <ChevronDown className="h-4 w-4 shrink-0 text-gray-900" />
-    </button>
+    </span>
   );
 }
+

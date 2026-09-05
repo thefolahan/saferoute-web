@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
@@ -21,7 +21,23 @@ import { GlobalSearch } from './global-search';
 
 /* Figma 907:17300 "Frame 33602" (with region/state filters) and its sibling
    "Frame 33603" (without). 1190x72, pad 8/32, 1px bottom hairline. */
-export function Topbar({ title, filters = false }: { title: string; filters?: boolean }) {
+/**
+ * What the topbar's Region and State pickers should offer.
+ *
+ * They used to be permanently disabled: every screen queried by city and no
+ * endpoint took either. They work now, but only where the screen behind them
+ * does — so this is passed in by the screens that filter on it, and the
+ * pickers are simply absent elsewhere rather than present and dead.
+ */
+export type TopbarFilters = { regions: string[]; states: string[] };
+
+export function Topbar({
+  title,
+  filters
+}: {
+  title: string;
+  filters?: TopbarFilters;
+}) {
   const admin = useAdmin();
   const { toggle } = useNav();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -66,8 +82,16 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
 
         {filters ? (
           <div className="hidden items-center gap-5 xl:flex">
-            <FilterSelect label="All Region" />
-            <FilterSelect label="All State" />
+            <FilterSelect
+              label="All Region"
+              param="region"
+              options={filters.regions}
+            />
+            <FilterSelect
+              label="All State"
+              param="state"
+              options={filters.states}
+            />
           </div>
         ) : null}
 
@@ -195,23 +219,50 @@ function ProfileMenu({ onClose }: { onClose: () => void }) {
 }
 
 /**
- * The topbar's region and state pickers.
+ * One of the topbar's region/state pickers, bound to a search parameter.
  *
- * Every screen behind them queries by city, not by region or state, and no
- * endpoint takes either — filtering here would have to reach into eleven
- * different queries to mean anything. Left visible because the design has
- * them on nine screens, disabled because they would filter nothing.
+ * Region is a grouping of states rather than a column on anything, so the
+ * expansion lives server-side and this only sends the name — see
+ * NIGERIA_REGIONS in the API. Choosing a region clears any state and vice
+ * versa: they are two ways of asking the same question, and holding both would
+ * mean silently ignoring one.
  */
-function FilterSelect({ label }: { label: string }) {
+function FilterSelect({
+  label,
+  param,
+  options
+}: {
+  label: string;
+  param: 'region' | 'state';
+  options: string[];
+}) {
+  const router = useRouter();
+  const params = useSearchParams();
+  const value = params.get(param) ?? '';
+
   return (
-    <button
-      type="button"
-      disabled
-      title="Region and state filters are not wired to the data yet; use the City filter on each screen."
-      className="flex h-11 w-[172px] cursor-not-allowed items-center gap-2 rounded-lg bg-rule px-[14px] py-[10px] opacity-60"
-    >
-      <span className="flex-1 text-left text-sm font-normal leading-6 text-gray-700">{label}</span>
+    <span className="flex h-11 w-[172px] items-center gap-2 rounded-lg bg-rule px-[14px] py-[10px]">
+      <select
+        value={value}
+        aria-label={label}
+        onChange={(event) => {
+          const query = new URLSearchParams(params.toString());
+          query.delete(param === 'region' ? 'state' : 'region');
+          if (event.target.value) query.set(param, event.target.value);
+          else query.delete(param);
+          const text = query.toString();
+          router.replace(text ? `?${text}` : '?', { scroll: false });
+        }}
+        className="flex-1 cursor-pointer appearance-none bg-transparent text-sm font-normal leading-6 text-gray-700 outline-none"
+      >
+        <option value="">{label}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
       <ChevronDownIcon className="h-4 w-4 shrink-0 text-gray-900" />
-    </button>
+    </span>
   );
 }

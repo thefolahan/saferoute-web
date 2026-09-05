@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Shell } from '../../_components/shell';
 import { Tabs } from '../../_components/tabs';
-import { Select } from '../../_components/ui';
+import { RANGES, Select } from '../../_components/ui';
 import { DataTable, Pagination, type Column } from '../../_components/table';
 import { Avatar } from '../../_components/avatar';
 import {
@@ -78,11 +78,13 @@ export function VerificationView({
 
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-[15px]">
           <Tabs tabs={tabs} active={tab} onChange={setTab} />
+          {/* Filters on when the ID was submitted, not when the account was made. */}
           <Select
-            label="Today"
+            label="Any date"
             weight="semibold"
-            className="w-[97px] shrink-0"
-            unavailable="The queue endpoint returns its most recent 25 and takes no date range."
+            className="w-[132px] shrink-0"
+            param="range"
+            options={RANGES}
           />
         </div>
       </div>

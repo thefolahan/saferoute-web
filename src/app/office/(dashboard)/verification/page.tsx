@@ -1,4 +1,5 @@
 import { officeFetch } from '../../_lib/session';
+import { rangeToDates } from '../../_components/ui';
 import {
   VerificationView,
   type Stat,
@@ -30,10 +31,24 @@ type ApiRequest = {
   submittedAt: string;
 };
 
-export default async function VerificationPage() {
+export default async function VerificationPage({
+  searchParams
+}: {
+  searchParams: Promise<{ range?: string }>;
+}) {
+  const { range } = await searchParams;
+
+  /** The preset becomes the from/to the endpoint takes. */
+  const dates = rangeToDates(range);
+  const query = new URLSearchParams({ tab: 'all' });
+  if (dates.from) query.set('from', dates.from);
+  if (dates.to) query.set('to', dates.to);
+
   const [stats, requests] = await Promise.all([
     officeFetch<Stats>('/admin/verification/stats'),
-    officeFetch<{ rows: ApiRequest[] }>('/admin/verification/requests?tab=all')
+    officeFetch<{ rows: ApiRequest[] }>(
+      `/admin/verification/requests?${query.toString()}`
+    )
   ]);
 
   const rows = requests?.rows ?? [];

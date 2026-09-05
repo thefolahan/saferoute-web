@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import { NavProvider } from './nav-state';
 import { Sidebar } from './sidebar';
-import { Topbar } from './topbar';
+import { Topbar, type TopbarFilters } from './topbar';
 
 /**
  * Every screen on canvas 907:2 is 1440 wide = 250 sidebar + 1190 content, and
@@ -19,7 +19,7 @@ export function Shell({
   children
 }: {
   title: string;
-  filters?: boolean;
+  filters?: TopbarFilters;
   children: ReactNode;
 }) {
   return (

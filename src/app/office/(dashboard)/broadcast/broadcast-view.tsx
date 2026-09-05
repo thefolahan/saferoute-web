@@ -55,7 +55,12 @@ export function BroadcastView({
     : rows;
 
   return (
-    <Shell title="Broadcast message" filters>
+    /*
+      No region/state pickers here: `admin_broadcasts` carries a city and no
+      state, so neither could be honoured. Absent rather than disabled — a
+      control that can never work is not worth the space.
+    */
+    <Shell title="Broadcast message">
       <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">
           <div className="flex flex-col justify-center gap-[10px]">

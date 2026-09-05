@@ -42,9 +42,18 @@ const SEVERITY_COLOR: Record<string, string> = {
 
 const NUMBER = new Intl.NumberFormat('en-NG');
 
-export default async function AnalyticsPage() {
+export default async function AnalyticsPage({
+  searchParams
+}: {
+  searchParams: Promise<{ days?: string }>;
+}) {
+  const { days: rawDays } = await searchParams;
+  /** Default 30 days, matching what the screen has always claimed to show. */
+  const days = Number.isFinite(Number.parseInt(rawDays ?? '', 10))
+    ? Number.parseInt(rawDays!, 10)
+    : 30;
   const [analytics, activity, contents] = await Promise.all([
-    officeFetch<Analytics>('/admin/analytics'),
+    officeFetch<Analytics>(`/admin/analytics?days=${days}`),
     officeFetch<Activity>('/admin/incident-activity?days=9'),
     officeFetch<{ total: number }>('/admin/contents?page=1')
   ]);
@@ -115,6 +124,7 @@ export default async function AnalyticsPage() {
 
   return (
     <AnalyticsView
+      days={days}
       kpis={kpis}
       response={response}
       severity={severity}

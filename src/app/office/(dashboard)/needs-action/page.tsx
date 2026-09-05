@@ -5,6 +5,14 @@ import { NeedsActionView } from './needs-action-view';
 
 export const dynamic = 'force-dynamic';
 
+/** What the queue endpoint returns: the rows, plus its pickers' options. */
+type Queue = {
+  rows: Row[];
+  categories: string[];
+  states: string[];
+  regions: string[];
+};
+
 type Row = {
   id: string;
   kind: 'incident' | 'user';
@@ -27,18 +35,36 @@ const TABS = [
 export default async function NeedsActionPage({
   searchParams
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{
+    status?: string;
+    category?: string;
+    state?: string;
+    region?: string;
+  }>;
 }) {
   const params = await searchParams;
+
+  /**
+   * The queue's own filters. Forwarded to every tab's count too, so a badge
+   * says how many of the filtered set are in that tab rather than how many
+   * exist overall — a "3" beside a tab that shows nothing is worse than no
+   * badge.
+   */
+  const filters = new URLSearchParams();
+  for (const key of ['category', 'state', 'region'] as const) {
+    const value = params[key];
+    if (value) filters.set(key, value);
+  }
+  const suffix = filters.toString() ? `&${filters.toString()}` : '';
   const active =
     TABS.find((tab) => tab.id === params.status)?.id ?? 'pending';
   const base = await officeBase();
 
   // Counts come from one call per tab so the badges are real, not guesses.
   const [pending, verified, rejected] = await Promise.all([
-    officeFetch<{ rows: Row[] }>('/admin/needs-action?status=pending'),
-    officeFetch<{ rows: Row[] }>('/admin/needs-action?status=verified'),
-    officeFetch<{ rows: Row[] }>('/admin/needs-action?status=rejected')
+    officeFetch<Queue>(`/admin/needs-action?status=pending${suffix}`),
+    officeFetch<Queue>(`/admin/needs-action?status=verified${suffix}`),
+    officeFetch<Queue>(`/admin/needs-action?status=rejected${suffix}`)
   ]);
 
   const byTab = {
@@ -56,6 +82,9 @@ export default async function NeedsActionPage({
     <NeedsActionView
       active={active}
       onSelect={select}
+      categories={pending?.categories ?? []}
+      states={pending?.states ?? []}
+      regions={pending?.regions ?? []}
       tabs={TABS.map((tab) => ({
         id: tab.id,
         label: tab.label,

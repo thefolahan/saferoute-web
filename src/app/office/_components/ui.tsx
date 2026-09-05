@@ -145,6 +145,42 @@ export function Badge({
  * them it is the design's static chip, disabled and saying why on hover, so a
  * picker that cannot filter anything does not look like one that can.
  */
+/**
+ * The date presets the Support and Verification queues offer.
+ *
+ * One list rather than two, and it lives here beside `Select` rather than in
+ * either screen — one queue importing the other's view file to borrow a
+ * constant is a dependency between two unrelated pages.
+ *
+ * These are presets, not a calendar: the queues are read as "what has come in
+ * lately", and every question that actually gets asked of them is a recent
+ * window. The page turns the chosen key into the from/to the API takes.
+ */
+export const RANGES = [
+  { value: 'all', label: 'Any date' },
+  { value: 'today', label: 'Today' },
+  { value: '7d', label: 'Last 7 days' },
+  { value: '30d', label: 'Last 30 days' },
+  { value: '90d', label: 'Last 90 days' }
+];
+
+/** Turns a preset key into the inclusive from/to the API expects. */
+export function rangeToDates(key: string | undefined): {
+  from?: string;
+  to?: string;
+} {
+  if (!key || key === 'all') return {};
+
+  const days = key === 'today' ? 0 : Number.parseInt(key, 10);
+  if (!Number.isFinite(days)) return {};
+
+  const from = new Date();
+  from.setDate(from.getDate() - days);
+  from.setHours(0, 0, 0, 0);
+
+  return { from: from.toISOString(), to: new Date().toISOString() };
+}
+
 export function Select({
   label,
   variant = 'outline',

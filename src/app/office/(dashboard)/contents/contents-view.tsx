@@ -73,16 +73,21 @@ export function ContentsView({
         <FilterBar>
           <FilterField placeholder="Search captions" param="q" width={406} search />
           {/*
-            The design's Type filter. A feed post has no type in the schema —
-            the only axis is moderation status, which is the next filter along
-            — so this is present as drawn and says so rather than offering a
-            list with nothing behind it.
+            `feed_posts` has no type column, which is why this was disabled —
+            but the distinctions a moderator sorts by are all in the row:
+            whether it carries pictures, whether it is attached to a report,
+            and whether anybody has complained about it.
           */}
           <FilterField
             placeholder="Type"
             param="type"
             width={230}
-            unavailable="Posts have no type to filter by; the Status filter is the one that applies."
+            options={[
+              { value: 'media', label: 'With photos or video' },
+              { value: 'text', label: 'Text only' },
+              { value: 'incident', label: 'Attached to a report' },
+              { value: 'reported', label: 'Reported by users' }
+            ]}
           />
           <FilterField
             placeholder="Status"

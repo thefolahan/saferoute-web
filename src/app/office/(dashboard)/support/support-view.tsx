@@ -7,7 +7,7 @@ import { useAction } from '../../_components/use-action';
 import { replyToTicket, setTicketStatus } from '../../_lib/actions';
 import { officeHref, useOfficeBase } from '../../_lib/office-path';
 import { Tabs } from '../../_components/tabs';
-import { Select } from '../../_components/ui';
+import { RANGES, Select } from '../../_components/ui';
 import { CustomerServiceIcon, SearchLgIcon, UserSolidIcon } from '../../_components/icons';
 import { AttachButton, ComposeField, ComposeModal } from '../../_components/compose-modal';
 
@@ -133,10 +133,11 @@ export function SupportView({
                 onChange={(id) => navigate({ status: id })}
               />
               <Select
-                label="Today"
+                label="Any date"
                 weight="semibold"
-                className="w-[97px] shrink-0"
-                unavailable="The ticket queue takes no date range; use the search box."
+                className="w-[132px] shrink-0"
+                param="range"
+                options={RANGES}
               />
             </div>
           </div>
