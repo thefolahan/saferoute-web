@@ -101,13 +101,12 @@ export function MapView({
   const [selected, setSelected] = useState(cards[0]?.id ?? '');
 
   /**
-   * Basemap style and the heat layer are view settings, not filters — they
-   * change how the same incidents are drawn, so they stay in component state.
-   * The state picker is the opposite: it decides which incidents are fetched
-   * at all, so it lives in the URL and the server reads it.
+   * Basemap style is a view setting, not a filter — it changes how the same
+   * incidents are drawn, so it stays in component state. The state picker is
+   * the opposite: it decides which incidents are fetched at all, so it lives
+   * in the URL and the server reads it.
    */
   const [mode, setMode] = useState<BasemapMode>('roadmap');
-  const [heat, setHeat] = useState(false);
   const [modeOpen, setModeOpen] = useState(false);
   const [stateOpen, setStateOpen] = useState(false);
   const [term, setTerm] = useState('');
@@ -118,6 +117,16 @@ export function MapView({
    * about why there is no map.
    */
   const [googleFailed, setGoogleFailed] = useState(false);
+  /**
+   * Whether Google has actually painted tiles.
+   *
+   * The screen used to mount Google alone and wait five seconds before
+   * deciding it had failed — five seconds of grey, every visit, whenever Maps
+   * was not going to render. OpenStreetMap now draws from the first frame and
+   * Google is layered over it only once it proves it can draw, so the map is
+   * immediate and correct either way.
+   */
+  const [googleDrew, setGoogleDrew] = useState(false);
   const frame = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -180,9 +189,12 @@ export function MapView({
     setStateOpen(false);
   }
 
-  const availableModes = MODES.filter(
-    (m) => (mapsApiKey && !googleFailed) || m.osm
-  );
+  /**
+   * Hybrid and terrain exist only on Google's layer, so they are offered only
+   * once Google is the one drawing — otherwise choosing one would silently do
+   * nothing, which is the thing this screen has just stopped doing.
+   */
+  const availableModes = MODES.filter((m) => googleDrew || m.osm);
 
   /**
    * A menu left open behind a click elsewhere feels stuck, so an outside click
@@ -221,25 +233,13 @@ export function MapView({
           deploy without one, rather than showing a grey box and a console
           error.
         */}
-        {mapsApiKey && !googleFailed ? (
-          <GoogleMap
-            apiKey={mapsApiKey}
-            markers={markers}
-            onSelect={setSelected}
-            onFail={() => setGoogleFailed(true)}
-            mode={mode}
-            heatmap={heat}
-            fitToMarkers={narrowed}
-            /*
-              Labels only once the set is narrowed. At the country view every
-              one of 586 pins captions itself and the map disappears under its
-              own text — the pins alone read as density, which is what a
-              national view is for.
-            */
-            showLabels={narrowed && visible.length <= 40}
-            className="absolute inset-0"
-          />
-        ) : size.width > 0 ? (
+        {/*
+          Both layers, not one or the other. OpenStreetMap is underneath and
+          always drawn; Google sits on top and stays invisible until it reports
+          tiles. Whichever can render, the screen has a map from the first
+          frame.
+        */}
+        {size.width > 0 ? (
           <TileMap
             markers={markers}
             width={size.width}
@@ -250,6 +250,26 @@ export function MapView({
             fitToMarkers={narrowed}
             showLabels={narrowed && visible.length <= 40}
           />
+        ) : null}
+
+        {mapsApiKey && !googleFailed ? (
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 ${
+              googleDrew ? 'opacity-100' : 'pointer-events-none opacity-0'
+            }`}
+          >
+            <GoogleMap
+              apiKey={mapsApiKey}
+              markers={markers}
+              onSelect={setSelected}
+              onFail={() => setGoogleFailed(true)}
+              onReady={() => setGoogleDrew(true)}
+              mode={mode}
+              fitToMarkers={narrowed}
+              showLabels={narrowed && visible.length <= 40}
+              className="absolute inset-0"
+            />
+          </div>
         ) : null}
 
         {visible.length === 0 ? (
@@ -344,23 +364,6 @@ export function MapView({
           </div>
 
           <div className="flex shrink-0 items-center gap-[22px] lg:gap-[30px]">
-            <button
-              type="button"
-              onClick={() => setHeat((v) => !v)}
-              aria-pressed={heat}
-              title={
-                mapsApiKey && !googleFailed
-                  ? 'Density of reports, weighted by severity'
-                  : 'The heat layer needs Google Maps; this map is the OpenStreetMap fallback.'
-              }
-              disabled={!mapsApiKey || googleFailed}
-              className={`whitespace-nowrap text-sm font-bold leading-5 disabled:cursor-not-allowed disabled:text-[#666666] ${
-                heat ? 'text-[#FE646F]' : 'text-white'
-              }`}
-            >
-              Heat map
-            </button>
-
             <div ref={modeMenu} className="relative">
               <button
                 type="button"
