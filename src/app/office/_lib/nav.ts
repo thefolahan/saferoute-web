@@ -4,6 +4,7 @@ import {
   FeedIcon,
   HomeIcon,
   MapIcon,
+  InviteIcon,
   ShieldIcon,
   ShieldOutlineIcon,
   SignalIcon,
@@ -48,7 +49,13 @@ export const NAV: NavGroup[] = [
     items: [
       { label: 'Users', route: 'users', icon: UserIcon, iconColor: '#F5F5F5' },
       { label: 'Support', route: 'support', icon: SupportIcon, iconColor: '#FFFFFF' },
-      { label: 'Feed & contents', route: 'contents', icon: FeedIcon, iconColor: '#FAFAFA' }
+      { label: 'Feed & contents', route: 'contents', icon: FeedIcon, iconColor: '#FAFAFA' },
+      /*
+        The website's waitlist. Under MANAGEMENT rather than ANALYTIC because
+        it is a list of people to act on, not a chart — and not under Users,
+        because a signup is an address on a form, not an account.
+      */
+      { label: 'Waitlist', route: 'waitlist', icon: InviteIcon, iconColor: '#F5F5F5' }
     ]
   },
   {
