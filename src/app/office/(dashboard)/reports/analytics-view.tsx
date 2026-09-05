@@ -75,7 +75,7 @@ export function AnalyticsView({
           </div>
           <a
             href={`/api/office/analytics/export${days ? `?days=${days}` : ''}`}
-            className="edge-gray200 flex h-11 w-fit shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+            className="edge-gray200 flex h-11 w-fit shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
           >
             Export
           </a>
@@ -87,8 +87,8 @@ export function AnalyticsView({
               key={kpi.label}
               className="edge flex flex-col items-center justify-center gap-[23px] rounded-[15px] px-[19px] py-[23px]"
             >
-              <span className="text-sm font-normal leading-[17px] text-gray-700">{kpi.label}</span>
-              <span className="text-2xl font-bold leading-[29px] text-navy">{kpi.value}</span>
+              <span className="text-sm font-normal leading-5 text-gray-700">{kpi.label}</span>
+              <span className="text-2xl font-bold leading-8 text-navy">{kpi.value}</span>
             </div>
           ))}
         </div>
@@ -107,13 +107,13 @@ export function AnalyticsView({
                   <ClockIcon className="h-6 w-6 text-gray-700" />
                 </span>
                 <div className="flex flex-1 flex-col gap-[9px]">
-                  <span className="text-sm font-normal leading-[17px] text-gray-700">
+                  <span className="text-sm font-normal leading-5 text-gray-700">
                     {r.label}
                   </span>
                   <div className="flex items-center gap-[19px]">
-                    <span className="text-2xl font-bold leading-[29px] text-navy">{r.value}</span>
+                    <span className="text-2xl font-bold leading-8 text-navy">{r.value}</span>
                     {r.delta ? (
-                      <span className="text-sm font-medium leading-[17px] text-gray-400">
+                      <span className="text-sm font-medium leading-5 text-gray-400">
                         <span className="text-success-500">{r.delta}</span>
                         <span className="font-normal"> vs previous period</span>
                       </span>
@@ -129,8 +129,8 @@ export function AnalyticsView({
           {/* The design prints 12,456 here. It has to be the sum of the bars
               underneath it, or the panel contradicts itself. */}
           <div className="flex items-center justify-between gap-[10px] rounded-lg bg-gray-700 px-[30px] py-[11px]">
-            <span className="text-sm font-normal leading-[17px] text-gray-200">Total incidents</span>
-            <span className="text-xl font-semibold leading-6 text-gray-200">
+            <span className="text-sm font-normal leading-5 text-gray-200">Total incidents</span>
+            <span className="text-xl font-semibold leading-7 text-gray-200">
               {new Intl.NumberFormat('en-NG').format(
                 severity.reduce((total, bar) => total + bar.count, 0)
               )}
@@ -182,7 +182,7 @@ export function AnalyticsView({
                 {['7D', '30D', '3M', '1Y'].map((r) => (
                   <span
                     key={r}
-                    className={`edge flex h-6 items-center rounded-[3px] px-[9px] text-sm font-normal leading-6 ${
+                    className={`edge flex h-6 items-center rounded-[3px] px-[9px] text-sm font-normal leading-5 ${
                       r === '30D' ? 'bg-[#AFAFAF] text-gray-800' : 'text-gray-700'
                     }`}
                   >
@@ -199,7 +199,7 @@ export function AnalyticsView({
                 <div className="flex h-full flex-col justify-between">
                   {axisTicks(activityTop).map((tick, i) => (
                     <div key={i} className="flex items-center gap-1">
-                      <span className="w-8 shrink-0 text-right text-[10px] leading-[7px] text-[#6D7280]">
+                      <span className="w-8 shrink-0 text-right text-xs leading-4 text-[#6D7280]">
                         {tick}
                       </span>
                       <span className="plot-line flex-1" />
@@ -230,7 +230,7 @@ export function AnalyticsView({
                   {activity.map((point, i) => (
                     <span
                       key={i}
-                      className="flex flex-1 items-center justify-center whitespace-nowrap py-[3px] text-[10px] leading-[12px] text-[#6D7280]"
+                      className="flex flex-1 items-center justify-center whitespace-nowrap py-[3px] text-xs leading-4 text-[#6D7280]"
                     >
                       {point.label}
                     </span>
@@ -255,7 +255,7 @@ export function AnalyticsView({
                       className="h-[10px] w-[10px] rounded-full"
                       style={{ backgroundColor: entry.color }}
                     />
-                    <span className="text-xs font-medium leading-5 tracking-[-0.24px] text-[#4B5563]">
+                    <span className="text-xs font-medium leading-4 tracking-[-0.24px] text-[#4B5563]">
                       {entry.label}
                     </span>
                   </span>
@@ -276,7 +276,7 @@ export function AnalyticsView({
         <Card className="min-w-0 flex-1 px-[19px] py-5">
           <div className="flex flex-col gap-7">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">
+              <h2 className="text-sm font-semibold uppercase leading-5 text-gray-700">
                 Community activity
               </h2>
               <Select label="Last 6 months" className="w-[172px]" />
@@ -289,7 +289,7 @@ export function AnalyticsView({
                     {/* Seven rows, the design's count, from the real total. */}
                     {axisTicks(activityTop, 7).map((tick, i) => (
                       <div key={i} className="flex items-center gap-1">
-                        <span className="w-7 shrink-0 text-right text-[10px] leading-[7px] text-[#6D7280]">
+                        <span className="w-7 shrink-0 text-right text-xs leading-4 text-[#6D7280]">
                           {tick}
                         </span>
                         <span className="plot-line flex-1" />
@@ -324,7 +324,7 @@ export function AnalyticsView({
                     {activity.map((bar, i) => (
                       <span
                         key={i}
-                        className="flex w-[59px] items-center justify-center text-[10px] leading-[7px] text-[#6D7280]"
+                        className="flex w-[59px] items-center justify-center text-xs leading-4 text-[#6D7280]"
                       >
                         {bar.label}
                       </span>
@@ -340,10 +340,10 @@ export function AnalyticsView({
                       key={s.label}
                       className="edge flex h-[115px] flex-col gap-[23px] rounded-[15px] bg-[#F9F9FA] px-[19px] py-[23px]"
                     >
-                      <span className="text-sm font-normal leading-[17px] text-gray-700">
+                      <span className="text-sm font-normal leading-5 text-gray-700">
                         {s.label}
                       </span>
-                      <span className="text-2xl font-bold leading-[29px] text-navy">{s.value}</span>
+                      <span className="text-2xl font-bold leading-8 text-navy">{s.value}</span>
                     </div>
                   ))}
                 </div>
@@ -355,7 +355,7 @@ export function AnalyticsView({
                         className="h-[19px] w-[19px] shrink-0"
                         style={{ backgroundColor: l.color }}
                       />
-                      <span className="text-sm font-normal leading-[17px] text-gray-700">
+                      <span className="text-sm font-normal leading-5 text-gray-700">
                         {l.label}
                       </span>
                     </span>
@@ -374,7 +374,7 @@ export function AnalyticsView({
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="edge flex min-w-0 flex-1 flex-col gap-4 rounded-[20px] bg-[#F9F9FA] p-6">
-      <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">{title}</h2>
+      <h2 className="text-sm font-semibold uppercase leading-5 text-gray-700">{title}</h2>
       {children}
     </div>
   );

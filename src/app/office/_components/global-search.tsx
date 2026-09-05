@@ -119,7 +119,7 @@ export function GlobalSearch() {
           onFocus={() => setOpen(true)}
           placeholder="Search users, reports, tickets…"
           aria-label="Search everything"
-          className="w-full bg-transparent text-sm font-normal leading-6 text-gray-900 outline-none placeholder:text-gray-500"
+          className="w-full bg-transparent text-sm font-normal leading-5 text-gray-900 outline-none placeholder:text-gray-500"
         />
       </div>
 
@@ -221,7 +221,7 @@ function Group({
 
   return (
     <div className="flex flex-col">
-      <span className="px-3 pb-1 pt-3 text-[11px] font-semibold uppercase leading-4 tracking-[0.04em] text-gray-400">
+      <span className="px-3 pb-1 pt-3 text-xs font-semibold uppercase leading-4 tracking-[0.04em] text-gray-400">
         {label}
       </span>
       {children}

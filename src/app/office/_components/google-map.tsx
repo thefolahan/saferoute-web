@@ -263,7 +263,7 @@ export function GoogleMap({
   if (failed) {
     return (
       <div
-        className={`flex flex-col items-center justify-center gap-1 bg-[#E8E8E8] px-6 text-center text-sm leading-6 text-gray-600 ${className}`}
+        className={`flex flex-col items-center justify-center gap-1 bg-[#E8E8E8] px-6 text-center text-sm leading-5 text-gray-600 ${className}`}
       >
         <span>
           Google Maps could not be loaded. The incidents are still listed below

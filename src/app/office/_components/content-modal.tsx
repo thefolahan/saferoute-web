@@ -62,12 +62,12 @@ export function ContentModal({
             <div className="flex flex-1 flex-col gap-[9px]">
               <div className="flex flex-wrap gap-[9px]">
                 {detail.incident ? (
-                  <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-medium capitalize leading-[18px] text-error-700">
+                  <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-medium capitalize leading-4 text-error-700">
                     {detail.incident.category.replace(/_/g, ' ')}
                   </span>
                 ) : null}
                 <span
-                  className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-medium capitalize leading-[18px] ${
+                  className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-medium capitalize leading-4 ${
                     STATUS_TONE[detail.status] ?? STATUS_TONE.pending_review
                   }`}
                 >
@@ -75,11 +75,11 @@ export function ContentModal({
                 </span>
               </div>
 
-              <p className="text-base font-semibold leading-7 text-gray-900">
+              <p className="text-base font-semibold leading-6 text-gray-900">
                 Posted by {detail.author}
               </p>
 
-              <div className="flex flex-wrap gap-[5px] text-xs font-normal leading-5 tracking-[-0.24px] text-gray-500">
+              <div className="flex flex-wrap gap-[5px] text-xs font-normal leading-4 tracking-[-0.24px] text-gray-500">
                 {detail.incident ? <span>{detail.incident.publicId}</span> : null}
                 {detail.incident ? <span aria-hidden>•</span> : null}
                 <span>{detail.city ?? detail.incident?.city ?? 'Location not set'}</span>
@@ -100,7 +100,7 @@ export function ContentModal({
 
         <div className="flex flex-col px-5 pb-[26px]">
           {shown.length === 0 ? (
-            <div className="flex h-[180px] items-center justify-center rounded bg-[#F4F4F4] text-sm leading-6 text-gray-500">
+            <div className="flex h-[180px] items-center justify-center rounded bg-[#F4F4F4] text-sm leading-5 text-gray-500">
               This post has no photographs.
             </div>
           ) : (
@@ -153,10 +153,10 @@ export function ContentModal({
                   <CarIcon className="h-[35px] w-[43px]" />
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
-                  <h3 className="text-base font-semibold leading-7 text-gray-900">
+                  <h3 className="text-base font-semibold leading-6 text-gray-900">
                     {detail.incident?.title ?? 'Community post'}
                   </h3>
-                  <p className="text-[15px] font-normal leading-5 tracking-[-0.3px] text-gray-500">
+                  <p className="text-base font-normal leading-6 tracking-[-0.3px] text-gray-500">
                     {detail.caption}
                   </p>
                 </div>
@@ -178,7 +178,7 @@ export function ContentModal({
                 type="button"
                 disabled={pending || detail.status === 'published'}
                 onClick={() => run(() => setContentStatus(detail.id, 'published'), onClose)}
-                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25 disabled:opacity-50"
+                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-5 text-gray-25 disabled:opacity-50"
               >
                 <CheckIcon className="h-5 w-5 text-gray-25" />
                 {detail.status === 'published' ? 'Verified' : 'Verify post'}
@@ -187,7 +187,7 @@ export function ContentModal({
                 type="button"
                 disabled={pending}
                 onClick={() => run(() => setContentStatus(detail.id, 'rejected'), onClose)}
-                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-white disabled:opacity-50"
+                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-5 text-white disabled:opacity-50"
               >
                 <XMarkIcon className="h-5 w-5 text-white" />
                 Reject
@@ -196,7 +196,7 @@ export function ContentModal({
                 type="button"
                 disabled={pending}
                 onClick={() => run(() => setContentStatus(detail.id, 'removed'), onClose)}
-                className="edge-gray200 flex h-11 items-center justify-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700 disabled:opacity-50"
+                className="edge-gray200 flex h-11 items-center justify-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700 disabled:opacity-50"
               >
                 Take down
               </button>

@@ -29,7 +29,7 @@ export function LineChart({
     return (
       <div
         style={{ height }}
-        className="flex items-center justify-center text-[13px] leading-5 text-gray-500"
+        className="flex items-center justify-center text-sm leading-5 text-gray-500"
       >
         Not enough days of activity to draw a line yet.
       </div>

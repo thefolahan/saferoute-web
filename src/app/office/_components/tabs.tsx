@@ -33,14 +33,14 @@ export function Tabs({
             }`}
           >
             <span
-              className={`text-base font-semibold leading-[19px] ${
+              className={`text-base font-semibold leading-6 ${
                 isActive ? 'text-black' : 'text-gray-600'
               }`}
             >
               {tab.label}
             </span>
             {tab.count !== undefined ? (
-              <span className="inline-flex items-center justify-center rounded-3xl bg-gray-200 px-[9px] py-[3px] text-sm font-semibold leading-4 tracking-[-0.5px] text-gray-700">
+              <span className="inline-flex items-center justify-center rounded-3xl bg-gray-200 px-[9px] py-[3px] text-sm font-semibold leading-5 tracking-[-0.5px] text-gray-700">
                 {tab.count}
               </span>
             ) : null}
@@ -66,7 +66,7 @@ export function GoBack({
     <button
       type="button"
       onClick={() => (href ? router.push(href) : router.back())}
-      className="flex w-fit items-center gap-2 rounded-lg px-[14px] py-[10px] text-sm font-bold leading-6 text-gray-700 transition-colors hover:bg-gray-50"
+      className="flex w-fit items-center gap-2 rounded-lg px-[14px] py-[10px] text-sm font-bold leading-5 text-gray-700 transition-colors hover:bg-gray-50"
     >
       <svg width={16} height={16} viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0 rotate-180 text-gray-900">
         <path

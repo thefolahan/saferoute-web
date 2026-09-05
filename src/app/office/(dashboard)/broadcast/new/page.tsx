@@ -164,11 +164,11 @@ export default function CreateBroadcastPage() {
 
           <div className="edge flex w-full max-w-[1018px] flex-col justify-center gap-5 rounded-[15px] px-[19px] py-[23px]">
             <div className="flex flex-col justify-center gap-[10px] py-[10px]">
-              <h2 className="text-xl font-bold leading-6 text-navy">
+              <h2 className="text-xl font-bold leading-7 text-navy">
                 {step === 'preview' ? 'Preview' : 'Create broadcast'}
               </h2>
               {step === 'preview' ? null : (
-                <p className="text-[15px] font-normal leading-[18px] text-navy">
+                <p className="text-base font-normal leading-6 text-navy">
                   Create and send safety alerts to selected SafeRoute users.
                 </p>
               )}
@@ -261,7 +261,7 @@ export default function CreateBroadcastPage() {
 function SectionTitle({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center justify-center gap-[33px] py-[10px]">
-      <span className="flex-1 text-xl font-bold leading-6 text-navy">{children}</span>
+      <span className="flex-1 text-xl font-bold leading-7 text-navy">{children}</span>
     </div>
   );
 }
@@ -269,11 +269,11 @@ function SectionTitle({ children }: { children: ReactNode }) {
 function FieldLabel({ label, hint }: { label: string; hint?: string }) {
   return (
     <div className="flex w-full flex-col justify-center gap-[5px] lg:w-[180px] lg:shrink-0">
-      <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
+      <span className="text-base font-medium leading-6 tracking-[0.16px] text-black">
         {label}
       </span>
       {hint ? (
-        <span className="text-xs font-normal leading-[15px] tracking-[0.12px] text-black/50">
+        <span className="text-xs font-normal leading-4 tracking-[0.12px] text-black/50">
           {hint}
         </span>
       ) : null}
@@ -307,7 +307,7 @@ function Choice({
       />
       <span className="flex flex-col justify-center gap-[7px]">
         <span className="text-sm font-medium leading-5 text-gray-900">{label}</span>
-        <span className="text-xs font-normal leading-[15px] tracking-[0.12px] text-black/50">
+        <span className="text-xs font-normal leading-4 tracking-[0.12px] text-black/50">
           {hint}
         </span>
       </span>
@@ -360,9 +360,9 @@ function DetailsStep({
                 }
                 placeholder="What do you need people to know?"
                 aria-label="Broadcast message"
-                className="w-full flex-1 resize-none border-0 bg-transparent p-0 text-sm leading-6 text-gray-900 outline-none placeholder:text-gray-500"
+                className="w-full flex-1 resize-none border-0 bg-transparent p-0 text-sm leading-5 text-gray-900 outline-none placeholder:text-gray-500"
               />
-              <span className="self-end text-xs font-normal leading-6 text-gray-500">
+              <span className="self-end text-xs font-normal leading-4 text-gray-500">
                 {message.length}/{MESSAGE_LIMIT}
               </span>
             </div>
@@ -371,7 +371,7 @@ function DetailsStep({
           <div className="flex flex-col gap-10 py-5">
             <div className="flex flex-col gap-6 py-5 shadow-[inset_0_1px_0_0_#EEEEEE,inset_0_-1px_0_0_#EEEEEE] lg:flex-row lg:items-center lg:gap-[105px]">
               <span className="flex w-full items-center gap-[10px] lg:w-[180px] lg:shrink-0">
-                <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
+                <span className="text-base font-medium leading-6 tracking-[0.16px] text-black">
                   Severity level
                 </span>
                 <InfoIcon className="h-5 w-5 text-gray-400" />
@@ -421,7 +421,7 @@ function AudienceStep({
             onChange={(event) => onCity(event.target.value)}
             placeholder="All users"
             aria-label="City"
-            className="h-11 w-full max-w-[240px] rounded-lg bg-rule px-[14px] py-[10px] text-sm font-normal leading-6 text-gray-700 outline-none placeholder:text-gray-700"
+            className="h-11 w-full max-w-[240px] rounded-lg bg-rule px-[14px] py-[10px] text-sm font-normal leading-5 text-gray-700 outline-none placeholder:text-gray-700"
           />
         </div>
 
@@ -490,7 +490,7 @@ function ScheduleStep({
                 type="date"
                 value={date}
                 onChange={(event) => onDate(event.target.value)}
-                className="h-11 w-[172px] rounded-lg bg-rule px-[14px] py-[10px] text-sm font-normal leading-6 text-gray-700 outline-none"
+                className="h-11 w-[172px] rounded-lg bg-rule px-[14px] py-[10px] text-sm font-normal leading-5 text-gray-700 outline-none"
               />
             </label>
 
@@ -500,7 +500,7 @@ function ScheduleStep({
                 type="time"
                 value={time}
                 onChange={(event) => onTime(event.target.value)}
-                className="h-11 w-[172px] rounded-lg bg-rule px-[14px] py-[10px] text-sm font-normal leading-6 text-gray-700 outline-none"
+                className="h-11 w-[172px] rounded-lg bg-rule px-[14px] py-[10px] text-sm font-normal leading-5 text-gray-700 outline-none"
               />
             </label>
 
@@ -510,7 +510,7 @@ function ScheduleStep({
               out — who is standing inside a circle at 6pm is not knowable at
               9am, so this needs a job, not a timer on this page.
             */}
-            <p className="max-w-[520px] text-xs font-normal leading-[18px] text-gray-500">
+            <p className="max-w-[520px] text-xs font-normal leading-4 text-gray-500">
               Scheduled broadcasts are saved with their send time and appear on
               the broadcast list as Scheduled. The job that sends them at that
               time has not been built yet, so send now if it must go out today.
@@ -547,13 +547,13 @@ function PreviewStep({
   return (
     <div className="flex flex-col gap-[30px] py-[17px] xl:pl-[231px]">
       <PreviewRow label="Title:">
-        <span className="text-xl font-semibold leading-5 tracking-[-0.4px] text-gray-900">
+        <span className="text-xl font-semibold leading-7 tracking-[-0.4px] text-gray-900">
           {title || '—'}
         </span>
       </PreviewRow>
 
       <PreviewRow label="Subtext:">
-        <p className="max-w-[358px] text-sm font-medium leading-6 tracking-[-0.28px] text-gray-900">
+        <p className="max-w-[358px] text-sm font-medium leading-5 tracking-[-0.28px] text-gray-900">
           {message || '—'}
         </p>
       </PreviewRow>
@@ -611,7 +611,7 @@ function PreviewStep({
 function PreviewRow({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:gap-[80px]">
-      <span className="w-[70px] shrink-0 text-sm font-medium leading-[17px] tracking-[0.14px] text-gray-700">
+      <span className="w-[70px] shrink-0 text-sm font-medium leading-5 tracking-[0.14px] text-gray-700">
         {label}
       </span>
       {children}
@@ -670,7 +670,7 @@ function Footer({
           type="button"
           onClick={onNext}
           disabled={pending || disabled}
-          className="flex h-11 items-center rounded-lg bg-black px-[14px] py-[10px] text-sm font-semibold leading-6 text-gray-50 disabled:opacity-60"
+          className="flex h-11 items-center rounded-lg bg-black px-[14px] py-[10px] text-sm font-semibold leading-5 text-gray-50 disabled:opacity-60"
         >
           {pending ? 'Sending…' : cta}
         </button>

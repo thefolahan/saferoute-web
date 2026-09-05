@@ -78,10 +78,10 @@ export function BroadcastView({
       <div className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">
           <div className="flex flex-col justify-center gap-[10px]">
-            <h2 className="text-2xl font-medium leading-tight text-gray-500 sm:text-[32px] sm:leading-[39px]">
+            <h2 className="text-2xl font-medium leading-8 text-gray-500 sm:text-[32px] sm:leading-[39px]">
               Welcome back, <span className="text-gray-900">{adminName}</span> 👋
             </h2>
-            <p className="text-base font-normal leading-[19px] text-gray-500">
+            <p className="text-base font-normal leading-6 text-gray-500">
               Here&apos;s what&apos;s happening across SafeRoute today.
             </p>
           </div>
@@ -91,7 +91,7 @@ export function BroadcastView({
             className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-black px-[14px] py-[10px]"
           >
             <PlusIcon className="h-4 w-4 text-gray-50" />
-            <span className="text-sm font-medium leading-6 text-gray-50">
+            <span className="text-sm font-medium leading-5 text-gray-50">
               Create New broadcast
             </span>
           </Link>

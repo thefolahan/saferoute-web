@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { Shell } from '../../_components/shell';
 import { Tabs } from '../../_components/tabs';
-import { RANGES, Select } from '../../_components/ui';
+import { Select } from '../../_components/ui';
+import { RANGES } from '../../_lib/ranges';
 import { DataTable, Pagination, type Column } from '../../_components/table';
 import { Avatar } from '../../_components/avatar';
 import {
@@ -67,10 +68,10 @@ export function VerificationView({
               key={s.label}
               className="edge flex flex-col gap-[23px] rounded-[15px] px-[19px] py-[23px]"
             >
-              <span className="text-sm font-normal leading-[17px] text-gray-700">{s.label}</span>
+              <span className="text-sm font-normal leading-5 text-gray-700">{s.label}</span>
               <div className="flex flex-col gap-[5px]">
-                <span className={`text-2xl font-bold leading-[29px] ${s.color}`}>{s.value}</span>
-                <span className="text-xs font-normal leading-[15px] text-gray-500">{s.note}</span>
+                <span className={`text-2xl font-bold leading-8 ${s.color}`}>{s.value}</span>
+                <span className="text-xs font-normal leading-4 text-gray-500">{s.note}</span>
               </div>
             </div>
           ))}
@@ -108,7 +109,7 @@ export function VerificationView({
                       <span className="text-sm font-semibold leading-5 text-[#2F3037]">
                         {row.applicant.name}
                       </span>
-                      <span className="flex gap-[6px] text-xs font-normal leading-5 text-[#767B8C]">
+                      <span className="flex gap-[6px] text-xs font-normal leading-4 text-[#767B8C]">
                         <span>{row.applicant.role}</span>
                         <span aria-hidden>•</span>
                         <span>{row.applicant.city}</span>
@@ -125,10 +126,10 @@ export function VerificationView({
                       rounded="8px"
                     />
                     <span className="flex flex-col justify-center gap-1">
-                      <span className="text-sm font-semibold leading-[17px] text-gray-900">
+                      <span className="text-sm font-semibold leading-5 text-gray-900">
                         {row.applicant.name}
                       </span>
-                      <span className="text-xs font-normal leading-5 text-[#767B8C]">
+                      <span className="text-xs font-normal leading-4 text-[#767B8C]">
                         {row.applicant.role}
                       </span>
                     </span>
@@ -137,7 +138,7 @@ export function VerificationView({
               case 'status':
                 return (
                   <span
-                    className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-[18px] ${
+                    className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-4 ${
                       row.status === 'Rejected'
                         ? 'bg-error-50 text-error-700'
                         : 'bg-warning-50 text-warning-700'

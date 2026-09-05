@@ -37,7 +37,7 @@ export default async function OfficeLoginPage() {
       </div>
 
       <Reveal delay={200} className="flex flex-col items-center gap-2.5">
-        <span className="text-[13px] font-normal leading-4 text-gray-400 sm:text-[14px]">
+        <span className="text-sm font-normal leading-5 text-gray-400 sm:text-sm">
           Authorised staff only.
         </span>
       </Reveal>

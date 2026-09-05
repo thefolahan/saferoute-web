@@ -68,7 +68,7 @@ export function ConfigurationView({ profile }: { profile: AdminProfile }) {
               key={s}
               type="button"
               onClick={() => setSection(s)}
-              className={`flex h-[39px] items-center gap-[10px] px-2 py-[10px] text-left text-base font-medium leading-[19px] text-navy ${
+              className={`flex h-[39px] items-center gap-[10px] px-2 py-[10px] text-left text-base font-medium leading-6 text-navy ${
                 s === section ? 'bg-[#E2E2E2] shadow-[inset_-3px_0_0_0_#000000]' : ''
               }`}
             >
@@ -92,13 +92,13 @@ export function ConfigurationView({ profile }: { profile: AdminProfile }) {
                     type="button"
                     onClick={signOut}
                     disabled={signingOut}
-                    className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-error-500 px-[14px] py-[10px] text-sm font-medium leading-6 text-white disabled:opacity-60"
+                    className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-error-500 px-[14px] py-[10px] text-sm font-medium leading-5 text-white disabled:opacity-60"
                   >
                     {signingOut ? 'Signing out…' : 'Log out'}
                   </button>
                 }
               />
-              <p className="max-w-[610px] py-5 text-sm font-normal leading-[22px] text-gray-600">
+              <p className="max-w-[610px] py-5 text-sm font-normal leading-5 text-gray-600">
                 Signing out revokes this session on the server as well as
                 clearing it here, so an open tab elsewhere on this device stops
                 working too.
@@ -123,8 +123,8 @@ function PanelHeader({
   return (
     <div className="flex flex-wrap items-center gap-5">
       <div className="flex flex-1 flex-col justify-center gap-[10px] py-[10px]">
-        <h2 className="text-xl font-bold leading-6 text-navy">{title}</h2>
-        <p className="text-[15px] font-normal leading-[18px] text-navy">{subtitle}</p>
+        <h2 className="text-xl font-bold leading-7 text-navy">{title}</h2>
+        <p className="text-base font-normal leading-6 text-navy">{subtitle}</p>
       </div>
       {action}
     </div>
@@ -145,7 +145,7 @@ function SaveButton({
       type="button"
       onClick={onClick}
       disabled={pending || disabled}
-      className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-black px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-50 disabled:opacity-60"
+      className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-black px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-50 disabled:opacity-60"
     >
       {pending ? 'Saving…' : 'Save changes'}
     </button>
@@ -188,7 +188,7 @@ function FormRow({
     <label className="flex flex-col gap-2 sm:flex-row sm:gap-[60px]">
       {/* `self-center` centres the label horizontally once the row stacks,
           so it only applies from the breakpoint where the row is a row. */}
-      <span className="w-full text-base font-normal leading-[19px] tracking-[0.16px] text-black/50 sm:w-[180px] sm:shrink-0 sm:self-center">
+      <span className="w-full text-base font-normal leading-6 tracking-[0.16px] text-black/50 sm:w-[180px] sm:shrink-0 sm:self-center">
         {label}
       </span>
       <span className="flex w-full max-w-[370px] flex-col gap-1">
@@ -203,7 +203,7 @@ function FormRow({
           }`}
         />
         {hint ? (
-          <span className="text-xs font-normal leading-[15px] text-gray-500">{hint}</span>
+          <span className="text-xs font-normal leading-4 text-gray-500">{hint}</span>
         ) : null}
       </span>
     </label>
@@ -250,10 +250,10 @@ function ProfilePanel({ profile }: { profile: AdminProfile }) {
             size={100}
           />
           <div className="flex w-full max-w-[348px] flex-col justify-center gap-1">
-            <span className="text-xl font-medium leading-6 tracking-[0.2px] text-black">
+            <span className="text-xl font-medium leading-7 tracking-[0.2px] text-black">
               {fullName || profile.email}
             </span>
-            <span className="inline-flex w-fit items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium capitalize leading-[18px] text-gray-700">
+            <span className="inline-flex w-fit items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium capitalize leading-5 text-gray-700">
               {profile.role.replace(/_/g, ' ')}
             </span>
           </div>
@@ -273,7 +273,7 @@ function ProfilePanel({ profile }: { profile: AdminProfile }) {
         </div>
 
         <div className="flex w-full max-w-[610px] flex-col gap-5 py-[17px]">
-          <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
+          <span className="text-base font-medium leading-6 tracking-[0.16px] text-black">
             Personal Information
           </span>
           <div className="flex flex-col gap-5">
@@ -343,7 +343,7 @@ function SecurityPanel({ profile }: { profile: AdminProfile }) {
 
       <div className="flex flex-col gap-5 py-5">
         <div className="flex w-full max-w-[610px] flex-col gap-5 py-[17px]">
-          <span className="text-base font-medium leading-[19px] tracking-[0.16px] text-black">
+          <span className="text-base font-medium leading-6 tracking-[0.16px] text-black">
             Change password
           </span>
           <div className="flex flex-col gap-5">
@@ -378,10 +378,10 @@ function SecurityPanel({ profile }: { profile: AdminProfile }) {
 
         <div className="flex w-full max-w-[610px] flex-col gap-5 py-[17px]">
           <div className="flex flex-col gap-1">
-            <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
+            <span className="text-base font-semibold leading-6 tracking-[0.16px] text-black">
               Two-Factor Authentication
             </span>
-            <span className="text-sm font-normal leading-[17px] text-gray-600">
+            <span className="text-sm font-normal leading-5 text-gray-600">
               Required on every admin account; it is set up at first sign-in.
             </span>
           </div>
@@ -416,15 +416,15 @@ function StatusRow({
 }) {
   return (
     <div className="flex w-full max-w-[380px] items-center justify-between gap-6">
-      <span className="text-base font-normal leading-[19px] tracking-[0.16px] text-black">
+      <span className="text-base font-normal leading-6 tracking-[0.16px] text-black">
         {label}
       </span>
       {tone === 'success' ? (
-        <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-sm font-semibold leading-[18px] text-success-700">
+        <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-sm font-semibold leading-5 text-success-700">
           {value}
         </span>
       ) : (
-        <span className="text-base font-normal leading-[19px] text-gray-600">{value}</span>
+        <span className="text-base font-normal leading-6 text-gray-600">{value}</span>
       )}
     </div>
   );
@@ -454,11 +454,11 @@ function ToggleGroup({
     <div className="edge-bottom flex flex-col gap-5 py-5 xl:pr-[180px]">
       <div className="flex items-center justify-between gap-5">
         <div className="flex flex-col justify-center gap-1">
-          <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
+          <span className="text-base font-semibold leading-6 tracking-[0.16px] text-black">
             {title}
           </span>
           {subtitle ? (
-            <span className="text-sm font-normal leading-[17px] text-gray-600">
+            <span className="text-sm font-normal leading-5 text-gray-600">
               {subtitle}
             </span>
           ) : null}
@@ -472,7 +472,7 @@ function ToggleGroup({
 
           return (
             <div key={item} className="flex items-center justify-between gap-6">
-              <span className="text-base font-normal leading-[19px] tracking-[0.16px] text-black">
+              <span className="text-base font-normal leading-6 tracking-[0.16px] text-black">
                 {item}
               </span>
               <PrefToggle
@@ -542,14 +542,14 @@ function ChoiceRow({
 }) {
   return (
     <label className="flex w-full max-w-[380px] items-center justify-between gap-6">
-      <span className="text-base font-normal leading-[19px] tracking-[0.16px] text-black">
+      <span className="text-base font-normal leading-6 tracking-[0.16px] text-black">
         {label}
       </span>
       <select
         value={value}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-lg bg-white px-2 py-1 text-right text-base font-semibold leading-[19px] text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA] outline-none disabled:opacity-50"
+        className="rounded-lg bg-white px-2 py-1 text-right text-base font-semibold leading-6 text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA] outline-none disabled:opacity-50"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -660,10 +660,10 @@ function PreferencePanel({ profile }: { profile: AdminProfile }) {
 
       <div className="edge-bottom flex flex-col gap-5 py-5 xl:pr-[180px]">
         <div className="flex flex-col justify-center gap-1">
-          <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
+          <span className="text-base font-semibold leading-6 tracking-[0.16px] text-black">
             Theme
           </span>
-          <span className="text-sm font-normal leading-[17px] text-gray-600">
+          <span className="text-sm font-normal leading-5 text-gray-600">
             Choose your preferred dashboard theme.
           </span>
         </div>
@@ -671,7 +671,7 @@ function PreferencePanel({ profile }: { profile: AdminProfile }) {
           {['Light mode', 'Dark mode', 'System mode'].map((option) => (
             <label
               key={option}
-              className="flex items-center justify-between gap-6 text-base font-normal leading-[19px] tracking-[0.16px] text-black"
+              className="flex items-center justify-between gap-6 text-base font-normal leading-6 tracking-[0.16px] text-black"
             >
               {option}
               <input
@@ -690,14 +690,14 @@ function PreferencePanel({ profile }: { profile: AdminProfile }) {
           choice is remembered rather than applied. Said plainly instead of
           leaving a control that appears to do nothing.
         */}
-        <span className="text-xs font-normal leading-[15px] text-gray-500">
+        <span className="text-xs font-normal leading-4 text-gray-500">
           Saved to your profile. A dark palette has not been built yet, so the
           dashboard stays light whichever you pick.
         </span>
       </div>
 
       <div className="edge-bottom flex flex-col gap-5 py-5 xl:pr-[180px]">
-        <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
+        <span className="text-base font-semibold leading-6 tracking-[0.16px] text-black">
           Language &amp; Region
         </span>
         <div className="flex w-full max-w-[380px] flex-col gap-5 py-[10px]">
@@ -724,7 +724,7 @@ function PreferencePanel({ profile }: { profile: AdminProfile }) {
       </div>
 
       <div className="flex flex-col gap-5 py-5 xl:pr-[180px]">
-        <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-black">
+        <span className="text-base font-semibold leading-6 tracking-[0.16px] text-black">
           Date &amp; Time
         </span>
         <div className="flex w-full max-w-[380px] flex-col gap-5 py-[10px]">

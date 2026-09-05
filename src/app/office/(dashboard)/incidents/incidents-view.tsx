@@ -160,7 +160,7 @@ export function IncidentsView({
               })}
             </div>
 
-            <p className="text-[15px] font-semibold leading-[18px] text-[#1A1A1A]">
+            <p className="text-base font-semibold leading-6 text-[#1A1A1A]">
               {total} incident{total === 1 ? '' : 's'} reported
             </p>
           </div>
@@ -184,14 +184,14 @@ export function IncidentsView({
                     <Avatar src={inc.avatarUrl} name={inc.name} size={54} />
                     <div className="flex flex-col justify-center gap-[7px]">
                       <div className="flex items-center gap-1">
-                        <span className="line-clamp-2 text-sm font-semibold leading-[14px] text-gray-900">
+                        <span className="line-clamp-2 text-sm font-semibold leading-5 text-gray-900">
                           {inc.name}
                         </span>
                         {inc.verified ? (
                           <VerifiedBadgeIcon className="h-3 w-3 shrink-0" />
                         ) : null}
                       </div>
-                      <span className="inline-flex w-fit items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-medium leading-[18px] text-error-700">
+                      <span className="inline-flex w-fit items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-medium leading-4 text-error-700">
                         {inc.severity}
                       </span>
                     </div>
@@ -206,7 +206,7 @@ export function IncidentsView({
                       className="h-4 w-4 shrink-0"
                       style={{ color: SOURCE_COLOR[inc.source] }}
                     />
-                    <span className="text-xs font-medium leading-5 tracking-[-0.24px] text-gray-500">
+                    <span className="text-xs font-medium leading-4 tracking-[-0.24px] text-gray-500">
                       {inc.source}
                     </span>
                   </span>
@@ -239,21 +239,21 @@ function IncidentDetailPanel({
     <div className="flex min-w-0 flex-1 flex-col border-b border-rule bg-white pb-[26px] xl:border-l">
       <div className="flex items-center justify-between gap-[10px] px-5 py-[14px]">
         <div className="flex gap-[10px]">
-          <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-semibold leading-[18px] text-error-700 capitalize">
+          <span className="inline-flex items-center justify-center rounded-2xl bg-error-50 px-3 py-1 text-xs font-semibold leading-4 text-error-700 capitalize">
             {detail.severity}
           </span>
-          <span className="inline-flex items-center justify-center rounded-2xl bg-warning-50 px-3 py-1 text-xs font-semibold leading-[18px] text-warning-700">
+          <span className="inline-flex items-center justify-center rounded-2xl bg-warning-50 px-3 py-1 text-xs font-semibold leading-4 text-warning-700">
             {detail.status.replace(/_/g, ' ')}
           </span>
         </div>
-        <span className="text-sm font-normal leading-[18px] tracking-[-0.42px] text-gray-500">
+        <span className="text-sm font-normal leading-5 tracking-[-0.42px] text-gray-500">
           {detail.reportedAt}
         </span>
       </div>
 
       {/* Media strip — 358x274 shots, clipped by the panel */}
       {detail.media.length === 0 ? (
-        <div className="flex h-[120px] items-center justify-center bg-[#EFEFEF] px-5 text-sm leading-6 text-gray-500">
+        <div className="flex h-[120px] items-center justify-center bg-[#EFEFEF] px-5 text-sm leading-5 text-gray-500">
           No photographs were filed with this report.
         </div>
       ) : (
@@ -281,10 +281,10 @@ function IncidentDetailPanel({
               <CarIcon className="h-[35px] w-[43px]" />
             </div>
             <div className="flex flex-1 flex-col gap-2">
-              <h3 className="text-base font-semibold leading-7 text-gray-900">
+              <h3 className="text-base font-semibold leading-6 text-gray-900">
                 {detail.title}
               </h3>
-              <p className="text-[15px] font-normal leading-5 tracking-[-0.3px] text-gray-500">
+              <p className="text-base font-normal leading-6 tracking-[-0.3px] text-gray-500">
                 {detail.description}
               </p>
             </div>
@@ -311,17 +311,17 @@ function IncidentDetailPanel({
                 drawing three stock faces plus a fixed "+5" over a live number
                 said five people had confirmed a report that one had.
               */}
-              <span className="text-xs font-normal leading-[18px] text-gray-500">
+              <span className="text-xs font-normal leading-4 text-gray-500">
                 {detail.confirmations} signal{detail.confirmations === 1 ? '' : 's'}
               </span>
             </div>
             {/* Figma 907:16496 — a 24px Gray/200 rule between the two halves */}
             <span className="h-6 w-px shrink-0 bg-gray-200" />
             <span className="flex flex-1 items-center justify-end gap-1">
-              <span className="text-xs font-normal leading-[18px] tracking-[-0.36px] text-gray-500">
+              <span className="text-xs font-normal leading-4 tracking-[-0.36px] text-gray-500">
                 Severity
               </span>
-              <span className="text-xs font-medium capitalize leading-[18px] tracking-[-0.24px] text-warning-500">
+              <span className="text-xs font-medium capitalize leading-4 tracking-[-0.24px] text-warning-500">
                 {detail.severity}
               </span>
             </span>
@@ -342,7 +342,7 @@ function IncidentDetailPanel({
             {detail.reporterId ? (
               <Link
                 href={`${officeHref(base, 'users/community')}?id=${detail.reporterId}`}
-                className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-black px-4 py-1 text-sm font-semibold leading-6 text-gray-25"
+                className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-black px-4 py-1 text-sm font-semibold leading-5 text-gray-25"
               >
                 View profile
               </Link>
@@ -351,7 +351,7 @@ function IncidentDetailPanel({
               type="button"
               disabled={pending || decided}
               onClick={() => run(() => decideIncident(detail.id, 'approve'))}
-              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-1 pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25 disabled:opacity-50"
+              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-1 pl-[6px] pr-4 text-sm font-semibold leading-5 text-gray-25 disabled:opacity-50"
             >
               <CheckIcon className="h-5 w-5 text-gray-25" />
               {detail.status === 'verified' ? 'Approved' : 'Approve'}
@@ -360,7 +360,7 @@ function IncidentDetailPanel({
               type="button"
               disabled={pending || decided}
               onClick={() => run(() => decideIncident(detail.id, 'reject'))}
-              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-1 pl-[6px] pr-4 text-sm font-semibold leading-6 text-white disabled:opacity-50"
+              className="flex h-8 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-1 pl-[6px] pr-4 text-sm font-semibold leading-5 text-white disabled:opacity-50"
             >
               <XMarkIcon className="h-5 w-5 text-white" />
               {detail.status === 'rejected' ? 'Rejected' : 'Reject'}

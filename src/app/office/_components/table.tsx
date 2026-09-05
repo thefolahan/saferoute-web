@@ -50,7 +50,7 @@ export function DataTable<T>({
 }) {
   if (rows.length === 0 && empty) {
     return (
-      <div className="px-4 py-16 text-center text-sm leading-6 text-gray-500 sm:px-6 lg:px-8">
+      <div className="px-4 py-16 text-center text-sm leading-5 text-gray-500 sm:px-6 lg:px-8">
         {empty}
       </div>
     );
@@ -92,7 +92,7 @@ export function DataTable<T>({
               {columns.map((c) => (
                 <th
                   key={c.key}
-                  className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] text-[13px] font-medium leading-[18px] text-[#667085]"
+                  className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] text-sm font-medium leading-5 text-[#667085]"
                   style={{
                     paddingLeft: c.pad ?? 24,
                     paddingRight: c.pad ?? 24,
@@ -144,7 +144,7 @@ export function DataTable<T>({
             className="flex flex-col gap-3 border-b border-[#EAECF0] px-4 py-4 sm:px-6"
           >
             {selection ? (
-              <label className="flex items-center gap-2 text-[11px] font-medium uppercase leading-[18px] tracking-[0.4px] text-[#667085]">
+              <label className="flex items-center gap-2 text-xs font-medium uppercase leading-4 tracking-[0.4px] text-[#667085]">
                 <input
                   type="checkbox"
                   checked={selection.selected.has(rowKey(row, i))}
@@ -170,7 +170,7 @@ export function DataTable<T>({
 
               return (
                 <div key={c.key} className="flex items-start justify-between gap-4">
-                  <span className="shrink-0 text-[11px] font-medium uppercase leading-[18px] tracking-[0.4px] text-[#667085]">
+                  <span className="shrink-0 text-xs font-medium uppercase leading-4 tracking-[0.4px] text-[#667085]">
                     {c.label}
                   </span>
                   <span className="min-w-0 text-right">{content}</span>
@@ -206,7 +206,7 @@ export function CompactTable({
   minWidth?: number;
 }) {
   if (rows.length === 0) {
-    return <p className="text-sm leading-6 text-gray-500">{empty}</p>;
+    return <p className="text-sm leading-5 text-gray-500">{empty}</p>;
   }
 
   return (
@@ -217,7 +217,7 @@ export function CompactTable({
             {head.map((cell, i) => (
               <th
                 key={i}
-                className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] px-4 text-left text-[13px] font-medium leading-[18px] text-[#667085]"
+                className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] px-4 text-left text-sm font-medium leading-5 text-[#667085]"
               >
                 {cell}
               </th>
@@ -265,7 +265,7 @@ export function CellUser({
       <Avatar src={avatarUrl} name={name} size={35} />
       <span className="flex flex-col justify-center">
         <span className="text-sm font-medium leading-5 text-[#2F3037]">{name}</span>
-        <span className="text-xs font-normal leading-5 text-[#767B8C]">{sub}</span>
+        <span className="text-xs font-normal leading-4 text-[#767B8C]">{sub}</span>
       </span>
     </span>
   );
@@ -274,7 +274,7 @@ export function CellUser({
 /** The square-ish "ID Verified" chip — pad 7/11, radius 5, #F2F4F7. */
 export function CellChip({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-[18px] text-gray-700">
+    <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-5 text-gray-700">
       {children}
     </span>
   );

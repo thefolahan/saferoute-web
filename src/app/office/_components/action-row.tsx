@@ -63,19 +63,19 @@ export function ActionRow({
             {row.badges.map((b) => (
               <span
                 key={b.text}
-                className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-[18px] ${BADGE_CLASS[b.tone]}`}
+                className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-4 ${BADGE_CLASS[b.tone]}`}
               >
                 {b.text}
               </span>
             ))}
           </div>
 
-          <p className="text-base leading-7">
+          <p className="text-base leading-6">
             <span className="font-semibold text-gray-900">{row.lead}</span>
             {row.rest ? <span className="font-medium text-gray-600">{row.rest}</span> : null}
           </p>
 
-          <div className="flex flex-wrap gap-[5px] text-xs font-normal leading-5 tracking-[-0.24px] text-gray-500">
+          <div className="flex flex-wrap gap-[5px] text-xs font-normal leading-4 tracking-[-0.24px] text-gray-500">
             {row.meta.map((m, i) => (
               <span key={m} className="flex gap-[5px]">
                 {i > 0 ? <span aria-hidden>•</span> : null}

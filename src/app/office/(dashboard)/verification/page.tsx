@@ -1,5 +1,5 @@
 import { officeFetch } from '../../_lib/session';
-import { rangeToDates } from '../../_components/ui';
+import { rangeToDates } from '../../_lib/ranges';
 import {
   VerificationView,
   type Stat,

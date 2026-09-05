@@ -94,10 +94,10 @@ export function VerificationModal({
           <div className="flex flex-1 flex-col justify-center gap-[25px]">
             <div className="flex flex-col justify-center gap-[11px]">
               <div className="flex flex-col gap-[9px]">
-                <span className="text-sm font-medium leading-[17px] text-gray-500">
+                <span className="text-sm font-medium leading-5 text-gray-500">
                   Application ID: {subject.reference}
                 </span>
-                <span className="text-xl font-semibold leading-6 text-black">
+                <span className="text-xl font-semibold leading-7 text-black">
                   {subject.name}
                 </span>
               </div>
@@ -111,13 +111,13 @@ export function VerificationModal({
                 </span>
                 <span className="inline-flex items-center justify-center gap-1 rounded-2xl bg-warning-50 px-3 py-[10px]">
                   <PendingIcon className="h-6 w-6" />
-                  <span className="text-sm font-medium leading-[18px] text-warning-700">
+                  <span className="text-sm font-medium leading-5 text-warning-700">
                     {subject.status}
                   </span>
                 </span>
               </div>
 
-              <span className="text-sm font-medium leading-[17px] text-gray-500">
+              <span className="text-sm font-medium leading-5 text-gray-500">
                 Submitted {subject.submitted}
                 {subject.city ? ` · ${subject.city}` : ''}
               </span>
@@ -147,12 +147,12 @@ export function VerificationModal({
                 <div className="flex flex-1 flex-col gap-[30px]">
                   <div className="flex flex-col justify-center">
                     <span
-                      className="bg-clip-text text-base font-bold leading-[21px] text-transparent"
+                      className="bg-clip-text text-base font-bold leading-6 text-transparent"
                       style={{ backgroundImage: 'linear-gradient(90deg, #2F1A1A 0%, #E94B3E 100%)' }}
                     >
                       AI Verification Checker
                     </span>
-                    <span className="text-xs font-medium leading-[21px] text-black">
+                    <span className="text-xs font-medium leading-4 text-black">
                       Powered By SafeRoute AI
                     </span>
                   </div>
@@ -165,7 +165,7 @@ export function VerificationModal({
                     <span className="text-[40px] font-bold leading-[48px] text-success-950">
                       —
                     </span>
-                    <span className="text-xs font-medium leading-[15px] text-success-950">
+                    <span className="text-xs font-medium leading-4 text-success-950">
                       Automated checks
                       <br />
                       are not running yet
@@ -175,7 +175,7 @@ export function VerificationModal({
               </div>
 
               <div className="flex flex-1 flex-col">
-                <p className="max-w-[420px] text-sm font-normal leading-[20px] text-gray-500">
+                <p className="max-w-[420px] text-sm font-normal leading-5 text-gray-500">
                   {CHECKS.flat().join(', ')} and duplicate-account detection are
                   the checks this panel is built for. Until they exist, the
                   decision below rests entirely on the documents and the
@@ -201,7 +201,7 @@ export function VerificationModal({
             </div>
 
             {subject.documents.length === 0 ? (
-              <p className="py-8 text-sm leading-6 text-gray-500">
+              <p className="py-8 text-sm leading-5 text-gray-500">
                 This applicant has not uploaded a document. Request one before
                 deciding.
               </p>
@@ -221,7 +221,7 @@ export function VerificationModal({
                       alt="Identity document"
                       className="h-[145px] w-[227px] rounded-[9px] object-cover opacity-50"
                     />
-                    <span className="absolute flex h-[30px] items-center justify-center rounded-[7px] bg-white px-[10px] py-[7px] text-sm font-semibold leading-[17px] text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA]">
+                    <span className="absolute flex h-[30px] items-center justify-center rounded-[7px] bg-white px-[10px] py-[7px] text-sm font-semibold leading-5 text-gray-700 shadow-[inset_0_0_0_1px_#D5D7DA]">
                       Preview
                     </span>
                   </a>
@@ -252,7 +252,7 @@ export function VerificationModal({
               type="button"
               disabled
               title="Messaging an applicant from the dashboard is not built yet."
-              className="edge-gray200 flex h-11 cursor-not-allowed items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-400"
+              className="edge-gray200 flex h-11 cursor-not-allowed items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-400"
             >
               <MessageIcon className="h-4 w-4 text-gray-400" />
               Request info
@@ -265,7 +265,7 @@ export function VerificationModal({
                 onClick={() =>
                   run(() => decideVerification(subject.id, 'approved'), onClose)
                 }
-                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-gray-25 disabled:opacity-60"
+                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-success-800 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-5 text-gray-25 disabled:opacity-60"
               >
                 <CheckIcon className="h-5 w-5 text-gray-25" />
                 {pending ? 'Working…' : 'Approve'}
@@ -276,7 +276,7 @@ export function VerificationModal({
                 onClick={() =>
                   run(() => decideVerification(subject.id, 'rejected'), onClose)
                 }
-                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-6 text-white disabled:opacity-60"
+                className="flex h-11 items-center justify-center gap-[3px] rounded-lg bg-error-500 py-[10px] pl-[6px] pr-4 text-sm font-semibold leading-5 text-white disabled:opacity-60"
               >
                 <XMarkIcon className="h-5 w-5 text-white" />
                 Reject

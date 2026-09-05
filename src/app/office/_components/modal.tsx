@@ -69,7 +69,7 @@ export function ModalCancel({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="edge flex h-11 items-center justify-center rounded-lg px-[33px] py-[10px] text-sm font-medium leading-6 text-gray-600 disabled:opacity-50"
+      className="edge flex h-11 items-center justify-center rounded-lg px-[33px] py-[10px] text-sm font-medium leading-5 text-gray-600 disabled:opacity-50"
     >
       Cancel
     </button>
@@ -95,7 +95,7 @@ export function ModalAction({
       type="button"
       onClick={onClick}
       disabled={pending || disabled}
-      className={`flex h-11 items-center justify-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-50 disabled:opacity-60 ${
+      className={`flex h-11 items-center justify-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-50 disabled:opacity-60 ${
         tone === 'danger' ? 'bg-error-500' : 'bg-black'
       }`}
     >

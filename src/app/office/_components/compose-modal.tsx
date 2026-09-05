@@ -101,7 +101,7 @@ export function ComposeModal({
                 type="button"
                 onClick={onSubmit ?? onClose}
                 disabled={pending || disabled}
-                className="flex h-11 items-center rounded-lg bg-black px-[14px] py-[10px] text-sm font-semibold leading-6 text-gray-50 disabled:opacity-60"
+                className="flex h-11 items-center rounded-lg bg-black px-[14px] py-[10px] text-sm font-semibold leading-5 text-gray-50 disabled:opacity-60"
               >
                 {pending ? 'Sending…' : cta}
               </button>
@@ -142,7 +142,7 @@ export function ComposeField({
   return (
     <label className="flex flex-col sm:flex-row" style={{ gap: gutter }}>
       <span
-        className="shrink-0 text-sm font-medium leading-[17px] tracking-[0.14px] text-gray-700"
+        className="shrink-0 text-sm font-medium leading-5 tracking-[0.14px] text-gray-700"
         style={{ width: labelWidth }}
       >
         {label}
@@ -184,7 +184,7 @@ export function AttachButton() {
       type="button"
       disabled
       title="Attachments on a reply are not built yet."
-      className="edge-grey50 flex h-[50px] w-fit cursor-not-allowed items-center justify-center gap-1 rounded-lg bg-white px-6 py-[10px] text-sm font-bold leading-[30px] text-gray-400"
+      className="edge-grey50 flex h-[50px] w-fit cursor-not-allowed items-center justify-center gap-1 rounded-lg bg-white px-6 py-[10px] text-sm font-bold leading-5 text-gray-400"
     >
       <AttachIcon className="h-[23px] w-[23px]" />
       Attach files

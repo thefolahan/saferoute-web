@@ -129,7 +129,7 @@ export function Badge({
 }) {
   return (
     <span
-      className={`inline-flex items-center justify-center gap-[6px] rounded-2xl px-3 py-1 text-center text-xs font-medium leading-[18px] ${BADGE_TONES[tone]}`}
+      className={`inline-flex items-center justify-center gap-[6px] rounded-2xl px-3 py-1 text-center text-xs font-medium leading-4 ${BADGE_TONES[tone]}`}
     >
       {dot ? <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-current" /> : null}
       {children}
@@ -168,6 +168,32 @@ export function fieldShell(tone: FieldTone = 'filter', extra = '') {
   return `flex h-11 items-center gap-2 rounded-lg px-[14px] py-[10px] ${TONES[tone]} ${extra}`;
 }
 
+/**
+ * THE TYPE SCALE
+ *
+ * Six sizes, one line height each — Tailwind's own defaults:
+ *
+ *   text-xs   12/16   leading-4    labels, chips, timestamps
+ *   text-sm   14/20   leading-5    body, table cells, buttons
+ *   text-base 16/24   leading-6    fields, emphasised body
+ *   text-lg   18/28   leading-7    panel headings
+ *   text-xl   20/28   leading-7    card headings
+ *   text-2xl  24/32   leading-8    page figures
+ *
+ * Never write an arbitrary `leading-[Npx]` beside one of these, and never
+ * reach for an off-scale `text-[13px]`/`text-[15px]`.
+ *
+ * This is a deliberate departure from the Figma file. The design used a tight
+ * ~1.2 ratio (14/17, 16/19, 18/22, 24/29) which is internally consistent, but
+ * the build had mixed it with Tailwind's defaults until a single size carried
+ * up to ten different line heights and five sizes sat between the named steps.
+ * Rather than pick the designer's ramp and rely on everyone remembering it,
+ * the scale is now what any new code gets for free by writing nothing.
+ *
+ * The hero and login display sizes (26/32/34/40/60/70px) are a separate ramp
+ * and keep their own paired leadings.
+ */
+
 /** Gray/700 at Inter 16/24 w400 — the field text on every screen. */
 export const FIELD_TEXT = 'text-base font-normal leading-6 text-gray-700';
 
@@ -179,42 +205,6 @@ export const FIELD_TEXT = 'text-base font-normal leading-6 text-gray-700';
  */
 export const MODAL_FIELD =
   'edge-gray300 h-[54px] rounded-[14px] bg-white px-[14px] text-base font-normal leading-6 text-gray-900 outline-none placeholder:text-[#AFAFAF]';
-
-/**
- * The date presets the Support and Verification queues offer.
- *
- * One list rather than two, and it lives here beside `Select` rather than in
- * either screen — one queue importing the other's view file to borrow a
- * constant is a dependency between two unrelated pages.
- *
- * These are presets, not a calendar: the queues are read as "what has come in
- * lately", and every question that actually gets asked of them is a recent
- * window. The page turns the chosen key into the from/to the API takes.
- */
-export const RANGES = [
-  { value: 'all', label: 'Any date' },
-  { value: 'today', label: 'Today' },
-  { value: '7d', label: 'Last 7 days' },
-  { value: '30d', label: 'Last 30 days' },
-  { value: '90d', label: 'Last 90 days' }
-];
-
-/** Turns a preset key into the inclusive from/to the API expects. */
-export function rangeToDates(key: string | undefined): {
-  from?: string;
-  to?: string;
-} {
-  if (!key || key === 'all') return {};
-
-  const days = key === 'today' ? 0 : Number.parseInt(key, 10);
-  if (!Number.isFinite(days)) return {};
-
-  const from = new Date();
-  from.setDate(from.getDate() - days);
-  from.setHours(0, 0, 0, 0);
-
-  return { from: from.toISOString(), to: new Date().toISOString() };
-}
 
 /**
  * A dropdown. With `options` + `param` it filters through the URL; without them
@@ -379,7 +369,7 @@ export function GhostButton<T extends ElementType = 'button'>({
   as?: T;
 } & Omit<ComponentPropsWithoutRef<T>, 'children' | 'className' | 'size' | 'as'>) {
   const Component = (as ?? 'button') as ElementType;
-  const type = size === 'md' ? 'text-[15px] leading-6' : 'text-[14px] leading-5';
+  const type = size === 'md' ? 'text-base leading-6' : 'text-sm leading-5';
 
   return (
     <Component
@@ -422,7 +412,7 @@ export function SearchInput({
       <input
         type="search"
         placeholder={placeholder}
-        className="w-full flex-1 border-0 bg-transparent text-sm leading-6 text-gray-900 outline-none placeholder:text-gray-500"
+        className="w-full flex-1 border-0 bg-transparent text-sm leading-5 text-gray-900 outline-none placeholder:text-gray-500"
       />
     </div>
   );

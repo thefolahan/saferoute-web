@@ -118,7 +118,7 @@ export function AccessControlView({
             className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-black px-[14px] py-[10px]"
           >
             <PlusIcon className="h-4 w-4 text-gray-50" />
-            <span className="text-sm font-medium leading-6 text-gray-50">Invite member</span>
+            <span className="text-sm font-medium leading-5 text-gray-50">Invite member</span>
           </button>
         </div>
       </div>
@@ -147,7 +147,7 @@ export function AccessControlView({
                 case 'status':
                   return (
                     <span
-                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium capitalize leading-[18px] ${
+                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium capitalize leading-4 ${
                         row.status === 'active'
                           ? 'bg-success-50 text-success-700'
                           : 'bg-rule text-gray-600'
@@ -203,17 +203,17 @@ export function AccessControlView({
                 <div className="flex flex-col gap-5 py-5">
                   <div className="flex flex-col justify-between gap-5 sm:flex-row">
                     <div className="flex w-full max-w-[509px] flex-col justify-center gap-1">
-                      <span className="whitespace-pre text-base font-semibold leading-[19px] tracking-[0.16px] text-gray-700">
+                      <span className="whitespace-pre text-base font-semibold leading-6 tracking-[0.16px] text-gray-700">
                         {card.title}
                       </span>
                       {card.subtitle ? (
-                        <span className="text-sm font-normal leading-[17px] text-gray-600">
+                        <span className="text-sm font-normal leading-5 text-gray-600">
                           {card.subtitle}
                         </span>
                       ) : null}
                     </div>
                     <div className="flex items-center gap-[13px] py-[10px]">
-                      <span className="text-sm font-semibold leading-[17px] text-gray-500">
+                      <span className="text-sm font-semibold leading-5 text-gray-500">
                         Enable all
                       </span>
                       <Toggle
@@ -258,10 +258,10 @@ export function AccessControlView({
                             }
                           />
                           <div className="flex flex-col gap-1">
-                            <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-gray-700">
+                            <span className="text-base font-semibold leading-6 tracking-[0.16px] text-gray-700">
                               {p.title}
                             </span>
-                            <span className="text-sm font-normal leading-[17px] text-gray-600">
+                            <span className="text-sm font-normal leading-5 text-gray-600">
                               {p.hint}
                             </span>
                           </div>
@@ -333,10 +333,10 @@ export function AccessControlView({
         }
       >
         <div className="flex flex-col justify-center gap-[19px] py-[18px]">
-          <span className="text-base font-semibold leading-[19px] tracking-[0.16px] text-gray-700">
+          <span className="text-base font-semibold leading-6 tracking-[0.16px] text-gray-700">
             Are you sure you want to remove {target?.name ?? 'this member'}?{' '}
           </span>
-          <span className="text-sm font-normal leading-[22px] text-gray-600">
+          <span className="text-sm font-normal leading-5 text-gray-600">
             They will immediately lose access to the SafeRoute admin dashboard.
             Their account is suspended rather than deleted, so the audit trail
             of what they did stays intact.

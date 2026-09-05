@@ -131,7 +131,7 @@ export function ContentsView({
                       <span className="line-clamp-2 max-w-[437px] text-sm font-medium leading-5 text-[#2F3037]">
                         {row.title}
                       </span>
-                      <span className="flex flex-wrap items-center gap-x-[18px] gap-y-1 text-xs font-normal leading-5 text-gray-500">
+                      <span className="flex flex-wrap items-center gap-x-[18px] gap-y-1 text-xs font-normal leading-4 text-gray-500">
                         <span className="flex items-center gap-1">
                           <UserSolidIcon className="h-4 w-4 shrink-0 text-gray-500" />
                           {row.author}
@@ -151,7 +151,7 @@ export function ContentsView({
                 case 'status':
                   return (
                     <span
-                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-[18px] ${STATUS_TONE[row.status]}`}
+                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-4 ${STATUS_TONE[row.status]}`}
                     >
                       {row.status}
                     </span>

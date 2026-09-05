@@ -247,7 +247,7 @@ export function UsersView({
             */}
             <a
               href={exportHref}
-              className="edge-gray200 flex h-11 shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+              className="edge-gray200 flex h-11 shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
             >
               Export CSV
             </a>
@@ -267,7 +267,7 @@ export function UsersView({
                   setBody('');
                   setSheet('message');
                 }}
-                className="edge-gray200 flex h-10 items-center rounded-lg bg-white px-[14px] text-sm font-medium leading-6 text-gray-700"
+                className="edge-gray200 flex h-10 items-center rounded-lg bg-white px-[14px] text-sm font-medium leading-5 text-gray-700"
               >
                 Send message
               </button>
@@ -275,7 +275,7 @@ export function UsersView({
                 type="button"
                 disabled={pending}
                 onClick={() => run(() => bulkUserStatus(ids, 'suspended'), clear)}
-                className="flex h-10 items-center rounded-lg bg-error-400 px-[14px] text-sm font-medium leading-6 text-gray-50 disabled:opacity-50"
+                className="flex h-10 items-center rounded-lg bg-error-400 px-[14px] text-sm font-medium leading-5 text-gray-50 disabled:opacity-50"
               >
                 Suspend
               </button>
@@ -283,14 +283,14 @@ export function UsersView({
                 type="button"
                 disabled={pending}
                 onClick={() => run(() => bulkUserStatus(ids, 'active'), clear)}
-                className="flex h-10 items-center rounded-lg bg-success-800 px-[14px] text-sm font-medium leading-6 text-gray-25 disabled:opacity-50"
+                className="flex h-10 items-center rounded-lg bg-success-800 px-[14px] text-sm font-medium leading-5 text-gray-25 disabled:opacity-50"
               >
                 Restore
               </button>
               <button
                 type="button"
                 onClick={clear}
-                className="flex h-10 items-center px-2 text-sm font-medium leading-6 text-gray-500"
+                className="flex h-10 items-center px-2 text-sm font-medium leading-5 text-gray-500"
               >
                 Clear
               </button>
@@ -334,7 +334,7 @@ export function UsersView({
                     <CellText>—</CellText>
                   ) : (
                     <span
-                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-semibold leading-[18px] ${
+                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-semibold leading-4 ${
                         row.strikes >= 7
                           ? 'bg-error-50 text-error-700'
                           : 'bg-warning-50 text-warning-700'
@@ -348,7 +348,7 @@ export function UsersView({
                 case 'kyc':
                   return (
                     <span
-                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-[18px] ${KYC_TONE[row.kyc]}`}
+                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium leading-4 ${KYC_TONE[row.kyc]}`}
                     >
                       {row.kyc}
                     </span>
@@ -360,7 +360,7 @@ export function UsersView({
                 case 'status':
                   return (
                     <span
-                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium capitalize leading-[18px] ${
+                      className={`inline-flex items-center justify-center rounded-2xl px-3 py-1 text-xs font-medium capitalize leading-4 ${
                         row.status === 'active'
                           ? 'bg-success-50 text-success-700'
                           : 'bg-rule text-gray-600'

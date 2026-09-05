@@ -649,7 +649,7 @@ function ActivityTab({
       <div className="flex max-w-[820px] flex-col gap-6">
         {[...groups].map(([date, entries]) => (
           <div key={date} className="flex flex-col gap-3">
-            <span className="text-sm font-medium leading-[17px] text-gray-600">{date}</span>
+            <span className="text-sm font-medium leading-5 text-gray-600">{date}</span>
             {entries.map((entry, i) => (
               <div
                 key={`${date}-${i}`}
@@ -658,18 +658,18 @@ function ActivityTab({
                 <div className="flex min-w-0 flex-col gap-1">
                   <span className="flex flex-wrap items-center gap-2">
                     <span
-                      className={`inline-flex items-center rounded-2xl px-[9px] py-1 text-[11px] font-semibold capitalize leading-4 ${
+                      className={`inline-flex items-center rounded-2xl px-[9px] py-1 text-xs font-semibold capitalize leading-4 ${
                         KIND_TONE[entry.kind] ?? 'bg-rule text-gray-600'
                       }`}
                     >
                       {entry.kind}
                     </span>
-                    <span className="text-[15px] font-medium leading-5 text-gray-900">
+                    <span className="text-base font-medium leading-6 text-gray-900">
                       {entry.title}
                     </span>
                   </span>
                   {entry.body ? (
-                    <span className="text-[13px] font-normal leading-[18px] text-gray-500">
+                    <span className="text-sm font-normal leading-5 text-gray-500">
                       {entry.body}
                     </span>
                   ) : null}
@@ -684,7 +684,7 @@ function ActivityTab({
                   {entry.link ? (
                     <Link
                       href={`${base}/${entry.link.route}?id=${entry.link.id}`}
-                      className="text-[13px] font-semibold leading-[18px] text-secondary"
+                      className="text-sm font-semibold leading-5 text-secondary"
                     >
                       Open
                     </Link>
@@ -705,7 +705,7 @@ function ActivityTab({
           <Link
             href={`?tab=activity&activityLimit=${Math.min(500, limit + 150)}`}
             scroll={false}
-            className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] text-sm font-medium leading-6 text-gray-700"
+            className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] text-sm font-medium leading-5 text-gray-700"
           >
             Show more
           </Link>
@@ -872,7 +872,7 @@ function ContentTab({ data, id }: { data: ContentData | null; id: string }) {
                 href={`/api/office/users/${id}/media/${file.id}`}
                 target="_blank"
                 rel="noreferrer"
-                className="text-[13px] font-semibold leading-[18px] text-secondary"
+                className="text-sm font-semibold leading-5 text-secondary"
               >
                 Open
               </a>
@@ -1685,16 +1685,16 @@ function SupportTab({ data, base }: { data: SupportData | null; base: string }) 
                 <div className="flex flex-wrap items-center gap-3">
                   <Link
                     href={`${base}/support?id=${ticket.id}`}
-                    className="text-[15px] font-semibold leading-5 text-gray-900 underline"
+                    className="text-base font-semibold leading-6 text-gray-900 underline"
                   >
                     {ticket.reference}
                   </Link>
                   <Pill>{ticket.status}</Pill>
                   <Pill>{ticket.priority}</Pill>
-                  <span className="text-xs font-medium leading-[18px] text-gray-600">
+                  <span className="text-xs font-medium leading-4 text-gray-600">
                     {words(ticket.kind)}
                   </span>
-                  <span className="text-[11px] font-normal leading-4 text-gray-500">
+                  <span className="text-xs font-normal leading-4 text-gray-500">
                     {dateTime(ticket.createdAt)}
                   </span>
                 </div>
@@ -1703,7 +1703,7 @@ function SupportTab({ data, base }: { data: SupportData | null; base: string }) 
                     {ticket.subject}
                   </span>
                 ) : null}
-                <p className="text-[13px] font-normal leading-[18px] text-gray-500">
+                <p className="text-sm font-normal leading-5 text-gray-500">
                   {ticket.body}
                 </p>
                 {ticket.appVersion || ticket.platform ? (
@@ -1723,7 +1723,7 @@ function SupportTab({ data, base }: { data: SupportData | null; base: string }) 
                           {' · '}
                           {dateTime(reply.createdAt)}
                         </span>
-                        <span className="text-[13px] font-normal leading-[18px] text-gray-500">
+                        <span className="text-sm font-normal leading-5 text-gray-500">
                           {reply.body}
                         </span>
                       </div>

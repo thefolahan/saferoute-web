@@ -42,13 +42,13 @@ export function Sidebar() {
 
       <nav className="no-scrollbar flex flex-1 flex-col gap-[5px] overflow-y-auto px-4 py-[5px]">
         <div className="flex flex-col gap-[15px]">
-          <span className="inline-flex w-fit items-center rounded-3xl bg-admin-tag px-[10px] py-[3px] text-[13px] font-semibold leading-4 tracking-[-0.5px] text-[#131313]">
+          <span className="inline-flex w-fit items-center rounded-3xl bg-admin-tag px-[10px] py-[3px] text-sm font-semibold leading-5 tracking-[-0.5px] text-[#131313]">
             Admin
           </span>
 
           {NAV.map((group) => (
             <div key={group.label} className="flex flex-col gap-2">
-              <span className="text-xs font-medium leading-[18px] text-sidebar-label">
+              <span className="text-xs font-medium leading-4 text-sidebar-label">
                 {group.label}
               </span>
 
@@ -83,7 +83,7 @@ export function Sidebar() {
                       </span>
 
                       <span
-                        className={`text-sm font-normal leading-[21px] ${
+                        className={`text-sm font-normal leading-5 ${
                           active ? 'flex-1 text-white' : 'text-sidebar-item'
                         } ${item.badge ? 'flex-1' : ''}`}
                       >

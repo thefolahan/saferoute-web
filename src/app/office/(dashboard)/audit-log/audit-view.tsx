@@ -58,7 +58,7 @@ export function AuditView({
       <div className="flex flex-col gap-[15px]">
         <div className="flex flex-col">
           <div className="px-4 pt-[15px] sm:px-6 lg:px-8">
-            <p className="max-w-[760px] text-sm font-normal leading-6 text-gray-500">
+            <p className="max-w-[760px] text-sm font-normal leading-5 text-gray-500">
               Every change made from this dashboard, with what it changed from
               and to. Written automatically — there is nothing here to turn on.
             </p>

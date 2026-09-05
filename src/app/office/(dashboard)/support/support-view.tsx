@@ -7,7 +7,8 @@ import { useAction } from '../../_components/use-action';
 import { replyToTicket, setTicketStatus } from '../../_lib/actions';
 import { officeHref, useOfficeBase } from '../../_lib/office-path';
 import { Tabs } from '../../_components/tabs';
-import { RANGES, Select, fieldShell } from '../../_components/ui';
+import { Select, fieldShell } from '../../_components/ui';
+import { RANGES } from '../../_lib/ranges';
 import { CustomerServiceIcon, SearchLgIcon, UserSolidIcon } from '../../_components/icons';
 import { AttachButton, ComposeField, ComposeModal } from '../../_components/compose-modal';
 
@@ -150,13 +151,13 @@ export function SupportView({
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search tickets, ID, user"
                 aria-label="Search tickets"
-                className="w-full flex-1 border-0 bg-transparent p-0 text-sm font-normal leading-6 text-gray-900 outline-none placeholder:text-gray-700"
+                className="w-full flex-1 border-0 bg-transparent p-0 text-sm font-normal leading-5 text-gray-900 outline-none placeholder:text-gray-700"
               />
             </div>
           </div>
 
           {visible.length === 0 ? (
-            <p className="px-8 py-16 text-center text-sm leading-6 text-gray-500">
+            <p className="px-8 py-16 text-center text-sm leading-5 text-gray-500">
               {needle
                 ? `Nothing in this queue matches “${query.trim()}”.`
                 : 'No tickets in this queue. Reports filed from the app land here.'}
@@ -176,18 +177,18 @@ export function SupportView({
               >
                 <div className="flex flex-1 flex-col justify-center gap-[13px]">
                   <div className="flex gap-[9px]">
-                    <span className="inline-flex items-center justify-center rounded-2xl bg-bluelight-50 px-3 py-1 text-xs font-medium leading-[18px] text-secondary">
+                    <span className="inline-flex items-center justify-center rounded-2xl bg-bluelight-50 px-3 py-1 text-xs font-medium leading-4 text-secondary">
                       Support
                     </span>
                     <span
-                      className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] ${
+                      className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold leading-4 ${
                         PRIORITY_TONE[t.priority] ?? PRIORITY_TONE.medium
                       }`}
                     >
                       {label(t.priority)}
                     </span>
                     <span
-                      className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] ${
+                      className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold leading-4 ${
                         STATUS_TONE[t.status] ?? STATUS_TONE.pending
                       }`}
                     >
@@ -204,7 +205,7 @@ export function SupportView({
                         {t.subject}
                       </span>
                     </div>
-                    <span className="flex items-center gap-1 text-xs font-normal leading-5 text-gray-500">
+                    <span className="flex items-center gap-1 text-xs font-normal leading-4 text-gray-500">
                       <UserSolidIcon className="h-4 w-4 shrink-0 text-gray-500" />
                       by {t.reporter}
                     </span>
@@ -220,7 +221,7 @@ export function SupportView({
             column runs the height of the screen. */}
         <div className="flex min-w-0 flex-1 flex-col items-center gap-9 self-stretch bg-[#F8FAFB] px-6 py-[25px]">
           {!detail ? (
-            <p className="py-24 text-center text-sm leading-6 text-gray-500">
+            <p className="py-24 text-center text-sm leading-5 text-gray-500">
               Select a ticket to read the conversation.
             </p>
           ) : null}
@@ -237,7 +238,7 @@ export function SupportView({
                   />
                   <Field label="From" value={detail.reporter.name} className="flex-1" />
                   <span
-                    className={`inline-flex items-center rounded py-1 pl-[9px] pr-3 text-sm font-semibold leading-[18px] ${
+                    className={`inline-flex items-center rounded py-1 pl-[9px] pr-3 text-sm font-semibold leading-5 ${
                       STATUS_TONE[detail.status] ?? STATUS_TONE.pending
                     }`}
                   >
@@ -275,7 +276,7 @@ export function SupportView({
                         <p className="text-base font-normal leading-6 text-[#061B2E]">
                           {reply.body}
                         </p>
-                        <p className="text-right text-sm font-normal leading-6 text-gray-400">
+                        <p className="text-right text-sm font-normal leading-5 text-gray-400">
                           {reply.at}
                         </p>
                       </div>
@@ -400,7 +401,7 @@ function Bubble({ title, body }: { title: string; body: string }) {
 
 function Note({ children }: { children: React.ReactNode }) {
   return (
-    <span className="edge-grey50 flex h-[50px] items-center justify-center gap-4 rounded-lg bg-rule px-6 py-[10px] text-sm font-medium leading-[30px] text-[#061B2E]">
+    <span className="edge-grey50 flex h-[50px] items-center justify-center gap-4 rounded-lg bg-rule px-6 py-[10px] text-sm font-medium leading-5 text-[#061B2E]">
       {children}
     </span>
   );
@@ -422,7 +423,7 @@ function ActionButton({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`edge-grey50 flex h-[50px] items-center justify-center gap-4 rounded-lg px-6 py-[10px] text-sm font-bold leading-[30px] disabled:opacity-50 ${className}`}
+      className={`edge-grey50 flex h-[50px] items-center justify-center gap-4 rounded-lg px-6 py-[10px] text-sm font-bold leading-5 disabled:opacity-50 ${className}`}
     >
       {children}
     </button>

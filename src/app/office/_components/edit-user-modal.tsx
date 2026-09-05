@@ -212,7 +212,7 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
-      <span className="w-full shrink-0 text-sm font-medium leading-[17px] text-gray-700 sm:w-[134px]">
+      <span className="w-full shrink-0 text-sm font-medium leading-5 text-gray-700 sm:w-[134px]">
         {label}
       </span>
       <input
@@ -238,7 +238,7 @@ function Select({
 }) {
   return (
     <label className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
-      <span className="w-full shrink-0 text-sm font-medium leading-[17px] text-gray-700 sm:w-[134px]">
+      <span className="w-full shrink-0 text-sm font-medium leading-5 text-gray-700 sm:w-[134px]">
         {label}
       </span>
       <select

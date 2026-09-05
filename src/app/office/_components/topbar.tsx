@@ -72,7 +72,7 @@ export function Topbar({
             />
           </svg>
         </button>
-        <h1 className="truncate text-lg font-bold leading-[29px] text-navy sm:text-2xl">
+        <h1 className="truncate text-lg font-bold leading-7 text-navy sm:text-2xl">
           {title}
         </h1>
       </div>
@@ -173,7 +173,7 @@ function ProfileMenu({ onClose }: { onClose: () => void }) {
               size={70}
             />
             <span className="flex flex-col justify-center gap-[7px]">
-              <span className="text-base font-semibold leading-[18px] text-[#1F2937]">
+              <span className="text-base font-semibold leading-6 text-[#1F2937]">
                 {admin?.name ?? 'Administrator'}
               </span>
               <span className="text-xs leading-4 text-[#6B7280]">

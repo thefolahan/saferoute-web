@@ -126,15 +126,15 @@ export function UserDetail({
 
                 <div className="flex w-full flex-col justify-center gap-[25px] xl:w-[577px] xl:shrink-0">
                   <div className="flex flex-col justify-center gap-[9px]">
-                    <span className="text-sm font-medium leading-[17px] text-gray-500">
+                    <span className="text-sm font-medium leading-5 text-gray-500">
                       {subject.idLabel}
                     </span>
-                    <h2 className="text-2xl font-semibold leading-[29px] text-black">
+                    <h2 className="text-2xl font-semibold leading-8 text-black">
                       {subject.name}
                     </h2>
                     <div className="flex flex-wrap items-center gap-[9px]">
                       {subject.official ? (
-                        <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-[17px] text-gray-500">
+                        <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-5 text-gray-500">
                           {subject.kind}
                         </span>
                       ) : (
@@ -148,13 +148,13 @@ export function UserDetail({
                       {subject.official ? (
                         <span className="inline-flex items-center justify-center gap-1 rounded-full bg-[#0BA5EC]/[0.13] px-3 py-1">
                           <ShieldOutlineIcon className="h-4 w-4 text-[#0BA5EC]" />
-                          <span className="text-xs font-medium leading-5 tracking-[-0.24px] text-[#0BA5EC]">
+                          <span className="text-xs font-medium leading-4 tracking-[-0.24px] text-[#0BA5EC]">
                             Official
                           </span>
                         </span>
                       ) : null}
                       <span
-                        className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold capitalize leading-[18px] ${
+                        className={`inline-flex items-center rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold capitalize leading-4 ${
                           subject.status === 'active'
                             ? 'bg-success-50 text-success-700'
                             : 'bg-error-50 text-error-700'
@@ -170,7 +170,7 @@ export function UserDetail({
                       <button
                         type="button"
                         onClick={() => openCompose('message')}
-                        className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                        className="edge-gray200 flex h-11 items-center gap-2 rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
                       >
                         <MessageIcon className="h-4 w-4 text-gray-700" />
                         Send Message
@@ -178,7 +178,7 @@ export function UserDetail({
                       <button
                         type="button"
                         onClick={() => openCompose('warning')}
-                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
                       >
                         Send a warning
                       </button>
@@ -192,7 +192,7 @@ export function UserDetail({
                         type="button"
                         disabled={pending}
                         onClick={() => setConfirm('revoke')}
-                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700 disabled:opacity-50"
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700 disabled:opacity-50"
                       >
                         Sign out everywhere
                       </button>
@@ -204,13 +204,13 @@ export function UserDetail({
                       <button
                         type="button"
                         onClick={() => setEditing(true)}
-                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
                       >
                         Edit record
                       </button>
                       <a
                         href={`/api/office/users/${subject.id}/export`}
-                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
                       >
                         Export record
                       </a>
@@ -225,7 +225,7 @@ export function UserDetail({
                             )
                           )
                         }
-                        className={`flex h-11 items-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-6 disabled:opacity-50 ${
+                        className={`flex h-11 items-center rounded-lg px-[14px] py-[10px] text-sm font-medium leading-5 disabled:opacity-50 ${
                           suspended
                             ? 'bg-success-800 text-gray-25'
                             : 'bg-error-400 text-gray-50'
@@ -262,7 +262,7 @@ export function UserDetail({
                   <div className="flex flex-col items-center justify-center gap-[6px] text-center">
                     {subject.scoreBand ? (
                       <span
-                        className={`rounded-[20px] px-4 py-2 text-xs font-bold uppercase leading-[15px] ${
+                        className={`rounded-[20px] px-4 py-2 text-xs font-bold uppercase leading-4 ${
                           subject.gauge === 'green'
                             ? 'bg-[#E8F5E9] text-[#4CAF50]'
                             : 'bg-[#FFF7E8] text-[#B54708]'
@@ -272,7 +272,7 @@ export function UserDetail({
                       </span>
                     ) : null}
                     {subject.scoreNote ? (
-                      <span className="text-xs font-normal leading-[15px] text-[#9CA3AF]">
+                      <span className="text-xs font-normal leading-4 text-[#9CA3AF]">
                         {subject.scoreNote}
                       </span>
                     ) : null}
@@ -287,10 +287,10 @@ export function UserDetail({
                     key={s.label}
                     className="edge flex flex-col items-center justify-center gap-1 rounded-[10px] bg-[#FCFCFD] px-4 py-[14px]"
                   >
-                    <span className="text-2xl font-bold leading-[29px] text-gray-900">
+                    <span className="text-2xl font-bold leading-8 text-gray-900">
                       {s.value}
                     </span>
-                    <span className="text-sm font-normal leading-[17px] text-gray-500">
+                    <span className="text-sm font-normal leading-5 text-gray-500">
                       {s.label}
                     </span>
                   </div>
@@ -306,7 +306,7 @@ export function UserDetail({
                   key={t.id}
                   href={tabHref(t.id)}
                   scroll={false}
-                  className={`flex h-[49px] shrink-0 items-center justify-center px-[22px] text-base font-semibold leading-[19px] ${
+                  className={`flex h-[49px] shrink-0 items-center justify-center px-[22px] text-base font-semibold leading-6 ${
                     t.id === activeTab
                       ? 'text-black shadow-[inset_0_-3px_0_0_#000000]'
                       : 'text-gray-600'
@@ -382,16 +382,16 @@ export function UserDetail({
         }
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-[77px]">
-          <span className="w-[57px] shrink-0 text-sm font-medium leading-[17px] tracking-[0.14px] text-gray-700">
+          <span className="w-[57px] shrink-0 text-sm font-medium leading-5 tracking-[0.14px] text-gray-700">
             Send to:
           </span>
           <div className="flex items-center gap-[7px]">
             <Avatar src={subject.avatarUrl} name={subject.name} size={76} />
             <span className="flex flex-col gap-[3px]">
-              <span className="text-base font-semibold leading-[19px] text-gray-900">
+              <span className="text-base font-semibold leading-6 text-gray-900">
                 {subject.name}
               </span>
-              <span className="text-sm font-normal leading-[17px] text-gray-600">
+              <span className="text-sm font-normal leading-5 text-gray-600">
                 {subject.email ?? 'No email on this account'}
               </span>
             </span>
@@ -422,7 +422,7 @@ export function UserDetail({
           user account to send a direct message from. Said here so nobody
           expects a reply thread.
         */}
-        <p className="text-xs font-normal leading-[15px] text-gray-500">
+        <p className="text-xs font-normal leading-4 text-gray-500">
           Delivered to their SafeRoute notifications, and pushed to their phone
           where push is available. They cannot reply to it.
         </p>
@@ -487,14 +487,14 @@ export function InfoPanel({
 }) {
   return (
     <div className="flex w-full max-w-[504px] flex-col gap-5">
-      <h3 className="text-lg font-semibold leading-[22px] text-black">{title}</h3>
+      <h3 className="text-lg font-semibold leading-7 text-black">{title}</h3>
       <div className="flex flex-col gap-5 py-[10px]">
         {rows.map((r) => (
           <div key={r.label} className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-[85px]">
-            <span className="w-full text-base sm:w-[175px] sm:shrink-0 font-normal leading-[19px] text-black/50">
+            <span className="w-full text-base sm:w-[175px] sm:shrink-0 font-normal leading-6 text-black/50">
               {r.label}
             </span>
-            <span className="flex items-center gap-3 text-base font-normal leading-[19px] text-black">
+            <span className="flex items-center gap-3 text-base font-normal leading-6 text-black">
               {r.value}
               {/*
                 The design pairs a lock with a "Reveal" link, implying the
@@ -537,34 +537,34 @@ export function ReportsPanel({ count, items }: { count: string; items: ReportIte
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
-        <h3 className="text-lg font-semibold leading-[22px] text-black">Reports</h3>
+        <h3 className="text-lg font-semibold leading-7 text-black">Reports</h3>
         <span className="text-sm font-semibold leading-5 text-[#0BA5EC]">{count}</span>
       </div>
 
       <div className="flex max-w-[900px] flex-col gap-3">
         {items.length === 0 ? (
-          <p className="text-sm leading-6 text-gray-500">
+          <p className="text-sm leading-5 text-gray-500">
             This account has not submitted a report.
           </p>
         ) : null}
         {items.map((r, i) => (
           <div key={i} className="edge flex flex-col gap-2 rounded-[10px] px-5 py-4">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-[15px] font-semibold leading-5 text-gray-900">{r.title}</span>
-              <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700">
+              <span className="text-base font-semibold leading-6 text-gray-900">{r.title}</span>
+              <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-4 text-success-700">
                 Active
               </span>
-              <span className="text-xs font-medium leading-[18px] text-gray-600">{r.place}</span>
-              <span className="text-[11px] font-normal leading-4 text-gray-500">{r.when}</span>
+              <span className="text-xs font-medium leading-4 text-gray-600">{r.place}</span>
+              <span className="text-xs font-normal leading-4 text-gray-500">{r.when}</span>
             </div>
-            <p className="text-[13px] font-normal leading-[18px] text-gray-500">{r.body}</p>
+            <p className="text-sm font-normal leading-5 text-gray-500">{r.body}</p>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium leading-[18px] text-gray-500">
+              <span className="text-xs font-medium leading-4 text-gray-500">
                 {r.verifications}
               </span>
               <Link
                 href={`${officeHref(base, 'incidents')}?id=${r.id}`}
-                className="text-[13px] font-semibold leading-[18px] text-secondary"
+                className="text-sm font-semibold leading-5 text-secondary"
               >
                 View Details
               </Link>
@@ -594,10 +594,10 @@ export function SubscriptionPanel({
   if (!subscription) {
     return (
       <div className="flex w-[504px] max-w-full flex-col gap-5">
-        <h3 className="text-lg font-semibold leading-[27px] text-[#232323]">
+        <h3 className="text-lg font-semibold leading-7 text-[#232323]">
           Subscription Status
         </h3>
-        <p className="text-sm leading-6 text-gray-500">
+        <p className="text-sm leading-5 text-gray-500">
           This account is on the free tier — no subscription on record.
         </p>
       </div>
@@ -628,15 +628,15 @@ export function SubscriptionPanel({
 
   return (
     <div className="flex w-full max-w-[504px] flex-col gap-5">
-      <h3 className="text-lg font-semibold leading-[27px] text-[#232323]">Subscription Status</h3>
+      <h3 className="text-lg font-semibold leading-7 text-[#232323]">Subscription Status</h3>
       <div className="flex flex-col gap-5 py-[10px]">
         {rows.map((r) => (
           <div key={r.label} className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-[85px]">
-            <span className="w-full text-sm sm:w-[175px] sm:shrink-0 font-normal leading-[17px] text-[#64748B]">
+            <span className="w-full text-sm sm:w-[175px] sm:shrink-0 font-normal leading-5 text-[#64748B]">
               {r.label}
             </span>
             {r.badge ? (
-              <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700">
+              <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-4 text-success-700">
                 {r.value}
               </span>
             ) : (
@@ -666,15 +666,15 @@ export function LocationPanel({
     <div className="flex w-full max-w-[504px] flex-col gap-5">
       <div className="flex flex-col gap-2">
         <div className="flex flex-wrap items-center gap-3">
-          <h3 className="text-base font-medium leading-[19px] text-black">Last Known location</h3>
-          <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700">
+          <h3 className="text-base font-medium leading-6 text-black">Last Known location</h3>
+          <span className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-4 text-success-700">
             Active
           </span>
         </div>
-        <span className="text-sm font-normal leading-[17px] text-[#64748B]">
+        <span className="text-sm font-normal leading-5 text-[#64748B]">
           {city ?? 'No location on record'}
         </span>
-        <span className="text-sm font-normal leading-[17px] text-[#64748B]">
+        <span className="text-sm font-normal leading-5 text-[#64748B]">
           {lastActiveAt
             ? `Updated ${new Date(lastActiveAt).toLocaleString('en', {
                 dateStyle: 'medium',
@@ -686,14 +686,14 @@ export function LocationPanel({
       {latitude !== null && longitude !== null ? (
         <Link
           href={`${officeHref(base, 'map')}?lat=${latitude}&lng=${longitude}`}
-          className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+          className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
         >
           View on map
         </Link>
       ) : (
         // Nothing on the account carries a coordinate, so there is no point to
         // open. Said rather than offering a button that goes nowhere.
-        <span className="text-sm font-normal leading-6 text-gray-500">
+        <span className="text-sm font-normal leading-5 text-gray-500">
           No location recorded for this account.
         </span>
       )}
@@ -708,23 +708,23 @@ export function ActivityPanel({
 }) {
   return (
     <div className="flex w-full max-w-[700px] flex-col gap-5">
-      <h3 className="text-lg font-semibold leading-[22px] text-black">Activity</h3>
+      <h3 className="text-lg font-semibold leading-7 text-black">Activity</h3>
       {groups.length === 0 ? (
-        <p className="text-sm leading-6 text-gray-500">
+        <p className="text-sm leading-5 text-gray-500">
           No activity feed yet — this needs an activity log the API does not
           keep.
         </p>
       ) : null}
       {groups.map((g) => (
         <div key={g.day} className="flex flex-col gap-5 py-[10px]">
-          <span className="text-sm font-medium leading-[17px] text-gray-600">{g.day}</span>
+          <span className="text-sm font-medium leading-5 text-gray-600">{g.day}</span>
           {g.items.map((it, i) => (
             <div key={i} className="flex items-start justify-between gap-6">
               <div className="flex flex-col gap-2">
-                <span className="text-base font-normal leading-[19px] text-black">{it.title}</span>
-                <span className="text-sm font-normal leading-[17px] text-gray-500">{it.body}</span>
+                <span className="text-base font-normal leading-6 text-black">{it.title}</span>
+                <span className="text-sm font-normal leading-5 text-gray-500">{it.body}</span>
               </div>
-              <span className="shrink-0 text-sm font-normal leading-[17px] text-gray-500">
+              <span className="shrink-0 text-sm font-normal leading-5 text-gray-500">
                 {it.time}
               </span>
             </div>
@@ -742,23 +742,23 @@ export function ContactsPanel({
 }) {
   return (
     <div className="flex flex-col gap-5">
-      <h3 className="text-lg font-semibold leading-[22px] text-black">Emergency contacts</h3>
+      <h3 className="text-lg font-semibold leading-7 text-black">Emergency contacts</h3>
       {contacts.length === 0 ? (
-        <p className="text-sm leading-6 text-gray-500">
+        <p className="text-sm leading-5 text-gray-500">
           This account has not added an emergency contact.
         </p>
       ) : null}
       <div className="grid max-w-[900px] grid-cols-1 gap-4 md:grid-cols-2">
         {contacts.map((c, i) => (
           <div key={i} className="edge flex items-center gap-3 rounded-[10px] px-5 py-4">
-            <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-gray-100 text-2xl font-semibold leading-[34px] text-[#2F3037]">
+            <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-gray-100 text-2xl font-semibold leading-8 text-[#2F3037]">
               OJ
             </span>
             <span className="flex flex-1 flex-col gap-1">
-              <span className="text-[15px] font-medium leading-5 text-[#2F3037]">{c.name}</span>
-              <span className="text-xs font-normal leading-5 text-[#767B8C]">{c.phone}</span>
+              <span className="text-base font-medium leading-6 text-[#2F3037]">{c.name}</span>
+              <span className="text-xs font-normal leading-4 text-[#767B8C]">{c.phone}</span>
             </span>
-            <span className="rounded-2xl bg-gray-900 px-3 py-1 text-xs font-semibold leading-[18px] text-[#F7F7F7]">
+            <span className="rounded-2xl bg-gray-900 px-3 py-1 text-xs font-semibold leading-4 text-[#F7F7F7]">
               {c.relation}
             </span>
           </div>

@@ -35,14 +35,14 @@ export function Section({
   return (
     <section className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-3">
-        <h3 className="text-lg font-semibold leading-[22px] text-black">{title}</h3>
+        <h3 className="text-lg font-semibold leading-7 text-black">{title}</h3>
         {count !== undefined && count !== null ? (
           <span className="text-sm font-semibold leading-5 text-[#0BA5EC]">{count}</span>
         ) : null}
         {action ? <span className="ml-auto">{action}</span> : null}
       </div>
       {note ? (
-        <p className="max-w-[760px] text-sm font-normal leading-6 text-gray-500">{note}</p>
+        <p className="max-w-[760px] text-sm font-normal leading-5 text-gray-500">{note}</p>
       ) : null}
       {children}
     </section>
@@ -50,7 +50,7 @@ export function Section({
 }
 
 export function Empty({ children }: { children: ReactNode }) {
-  return <p className="text-sm leading-6 text-gray-500">{children}</p>;
+  return <p className="text-sm leading-5 text-gray-500">{children}</p>;
 }
 
 export type Row = {
@@ -69,10 +69,10 @@ export function Rows({ rows }: { rows: Row[] }) {
           key={row.label}
           className="flex flex-col gap-1 sm:flex-row sm:items-start sm:gap-[40px]"
         >
-          <span className="w-full shrink-0 text-base font-normal leading-[19px] text-black/50 sm:w-[200px]">
+          <span className="w-full shrink-0 text-base font-normal leading-6 text-black/50 sm:w-[200px]">
             {row.label}
           </span>
-          <span className="flex min-w-0 flex-1 items-center gap-3 break-words text-base font-normal leading-[22px] text-black">
+          <span className="flex min-w-0 flex-1 items-center gap-3 break-words text-base font-normal leading-6 text-black">
             {row.value}
           </span>
         </div>
@@ -188,7 +188,7 @@ export function Pill({ children }: { children: string | null | undefined }) {
 
   return (
     <span
-      className={`inline-flex items-center whitespace-nowrap rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold capitalize leading-[18px] ${tone}`}
+      className={`inline-flex items-center whitespace-nowrap rounded-2xl py-1 pl-[9px] pr-3 text-xs font-semibold capitalize leading-4 ${tone}`}
     >
       {value.replace(/_/g, ' ')}
     </span>

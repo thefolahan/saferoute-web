@@ -73,7 +73,7 @@ export function WaitlistView({
       <div className="flex flex-col gap-[15px]">
         <div className="flex flex-col">
           <div className="flex flex-col gap-4 px-4 pt-[17px] sm:px-6 lg:px-8">
-            <p className="max-w-[760px] text-sm font-normal leading-6 text-gray-500">
+            <p className="max-w-[760px] text-sm font-normal leading-5 text-gray-500">
               Everyone who has left an address on the public site. Grouped by the
               page they signed up from, because that is the only thing that
               separates somebody asking for a demo from somebody waiting for the
@@ -111,7 +111,7 @@ export function WaitlistView({
             */}
             <a
               href={exportHref}
-              className="edge-gray200 flex h-11 shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+              className="edge-gray200 flex h-11 shrink-0 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-5 text-gray-700"
             >
               Export CSV
             </a>
@@ -134,7 +134,7 @@ export function WaitlistView({
                   );
                 case 'source':
                   return (
-                    <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-[18px] text-gray-700">
+                    <span className="inline-flex items-center justify-center rounded-[5px] bg-[#F2F4F7] px-[11px] py-[7px] text-sm font-medium leading-5 text-gray-700">
                       {SOURCE_LABEL[row.source] ?? row.source}
                     </span>
                   );
@@ -147,7 +147,7 @@ export function WaitlistView({
                   return row.account ? (
                     <Link
                       href={`${officeHref(base, 'users/community')}?id=${row.account.id}`}
-                      className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-[18px] text-success-700"
+                      className="inline-flex items-center rounded-2xl bg-success-50 py-1 pl-[9px] pr-3 text-xs font-semibold leading-4 text-success-700"
                     >
                       Joined {day(row.account.joinedAt)}
                     </Link>
@@ -171,7 +171,7 @@ export function WaitlistView({
 function Tile({ label, value }: { label: string; value: number }) {
   return (
     <div className="edge flex flex-col gap-1 rounded-[10px] bg-[#FCFCFD] px-4 py-3">
-      <span className="text-2xl font-bold leading-[29px] text-gray-900">
+      <span className="text-2xl font-bold leading-8 text-gray-900">
         {new Intl.NumberFormat('en-NG').format(value)}
       </span>
       <span className="text-xs font-normal leading-4 text-gray-500">{label}</span>

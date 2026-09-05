@@ -278,7 +278,7 @@ export function MapView({
         ) : null}
 
         {visible.length === 0 ? (
-          <p className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center text-sm leading-6 text-gray-600">
+          <p className="absolute inset-0 z-10 flex items-center justify-center px-6 text-center text-sm leading-5 text-gray-600">
             {cards.length === 0
               ? activeState
                 ? `No incidents on record in ${activeState}.`
@@ -354,7 +354,7 @@ export function MapView({
               onChange={(event) => setTerm(event.target.value)}
               placeholder="Search incidents on this map"
               aria-label="Search incidents on this map"
-              className="w-full bg-transparent text-[15px] font-normal leading-[23px] text-white outline-none placeholder:text-gray-400"
+              className="w-full bg-transparent text-base font-normal leading-6 text-white outline-none placeholder:text-gray-400"
             />
             {term ? (
               <button
@@ -438,7 +438,7 @@ export function MapView({
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[28px] bg-rule px-[3px] py-[5px]">
                       <IcCarBadge className="h-[30px] w-[34px]" />
                     </span>
-                    <span className="min-w-0 flex-1 truncate text-base font-semibold leading-7 text-white">
+                    <span className="min-w-0 flex-1 truncate text-base font-semibold leading-6 text-white">
                       {card.title}
                     </span>
                   </div>

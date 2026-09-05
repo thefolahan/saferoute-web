@@ -176,7 +176,7 @@ export function TileMap({
       style={{ width, height }}
     >
       {failed ? (
-        <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm leading-6 text-gray-500">
+        <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm leading-5 text-gray-500">
           The map tiles could not be loaded. The incidents below are still
           listed with their locations.
         </div>
@@ -223,7 +223,7 @@ export function TileMap({
             />
             {showLabels || marker.selected ? (
               <span
-                className={`mt-1 max-w-[150px] truncate rounded bg-white/90 px-1.5 py-0.5 text-[11px] font-semibold leading-4 text-black shadow-sm ${
+                className={`mt-1 max-w-[150px] truncate rounded bg-white/90 px-1.5 py-0.5 text-xs font-semibold leading-4 text-black shadow-sm ${
                   marker.selected ? '' : 'hidden xl:block'
                 }`}
               >
@@ -249,7 +249,7 @@ export function TileMap({
           }
           target="_blank"
           rel="noreferrer"
-          className="absolute bottom-0 right-0 bg-white/75 px-1 text-[10px] leading-4 text-gray-700"
+          className="absolute bottom-0 right-0 bg-white/75 px-1 text-xs leading-4 text-gray-700"
         >
           {source.attribution}
         </a>

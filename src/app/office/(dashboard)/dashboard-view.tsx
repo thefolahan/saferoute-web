@@ -53,10 +53,10 @@ export function DashboardView({
       <section className="flex flex-col gap-[15px] px-4 py-[19px] sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-[15px]">
           <div className="flex flex-col justify-center gap-[10px]">
-            <h2 className="text-2xl font-medium leading-tight text-gray-500 sm:text-[32px] sm:leading-[39px]">
+            <h2 className="text-2xl font-medium leading-8 text-gray-500 sm:text-[32px] sm:leading-[39px]">
               Welcome back, <span className="text-gray-900">{adminName}</span> 👋
             </h2>
-            <p className="text-base font-normal leading-[19px] text-gray-500">
+            <p className="text-base font-normal leading-6 text-gray-500">
               Here&apos;s what&apos;s happening across SafeRoute today.
             </p>
           </div>
@@ -80,9 +80,9 @@ export function DashboardView({
               key={kpi.label}
               className="edge flex flex-col gap-[23px] rounded-[15px] px-[19px] py-[23px]"
             >
-              <span className="text-sm font-normal leading-[17px] text-gray-700">{kpi.label}</span>
+              <span className="text-sm font-normal leading-5 text-gray-700">{kpi.label}</span>
               <div className="flex items-end justify-between gap-[23px]">
-                <span className="text-2xl font-bold leading-[29px] text-navy">{kpi.value}</span>
+                <span className="text-2xl font-bold leading-8 text-navy">{kpi.value}</span>
                 <Sparkline id={kpi.label} points={kpi.trend} />
               </div>
             </div>
@@ -94,12 +94,12 @@ export function DashboardView({
       <section className="flex flex-col gap-8 px-4 py-5 sm:px-6 lg:px-8">
         <Card>
           <div className="edge-bottom flex items-center justify-between gap-7 px-5 py-[18px]">
-            <h2 className="text-xl font-semibold leading-5 tracking-[-0.4px] text-gray-700">
+            <h2 className="text-xl font-semibold leading-7 tracking-[-0.4px] text-gray-700">
               Needs Action
             </h2>
             <Link
               href={officeHref(base, 'needs-action')}
-              className="edge-gray200 flex items-center gap-2 rounded-lg px-[14px] py-[10px] text-sm font-semibold leading-6 text-gray-700 transition-colors hover:bg-gray-50"
+              className="edge-gray200 flex items-center gap-2 rounded-lg px-[14px] py-[10px] text-sm font-semibold leading-5 text-gray-700 transition-colors hover:bg-gray-50"
             >
               See all
               <ArrowRightIcon className="h-4 w-4 text-gray-900" />
@@ -114,7 +114,7 @@ export function DashboardView({
           <Card className="w-full px-[19px] py-5 xl:w-[651px] xl:shrink-0">
             <div className="flex flex-col gap-7">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-900">
+                <h2 className="text-sm font-semibold uppercase leading-5 text-gray-900">
                   User growth
                 </h2>
                 {/* /admin/user-growth takes a month count. */}
@@ -136,7 +136,7 @@ export function DashboardView({
                   <div className="flex h-full flex-col justify-between">
                     {axisTicks(growthTop).map((tick, i) => (
                       <div key={i} className="flex items-center gap-1">
-                        <span className="w-7 shrink-0 text-right text-[10px] leading-[7px] text-[#6D7280]">
+                        <span className="w-7 shrink-0 text-right text-xs leading-4 text-[#6D7280]">
                           {tick}
                         </span>
                         <span className="plot-line flex-1" />
@@ -164,7 +164,7 @@ export function DashboardView({
                     {growth.map((bar) => (
                       <span
                         key={bar.label}
-                        className="flex w-[59px] items-center justify-center px-[13px] py-[3px] text-center text-[10px] leading-[7px] text-[#6D7280]"
+                        className="flex w-[59px] items-center justify-center px-[13px] py-[3px] text-center text-xs leading-4 text-[#6D7280]"
                       >
                         {bar.label}
                       </span>
@@ -188,10 +188,10 @@ export function DashboardView({
           <Card className="flex min-w-0 flex-1 flex-col px-[19px] py-5">
             <div className="flex flex-1 flex-col gap-5">
               <div className="flex w-full items-center justify-between gap-1">
-                <h2 className="text-sm font-semibold uppercase leading-[17px] text-gray-700">
+                <h2 className="text-sm font-semibold uppercase leading-5 text-gray-700">
                   Where incidents are
                 </h2>
-                <span className="text-xs font-normal leading-[15px] text-gray-500">
+                <span className="text-xs font-normal leading-4 text-gray-500">
                   {places.length} located
                 </span>
               </div>
@@ -199,7 +199,7 @@ export function DashboardView({
               {places.length ? (
                 <IncidentMiniMap places={places} />
               ) : (
-                <p className="py-16 text-center text-sm leading-6 text-gray-500">
+                <p className="py-16 text-center text-sm leading-5 text-gray-500">
                   No incident on record carries a location yet.
                 </p>
               )}

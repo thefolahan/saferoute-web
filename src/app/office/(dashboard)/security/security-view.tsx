@@ -191,9 +191,9 @@ function Card({
   return (
     <section className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <h2 className="text-lg font-semibold leading-[22px] text-black">{title}</h2>
+        <h2 className="text-lg font-semibold leading-7 text-black">{title}</h2>
         {note ? (
-          <p className="max-w-[760px] text-sm font-normal leading-6 text-gray-500">{note}</p>
+          <p className="max-w-[760px] text-sm font-normal leading-5 text-gray-500">{note}</p>
         ) : null}
       </div>
       {children}
@@ -217,7 +217,7 @@ function Chip({
 
   return (
     <span
-      className={`inline-flex items-center rounded-2xl px-3 py-1 text-xs font-semibold capitalize leading-[18px] ${classes}`}
+      className={`inline-flex items-center rounded-2xl px-3 py-1 text-xs font-semibold capitalize leading-4 ${classes}`}
     >
       {children}
     </span>

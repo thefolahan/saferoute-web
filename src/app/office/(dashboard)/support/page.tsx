@@ -1,5 +1,5 @@
 import { officeFetch } from '../../_lib/session';
-import { rangeToDates } from '../../_components/ui';
+import { rangeToDates } from '../../_lib/ranges';
 import { SupportView, type Ticket, type TicketDetail } from './support-view';
 
 export const dynamic = 'force-dynamic';

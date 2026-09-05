@@ -136,7 +136,7 @@ export function LoginForm({ base }: { base: string }) {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="Enter official email..."
-                className="h-12 w-full bg-transparent text-[15px] leading-[18px] text-gray-900 placeholder:text-[#9CA3AF] focus:outline-none"
+                className="h-12 w-full bg-transparent text-base leading-6 text-gray-900 placeholder:text-[#9CA3AF] focus:outline-none"
               />
             </FieldRow>
 
@@ -150,7 +150,7 @@ export function LoginForm({ base }: { base: string }) {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="Enter official password..."
-                className="h-12 w-full bg-transparent text-[15px] leading-[18px] text-gray-900 placeholder:text-[#9CA3AF] focus:outline-none"
+                className="h-12 w-full bg-transparent text-base leading-6 text-gray-900 placeholder:text-[#9CA3AF] focus:outline-none"
               />
               <button
                 type="button"
@@ -182,7 +182,7 @@ export function LoginForm({ base }: { base: string }) {
                 alt="Authenticator setup QR code"
                 className="h-[168px] w-[168px] rounded-lg border border-gray-200 bg-white p-2"
               />
-              <p className="text-center text-[13px] leading-5 text-gray-500">
+              <p className="text-center text-sm leading-5 text-gray-500">
                 Can&apos;t scan? Add the account manually using the key in your
                 authenticator app.
               </p>
@@ -198,7 +198,7 @@ export function LoginForm({ base }: { base: string }) {
               value={code}
               onChange={(event) => setCode(event.target.value)}
               placeholder="6-digit code"
-              className="h-12 w-full bg-transparent text-[15px] leading-[18px] tracking-[0.2em] text-gray-900 placeholder:tracking-normal placeholder:text-[#9CA3AF] focus:outline-none"
+              className="h-12 w-full bg-transparent text-base leading-6 tracking-[0.2em] text-gray-900 placeholder:tracking-normal placeholder:text-[#9CA3AF] focus:outline-none"
             />
           </FieldRow>
 
@@ -208,7 +208,7 @@ export function LoginForm({ base }: { base: string }) {
 
       {step.name === 'recovery' ? (
         <div className={CARD}>
-          <ul className="m-1 grid grid-cols-2 gap-2 rounded-[10px] bg-gray-50 p-4 font-mono text-[13px] leading-6 text-gray-900">
+          <ul className="m-1 grid grid-cols-2 gap-2 rounded-[10px] bg-gray-50 p-4 font-mono text-sm leading-5 text-gray-900">
             {step.codes.map((recoveryCode) => (
               <li key={recoveryCode}>{recoveryCode}</li>
             ))}
@@ -220,7 +220,7 @@ export function LoginForm({ base }: { base: string }) {
                 router.replace(base);
                 router.refresh();
               }}
-              className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#111827] text-[14px] font-semibold leading-5 text-white"
+              className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#111827] text-sm font-semibold leading-5 text-white"
               style={{ boxShadow: BUTTON_SHADOW }}
             >
               I&apos;ve saved these — continue
@@ -230,7 +230,7 @@ export function LoginForm({ base }: { base: string }) {
       ) : null}
 
       {error ? (
-        <p className="text-[13px] leading-5 text-[#D92D20]" role="alert">
+        <p className="text-sm leading-5 text-[#D92D20]" role="alert">
           {error}
         </p>
       ) : null}
@@ -242,7 +242,7 @@ export function LoginForm({ base }: { base: string }) {
             setStep({ name: 'credentials' });
             setError(null);
           }}
-          className="text-[13px] font-medium leading-5 text-gray-500 underline transition-opacity hover:opacity-70"
+          className="text-sm font-medium leading-5 text-gray-500 underline transition-opacity hover:opacity-70"
         >
           Use a different account
         </button>
@@ -275,7 +275,7 @@ function Action({
       <button
         type="submit"
         disabled={busy}
-        className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#111827] text-[14px] font-semibold leading-5 text-white disabled:opacity-60"
+        className="flex h-11 w-full items-center justify-center rounded-[10px] bg-[#111827] text-sm font-semibold leading-5 text-white disabled:opacity-60"
         style={{ boxShadow: BUTTON_SHADOW }}
       >
         {busy ? busyLabel : label}
