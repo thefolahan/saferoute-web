@@ -18,6 +18,7 @@ import { Avatar } from './avatar';
 import { useAdmin } from './admin-context';
 import { useNav } from './nav-state';
 import { GlobalSearch } from './global-search';
+import { FIELD_TEXT, fieldShell } from './ui';
 
 /* Figma 907:17300 "Frame 33602" (with region/state filters) and its sibling
    "Frame 33603" (without). 1190x72, pad 8/32, 1px bottom hairline. */
@@ -241,7 +242,7 @@ function FilterSelect({
   const value = params.get(param) ?? '';
 
   return (
-    <span className="flex h-11 w-[172px] items-center gap-2 rounded-lg bg-rule px-[14px] py-[10px]">
+    <span className={fieldShell('filled', 'w-[172px]')}>
       <select
         value={value}
         aria-label={label}
@@ -253,7 +254,7 @@ function FilterSelect({
           const text = query.toString();
           router.replace(text ? `?${text}` : '?', { scroll: false });
         }}
-        className="flex-1 cursor-pointer appearance-none bg-transparent text-sm font-normal leading-6 text-gray-700 outline-none"
+        className={`flex-1 cursor-pointer appearance-none bg-transparent outline-none ${FIELD_TEXT}`}
       >
         <option value="">{label}</option>
         {options.map((option) => (

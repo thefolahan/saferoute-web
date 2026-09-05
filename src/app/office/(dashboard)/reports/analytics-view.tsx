@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Shell } from '../../_components/shell';
 import { LineChart, axisTicks, niceCeiling } from '../../_components/line-chart';
-import { Card, ChevronDown, Select } from '../../_components/ui';
+import { Card, ChevronDown, FIELD_TEXT, Select, fieldShell } from '../../_components/ui';
 import { CalendarOutlineIcon, ClockIcon } from '../../_components/icons';
 
 /* Figma 907:17661 "Analytics" — KPI grid, response/severity blocks, the
@@ -395,10 +395,7 @@ function RangeSelect() {
   ];
 
   return (
-    <span
-      className="edge-gray200 flex h-11 w-full items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]"
-      style={{ maxWidth: 240 }}
-    >
+    <span className={fieldShell('filter', 'w-full')} style={{ maxWidth: 260 }}>
       <CalendarOutlineIcon className="h-4 w-4 shrink-0 text-gray-700" />
       <select
         value={value}
@@ -408,7 +405,7 @@ function RangeSelect() {
           query.set('days', event.target.value);
           router.replace(`?${query.toString()}`, { scroll: false });
         }}
-        className="flex-1 cursor-pointer appearance-none bg-transparent text-sm font-medium leading-6 text-gray-700 outline-none"
+        className={`flex-1 cursor-pointer appearance-none bg-transparent outline-none ${FIELD_TEXT}`}
       >
         {options.map(([id, label]) => (
           <option key={id} value={id}>

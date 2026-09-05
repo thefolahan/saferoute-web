@@ -7,7 +7,7 @@ import { Shell } from '../../_components/shell';
 import { officeHref, useOfficeBase } from '../../_lib/office-path';
 import { Tabs } from '../../_components/tabs';
 import { ActionRowList, type ActionRowData } from '../../_components/action-row';
-import { Card } from '../../_components/ui';
+import { Card, FIELD_TEXT, fieldShell } from '../../_components/ui';
 import {
   CalendarIcon,
   ChevronDownIcon,
@@ -42,6 +42,13 @@ export function BroadcastView({
   const router = useRouter();
   const { pending, error, run } = useAction();
   const [query, setQuery] = useState('');
+  /**
+   * The date chip was a `div` with a chevron and no handler — decorative, and
+   * missed by the sweep that fixed the other dead pickers because it was not
+   * built from `Select`. It filters here rather than server-side for the same
+   * reason the search box does: the list is capped at 50 and already loaded.
+   */
+  const [days, setDays] = useState('0');
 
   // The broadcast list takes no search term and is capped at 50 rows, so the
   // box filters what is already here.
@@ -53,6 +60,13 @@ export function BroadcastView({
           .includes(needle)
       )
     : rows;
+
+  const since =
+    days === '0' ? null : Date.now() - Number(days) * 24 * 60 * 60 * 1000;
+  const visibleRows = since
+    ? visible.filter((row) => row.at && new Date(row.at).getTime() >= since)
+    : visible;
+
 
   return (
     /*
@@ -84,7 +98,7 @@ export function BroadcastView({
         </div>
 
         <div className="flex flex-col gap-3 py-[15px] sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex h-11 w-full items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px] sm:w-[302px]">
+          <div className={fieldShell('filter', 'w-full sm:w-[302px]')}>
             <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-400" />
             <input
               type="search"
@@ -92,17 +106,25 @@ export function BroadcastView({
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search Broadcast"
               aria-label="Search broadcasts"
-              className="w-full flex-1 border-0 bg-transparent p-0 text-base font-medium leading-6 text-gray-900 outline-none placeholder:text-gray-400"
+              className={`w-full flex-1 border-0 bg-transparent p-0 outline-none ${FIELD_TEXT} placeholder:text-gray-400`}
             />
           </div>
 
-          <div className="edge-gray200 flex h-11 w-[193px] items-center gap-2 rounded-lg bg-[#F7F7F7] px-[14px] py-[10px]">
+          <span className={fieldShell('filter', 'w-[210px]')}>
             <CalendarIcon className="h-4 w-4 shrink-0 text-gray-700" />
-            <span className="flex-1 text-base font-normal leading-6 text-gray-700">
-              Last 7 days
-            </span>
+            <select
+              value={days}
+              aria-label="Period"
+              onChange={(event) => setDays(event.target.value)}
+              className={`flex-1 cursor-pointer appearance-none bg-transparent outline-none ${FIELD_TEXT}`}
+            >
+              <option value="0">All time</option>
+              <option value="7">Last 7 days</option>
+              <option value="30">Last 30 days</option>
+              <option value="90">Last 90 days</option>
+            </select>
             <ChevronDownIcon className="h-4 w-4 shrink-0 text-gray-900" />
-          </div>
+          </span>
         </div>
 
         {error ? (
@@ -136,7 +158,7 @@ export function BroadcastView({
                 still be pulled back and is absent on the rest.
               */
               onAction={(row) => run(() => cancelBroadcast(row.id))}
-              rows={visible.map((row) =>
+              rows={visibleRows.map((row) =>
                 row.cancellable ? { ...row, action: CANCEL } : row
               )}
             />

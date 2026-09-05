@@ -81,8 +81,7 @@ export function VerificationView({
           {/* Filters on when the ID was submitted, not when the account was made. */}
           <Select
             label="Any date"
-            weight="semibold"
-            className="w-[132px] shrink-0"
+            className="shrink-0"
             param="range"
             options={RANGES}
           />

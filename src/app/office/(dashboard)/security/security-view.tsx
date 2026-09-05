@@ -2,6 +2,7 @@
 
 import { Shell } from '../../_components/shell';
 import { Avatar } from '../../_components/avatar';
+import { CompactTable as Table } from '../../_components/table';
 import { useAction } from '../../_components/use-action';
 import { revokeAdminSession } from '../../_lib/actions';
 
@@ -197,60 +198,6 @@ function Card({
       </div>
       {children}
     </section>
-  );
-}
-
-function Table({
-  head,
-  rows,
-  empty
-}: {
-  head: string[];
-  rows: React.ReactNode[][];
-  empty: string;
-}) {
-  if (rows.length === 0) {
-    return <p className="text-sm leading-6 text-gray-500">{empty}</p>;
-  }
-
-  return (
-    <div className="edge max-w-full overflow-x-auto rounded-[10px]">
-      <table className="w-full min-w-[760px] border-collapse">
-        <thead>
-          <tr>
-            {head.map((cell, i) => (
-              <th
-                key={i}
-                className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] px-4 text-left text-[12px] font-medium uppercase leading-[18px] text-[#667085]"
-              >
-                {cell}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((cells, i) => (
-            /*
-              The rule belongs to the row, not the cell.
-
-              `last:border-b-0` on a <td> matches the last CELL of every row —
-              which left a gap at the right-hand end of each rule instead of
-              clearing the one under the final row.
-            */
-            <tr key={i} className="last:[&>td]:border-b-0">
-              {cells.map((cell, j) => (
-                <td
-                  key={j}
-                  className="border-b border-[#EAECF0] px-4 py-3 align-middle text-sm font-normal leading-5 text-gray-700"
-                >
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   );
 }
 

@@ -47,8 +47,13 @@ function MenuItem({
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm leading-5 ${
-        active ? 'bg-white/10 font-semibold text-white' : 'text-gray-300'
+      /*
+        The bar is dark by design (Figma 907:17461), so the palette is its own —
+        but the type is the dashboard's: the same 14/20 the tables and menus
+        use everywhere else, rather than a third scale invented for this screen.
+      */
+      className={`flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left text-sm font-normal leading-5 ${
+        active ? 'bg-white/10 font-medium text-white' : 'text-gray-300'
       }`}
     >
       <span className="truncate">{label}</span>

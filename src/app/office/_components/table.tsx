@@ -184,6 +184,66 @@ export function DataTable<T>({
   );
 }
 
+/**
+ * A compact table for a panel or a tab — the detail tabs and the Security
+ * screen both grew one of these independently, and the two disagreed with each
+ * other and with `DataTable`: 12px uppercase headers against 13px sentence
+ * case, 40px header rows against 44, top-aligned cells against middle.
+ *
+ * Not `DataTable`, which carries the Figma column widths that sum to the 1190
+ * content area — right for a full-page table, wrong for a list sharing a page
+ * with a hero card. Same type scale though, so the two read as one family.
+ */
+export function CompactTable({
+  head,
+  rows,
+  empty,
+  minWidth = 640
+}: {
+  head: string[];
+  rows: ReactNode[][];
+  empty: ReactNode;
+  minWidth?: number;
+}) {
+  if (rows.length === 0) {
+    return <p className="text-sm leading-6 text-gray-500">{empty}</p>;
+  }
+
+  return (
+    <div className="edge max-w-full overflow-x-auto rounded-[10px]">
+      <table className="w-full border-collapse" style={{ minWidth }}>
+        <thead>
+          <tr>
+            {head.map((cell, i) => (
+              <th
+                key={i}
+                className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] px-4 text-left text-[13px] font-medium leading-[18px] text-[#667085]"
+              >
+                {cell}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((cells, i) => (
+            /* The rule belongs to the row, not the cell — see DataTable. */
+            <tr key={i} className="last:[&>td]:border-b-0">
+              {cells.map((cell, j) => (
+                <td
+                  key={j}
+                  className="border-b border-[#EAECF0] px-4 py-3 align-middle text-sm font-normal leading-5 text-gray-700"
+                >
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 /** Plain body text in a cell — Inter 14/20 w400 Gray/700. */
 export function CellText({ children }: { children: ReactNode }) {
   return <span className="text-sm font-normal leading-5 text-gray-700">{children}</span>;

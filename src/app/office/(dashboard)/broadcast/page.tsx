@@ -76,6 +76,7 @@ export default async function BroadcastPage({
         ],
         lead: broadcast.title,
         rest: ` — ${broadcast.message}`,
+        at: broadcast.scheduledFor ?? broadcast.sentAt ?? broadcast.createdAt,
         meta: [
           broadcast.city ?? 'Everyone',
           broadcast.channels.length

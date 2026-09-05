@@ -7,7 +7,7 @@ import { useAction } from '../../_components/use-action';
 import { replyToTicket, setTicketStatus } from '../../_lib/actions';
 import { officeHref, useOfficeBase } from '../../_lib/office-path';
 import { Tabs } from '../../_components/tabs';
-import { RANGES, Select } from '../../_components/ui';
+import { RANGES, Select, fieldShell } from '../../_components/ui';
 import { CustomerServiceIcon, SearchLgIcon, UserSolidIcon } from '../../_components/icons';
 import { AttachButton, ComposeField, ComposeModal } from '../../_components/compose-modal';
 
@@ -134,8 +134,7 @@ export function SupportView({
               />
               <Select
                 label="Any date"
-                weight="semibold"
-                className="w-[132px] shrink-0"
+                className="shrink-0"
                 param="range"
                 options={RANGES}
               />
@@ -143,7 +142,7 @@ export function SupportView({
           </div>
 
           <div className="flex items-center border-b border-[#EAECF0] bg-[#FCFCFD] px-4 py-3 sm:px-6 lg:px-8">
-            <div className="edge-gray200 flex h-11 flex-1 items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px]">
+            <div className={fieldShell('filter', 'flex-1')}>
               <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-500" />
               <input
                 type="search"

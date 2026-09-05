@@ -24,6 +24,13 @@ export type ActionRowData = {
   cancellable?: boolean;
   /** Verified reports — whether the verification can be taken back. */
   revocable?: boolean;
+  /**
+   * When this happened, as an ISO string. `meta` carries the same moment
+   * formatted for reading; a filter needs the machine-readable one, and
+   * parsing "Sent 4 Sept" back into a date would be inventing a parser for
+   * text we already had as a timestamp.
+   */
+  at?: string;
 };
 
 const BADGE_CLASS: Record<ActionBadge['tone'], string> = {

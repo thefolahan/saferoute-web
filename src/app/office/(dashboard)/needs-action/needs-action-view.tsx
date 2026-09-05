@@ -42,8 +42,7 @@ export function NeedsActionView({
             {/* "Type" here is the incident's category — what a moderator triages by. */}
             <Select
               label="All types"
-              weight="semibold"
-              className="w-[176px] shrink-0"
+              className="shrink-0"
               param="category"
               options={[
                 { value: '', label: 'All types' },

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { Avatar } from './avatar';
+import { CompactTable } from './table';
 
 /**
  * The building blocks the account tabs are made of.
@@ -81,12 +82,9 @@ export function Rows({ rows }: { rows: Row[] }) {
 }
 
 /**
- * A compact table for a tab's list.
- *
- * Not `DataTable`: that one carries the Figma column widths that sum to the
- * 1190 content area, which is right for a full-page table and wrong for a
- * list inside a tab that shares the page with a hero card. This one sizes to
- * its content and scrolls horizontally inside its own box.
+ * The tab lists' table. One line, because it is `CompactTable` — it used to be
+ * a second implementation with its own 12px uppercase header, which is exactly
+ * the drift this now avoids.
  */
 export function MiniTable({
   head,
@@ -97,47 +95,7 @@ export function MiniTable({
   rows: ReactNode[][];
   empty: string;
 }) {
-  if (rows.length === 0) return <Empty>{empty}</Empty>;
-
-  return (
-    <div className="edge max-w-full overflow-x-auto rounded-[10px]">
-      <table className="w-full min-w-[640px] border-collapse">
-        <thead>
-          <tr>
-            {head.map((cell) => (
-              <th
-                key={cell}
-                className="h-10 border-b border-[#EAECF0] bg-[#FCFCFD] px-4 text-left text-[12px] font-medium uppercase leading-[18px] tracking-[0.02em] text-[#667085]"
-              >
-                {cell}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((cells, i) => (
-            /*
-              The rule belongs to the row, not the cell.
-
-              `last:border-b-0` on a <td> matches the last CELL of every row —
-              which left a gap at the right-hand end of each rule instead of
-              clearing the one under the final row.
-            */
-            <tr key={i} className="last:[&>td]:border-b-0">
-              {cells.map((cell, j) => (
-                <td
-                  key={j}
-                  className="border-b border-[#EAECF0] px-4 py-3 align-top text-sm font-normal leading-5 text-gray-700"
-                >
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  return <CompactTable head={head} rows={rows} empty={empty} />;
 }
 
 export type PersonCard = {

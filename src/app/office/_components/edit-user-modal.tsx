@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ComposeModal } from './compose-modal';
 import { useAction } from './use-action';
 import { updateUser } from '../_lib/actions';
+import { MODAL_FIELD } from './ui';
 
 /**
  * Correct an account's record.
@@ -218,7 +219,7 @@ function Field({
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 w-full rounded-lg border-2 border-gray-100 px-[14px] text-sm font-normal leading-6 text-gray-900 outline-none placeholder:text-gray-400"
+        className={`w-full ${MODAL_FIELD}`}
       />
     </label>
   );
@@ -243,7 +244,7 @@ function Select({
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 w-full rounded-lg border-2 border-gray-100 bg-white px-[11px] text-sm font-normal leading-6 text-gray-900 outline-none"
+        className={`w-full appearance-none ${MODAL_FIELD}`}
       >
         {options.map(([id, text]) => (
           <option key={id} value={id}>

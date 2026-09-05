@@ -138,13 +138,48 @@ export function Badge({
 }
 
 /**
- * Input/select shell — 44h, pad 10/14, radius 8, gap 8.
- * `filled` is the topbar's #EEEEEE variant; `outline` is white + Gray/200.
+ * The one dropdown/field shell the dashboard uses.
  *
- * With `options` it is a real select bound to a search parameter; without
- * them it is the design's static chip, disabled and saying why on hover, so a
- * picker that cannot filter anything does not look like one that can.
+ * Figma draws this control twice and disagrees with itself: the filter row on
+ * Users, Contents and Verification (907:14093) is `#F6F6F6` with Inter 16/24
+ * w400, while the identical-looking row on Analytics (907:17665) is `#F7F7F7`
+ * with Inter 14/24 w500. Nobody can see one point of grey, but the type change
+ * is visible and the two rows sat on screens one click apart.
+ *
+ * So this deviates from the file deliberately: the filter-row spelling wins,
+ * because it is on far more screens, and every picker in the dashboard is now
+ * built from these constants rather than from its own copy. Everything else —
+ * 44 high, pad 10/14, radius 8, gap 8, Gray/200 inside stroke, Gray/700 text,
+ * 16px Gray/900 chevron — is what both frames already agreed on.
+ *
+ * `tone` is the only thing that varies, and only because the surface under it
+ * does: `filled` is the topbar sitting on white, `plain` is a modal's own form
+ * field on a white sheet.
  */
+export type FieldTone = 'filter' | 'filled' | 'plain';
+
+const TONES: Record<FieldTone, string> = {
+  filter: 'edge-gray200 bg-[#F6F6F6]',
+  filled: 'edge-gray200 bg-rule',
+  plain: 'edge-gray200 bg-white'
+};
+
+export function fieldShell(tone: FieldTone = 'filter', extra = '') {
+  return `flex h-11 items-center gap-2 rounded-lg px-[14px] py-[10px] ${TONES[tone]} ${extra}`;
+}
+
+/** Gray/700 at Inter 16/24 w400 — the field text on every screen. */
+export const FIELD_TEXT = 'text-base font-normal leading-6 text-gray-700';
+
+/**
+ * A form field inside a modal — taller and softer than a filter chip, matching
+ * the sheets in `modal.tsx` (54 high, radius 14, Gray/300 inside stroke). Same
+ * 16/24 type as everything else, so a select on a sheet and a select on a
+ * filter row are the same control at two sizes rather than two controls.
+ */
+export const MODAL_FIELD =
+  'edge-gray300 h-[54px] rounded-[14px] bg-white px-[14px] text-base font-normal leading-6 text-gray-900 outline-none placeholder:text-[#AFAFAF]';
+
 /**
  * The date presets the Support and Verification queues offer.
  *
@@ -181,18 +216,20 @@ export function rangeToDates(key: string | undefined): {
   return { from: from.toISOString(), to: new Date().toISOString() };
 }
 
+/**
+ * A dropdown. With `options` + `param` it filters through the URL; without them
+ * it is a disabled chip that says on hover why it cannot.
+ */
 export function Select({
   label,
-  variant = 'outline',
-  weight = 'medium',
+  tone = 'plain',
   className = '',
   param,
   options,
   unavailable
 }: {
   label: string;
-  variant?: 'filled' | 'outline';
-  weight?: 'normal' | 'medium' | 'semibold';
+  tone?: FieldTone;
   className?: string;
   /** The search parameter this picker writes to. */
   param?: string;
@@ -200,11 +237,8 @@ export function Select({
   /** Why this picker does nothing, when it does nothing. */
   unavailable?: string;
 }) {
-  const weights = { normal: 'font-normal', medium: 'font-medium', semibold: 'font-semibold' };
-  const shell = `flex h-11 items-center gap-2 rounded-lg px-[14px] py-[10px] ${
-    variant === 'filled' ? 'bg-rule' : 'edge-gray200 bg-white'
-  } ${className}`;
-  const text = `flex-1 text-left text-sm leading-6 text-gray-700 ${weights[weight]}`;
+  const shell = fieldShell(tone, className);
+  const text = `flex-1 text-left ${FIELD_TEXT}`;
 
   if (options && param) {
     return <BoundSelect className={shell} textClassName={text} param={param} options={options} />;

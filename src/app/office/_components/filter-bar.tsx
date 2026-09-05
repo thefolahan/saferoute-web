@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChevronDownIcon, SearchLgIcon } from './icons';
+import { FIELD_TEXT, fieldShell } from './ui';
 
 /* Figma 907:14093 — the search + selects row above a table.
    44h fields, fill #F6F6F6, 1px inside Gray/200, radius 8, text 16/24. */
@@ -55,12 +56,10 @@ export function FilterField({
     return (
       <div
         title={unavailable}
-        className="edge-gray200 flex h-11 w-full shrink-0 cursor-not-allowed items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px] opacity-60 sm:w-auto"
+        className={fieldShell('filter', 'w-full shrink-0 cursor-not-allowed opacity-60 sm:w-auto')}
         style={{ maxWidth: width }}
       >
-        <span className="flex-1 truncate text-base font-normal leading-6 text-gray-700">
-          {placeholder}
-        </span>
+        <span className={`flex-1 truncate ${FIELD_TEXT}`}>{placeholder}</span>
         <ChevronDownIcon className="h-4 w-4 shrink-0 text-gray-900" />
       </div>
     );
@@ -68,7 +67,7 @@ export function FilterField({
 
   return (
     <div
-      className="edge-gray200 flex h-11 w-full shrink-0 items-center gap-2 rounded-lg bg-[#F6F6F6] px-[14px] py-[10px] sm:w-auto"
+      className={fieldShell('filter', 'w-full shrink-0 sm:w-auto')}
       style={{ maxWidth: width }}
     >
       {search ? <SearchLgIcon className="h-5 w-5 shrink-0 text-gray-500" /> : null}

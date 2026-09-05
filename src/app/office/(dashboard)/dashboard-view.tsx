@@ -63,8 +63,7 @@ export function DashboardView({
           {/* /admin/overview takes this range, so it is a real filter. */}
           <Select
             label="Today"
-            weight="semibold"
-            className="w-[126px] shrink-0"
+            className="shrink-0"
             param="range"
             options={[
               { value: 'today', label: 'Today' },
