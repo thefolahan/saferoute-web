@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic';
 export default async function CommunityUserPage({
   searchParams
 }: {
-  searchParams: Promise<{ id?: string }>;
+  searchParams: Promise<{ id?: string; tab?: string }>;
 }) {
-  const { id } = await searchParams;
-  return renderUserDetail({ id, kind: 'community' });
+  const { id, tab } = await searchParams;
+  return renderUserDetail({ id, tab, kind: 'community' });
 }

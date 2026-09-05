@@ -248,6 +248,68 @@ export async function setUserStatus(
  * send one from, and a moderator writing into a peer thread would read as
  * another citizen rather than SafeRoute.
  */
+/**
+ * End every session this account has open.
+ *
+ * The refresh tokens are revoked rather than deleted — a token that was issued
+ * and then revoked is part of the record of what happened to the account.
+ */
+export async function revokeUserSessions(
+  id: string,
+  reason?: string
+): Promise<ActionResult> {
+  return toResult(
+    await officeSend(`/admin/users/${id}/sessions/revoke`, 'POST', {
+      reason: reason?.trim() || 'Revoked from the dashboard'
+    })
+  );
+}
+
+/** Edit an account's record — the fields the Overview tab can change. */
+export async function updateUser(
+  id: string,
+  patch: Record<string, string | number | boolean>
+): Promise<ActionResult> {
+  return toResult(await officeSend(`/admin/users/${id}`, 'PATCH', patch));
+}
+
+/** Suspend or restore several accounts from the Users table's selection. */
+export async function bulkUserStatus(
+  userIds: string[],
+  status: 'active' | 'suspended',
+  reason?: string
+): Promise<ActionResult> {
+  return toResult(
+    await officeSend('/admin/bulk/users/status', 'POST', {
+      userIds,
+      status,
+      reason: reason?.trim() || undefined
+    })
+  );
+}
+
+/** One message to every selected account. */
+export async function bulkNotify(
+  userIds: string[],
+  input: { title: string; body: string; kind: 'message' | 'warning' }
+): Promise<ActionResult> {
+  return toResult(
+    await officeSend('/admin/bulk/users/notify', 'POST', {
+      userIds,
+      title: input.title.trim(),
+      body: input.body.trim(),
+      kind: input.kind
+    })
+  );
+}
+
+/** End one dashboard session from the Security screen. */
+export async function revokeAdminSession(id: string): Promise<ActionResult> {
+  return toResult(
+    await officeSend(`/admin/security/sessions/${id}/revoke`, 'POST')
+  );
+}
+
 export async function notifyUser(
   id: string,
   input: { title: string; body: string; kind: 'message' | 'warning' }

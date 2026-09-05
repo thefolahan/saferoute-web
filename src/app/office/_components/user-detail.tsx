@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { Shell } from './shell';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { MessageIcon, ShieldOutlineIcon, UserGroupIcon } from './icons';
 import { ArrowRightIcon } from './ui';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ import { ComposeField, ComposeModal } from './compose-modal';
 import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Avatar } from './avatar';
 import { useAction } from './use-action';
-import { notifyUser, setUserStatus } from '../_lib/actions';
+import { notifyUser, revokeUserSessions, setUserStatus } from '../_lib/actions';
 
 /* Figma 907:14716 (agency) and 907:15289 (community member) — one detail
    screen with two subject types and a tab strip whose set differs per type.
@@ -42,13 +43,33 @@ export type DetailSubject = {
 
 export function UserDetail({
   subject,
-  panels
+  activeTab,
+  panel
 }: {
   subject: DetailSubject;
-  panels: Record<string, ReactNode>;
+  /** Which tab the URL asks for; the page has already fetched only its data. */
+  activeTab: string;
+  panel: ReactNode;
 }) {
-  const [tab, setTab] = useState(subject.tabs[0]!.id);
   const { pending, error, run } = useAction();
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  /**
+   * The tab is a link, not local state.
+   *
+   * Each tab is a different query against the API, and the fetch happens in
+   * the server page — so a tab held in `useState` could only ever show data
+   * the page had already loaded, which is why every tab but the first was
+   * either empty or a repeat. Putting it in the URL also means a tab can be
+   * linked to and survives a refresh. Same shape as the `?id` fix on the
+   * detail panels; see the note in the office write-up.
+   */
+  function tabHref(id: string) {
+    const next = new URLSearchParams(params.toString());
+    next.set('tab', id);
+    return `${pathname}?${next.toString()}`;
+  }
 
   /** One sheet, two purposes — the design draws the same form for both. */
   const [compose, setCompose] = useState<'message' | 'warning' | null>(null);
@@ -56,6 +77,8 @@ export function UserDetail({
   const [body, setBody] = useState('');
 
   const suspended = subject.status === 'suspended';
+  /** Confirmation for the two actions that are not one click's worth of harm. */
+  const [confirm, setConfirm] = useState<'revoke' | null>(null);
 
   function openCompose(kind: 'message' | 'warning') {
     setSubjectLine(kind === 'warning' ? 'A warning about your SafeRoute account' : '');
@@ -155,6 +178,31 @@ export function UserDetail({
                       >
                         Send a warning
                       </button>
+                      {/*
+                        Ends every session on every phone. Separate from
+                        suspending: a stolen handset needs the sessions gone
+                        and the account left working, and a compromised account
+                        needs both — so they are two buttons, not one.
+                      */}
+                      <button
+                        type="button"
+                        disabled={pending}
+                        onClick={() => setConfirm('revoke')}
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700 disabled:opacity-50"
+                      >
+                        Sign out everywhere
+                      </button>
+                      {/*
+                        The whole record as JSON. Proxied through the site so
+                        the admin session stays an httpOnly cookie — the API
+                        wants a bearer token the browser must never hold.
+                      */}
+                      <a
+                        href={`/api/office/users/${subject.id}/export`}
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                      >
+                        Export record
+                      </a>
                       <button
                         type="button"
                         disabled={pending || subject.status === 'deleted'}
@@ -243,25 +291,49 @@ export function UserDetail({
           <div className="flex flex-col gap-[18px] pb-10">
             <div className="edge-bottom flex max-w-full items-center overflow-x-auto">
               {subject.tabs.map((t) => (
-                <button
+                <Link
                   key={t.id}
-                  type="button"
-                  onClick={() => setTab(t.id)}
+                  href={tabHref(t.id)}
+                  scroll={false}
                   className={`flex h-[49px] shrink-0 items-center justify-center px-[22px] text-base font-semibold leading-[19px] ${
-                    t.id === tab
+                    t.id === activeTab
                       ? 'text-black shadow-[inset_0_-3px_0_0_#000000]'
                       : 'text-gray-600'
                   }`}
                 >
                   {t.label}
-                </button>
+                </Link>
               ))}
             </div>
 
-            {panels[tab]}
+            {panel}
           </div>
         </div>
       </div>
+
+      {/*
+        Signing an account out is not undoable from here — the person has to
+        sign in again on every device — so it asks first, and says how many
+        sessions it will end where the API has told us.
+      */}
+      <ComposeModal
+        open={confirm === 'revoke'}
+        onClose={() => setConfirm(null)}
+        title="Sign out everywhere"
+        subtitle={`Ends every active session on ${subject.name}'s devices. They stay signed up and can sign in again; anyone holding a stolen phone cannot.`}
+        width={520}
+        cta="Sign out everywhere"
+        pending={pending}
+        error={error}
+        onSubmit={() =>
+          run(
+            () => revokeUserSessions(subject.id),
+            () => setConfirm(null)
+          )
+        }
+      >
+        <span className="sr-only">No further input is needed.</span>
+      </ComposeModal>
 
       {/* Figma 907:16106 "Send message", reused for the warning */}
       <ComposeModal

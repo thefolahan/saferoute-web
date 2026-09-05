@@ -5,7 +5,9 @@ import {
   HomeIcon,
   MapIcon,
   ShieldIcon,
+  ShieldOutlineIcon,
   SignalIcon,
+  ClockIcon,
   SlidersIcon,
   SupportIcon,
   TrendingIcon,
@@ -76,7 +78,15 @@ export const NAV: NavGroup[] = [
         icon: SlidersIcon,
         iconColor: '#D5D7DA'
       },
-      { label: 'Access control', route: 'access-control', icon: UserPlusIcon, iconColor: '#F5F5F5' }
+      { label: 'Access control', route: 'access-control', icon: UserPlusIcon, iconColor: '#F5F5F5' },
+      /*
+        Two screens the designer did not draw, for two tables the API has
+        always written and nothing could ever read: every admin action, and
+        who is signed into the dashboard. Added under Settings because they
+        are about the team rather than about the citizens.
+      */
+      { label: 'Audit log', route: 'audit-log', icon: ClockIcon, iconColor: '#D5D7DA' },
+      { label: 'Security', route: 'security', icon: ShieldOutlineIcon, iconColor: '#F5F5F5' }
     ]
   }
 ];

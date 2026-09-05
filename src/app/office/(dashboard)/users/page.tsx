@@ -17,6 +17,8 @@ type ApiUser = {
   kycStatus: 'not_required' | 'pending' | 'approved' | 'rejected';
   city: string | null;
   status: string;
+  strikes: number;
+  seededBot: boolean;
   lastActiveAt: string | null;
 };
 
@@ -46,24 +48,45 @@ const TYPE_LABEL: Record<ApiUser['accountType'], string> = {
 export default async function UsersPage({
   searchParams
 }: {
-  searchParams: Promise<{
-    tab?: string;
-    page?: string;
-    q?: string;
-    type?: string;
-    status?: string;
-    city?: string;
-  }>;
+  searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const params = await searchParams;
   const tab = params.tab === 'officials' ? 'officials' : 'regular';
   const page = Number.parseInt(params.page ?? '1', 10) || 1;
   const base = await officeBase();
 
+  /**
+   * Every filter the API takes, forwarded verbatim.
+   *
+   * Listed rather than spread so a stray parameter in the URL cannot become a
+   * query the API was not asked to run — and so this list and the CSV proxy's
+   * are visibly the same set.
+   */
+  const FILTERS = [
+    'q',
+    'type',
+    'status',
+    'city',
+    'verification',
+    'kyc',
+    'seeded',
+    'joinedFrom',
+    'joinedTo',
+    'sort',
+    'direction'
+  ] as const;
+
   const query = new URLSearchParams({ tab, page: String(page) });
-  for (const key of ['q', 'type', 'status', 'city'] as const) {
+  for (const key of FILTERS) {
     const value = params[key];
     if (value) query.set(key, value);
+  }
+
+  /** The same filter, minus the page — an export is of the set, not the page. */
+  const exportQuery = new URLSearchParams({ tab });
+  for (const key of FILTERS) {
+    const value = params[key];
+    if (value) exportQuery.set(key, value);
   }
 
   const data = await officeFetch<ApiPage>(`/admin/users?${query.toString()}`);
@@ -76,6 +99,7 @@ export default async function UsersPage({
       page={data?.page ?? 1}
       pageCount={pageCount(data)}
       pageLabel={pageLabel(data)}
+      exportHref={`/api/office/users/export?${exportQuery.toString()}`}
       rows={rows.map((user): UserRow => ({
         id: user.id,
         // The officials table is headed by the organisation, not the person.
@@ -90,6 +114,8 @@ export default async function UsersPage({
         city: user.city ?? '—',
         active: relativeTime(user.lastActiveAt),
         credit: TYPE_LABEL[user.accountType],
+        strikes: user.strikes ?? 0,
+        seeded: user.seededBot ?? false,
         detailHref: `${base}/users/${user.accountType === 'community' ? 'community' : 'agency'}?id=${user.id}`
       }))}
     />

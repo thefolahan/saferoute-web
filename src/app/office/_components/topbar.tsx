@@ -17,6 +17,7 @@ import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Avatar } from './avatar';
 import { useAdmin } from './admin-context';
 import { useNav } from './nav-state';
+import { GlobalSearch } from './global-search';
 
 /* Figma 907:17300 "Frame 33602" (with region/state filters) and its sibling
    "Frame 33603" (without). 1190x72, pad 8/32, 1px bottom hairline. */
@@ -60,6 +61,9 @@ export function Topbar({ title, filters = false }: { title: string; filters?: bo
       </div>
 
       <div className="flex items-center justify-center gap-5">
+        {/* One box for every record — see GlobalSearch for why it proxies. */}
+        <GlobalSearch />
+
         {filters ? (
           <div className="hidden items-center gap-5 xl:flex">
             <FilterSelect label="All Region" />

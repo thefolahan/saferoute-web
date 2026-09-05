@@ -18,12 +18,27 @@ export type Column = {
   align?: 'left' | 'right';
 };
 
+/**
+ * Row selection, when the table has bulk actions above it.
+ *
+ * Optional and off by default: most of these tables are read-only lists, and
+ * a checkbox column on one of those is a control that does nothing.
+ */
+export type Selection = {
+  selected: Set<string>;
+  onToggle: (id: string) => void;
+  onToggleAll: () => void;
+  /** Whether every row on this page is selected — the header checkbox. */
+  allSelected: boolean;
+};
+
 export function DataTable<T>({
   columns,
   rows,
   cell,
   rowKey,
-  empty
+  empty,
+  selection
 }: {
   columns: Column[];
   rows: T[];
@@ -31,6 +46,7 @@ export function DataTable<T>({
   rowKey: (row: T, i: number) => string;
   /** Shown in place of the table when there is nothing to list. */
   empty?: ReactNode;
+  selection?: Selection;
 }) {
   if (rows.length === 0 && empty) {
     return (
@@ -55,12 +71,24 @@ export function DataTable<T>({
       <div className="hidden w-full overflow-x-auto md:block">
         <table className="w-full min-w-[1000px] table-fixed border-collapse">
           <colgroup>
+            {selection ? <col style={{ width: 48 }} /> : null}
             {columns.map((c) => (
               <col key={c.key} style={{ width: c.width }} />
             ))}
           </colgroup>
           <thead>
             <tr>
+              {selection ? (
+                <th className="h-11 border-b border-[#EAECF0] bg-[#FCFCFD] pl-8 pr-0 text-left">
+                  <input
+                    type="checkbox"
+                    aria-label="Select every account on this page"
+                    checked={selection.allSelected}
+                    onChange={selection.onToggleAll}
+                    className="h-4 w-4 accent-navy"
+                  />
+                </th>
+              ) : null}
               {columns.map((c) => (
                 <th
                   key={c.key}
@@ -79,6 +107,17 @@ export function DataTable<T>({
           <tbody>
             {rows.map((row, i) => (
               <tr key={rowKey(row, i)}>
+                {selection ? (
+                  <td className="h-[75px] border-b border-[#EAECF0] pl-8 pr-0 align-middle">
+                    <input
+                      type="checkbox"
+                      aria-label="Select this account"
+                      checked={selection.selected.has(rowKey(row, i))}
+                      onChange={() => selection.onToggle(rowKey(row, i))}
+                      className="h-4 w-4 accent-navy"
+                    />
+                  </td>
+                ) : null}
                 {columns.map((c) => (
                   <td
                     key={c.key}
@@ -104,6 +143,17 @@ export function DataTable<T>({
             key={rowKey(row, i)}
             className="flex flex-col gap-3 border-b border-[#EAECF0] px-4 py-4 sm:px-6"
           >
+            {selection ? (
+              <label className="flex items-center gap-2 text-[11px] font-medium uppercase leading-[18px] tracking-[0.4px] text-[#667085]">
+                <input
+                  type="checkbox"
+                  checked={selection.selected.has(rowKey(row, i))}
+                  onChange={() => selection.onToggle(rowKey(row, i))}
+                  className="h-4 w-4 accent-navy"
+                />
+                Select
+              </label>
+            ) : null}
             {columns.map((c) => {
               const content = cell(row, c.key);
               if (content === null || content === undefined) return null;

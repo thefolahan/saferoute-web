@@ -141,7 +141,15 @@ function SearchInput({
 
 export function FilterBar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-[10px] px-4 py-[15px] sm:flex-row sm:items-center sm:overflow-x-auto sm:px-6 lg:px-8">
+    /*
+      Wraps rather than scrolls sideways.
+
+      With four filters this changes nothing — they fit on one line either
+      way. With nine (the Users table now) a horizontal scroll container puts
+      the last controls, Export CSV among them, off the right edge with no
+      visible hint that they are there.
+    */
+    <div className="flex flex-col gap-[10px] px-4 py-[15px] sm:flex-row sm:flex-wrap sm:items-center sm:px-6 lg:px-8">
       {children}
     </div>
   );
