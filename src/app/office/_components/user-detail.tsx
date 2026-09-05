@@ -11,6 +11,7 @@ import { officeHref, useOfficeBase } from '../_lib/office-path';
 import { Avatar } from './avatar';
 import { useAction } from './use-action';
 import { notifyUser, revokeUserSessions, setUserStatus } from '../_lib/actions';
+import { EditUserModal, type EditableUser } from './edit-user-modal';
 
 /* Figma 907:14716 (agency) and 907:15289 (community member) — one detail
    screen with two subject types and a tab strip whose set differs per type.
@@ -39,6 +40,8 @@ export type DetailSubject = {
   scoreNote: string | null;
   stats: Stat[];
   tabs: { id: string; label: string }[];
+  /** The fields the Edit sheet can correct. */
+  editable: EditableUser;
 };
 
 export function UserDetail({
@@ -79,6 +82,7 @@ export function UserDetail({
   const suspended = subject.status === 'suspended';
   /** Confirmation for the two actions that are not one click's worth of harm. */
   const [confirm, setConfirm] = useState<'revoke' | null>(null);
+  const [editing, setEditing] = useState(false);
 
   function openCompose(kind: 'message' | 'warning') {
     setSubjectLine(kind === 'warning' ? 'A warning about your SafeRoute account' : '');
@@ -197,6 +201,13 @@ export function UserDetail({
                         the admin session stays an httpOnly cookie — the API
                         wants a bearer token the browser must never hold.
                       */}
+                      <button
+                        type="button"
+                        onClick={() => setEditing(true)}
+                        className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
+                      >
+                        Edit record
+                      </button>
                       <a
                         href={`/api/office/users/${subject.id}/export`}
                         className="edge-gray200 flex h-11 items-center rounded-lg bg-white px-[14px] py-[10px] text-sm font-medium leading-6 text-gray-700"
@@ -310,6 +321,13 @@ export function UserDetail({
           </div>
         </div>
       </div>
+
+      <EditUserModal
+        open={editing}
+        onClose={() => setEditing(false)}
+        user={subject.editable}
+        isAgency={subject.official}
+      />
 
       {/*
         Signing an account out is not undoable from here — the person has to

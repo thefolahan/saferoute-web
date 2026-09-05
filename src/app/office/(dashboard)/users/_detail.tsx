@@ -63,6 +63,13 @@ export type ApiUserDetail = {
   city: string | null;
   createdAt: string;
   lastActiveAt: string | null;
+  /** Present on the detail payload; used to seed the Edit sheet. */
+  role?: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  displayName?: string | null;
+  strikes?: number;
+  bannedAt?: string | null;
   stats: {
     followers: number;
     posts: number;
@@ -119,11 +126,14 @@ const TABS = [
 export async function renderUserDetail({
   id,
   kind,
-  tab
+  tab,
+  activityLimit
 }: {
   id?: string;
   kind: 'agency' | 'community';
   tab?: string;
+  /** How many activity entries to fetch; the tab's "Show more" raises it. */
+  activityLimit?: string;
 }) {
   const resolvedId = id ?? (await firstIdOfKind(kind));
 
@@ -188,6 +198,22 @@ export async function renderUserDetail({
       { value: format(user.stats.liveBroadcasts), label: 'Live Broadcasts' },
       { value: format(user.stats.reportsSubmitted), label: 'Reports Submitted' }
     ],
+    editable: {
+      id: user.id,
+      displayName: user.displayName ?? user.name,
+      firstName: user.firstName ?? null,
+      lastName: user.lastName ?? null,
+      homeCity: user.city,
+      accountType: user.accountType,
+      role: user.role ?? 'user',
+      verificationStatus: user.verificationStatus,
+      idVerificationStatus: user.kycStatus,
+      organizationName: user.organizationName,
+      organizationState: user.organizationState,
+      organizationUnit: user.organizationUnit,
+      strikes: user.strikes ?? 0,
+      banned: Boolean(user.bannedAt)
+    },
     tabs: TABS.map((t) =>
       t.id === 'overview'
         ? { ...t, label: isAgency ? 'Agency information' : 'Overview' }
@@ -199,7 +225,7 @@ export async function renderUserDetail({
     <UserDetail
       subject={subject}
       activeTab={active}
-      panel={await renderPanel(active, resolvedId, user, base, isAgency)}
+      panel={await renderPanel(active, resolvedId, user, base, isAgency, activityLimit)}
     />
   );
 }
@@ -210,7 +236,8 @@ async function renderPanel(
   id: string,
   user: ApiUserDetail,
   base: string,
-  isAgency: boolean
+  isAgency: boolean,
+  activityLimit?: string
 ) {
   switch (tab) {
     case 'reports':
@@ -233,10 +260,24 @@ async function renderPanel(
       return <SubscriptionPanel subscription={user.subscription} />;
     case 'account':
       return <AccountTab data={await get<AccountData>(id, 'account')} />;
-    case 'activity':
-      return <ActivityTab data={await get<ActivityData>(id, 'activity')} base={base} />;
+    case 'activity': {
+      /*
+        The endpoint pages with `limit`; the screen drives it from the URL so
+        "Show more" is a link rather than client state the server cannot see.
+        Without this the tab silently stopped at fifty and the `nextCursor` the
+        API returns had no consumer at all.
+      */
+      const limit = Math.min(500, Math.max(50, Number.parseInt(activityLimit ?? '50', 10) || 50));
+      return (
+        <ActivityTab
+          data={await get<ActivityData>(id, `activity?limit=${limit}`)}
+          base={base}
+          limit={limit}
+        />
+      );
+    }
     case 'content':
-      return <ContentTab data={await get<ContentData>(id, 'content')} />;
+      return <ContentTab data={await get<ContentData>(id, 'content')} id={id} />;
     case 'social':
       return <SocialTab data={await get<SocialData>(id, 'social')} base={base} />;
     case 'safety':
@@ -571,7 +612,15 @@ const KIND_TONE: Record<string, string> = {
   notification: 'bg-rule text-gray-600'
 };
 
-function ActivityTab({ data, base }: { data: ActivityData | null; base: string }) {
+function ActivityTab({
+  data,
+  base,
+  limit
+}: {
+  data: ActivityData | null;
+  base: string;
+  limit: number;
+}) {
   if (!data) return <Unreachable />;
 
   if (data.entries.length === 0) {
@@ -645,6 +694,28 @@ function ActivityTab({ data, base }: { data: ActivityData | null; base: string }
             ))}
           </div>
         ))}
+
+        {/*
+          There is more only when the merge filled the page exactly — the API
+          returns a cursor in that case. Raising the limit rather than
+          appending a page keeps the whole feed in one URL, which is what makes
+          it shareable and refresh-proof.
+        */}
+        {data.nextCursor && limit < 500 ? (
+          <Link
+            href={`?tab=activity&activityLimit=${Math.min(500, limit + 150)}`}
+            scroll={false}
+            className="edge-gray200 flex h-11 w-fit items-center rounded-lg bg-white px-[14px] text-sm font-medium leading-6 text-gray-700"
+          >
+            Show more
+          </Link>
+        ) : null}
+        {limit >= 500 ? (
+          <p className="text-xs font-normal leading-4 text-gray-400">
+            Showing the most recent 500 events. Older activity is still on the
+            record — export it if you need the whole history.
+          </p>
+        ) : null}
       </div>
     </Section>
   );
@@ -706,7 +777,7 @@ type ContentData = {
   reposts: { at: string; postId: string; caption: string | null; author: { displayName: string | null; username: string | null } }[];
 };
 
-function ContentTab({ data }: { data: ContentData | null }) {
+function ContentTab({ data, id }: { data: ContentData | null; id: string }) {
   if (!data) return <Unreachable />;
 
   return (
@@ -780,10 +851,10 @@ function ContentTab({ data }: { data: ContentData | null }) {
       <Section
         title="Files uploaded"
         count={data.media.length}
-        note="Described rather than shown: signing fifty URLs to draw thumbnails nobody asked for would be fifty round trips to storage on every visit."
+        note="Listed rather than shown: drawing thumbnails would mean signing every file on the tab whether or not anybody opens one, and leaving those URLs in the page afterwards. Open signs one, briefly."
       >
         <MiniTable
-          head={['Type', 'Size', 'Purpose', 'Scan', 'Moderation', 'Uploaded']}
+          head={['Type', 'Size', 'Purpose', 'Scan', 'Moderation', 'Uploaded', '']}
           empty="No files."
           rows={data.media.map((file) => [
             <span key="t">{file.mediaType} · {file.mimeType}</span>,
@@ -791,7 +862,21 @@ function ContentTab({ data }: { data: ContentData | null }) {
             <span key="p">{words(file.purpose)}{file.capturedInApp ? ' · in-app camera' : ''}</span>,
             <Pill key="sc">{file.scanStatus}</Pill>,
             <Pill key="m">{file.moderationStatus}</Pill>,
-            <span key="d">{dateTime(file.createdAt)}</span>
+            <span key="d">{dateTime(file.createdAt)}</span>,
+            file.scanStatus === 'infected' ? (
+              // Never hand a moderator a link to a file the scanner flagged.
+              <span key="o" className="text-xs text-error-600">Blocked by scan</span>
+            ) : (
+              <a
+                key="o"
+                href={`/api/office/users/${id}/media/${file.id}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[13px] font-semibold leading-[18px] text-secondary"
+              >
+                Open
+              </a>
+            )
           ])}
         />
       </Section>
