@@ -230,6 +230,13 @@ export function MapView({
             mode={mode}
             heatmap={heat}
             fitToMarkers={narrowed}
+            /*
+              Labels only once the set is narrowed. At the country view every
+              one of 586 pins captions itself and the map disappears under its
+              own text — the pins alone read as density, which is what a
+              national view is for.
+            */
+            showLabels={narrowed && visible.length <= 40}
             className="absolute inset-0"
           />
         ) : size.width > 0 ? (
@@ -241,6 +248,7 @@ export function MapView({
             /* Only two of the four modes have a free tile source. */
             mode={mode === 'satellite' ? 'satellite' : 'roadmap'}
             fitToMarkers={narrowed}
+            showLabels={narrowed && visible.length <= 40}
           />
         ) : null}
 
