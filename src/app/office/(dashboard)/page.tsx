@@ -3,6 +3,7 @@ import { officeBase, officeFetch } from '../_lib/session';
 import type { MapPlace } from '../_components/incident-mini-map';
 import { niceCeiling } from '../_components/line-chart';
 import { DashboardView, type GrowthBar, type Kpi } from './dashboard-view';
+import { InsightsPanel, type Insights } from './insights';
 
 export const dynamic = 'force-dynamic';
 
@@ -59,7 +60,7 @@ const RANGES = ['today', 'week', 'month', 'all'] as const;
 export default async function DashboardPage({
   searchParams
 }: {
-  searchParams: Promise<{ range?: string; months?: string }>;
+  searchParams: Promise<{ range?: string; months?: string; scope?: string }>;
 }) {
   const params = await searchParams;
   const base = await officeBase();
@@ -107,8 +108,19 @@ export default async function DashboardPage({
     { label: 'Reports awaiting review', value: NUMBER.format(m?.awaitingReview ?? 0), trend: series?.awaitingReview ?? [] }
   ];
 
+  /**
+   * The detail half. `real` by default — the seeded demonstration accounts
+   * outnumber the people on this install four to one, and a total that mixes
+   * them is not a figure anybody should be shown.
+   */
+  const scope = params.scope === 'all' ? 'all' : 'real';
+  const insights = await officeFetch<Insights>(`/admin/insights?scope=${scope}`);
+
   return (
     <DashboardView
+      insights={
+        insights ? <InsightsPanel data={insights} base={base} /> : null
+      }
       adminName={me?.fullName ?? me?.email.split('@')[0] ?? 'there'}
       places={(mapData?.incidents ?? [])
         .filter(

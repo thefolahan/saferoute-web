@@ -27,7 +27,8 @@ export function DashboardView({
   actions,
   growth,
   growthTop,
-  adminName
+  adminName,
+  insights
 }: {
   /** Incidents that carry a coordinate, for the map card. */
   places: MapPlace[];
@@ -37,6 +38,12 @@ export function DashboardView({
   /** The growth chart's axis top, so the ticks match the bars. */
   growthTop: number;
   adminName: string;
+  /**
+   * The detail half, rendered on the server and passed through. It is a server
+   * component and this is a client one, so it arrives as a node rather than as
+   * data — which also keeps its several hundred numbers out of the JS bundle.
+   */
+  insights?: React.ReactNode;
 }) {
   const base = useOfficeBase();
 
@@ -207,6 +214,9 @@ export function DashboardView({
           </Card>
         </div>
       </section>
+
+      {/* The detail half — see insights.tsx. */}
+      {insights}
     </Shell>
   );
 }
